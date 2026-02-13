@@ -1,0 +1,117 @@
+{
+  "version": 1,
+  "jobs": [
+    {
+      "id": "c115a6e8-94b9-49f8-ba4b-f6de8ad10305",
+      "agentId": "main",
+      "name": "Weekly Trading Portfolio Report",
+      "enabled": true,
+      "createdAtMs": 1770578336587,
+      "updatedAtMs": 1770578470721,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9 * * 0",
+        "tz": "Europe/Ljubljana"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "next-heartbeat",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "Generate a weekly report analyzing the user's Trading212 portfolio, macroeconomic news, and impactful events. Include:\n\n1. **Portfolio Summary**: Current holdings, allocation, performance (P&L), and key observations.\n2. **Macroeconomic Trends**: Global and regional economic updates (interest rates, inflation, growth, currencies).\n3. **Impactful Events**: Geopolitical, economic, and sector-specific events affecting markets.\n4. **Potential Impact**: How these trends/events could affect the user's portfolio, with clear scenarios.\n5. **Recommendations**: Short-term and long-term actions (e.g., rebalancing, hedging, profit-taking).\n\nUse the latest data from the Trading212 API and EventRegistry API. Format the report for clarity and readability.",
+        "model": "openrouter/mistralai/mistral-large-2512",
+        "thinking": "on"
+      },
+      "delivery": {
+        "mode": "announce",
+        "channel": "telegram",
+        "to": "+38641434862"
+      },
+      "state": {
+        "nextRunAtMs": 1771142400000
+      }
+    },
+    {
+      "id": "ee222aac-11f2-419b-bfa1-28910be5db68",
+      "agentId": "main",
+      "name": "Daily Jira Task Summary",
+      "enabled": true,
+      "createdAtMs": 1770579310819,
+      "updatedAtMs": 1770579310819,
+      "schedule": {
+        "kind": "cron",
+        "expr": "30 18 * * 1-5",
+        "tz": "Europe/Ljubljana"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "next-heartbeat",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "Create a summary of Jira tasks with the following details:\n\n1. **New tasks assigned to me in the last 48 hours**\n2. **Tasks assigned to me that are overdue**\n3. **Tasks assigned to other people that are overdue**\n4. **Tasks that were completed in the last 48 hours**\n5. **New tasks created in the last 48 hours (regardless of assignee)**\n\nUse the Jira API to fetch the data. Credentials are stored in `/home/lstopar/.openclaw/.env`. Ensure the summary is well-organized and easy to read.",
+        "model": "openrouter/mistralai/mistral-large-2512"
+      },
+      "delivery": {
+        "mode": "announce",
+        "channel": "telegram",
+        "to": "8403014547"
+      },
+      "state": {
+        "nextRunAtMs": 1771263000000
+      }
+    },
+    {
+      "id": "dfa312f0-140e-499e-87db-d3babfa26059",
+      "agentId": "main",
+      "name": "Weekly LLM Research Scan",
+      "enabled": true,
+      "createdAtMs": 1770623566456,
+      "updatedAtMs": 1770623566456,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 17 * * 4",
+        "tz": "Europe/Ljubljana"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "next-heartbeat",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "Scan arXiv (cs.CL and cs.LG), Hugging Face trending papers, and other relevant sources for the most potentially impactful papers about LLM models and foundational models published in the last 7 days. Focus on new architectures, new training approaches, and new techniques of training. Compile a list of papers with direct links, key contributions, and a brief summary of why they are important. Deliver the results in a structured format.",
+        "model": "openrouter/mistralai/mistral-large-2512",
+        "thinking": "off"
+      },
+      "delivery": {
+        "mode": "announce"
+      },
+      "state": {
+        "nextRunAtMs": 1771516800000
+      }
+    },
+    {
+      "id": "acd718a2-f668-4420-a04a-c3649af21b03",
+      "agentId": "main",
+      "name": "Weekly Context Engineering Research Update",
+      "enabled": true,
+      "createdAtMs": 1770732557177,
+      "updatedAtMs": 1770732557177,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 17 * * 4",
+        "tz": "Europe/Ljubljana"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "next-heartbeat",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "Research scientific papers from arXiv and Hugging Face trending papers to find the latest approaches and frameworks for context engineering for AI agents. Write a technical summary and update the Confluence page at https://edgetech-atlassian.atlassian.net/wiki/spaces/Engineerin/pages/3735553/Research. Ensure references are included under each approach.",
+        "model": "synthetic/mistral-large-2512",
+        "thinking": "off"
+      },
+      "delivery": {
+        "mode": "announce",
+        "to": "8403014547"
+      },
+      "state": {
+        "nextRunAtMs": 1771516800000
+      }
+    }
+  ]
+}

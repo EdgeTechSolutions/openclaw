@@ -1,0 +1,168 @@
+# OpenClaw .gitignore
+# Protects sensitive data, credentials, session state, and runtime files
+
+# =============================================================================
+# CRITICAL: Secrets & Credentials
+# =============================================================================
+
+# Environment variables (contains API keys, tokens, passwords)
+.env
+.env.*
+!.env.example
+
+# Main configuration (contains sensitive tokens and API keys)
+openclaw.json
+openclaw.json.bak*
+
+# Secrets directory
+secrets/
+credentials/
+
+# Device authentication
+identity/device-auth.json
+identity/device.json
+
+# =============================================================================
+# Session State & Runtime Data
+# =============================================================================
+
+# Agent session state (conversation history, context)
+agents/*/sessions/
+agents/*/agent/auth-profiles.json
+agents/*/agent/models.json
+
+# Execution approvals (pending command approvals)
+exec-approvals.json
+
+# Device pairing state
+devices/paired.json
+devices/pending.json
+
+# Channel state (Telegram, Discord, WhatsApp offsets and state)
+telegram/
+discord/
+whatsapp/
+
+# Cron job state
+cron/jobs.json
+
+# Subagent execution state
+subagents/runs.json
+
+# Update tracking
+update-check.json
+
+# =============================================================================
+# Workspace (Agent Memory & Working Directory)
+# =============================================================================
+
+# Workspace should generally be in its own git repo
+# If versioning workspace separately, ignore it here:
+# workspace/
+
+# If workspace is included, ignore sensitive workspace files:
+workspace/.env
+workspace/venv/
+workspace/__pycache__/
+workspace/.clawhub/lock.json
+workspace/node_modules/
+
+# Workspace memory logs (contains conversation history)
+workspace/memory/*.md
+workspace/memory/heartbeat-state.json
+!workspace/memory/.gitkeep
+
+# Workspace MEMORY.md contains personal information
+workspace/MEMORY.md
+
+# =============================================================================
+# Extensions & Plugins
+# =============================================================================
+
+# Node modules in extensions
+extensions/*/node_modules/
+extensions/*/dist/
+extensions/*/.turbo/
+
+# Plugin build artifacts
+extensions/*/build/
+extensions/*/.next/
+
+# =============================================================================
+# Media & Cache
+# =============================================================================
+
+# Media cache (images, videos, audio sent through channels)
+media/
+
+# Completion cache
+completions/
+
+# Canvas state
+canvas/
+
+# =============================================================================
+# Logs & Temporary Files
+# =============================================================================
+
+# Log files
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# =============================================================================
+# Development & Build
+# =============================================================================
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Python
+*.pyc
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# =============================================================================
+# Optional: Version Control Exceptions
+# =============================================================================
+
+# If you want to version certain structure files with sensitive data removed:
+# !openclaw.example.json
+# !.env.example
+
+# Configuration template (safe to commit)
+!config.json
+
+# Keep directory structure
+!agents/.gitkeep
+!workspace/.gitkeep
+!skills/.gitkeep
+!extensions/.gitkeep
+
+# Python virtual environments
+venv/
