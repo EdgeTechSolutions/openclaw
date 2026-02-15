@@ -7,7 +7,7 @@
       "name": "Weekly Trading Portfolio Report",
       "enabled": true,
       "createdAtMs": 1770578336587,
-      "updatedAtMs": 1770578470721,
+      "updatedAtMs": 1771025408161,
       "schedule": {
         "kind": "cron",
         "expr": "0 9 * * 0",
@@ -17,14 +17,14 @@
       "wakeMode": "next-heartbeat",
       "payload": {
         "kind": "agentTurn",
-        "message": "Generate a weekly report analyzing the user's Trading212 portfolio, macroeconomic news, and impactful events. Include:\n\n1. **Portfolio Summary**: Current holdings, allocation, performance (P&L), and key observations.\n2. **Macroeconomic Trends**: Global and regional economic updates (interest rates, inflation, growth, currencies).\n3. **Impactful Events**: Geopolitical, economic, and sector-specific events affecting markets.\n4. **Potential Impact**: How these trends/events could affect the user's portfolio, with clear scenarios.\n5. **Recommendations**: Short-term and long-term actions (e.g., rebalancing, hedging, profit-taking).\n\nUse the latest data from the Trading212 API and EventRegistry API. Format the report for clarity and readability.",
-        "model": "openrouter/mistralai/mistral-large-2512",
+        "message": "Generate a weekly report analyzing the user's Trading212 portfolio, macroeconomic news, and impactful events. Include:\n\n1. **Portfolio Summary**: Current holdings, allocation, performance (P&L), and key observations.\n2. **Macroeconomic Trends**: Global and regional economic updates (interest rates, inflation, growth, currencies).\n3. **Impactful Events**: Geopolitical, economic, and sector-specific events affecting markets.\n4. **Potential Impact**: How these trends/events could affect the user's portfolio, with clear scenarios.\n5. **Recommendations**: Short-term and long-term actions (e.g., rebalancing, hedging, profit-taking).\n\nUse the latest data from the Trading212 API and EventRegistry API. Format the report for clarity and readability.\n\nAfter completing the task, respond with:\n- A **success/failure indicator** (e.g., `✅ Success` or `❌ Failed`).\n- A **1-5 bullet-point summary** of what was accomplished. For example:\n  - Analyzed **15 open positions** in the portfolio.\n  - Identified **3 macroeconomic trends** impacting holdings.\n  - Recommended **2 actions** for risk mitigation.\n- A footer: `#openclaw #cron`.\n\nFormat the response for Telegram.",
+        "model": "synthetic/mistral-large-2512",
         "thinking": "on"
       },
       "delivery": {
         "mode": "announce",
         "channel": "telegram",
-        "to": "+38641434862"
+        "to": "8403014547:topic:729"
       },
       "state": {
         "nextRunAtMs": 1771142400000
@@ -36,7 +36,7 @@
       "name": "Daily Jira Task Summary",
       "enabled": true,
       "createdAtMs": 1770579310819,
-      "updatedAtMs": 1770579310819,
+      "updatedAtMs": 1771025431680,
       "schedule": {
         "kind": "cron",
         "expr": "30 18 * * 1-5",
@@ -46,13 +46,13 @@
       "wakeMode": "next-heartbeat",
       "payload": {
         "kind": "agentTurn",
-        "message": "Create a summary of Jira tasks with the following details:\n\n1. **New tasks assigned to me in the last 48 hours**\n2. **Tasks assigned to me that are overdue**\n3. **Tasks assigned to other people that are overdue**\n4. **Tasks that were completed in the last 48 hours**\n5. **New tasks created in the last 48 hours (regardless of assignee)**\n\nUse the Jira API to fetch the data. Credentials are stored in `/home/lstopar/.openclaw/.env`. Ensure the summary is well-organized and easy to read.",
-        "model": "openrouter/mistralai/mistral-large-2512"
+        "message": "Create a summary of Jira tasks with the following details:\n\n1. **New tasks assigned to me in the last 48 hours**\n2. **Tasks assigned to me that are overdue**\n3. **Tasks assigned to other people that are overdue**\n4. **Tasks that were completed in the last 48 hours**\n5. **New tasks created in the last 48 hours (regardless of assignee)**\n\nUse the Jira API to fetch the data. Credentials are stored in `/home/lstopar/.openclaw/.env`.\n\nAfter completing the task, respond with:\n- A **success/failure indicator** (e.g., `✅ Success` or `❌ Failed`).\n- A **1-5 bullet-point summary** of what was accomplished. For example:\n  - Found **3 new tasks** assigned to you.\n  - **2 tasks** are overdue.\n  - **5 tasks** were completed in the last 48 hours.\n- A footer: `#openclaw #cron`.\n\nFormat the response for Telegram.",
+        "model": "synthetic/mistral-large-2512"
       },
       "delivery": {
         "mode": "announce",
         "channel": "telegram",
-        "to": "8403014547"
+        "to": "8403014547:topic:729"
       },
       "state": {
         "nextRunAtMs": 1771263000000
@@ -64,7 +64,7 @@
       "name": "Weekly LLM Research Scan",
       "enabled": true,
       "createdAtMs": 1770623566456,
-      "updatedAtMs": 1770623566456,
+      "updatedAtMs": 1771025461208,
       "schedule": {
         "kind": "cron",
         "expr": "0 17 * * 4",
@@ -74,12 +74,14 @@
       "wakeMode": "next-heartbeat",
       "payload": {
         "kind": "agentTurn",
-        "message": "Scan arXiv (cs.CL and cs.LG), Hugging Face trending papers, and other relevant sources for the most potentially impactful papers about LLM models and foundational models published in the last 7 days. Focus on new architectures, new training approaches, and new techniques of training. Compile a list of papers with direct links, key contributions, and a brief summary of why they are important. Deliver the results in a structured format.",
-        "model": "openrouter/mistralai/mistral-large-2512",
+        "message": "Scan arXiv (cs.CL and cs.LG), Hugging Face trending papers, and other relevant sources for the most potentially impactful papers about LLM models and foundational models published in the last 7 days. Focus on new architectures, new training approaches, and new techniques of training. Compile a list of papers with direct links, key contributions, and a brief summary of why they are important.\n\nAfter completing the task, respond with:\n- A **success/failure indicator** (e.g., `✅ Success` or `❌ Failed`).\n- A **1-5 bullet-point summary** of what was accomplished. For example:\n  - Found **5 impactful papers** on arXiv.\n  - **2 papers** introduced new training techniques.\n  - Summarized **key contributions** for each paper.\n- A footer: `#openclaw #cron`.\n\nFormat the response for Telegram.",
+        "model": "synthetic/mistral-large-2512",
         "thinking": "off"
       },
       "delivery": {
-        "mode": "announce"
+        "mode": "announce",
+        "channel": "telegram",
+        "to": "8403014547:topic:729"
       },
       "state": {
         "nextRunAtMs": 1771516800000
@@ -91,7 +93,7 @@
       "name": "Weekly Context Engineering Research Update",
       "enabled": true,
       "createdAtMs": 1770732557177,
-      "updatedAtMs": 1770732557177,
+      "updatedAtMs": 1771025461967,
       "schedule": {
         "kind": "cron",
         "expr": "0 17 * * 4",
@@ -101,16 +103,50 @@
       "wakeMode": "next-heartbeat",
       "payload": {
         "kind": "agentTurn",
-        "message": "Research scientific papers from arXiv and Hugging Face trending papers to find the latest approaches and frameworks for context engineering for AI agents. Write a technical summary and update the Confluence page at https://edgetech-atlassian.atlassian.net/wiki/spaces/Engineerin/pages/3735553/Research. Ensure references are included under each approach.",
+        "message": "Research scientific papers from arXiv and Hugging Face trending papers to find the latest approaches and frameworks for context engineering for AI agents. Write a technical summary and update the Confluence page at https://edgetech-atlassian.atlassian.net/wiki/spaces/Engineerin/pages/3735553/Research. Ensure references are included under each approach.\n\nAfter completing the task, respond with:\n- A **success/failure indicator** (e.g., `✅ Success` or `❌ Failed`).\n- A **1-5 bullet-point summary** of what was accomplished. For example:\n  - Researched **4 new frameworks** for context engineering.\n  - Updated Confluence page with **3 new approaches**.\n  - Added **references** for all sources.\n- A footer: `#openclaw #cron`.\n\nFormat the response for Telegram.",
         "model": "synthetic/mistral-large-2512",
         "thinking": "off"
       },
       "delivery": {
         "mode": "announce",
-        "to": "8403014547"
+        "channel": "telegram",
+        "to": "8403014547:topic:729"
       },
       "state": {
         "nextRunAtMs": 1771516800000
+      }
+    },
+    {
+      "id": "00609509-bf84-4026-a435-d4ca89740e37",
+      "agentId": "main",
+      "name": "Daily OpenClaw Directory Backup",
+      "enabled": true,
+      "createdAtMs": 1771023878360,
+      "updatedAtMs": 1771030800139,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 2 * * *",
+        "tz": "Europe/Ljubljana"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "Push the ~/.openclaw directory to its Git repository. Follow these steps:\n\n1. Navigate to ~/.openclaw.\n2. Stage all changes: `git add .`\n3. Commit changes with a message: `git commit -m \"Daily auto-backup: $(date '+%Y-%m-%d %H:%M:%S')\"`\n4. Push to the remote repository: `git push origin main`\n\nIf there are no changes, exit silently. If the push fails, retry once after 30 seconds.\n\nAfter completing the task, respond with:\n- A **success/failure indicator** (e.g., `✅ Success` or `❌ Failed`).\n- A **1-5 bullet-point summary** of what was accomplished. For example:\n  - Pushed **5 new files** to the repository.\n  - Committed changes with message: `Daily auto-backup: 2026-02-14 02:00:00`.\n  - No changes detected (if applicable).\n- A footer: `#openclaw #cron`.\n\nFormat the response for Telegram.",
+        "model": "synthetic/mistral-large-2512"
+      },
+      "delivery": {
+        "mode": "announce",
+        "channel": "telegram",
+        "to": "8403014547"
+      },
+      "state": {
+        "nextRunAtMs": 1771117200000,
+        "lastRunAtMs": 1771030800024,
+        "lastStatus": "error",
+        "lastDurationMs": 115,
+        "consecutiveErrors": 1,
+        "runningAtMs": 1771117200026
       }
     }
   ]

@@ -1,4 +1,16 @@
 {
   "tools": {
+  },
+  "cron": {
+    "defaultPayload": {
+      "kind": "agentTurn",
+      "message": "Complete the task described below.\n\nAfter completing the task, respond with:\n- A **success/failure indicator** (e.g., `✅ Success` or `❌ Failed`).\n- A **1-5 bullet-point summary** of what was accomplished.\n- A footer: `#openclaw #cron`.\n\nFormat the response for Telegram."
+    },
+    "defaultDelivery": {
+      "mode": "announce",
+      "channel": "telegram",
+      "to": "8403014547",
+      "topic": "729"
+    }
   }
 }

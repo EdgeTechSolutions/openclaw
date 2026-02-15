@@ -1,0 +1,1 @@
+{"ts":1771030800177,"jobId":"00609509-bf84-4026-a435-d4ca89740e37","action":"finished","status":"error","error":"model not allowed: openrouter/mistralai/mistral-large-2512","runAtMs":1771030800024,"durationMs":115,"nextRunAtMs":1771117200000}
