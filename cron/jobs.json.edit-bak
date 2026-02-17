@@ -40,7 +40,7 @@
       "name": "Daily Jira Task Summary",
       "enabled": true,
       "createdAtMs": 1770579310819,
-      "updatedAtMs": 1771272119651,
+      "updatedAtMs": 1771263053489,
       "schedule": {
         "kind": "cron",
         "expr": "30 18 * * 1-5",
@@ -50,20 +50,19 @@
       "wakeMode": "next-heartbeat",
       "payload": {
         "kind": "agentTurn",
-        "message": "Create a summary of Jira tasks with the following details:\n\n1. **New tasks assigned to me in the last 48 hours**\n2. **Tasks assigned to me that are overdue**\n3. **Tasks assigned to other people that are overdue**\n4. **Tasks that were completed in the last 48 hours**\n5. **New tasks created in the last 48 hours (regardless of assignee)**\n\nUse the Jira API to fetch the data. Credentials are stored in `/home/lstopar/.openclaw/.env`.\n\nAfter completing the task, respond with:\n- A **success/failure indicator** (e.g., `✅ Success` or `❌ Failed`).\n- A **1-5 bullet-point summary** of what was accomplished. For example:\n  - Found **3 new tasks** assigned to you.\n  - **2 tasks** are overdue.\n  - **5 tasks** were completed in the last 48 hours.\n\n**Important**: Use the `message` tool to post the result to **both** Telegram topics below in chat `8403014547`:\n\n1. Topic `729` (`#openclaw #cron`):\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"Your result here\",\n  \"threadId\": \"729\"\n}\n```\n\n2. Topic `987` (`#ops @edgetech`):\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"Your result here\",\n  \"threadId\": \"987\"\n}\n```\n\nYou MUST send the message to both topics. Format the response for Telegram.",
+        "message": "Create a summary of Jira tasks with the following details:\n\n1. **New tasks assigned to me in the last 48 hours**\n2. **Tasks assigned to me that are overdue**\n3. **Tasks assigned to other people that are overdue**\n4. **Tasks that were completed in the last 48 hours**\n5. **New tasks created in the last 48 hours (regardless of assignee)**\n\nUse the Jira API to fetch the data. Credentials are stored in `/home/lstopar/.openclaw/.env`.\n\nAfter completing the task, respond with:\n- A **success/failure indicator** (e.g., `✅ Success` or `❌ Failed`).\n- A **1-5 bullet-point summary** of what was accomplished. For example:\n  - Found **3 new tasks** assigned to you.\n  - **2 tasks** are overdue.\n  - **5 tasks** were completed in the last 48 hours.\n\n**Important**: Use the `message` tool to post the result to Telegram topic `729` (`#openclaw #cron`) in chat `8403014547`. Example:\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"Your result here\",\n  \"threadId\": \"729\"\n}\n```\n\nFormat the response for Telegram.",
         "model": "synthetic/mistral-large-2512"
       },
       "delivery": {
         "mode": "announce",
         "channel": "telegram",
-        "to": "8403014547",
-        "topic": "729"
+        "to": "8403014547"
       },
       "state": {
         "nextRunAtMs": 1771349400000,
-        "lastRunAtMs": 1771272071826,
+        "lastRunAtMs": 1771263000050,
         "lastStatus": "ok",
-        "lastDurationMs": 47825,
+        "lastDurationMs": 53439,
         "consecutiveErrors": 0
       }
     },
@@ -154,17 +153,16 @@
         "lastRunAtMs": 1771203600040,
         "lastStatus": "ok",
         "lastDurationMs": 53648,
-        "consecutiveErrors": 0,
-        "runningAtMs": 1771290000027
+        "consecutiveErrors": 0
       }
     },
     {
       "id": "68e53dae-c120-44b5-82f9-55b5b4866473",
       "agentId": "main",
       "name": "Email Triage Agent",
-      "enabled": true,
+      "enabled": false,
       "createdAtMs": 1771190372608,
-      "updatedAtMs": 1771280291582,
+      "updatedAtMs": 1771251440385,
       "schedule": {
         "kind": "cron",
         "expr": "0 8,11,15,20 * * 1-5,0",
@@ -174,7 +172,7 @@
       "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
-        "message": "### Email Triage Agent\n\n#### **Identity**\nYou are acting on behalf of **Luka Stopar** (luka.stopar@edgetech.si). All draft responses MUST be written as if Luka Stopar is the author. Sign all drafts as \"Luka\" or \"Luka Stopar\". Never use any other name or persona.\n\n#### **Email Retrieval**\n1. Fetch emails from my Microsoft 365 inbox.\n2. Only retrieve emails received since the last job run minus 3 hours (to catch delays).\n3. Before processing each email, check semantic memory for the email's `messageId`.\n4. Skip emails already stored in memory.\n\n#### **Email Classification & Actions**\nFor each unprocessed email, classify it into one of these categories and take the corresponding action:\n\n1. **Marketing**\n   - **Action**: Archive the email (move to Archive folder).\n   - **Summary**: Include in Telegram summary as \"Archived (marketing)\".\n\n2. **Newsletter**\n   - **Action**: Click the unsubscribe link in the email body automatically, then archive.\n   - **Summary**: Include in Telegram summary as \"Unsubscribed\".\n\n3. **Tool Notifications**\n   - **Criteria**: Emails from GitHub, Confluence, Jira, Atlassian, or other development/project management tools.\n   - **Action**: None – leave as-is.\n   - **Summary**: Include in Telegram summary as \"Tool notification\".\n\n4. **Actionable (requires my response)**\n   - **Action**:\n     1. Compose a natural, human-like response text using the `ai-humanizer` skill. Remember: you are writing as **Luka Stopar**, sign off as \"Luka\" or \"LP, Luka\".\n     2. Call the `microsoft365_ms365_create_reply_all_draft` tool with the `body` parameter set to the composed response text. This creates the draft directly in Outlook. Example:\n        ```\n        microsoft365_ms365_create_reply_all_draft(\n          message_id=\"<original-message-id>\",\n          body=\"<your composed response text>\",\n          body_type=\"text\"\n        )\n        ```\n     3. The tool response will contain a **`Link:`** field — this is the **draft webLink**. Save this URL. Do NOT use the link from the original email.\n   - **IMPORTANT**: Do NOT delegate draft writing to a sub-agent. You MUST call the `microsoft365_ms365_create_reply_all_draft` tool yourself with the `body` parameter to create the draft.\n   - **IMPORTANT**: For the Telegram summary, use the **`Link:`** from the `ms365_create_reply_all_draft` tool response (the draft link), NOT the link from the original email or `ms365_get_message`. These are different URLs.\n   - **Summary**: Include in Telegram summary as \"Draft ready\" with the draft link.\n\n5. **Informational**\n   - **Criteria**: Emails that inform me but don't require action (confirmations, receipts, FYI messages).\n   - **Action**: Leave as-is.\n   - **Summary**: Include in Telegram summary as \"Informational\".\n\n#### **Memory Storage**\nAfter processing each email, store the following in semantic memory:\n- `messageId`\n- `subject`\n- `sender`\n- `received timestamp`\n- `classification category`\n- `action taken`\n- Brief content summary (for future queries).\n\n#### **Telegram Summary**\nPost a summary to Telegram topic `#comm @all` (topic ID: `761`). Format:\n```\n📬 Email Summary – {date} {time}\n\n{foreach email}:\n- 📌 **[{classification}] Subject**: \"{subject}\"\n  **From**: {sender}\n  **Action**: {action taken}\n  {if action == \"Draft ready\"} 🔗 [View Draft]({DRAFT link from ms365_create_reply_all_draft response, NOT the original email link}) {endif}\n{endforeach}\n\n**Processed**: {count} | **Archived**: {count} | **Drafts created**: {count}\n#openclaw #email\n```\n\n**Important**:\n- Use the `message` tool to post the summary to Telegram topic `761` in chat `8403014547`. Example:\n  ```json\n  {\n    \"action\": \"send\",\n    \"to\": \"8403014547\",\n    \"message\": \"Your summary here\",\n    \"threadId\": \"761\"\n  }\n  ```\n\n#### **Tools to Use**\n- `microsoft365_ms365_list_messages`: Fetch emails.\n- `microsoft365_ms365_get_message`: Retrieve email content.\n- `microsoft365_ms365_move_message`: Archive emails.\n- `microsoft365_ms365_create_reply_all_draft`: Create Reply All drafts with body content. Always pass the `body` parameter with the composed response text. The response contains the draft's `Link:` URL — use THIS for the Telegram summary, not the original email's link.\n- `memory_search`: Check if an email is already processed.\n- `memory_get`: Retrieve stored email data.\n- `write`: Store email data in memory.\n- `message`: Post the summary to Telegram.",
+        "message": "### Email Triage Agent\n\n#### **Email Retrieval**\n1. Fetch emails from my Microsoft 365 inbox.\n2. Only retrieve emails received since the last job run minus 3 hours (to catch delays).\n3. Before processing each email, check semantic memory for the email's `messageId`.\n4. Skip emails already stored in memory.\n\n#### **Email Classification & Actions**\nFor each unprocessed email, classify it into one of these categories and take the corresponding action:\n\n1. **Marketing**\n   - **Action**: Archive the email (move to Archive folder).\n   - **Summary**: Include in Telegram summary as \"Archived (marketing)\".\n\n2. **Newsletter**\n   - **Action**: Click the unsubscribe link in the email body automatically, then archive.\n   - **Summary**: Include in Telegram summary as \"Unsubscribed\".\n\n3. **Tool Notifications**\n   - **Criteria**: Emails from GitHub, Confluence, Jira, Atlassian, or other development/project management tools.\n   - **Action**: None – leave as-is.\n   - **Summary**: Include in Telegram summary as \"Tool notification\".\n\n4. **Actionable (requires my response)**\n   - **Action**:\n     - Draft a response using the `ai-humanizer` skill to ensure natural, human-like writing.\n     - Save as a draft.\n     - Reply All to the original message.\n   - **Summary**: Include in Telegram summary as \"Draft ready\" with brief context.\n\n5. **Informational**\n   - **Criteria**: Emails that inform me but don't require action (confirmations, receipts, FYI messages).\n   - **Action**: Leave as-is.\n   - **Summary**: Include in Telegram summary as \"Informational\".\n\n#### **Memory Storage**\nAfter processing each email, store the following in semantic memory:\n- `messageId`\n- `subject`\n- `sender`\n- `received timestamp`\n- `classification category`\n- `action taken`\n- Brief content summary (for future queries).\n\n#### **Telegram Summary**\nPost a summary to Telegram topic `#comm @all` (topic ID: `761`). Format:\n```\n📬 Email Summary – {date} {time}\n\n{foreach email}:\n- 📌 **[{classification}] Subject**: \"{subject}\"\n  **From**: {sender}\n  **Action**: {action taken}\n  {if action == \"Draft ready\"} 🔗 [View Draft](outlook web link) {endif}\n{endforeach}\n\n**Processed**: {count} | **Archived**: {count} | **Drafts created**: {count}\n#openclaw #email\n```\n\n**Important**:\n- Use the `message` tool to post the summary to Telegram topic `761` in chat `8403014547`. Example:\n  ```json\n  {\n    \"action\": \"send\",\n    \"to\": \"8403014547\",\n    \"message\": \"Your summary here\",\n    \"threadId\": \"761\"\n  }\n  ```\n\n#### **Tools to Use**\n- `microsoft365_ms365_list_messages`: Fetch emails.\n- `microsoft365_ms365_get_message`: Retrieve email content.\n- `microsoft365_ms365_move_message`: Archive emails.\n- `microsoft365_ms365_create_reply_draft`: Draft responses.\n- `memory_search`: Check if an email is already processed.\n- `memory_get`: Retrieve stored email data.\n- `write`: Store email data in memory.\n- `message`: Post the summary to Telegram.",
         "model": "synthetic/mistral-large-2512",
         "thinking": "on"
       },
@@ -184,11 +182,10 @@
         "to": "8403014547"
       },
       "state": {
-        "lastRunAtMs": 1771280114548,
+        "lastRunAtMs": 1771250400035,
         "lastStatus": "ok",
-        "lastDurationMs": 177034,
-        "consecutiveErrors": 0,
-        "nextRunAtMs": 1771311600000
+        "lastDurationMs": 214783,
+        "consecutiveErrors": 0
       }
     }
   ]
