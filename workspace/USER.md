@@ -2,10 +2,10 @@
 
 *Learn about the person you're helping. Update this as you go.*
 
-- **Name:** 
-- **What to call them:** 
+- **Name:** Luka Stopar
+- **What to call them:** Luka
 - **Pronouns:** *(optional)*
-- **Timezone:** 
+- **Timezone:** CET
 - **Notes:** 
 
 ## Context

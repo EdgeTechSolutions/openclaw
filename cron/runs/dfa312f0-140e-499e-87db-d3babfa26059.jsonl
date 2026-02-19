@@ -1,0 +1,1 @@
+{"ts":1771454472099,"jobId":"dfa312f0-140e-499e-87db-d3babfa26059","action":"finished","status":"error","error":"model not allowed: anthropic/claude-sonnet-4-6","runAtMs":1771454472005,"durationMs":89,"nextRunAtMs":1771516800000}

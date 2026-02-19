@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="Inter, -apple-system, sans-serif" font-size="13">
+  <defs>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="112%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#64748b"/></marker>
+    <marker id="arrowBlue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#3b82f6"/></marker>
+  </defs>
+  <style>
+    .title { font-size: 18px; font-weight: 700; fill: #1e293b; }
+    .subtitle { font-size: 11px; fill: #64748b; }
+    .box-label { font-size: 12px; font-weight: 600; fill: #1e293b; }
+    .box-sub { font-size: 10px; fill: #475569; }
+    .section-label { font-size: 11px; font-weight: 600; fill: #64748b; text-transform: uppercase; letter-spacing: 1px; }
+  </style>
+
+  <!-- Background -->
+  <rect width="900" height="620" fill="#f8fafc" rx="8"/>
+
+  <!-- Title -->
+  <text x="450" y="32" text-anchor="middle" class="title">OpenClaw Gateway Architecture</text>
+  <text x="450" y="48" text-anchor="middle" class="subtitle">Single-host control plane • WebSocket API • Multi-channel messaging</text>
+
+  <!-- Channels Section -->
+  <text x="30" y="80" class="section-label">CHANNELS (INBOUND)</text>
+  <rect x="20" y="90" width="180" height="200" rx="8" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1" filter="url(#shadow)"/>
+  <g transform="translate(30,108)">
+    <rect width="155" height="24" rx="4" fill="#dbeafe"/><text x="78" y="16" text-anchor="middle" class="box-label">WhatsApp (Baileys)</text>
+    <rect y="30" width="155" height="24" rx="4" fill="#dbeafe"/><text x="78" y="46" text-anchor="middle" class="box-label">Telegram (grammY)</text>
+    <rect y="60" width="155" height="24" rx="4" fill="#dbeafe"/><text x="78" y="76" text-anchor="middle" class="box-label">Discord (discord.js)</text>
+    <rect y="90" width="155" height="24" rx="4" fill="#dbeafe"/><text x="78" y="106" text-anchor="middle" class="box-label">Slack (Bolt)</text>
+    <rect y="120" width="155" height="24" rx="4" fill="#dbeafe"/><text x="78" y="136" text-anchor="middle" class="box-label">Signal / iMessage</text>
+    <rect y="150" width="155" height="24" rx="4" fill="#e0e7ff"/><text x="78" y="166" text-anchor="middle" class="box-sub">+ Extensions (Teams, Matrix…)</text>
+  </g>
+
+  <!-- Gateway Core -->
+  <rect x="260" y="70" width="380" height="320" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="260" y="70" width="380" height="36" rx="12" fill="#1e293b"/>
+  <rect x="260" y="94" width="380" height="12" fill="#1e293b"/>
+  <text x="450" y="93" text-anchor="middle" fill="white" font-weight="700" font-size="14">GATEWAY (Control Plane)</text>
+  <text x="450" y="122" text-anchor="middle" class="subtitle">ws://127.0.0.1:18789</text>
+
+  <!-- Gateway sub-components -->
+  <rect x="280" y="138" width="160" height="50" rx="6" fill="#f0fdf4" stroke="#bbf7d0"/>
+  <text x="360" y="160" text-anchor="middle" class="box-label">Message Router</text>
+  <text x="360" y="175" text-anchor="middle" class="box-sub">Binding → Agent → Session</text>
+
+  <rect x="460" y="138" width="160" height="50" rx="6" fill="#fef3c7" stroke="#fde68a"/>
+  <text x="540" y="160" text-anchor="middle" class="box-label">Session Manager</text>
+  <text x="540" y="175" text-anchor="middle" class="box-sub">Keys, reset, DM scope</text>
+
+  <rect x="280" y="200" width="160" height="50" rx="6" fill="#fce7f3" stroke="#fbcfe8"/>
+  <text x="360" y="222" text-anchor="middle" class="box-label">Agent Runtime</text>
+  <text x="360" y="237" text-anchor="middle" class="box-sub">Pi-mono • Tool loop</text>
+
+  <rect x="460" y="200" width="160" height="50" rx="6" fill="#ede9fe" stroke="#ddd6fe"/>
+  <text x="540" y="222" text-anchor="middle" class="box-label">Tool Executor</text>
+  <text x="540" y="237" text-anchor="middle" class="box-sub">read/exec/edit/write/…</text>
+
+  <rect x="280" y="262" width="160" height="50" rx="6" fill="#ecfeff" stroke="#a5f3fc"/>
+  <text x="360" y="284" text-anchor="middle" class="box-label">Config + Auth</text>
+  <text x="360" y="299" text-anchor="middle" class="box-sub">JSON5, hot reload, pairing</text>
+
+  <rect x="460" y="262" width="160" height="50" rx="6" fill="#fff7ed" stroke="#fed7aa"/>
+  <text x="540" y="284" text-anchor="middle" class="box-label">Memory + Compaction</text>
+  <text x="540" y="299" text-anchor="middle" class="box-sub">Vector search, flush, prune</text>
+
+  <rect x="280" y="324" width="340" height="44" rx="6" fill="#f1f5f9" stroke="#cbd5e1"/>
+  <text x="450" y="346" text-anchor="middle" class="box-label">WebSocket API Layer</text>
+  <text x="450" y="360" text-anchor="middle" class="box-sub">JSON frames • connect → req/res → events • TypeBox schemas</text>
+
+  <!-- Clients Section -->
+  <text x="700" y="80" class="section-label">CLIENTS</text>
+  <rect x="690" y="90" width="190" height="200" rx="8" fill="#faf5ff" stroke="#e9d5ff" stroke-width="1" filter="url(#shadow)"/>
+  <g transform="translate(700,108)">
+    <rect width="170" height="24" rx="4" fill="#f3e8ff"/><text x="85" y="16" text-anchor="middle" class="box-label">macOS App</text>
+    <rect y="30" width="170" height="24" rx="4" fill="#f3e8ff"/><text x="85" y="46" text-anchor="middle" class="box-label">CLI (openclaw …)</text>
+    <rect y="60" width="170" height="24" rx="4" fill="#f3e8ff"/><text x="85" y="76" text-anchor="middle" class="box-label">Control UI (Web)</text>
+    <rect y="90" width="170" height="24" rx="4" fill="#f3e8ff"/><text x="85" y="106" text-anchor="middle" class="box-label">WebChat</text>
+    <rect y="120" width="170" height="24" rx="4" fill="#f3e8ff"/><text x="85" y="136" text-anchor="middle" class="box-label">iOS / Android Nodes</text>
+    <rect y="150" width="170" height="24" rx="4" fill="#ede9fe"/><text x="85" y="166" text-anchor="middle" class="box-sub">Cron / Webhooks</text>
+  </g>
+
+  <!-- Storage Section -->
+  <rect x="20" y="420" width="860" height="100" rx="8" fill="#fffbeb" stroke="#fde68a" filter="url(#shadow)"/>
+  <text x="30" y="445" class="section-label">STORAGE (FILE SYSTEM)</text>
+  <g transform="translate(40,458)">
+    <rect width="170" height="44" rx="4" fill="#fef9c3"/><text x="85" y="18" text-anchor="middle" class="box-label">~/.openclaw/</text><text x="85" y="34" text-anchor="middle" class="box-sub">config, credentials, state</text>
+    <rect x="190" width="170" height="44" rx="4" fill="#fef9c3"/><text x="275" y="18" text-anchor="middle" class="box-label">agents/*/sessions/</text><text x="275" y="34" text-anchor="middle" class="box-sub">JSONL transcripts, store</text>
+    <rect x="380" width="170" height="44" rx="4" fill="#fef9c3"/><text x="465" y="18" text-anchor="middle" class="box-label">workspace/</text><text x="465" y="34" text-anchor="middle" class="box-sub">AGENTS.md, MEMORY.md, …</text>
+    <rect x="570" width="170" height="44" rx="4" fill="#fef9c3"/><text x="655" y="18" text-anchor="middle" class="box-label">skills/</text><text x="655" y="34" text-anchor="middle" class="box-sub">managed + workspace skills</text>
+    <rect x="760" width="90" height="44" rx="4" fill="#fef9c3"/><text x="805" y="18" text-anchor="middle" class="box-label">cron/</text><text x="805" y="34" text-anchor="middle" class="box-sub">jobs.json</text>
+  </g>
+
+  <!-- LLM Providers -->
+  <rect x="260" y="545" width="380" height="55" rx="8" fill="#f0fdf4" stroke="#86efac" filter="url(#shadow)"/>
+  <text x="450" y="570" text-anchor="middle" class="box-label">LLM Providers (Anthropic, OpenAI, Google, OpenRouter, …)</text>
+  <text x="450" y="586" text-anchor="middle" class="box-sub">OAuth / API key auth • Model failover • Prompt caching</text>
+
+  <!-- Arrows: Channels → Gateway -->
+  <line x1="200" y1="190" x2="258" y2="190" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Arrows: Gateway → Clients -->
+  <line x1="642" y1="190" x2="688" y2="190" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Arrows: Gateway → Storage -->
+  <line x1="450" y1="392" x2="450" y2="418" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Arrows: Gateway → LLM -->
+  <line x1="450" y1="420" x2="450" y2="420" stroke="none"/>
+  <line x1="450" y1="520" x2="450" y2="543" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowBlue)"/>
+  <text x="510" y="536" class="box-sub" fill="#3b82f6">API calls</text>
+</svg>
