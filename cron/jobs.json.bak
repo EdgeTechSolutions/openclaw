@@ -41,7 +41,7 @@
       "name": "Daily Jira Task Summary",
       "enabled": true,
       "createdAtMs": 1770579310819,
-      "updatedAtMs": 1771454477731,
+      "updatedAtMs": 1771522226927,
       "schedule": {
         "kind": "cron",
         "expr": "30 18 * * 1-5",
@@ -61,12 +61,11 @@
         "topic": "729"
       },
       "state": {
-        "nextRunAtMs": 1771522200000,
-        "lastRunAtMs": 1771454477621,
-        "lastStatus": "error",
-        "lastDurationMs": 110,
-        "consecutiveErrors": 2,
-        "lastError": "model not allowed: anthropic/claude-sonnet-4-6"
+        "nextRunAtMs": 1771608600000,
+        "lastRunAtMs": 1771522200049,
+        "lastStatus": "ok",
+        "lastDurationMs": 26878,
+        "consecutiveErrors": 0
       }
     },
     {
@@ -75,7 +74,7 @@
       "name": "Weekly LLM Research Scan",
       "enabled": true,
       "createdAtMs": 1770623566456,
-      "updatedAtMs": 1771454472094,
+      "updatedAtMs": 1771528170630,
       "schedule": {
         "kind": "cron",
         "expr": "0 17 * * 4",
@@ -85,7 +84,7 @@
       "wakeMode": "next-heartbeat",
       "payload": {
         "kind": "agentTurn",
-        "message": "Scan arXiv (cs.CL and cs.LG), Hugging Face trending papers, and other relevant sources for the most potentially impactful papers about LLM models and foundational models published in the last 7 days. Focus on new architectures, new training approaches, and new techniques of training. Compile a list of papers with direct links, key contributions, and a brief summary of why they are important.\n\nAfter completing the task, respond with:\n- A **success/failure indicator** (e.g., `✅ Success` or `❌ Failed`).\n- A **1-5 bullet-point summary** of what was accomplished. For example:\n  - Found **5 impactful papers** on arXiv.\n  - **2 papers** introduced new training techniques.\n  - Summarized **key contributions** for each paper.\n\n**Important**: Use the `message` tool to post the result to Telegram topic `729` (`#openclaw #cron`) in chat `8403014547`. Example:\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"Your result here\",\n  \"threadId\": \"729\"\n}\n```\n\nFormat the response for Telegram.",
+        "message": "Scan arXiv (cs.CL and cs.LG), Hugging Face trending papers, and other relevant sources for the most impactful papers about LLM models and foundational models published in the last 7 days. Focus on: new architectures, new training approaches, new techniques, efficiency improvements, and alignment advances.\n\n## Step 1 — Research\nCollect candidate papers. For each, note: title, authors, publication date, arXiv/HF link, key contribution, and relevance score (1–10).\n\n## Step 2 — Update Confluence\nRead the current Confluence page at https://edgetech-atlassian.atlassian.net/wiki/spaces/Engineerin/pages/13893636/Research+llms.\n\nMerge the new papers with existing content following these rules:\n- **Structure by topic**: Group papers under clear topic headings (e.g., Architecture Innovations, Training Techniques, Efficiency & Quantization, Alignment & Safety, Multimodal Models, Reasoning & Planning).\n- **Rank by relevance within each topic**: Most impactful papers at the top. Assign a relevance score (⭐ 1–5) to each paper based on novelty, practical impact, and citation/community traction.\n- **Retain the best existing content**: Keep previously listed papers that are still highly relevant. Remove or demote papers that are outdated, superseded, or low-impact compared to new entries.\n- **Each paper entry must include**: Title (linked to paper), authors, date, ⭐ relevance score, key contribution (2–3 sentences), and why it matters.\n- **Quality over quantity**: Only include papers that materially advance understanding of LLMs. Skip incremental or low-impact work.\n\n## Step 3 — Report\nAfter updating Confluence, respond with:\n- ✅ Success or ❌ Failed\n- 1–5 bullet points summarising: topics covered, number of new papers added, papers removed/demoted, and key highlights\n- Link to the updated page: https://edgetech-atlassian.atlassian.net/wiki/spaces/Engineerin/pages/13893636/Research+llms\n\n## Step 4 — Notify\nUse the `message` tool to post the summary to Telegram topic `945` (`#tech #research`) in chat `8403014547`:\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"Your summary here\",\n  \"threadId\": \"945\"\n}\n```\n\nThe Telegram message MUST end with:\n📄 [View on Confluence](https://edgetech-atlassian.atlassian.net/wiki/spaces/Engineerin/pages/13893636/Research+llms)\n\nFormat the Telegram message clearly with emoji and bullet points. Do NOT post to any other Telegram topic.",
         "model": "anthropic/claude-opus-4-6",
         "thinking": "off"
       },
@@ -95,12 +94,11 @@
         "to": "8403014547"
       },
       "state": {
-        "nextRunAtMs": 1771516800000,
-        "lastError": "model not allowed: anthropic/claude-sonnet-4-6",
-        "lastRunAtMs": 1771454472005,
-        "lastStatus": "error",
-        "lastDurationMs": 89,
-        "consecutiveErrors": 1
+        "nextRunAtMs": 1772121600000,
+        "lastRunAtMs": 1771527984992,
+        "lastStatus": "ok",
+        "lastDurationMs": 185638,
+        "consecutiveErrors": 0
       }
     },
     {
@@ -129,7 +127,7 @@
         "to": "8403014547"
       },
       "state": {
-        "nextRunAtMs": 1771516800000,
+        "nextRunAtMs": 1772121600000,
         "lastRunAtMs": 1771363196958,
         "lastStatus": "ok",
         "lastDurationMs": 57613,
@@ -142,7 +140,7 @@
       "name": "Daily OpenClaw Directory Backup",
       "enabled": true,
       "createdAtMs": 1771023878360,
-      "updatedAtMs": 1771376442387,
+      "updatedAtMs": 1771462828593,
       "schedule": {
         "kind": "cron",
         "expr": "0 2 * * *",
@@ -161,12 +159,12 @@
         "to": "8403014547"
       },
       "state": {
-        "nextRunAtMs": 1771462800000,
-        "lastRunAtMs": 1771376400038,
+        "nextRunAtMs": 1771549200000,
+        "lastRunAtMs": 1771462800044,
         "lastStatus": "ok",
-        "lastDurationMs": 42349,
+        "lastDurationMs": 28549,
         "consecutiveErrors": 0,
-        "runningAtMs": 1771462800038
+        "runningAtMs": 1771549200029
       }
     },
     {
@@ -175,7 +173,7 @@
       "name": "Email Triage Agent",
       "enabled": true,
       "createdAtMs": 1771190372608,
-      "updatedAtMs": 1771455201147,
+      "updatedAtMs": 1771527628654,
       "schedule": {
         "kind": "cron",
         "expr": "0 8,11,15,20 * * 1-5,0",
@@ -195,11 +193,11 @@
         "to": "8403014547"
       },
       "state": {
-        "lastRunAtMs": 1771455060698,
+        "lastRunAtMs": 1771527600055,
         "lastStatus": "ok",
-        "lastDurationMs": 140449,
+        "lastDurationMs": 28599,
         "consecutiveErrors": 0,
-        "nextRunAtMs": 1771484400000
+        "nextRunAtMs": 1771570800000
       }
     }
   ]

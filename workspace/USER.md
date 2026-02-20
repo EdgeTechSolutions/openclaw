@@ -6,7 +6,7 @@
 - **What to call them:** Luka
 - **Pronouns:** *(optional)*
 - **Timezone:** CET
-- **Notes:** 
+- **Notes:** Always send a link to Confluence pages after creating or updating them.
 
 ## Context
 
