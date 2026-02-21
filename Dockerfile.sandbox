@@ -1,0 +1,4 @@
+FROM openclaw-sandbox:bookworm-slim
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends nodejs npm git curl jq python3 \
+ && rm -rf /var/lib/apt/lists/*

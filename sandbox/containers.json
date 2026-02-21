@@ -1,0 +1,20 @@
+{
+  "entries": [
+    {
+      "containerName": "openclaw-sbx-agent-main-f331f052",
+      "sessionKey": "agent:main",
+      "createdAtMs": 1771624049290,
+      "lastUsedAtMs": 1771624672529,
+      "image": "openclaw-sandbox:bookworm-slim",
+      "configHash": "e66ba11328032e58ac9ead49513c1560f91af7cc053cfbbc4d7016d767777b55"
+    },
+    {
+      "containerName": "openclaw-sbx-agent-lstopar-agent-888f1ee3",
+      "sessionKey": "agent:lstopar-agent",
+      "createdAtMs": 1771625477639,
+      "lastUsedAtMs": 1771627763262,
+      "image": "openclaw-sandbox:bookworm-slim",
+      "configHash": "3da1e734b8269604a34d5107c146fd3fc1ed942a63cfc896630a758caa8829d9"
+    }
+  ]
+}

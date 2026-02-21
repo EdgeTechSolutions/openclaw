@@ -3,7 +3,7 @@
   "jobs": [
     {
       "id": "c115a6e8-94b9-49f8-ba4b-f6de8ad10305",
-      "agentId": "main",
+      "agentId": "lstopar-agent",
       "name": "Weekly Trading Portfolio Report",
       "enabled": true,
       "createdAtMs": 1770578336587,
@@ -37,7 +37,7 @@
     },
     {
       "id": "ee222aac-11f2-419b-bfa1-28910be5db68",
-      "agentId": "main",
+      "agentId": "lstopar-agent",
       "name": "Daily Jira Task Summary",
       "enabled": true,
       "createdAtMs": 1770579310819,
@@ -70,7 +70,7 @@
     },
     {
       "id": "dfa312f0-140e-499e-87db-d3babfa26059",
-      "agentId": "main",
+      "agentId": "lstopar-agent",
       "name": "Weekly LLM Research Scan",
       "enabled": true,
       "createdAtMs": 1770623566456,
@@ -103,7 +103,7 @@
     },
     {
       "id": "acd718a2-f668-4420-a04a-c3649af21b03",
-      "agentId": "main",
+      "agentId": "lstopar-agent",
       "name": "Weekly Context Engineering Research Update",
       "enabled": true,
       "createdAtMs": 1770732557177,
@@ -163,12 +163,13 @@
         "lastRunAtMs": 1771549200080,
         "lastStatus": "ok",
         "lastDurationMs": 26003,
-        "consecutiveErrors": 0
+        "consecutiveErrors": 0,
+        "runningAtMs": 1771635600053
       }
     },
     {
       "id": "68e53dae-c120-44b5-82f9-55b5b4866473",
-      "agentId": "main",
+      "agentId": "lstopar-agent",
       "name": "Email Triage Agent",
       "enabled": true,
       "createdAtMs": 1771190372608,
@@ -201,7 +202,7 @@
     },
     {
       "id": "8d36ec52-0c10-4376-bd85-44d358abed6c",
-      "agentId": "main",
+      "agentId": "lstopar-agent",
       "name": "Nightly Personal Gmail Triage",
       "enabled": true,
       "createdAtMs": 1771618729376,
