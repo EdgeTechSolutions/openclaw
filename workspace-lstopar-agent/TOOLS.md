@@ -16,6 +16,15 @@ Things like:
 
 ---
 
+## Sandbox NPM Installs
+
+- **Always install skill CLIs via npm inside the sandbox**, not on the host
+- Local prefix: `~/.npm-global` → persists at `/workspace/.npm-global/` (bind-mounted)
+- Command: `mkdir -p ~/.npm-global && npm config set prefix ~/.npm-global && npm install -g <package>`
+- Add to PATH: `export PATH="/workspace/.npm-global/bin:$PATH"`
+- Installed: `confluence-cli`
+- **After installing a skill**: always install its CLI tool via npm too, then ask the user for any required credentials/API keys
+
 ## SSH
 
 - home-server → 192.168.1.100, user: admin

@@ -166,3 +166,10 @@ build/
 
 # Python virtual environments
 venv/
+# Workspace config/credentials
+workspace-lstopar-agent/.config/
+workspace-lstopar-agent/.confluence-cli/
+workspace-lstopar-agent/.eventregistry-config.json
+workspace-lstopar-agent/.trading212-config.json
+workspace-lstopar-agent/skills/*/tokens/
+workspace-lstopar-agent/skills/eventregistry/.eventregistry-config.json

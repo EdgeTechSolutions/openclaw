@@ -1,16 +1,14 @@
 {
-  "name": "trading212-tool",
-  "version": "1.0.0",
-  "type": "module",
+  "name": "trading212-skill",
+  "version": "2.0.0",
+  "description": "Trading 212 full API client for OpenClaw",
+  "main": "dist/trading212.js",
   "scripts": {
-    "fetch-balance": "ts-node trading212.ts"
-  },
-  "dependencies": {
-    "axios": "^1.6.7",
-    "@types/node": "^20.11.19"
+    "build": "tsc",
+    "start": "node dist/trading212.js"
   },
   "devDependencies": {
-    "ts-node": "^10.9.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0"
   }
 }

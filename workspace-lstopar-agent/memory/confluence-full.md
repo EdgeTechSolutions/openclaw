@@ -1,0 +1,317 @@
+## Overview
+
+OpenClaw agents can install and configure skills themselves inside their sandbox. You don't need terminal access — just tell your agent what to do via chat.
+
+This page covers the general installation process and skill-specific setup instructions.
+
+---
+
+## General Installation Process
+
+### 1. Search for the skill
+
+Ask your agent:
+
+[!info]
+**INFO**
+*"Search ClawHub for a [skill name] skill"*
+The agent will search ClawHub and present available options.
+
+### 2. Install the skill
+
+Tell the agent which one to install:
+
+[!info]
+**INFO**
+*"Install the [skill name] skill"*
+The agent will install the skill definition (via ClawHub) and the required CLI tool (via npm or binary download) inside the sandbox.
+
+### 3. Provide credentials
+
+The agent will ask for any required credentials. Always send credentials in a **direct/private chat**, never in group channels.
+
+### 4. Verify
+
+Ask the agent to perform a simple operation to confirm the skill works.
+
+---
+
+## Skill: Confluence
+
+### What it does
+
+Read, create, search, and update Confluence pages and spaces.
+
+### Installation
+
+Tell your agent:
+
+[!info]
+**INFO**
+*"Search ClawHub for a Confluence skill and install it"*
+The agent installs the `confluence` skill definition via ClawHub and the `confluence-cli` npm package.
+
+### Credentials
+
+You need:
+
+- **Email**: Your Atlassian account email
+- **API Token**: Generate at https://id.atlassian.com/manage-profile/security/api-tokens
+
+Send to the agent in a private chat:
+
+[!info]
+**INFO**
+*"CONFLUENCE_EMAIL=you@company.com CONFLUENCE_API_TOKEN=your-token-here"*
+
+### Verification
+
+[!info]
+**INFO**
+*"Read this Confluence page: https://edgetech-atlassian.atlassian.net/wiki/spaces/Tools/pages/..."*
+
+### What gets stored
+
+- Skill definition: `/workspace/skills/confluence/`
+- CLI tool: `/workspace/.npm-global/` (installed via npm)
+- Credentials: `/workspace/.confluence-cli/config.json`
+
+---
+
+## Skill: Jira
+
+### What it does
+
+View, create, update, and transition Jira issues. List sprints, search with JQL, manage assignments and comments.
+
+### Installation
+
+Tell your agent:
+
+[!info]
+**INFO**
+*"Search ClawHub for a Jira skill and install it"*
+The agent installs the `jira` skill definition via ClawHub and downloads the `jira-cli` binary from GitHub (Go binary, not an npm package).
+
+### Credentials
+
+You need:
+
+- **Email**: Your Atlassian account email
+- **API Token**: Same token as Confluence — generate at https://id.atlassian.com/manage-profile/security/api-tokens
+
+Send to the agent in a private chat:
+
+[!info]
+**INFO**
+*"JIRA_EMAIL=you@company.com JIRA_API_TOKEN=your-token-here"*
+[!note]
+**NOTE**
+The `JIRA_API_TOKEN` environment variable must be available in every session. Ask the agent to add it to the sandbox env config, or configure it in `~/.openclaw/openclaw.json` under `agents.defaults.sandbox.docker.env`.
+
+### Verification
+
+[!info]
+**INFO**
+*"Read the latest 10 Jira tasks"*
+
+### What gets stored
+
+- Skill definition: `/workspace/skills/jira/`
+- CLI binary: `/workspace/.npm-global/bin/jira` (downloaded from GitHub releases)
+- Config: `/workspace/.config/.jira/.config.yml`
+- Credentials: via `JIRA_API_TOKEN` env variable (not stored in a file)
+
+---
+
+## Skill: EventRegistry (NewsAPI.ai)
+
+### What it does
+
+Search news articles, discover trending topics, and find events from 150,000+ news sources worldwide. Powered by the EventRegistry / NewsAPI.ai platform.
+
+### Capabilities
+
+- **Search articles** — by keyword, concept, source, category, location, sentiment, date
+- **Search events** — clustered groups of articles about the same real-world event
+- **Trending concepts** — currently trending people, organizations, locations, topics
+- **Trending categories** — which news categories are trending
+- **Top headlines** — most shared articles from the last 24 hours
+
+### Installation
+
+This is a custom skill (not on ClawHub). Tell your agent:
+
+[!info]
+**INFO**
+*"Create an EventRegistry skill using the NewsAPI.ai API"*
+The agent creates a TypeScript-based skill at `/workspace/skills/eventregistry/` with a REST API client. No external CLI needed — it uses the EventRegistry HTTP API directly.
+
+### Credentials
+
+You need:
+
+- **API Key**: Register for free at https://newsapi.ai/register , then find your key at https://newsapi.ai/dashboard
+
+Send to the agent in a private chat:
+
+[!info]
+**INFO**
+*"EVENT_REGISTRY_API_KEY=your-api-key-here"*
+
+### Free Plan Limits
+
+[!warning]
+- Last **30 days of content only** (no archive access)
+- Article search: **1 token** per page (max 100 articles/page)
+- Event search: **5 tokens** per page (max 50 events/page) — use sparingly
+- No commercial use on the free plan
+- Monitor your usage at https://newsapi.ai/dashboard
+
+### Verification
+
+[!info]
+**INFO**
+*"List the latest 10 news headlines from EventRegistry"*
+
+### Example Queries
+
+- *"Search EventRegistry for news about artificial intelligence"*
+- *"What are the trending topics in the news right now?"*
+- *"Get top headlines from the last 24 hours"*
+- *"Find news events about climate change"*
+
+### What gets stored
+
+- Skill definition + TypeScript source: `/workspace/skills/eventregistry/`
+- Compiled JS: `/workspace/skills/eventregistry/dist/`
+- Credentials: `/workspace/.eventregistry-config.json`
+
+---
+
+## Skill: Microsoft 365
+
+### What it does
+
+Access Outlook emails, Calendar events, Contacts, and OneDrive files via Microsoft Graph API.
+
+### Installation
+
+1. Install the skill from ClawHub: ```bash clawhub install microsoft365 ```
+2. Configure Azure AD App Registration: - Go to [Azure Portal > App registrations](https://portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/RegisteredApps) - Create a new registration: Name: `OpenClaw Microsoft 365` - Supported account types: **Accounts in any organizational directory (Any Azure AD directory - Multitenant) and personal Microsoft accounts** - Redirect URI: Leave empty (not needed for Device Code Flow)
+3. Copy the **Application (client) ID**
+4. Enable public client flows: - Go to **Authentication** > **Advanced settings** > set **Enable the following mobile and desktop flows** to **Yes**
+5. Create config file: ```bash echo '{"clientId": "YOUR_CLIENT_ID", "tenantId": "common"}' > skills/microsoft365/config.default.json ```
+6. Authenticate: ```bash cd skills/microsoft365 node index.js auth login ``` - Open the URL shown and enter the device code - Tokens are saved to `skills/microsoft365/tokens/ms365.tokens.default.json`
+
+### Usage
+
+```bash
+# List emails
+
+node index.js mail list --max 10
+
+# List calendar events
+
+node index.js calendar list
+
+# List contacts
+
+node index.js contacts list
+
+```
+
+### What gets stored
+
+- Skill definition: `/workspace/skills/microsoft365/`
+- Config: `skills/microsoft365/config.default.json`
+- Tokens: `skills/microsoft365/tokens/ms365.tokens.default.json`
+
+---
+
+## Skill: Gmail (gog CLI Alternative)
+
+### What it does
+
+Read, search, and send emails via Gmail API. Replaces the `gog` CLI which doesn't work in Docker sandbox.
+
+### Installation
+
+1. Install the custom Gmail skill: ```bash mkdir -p skills/gmail/src curl -o skills/gmail/src/gmail.ts https://gist.githubusercontent.com/lstopar/abc123/raw/gmail.ts cd skills/gmail && npm install && npx tsc ```
+2. Set up OAuth credentials: - Go to [Google Cloud Console](https://console.cloud.google.com/apis/credentials) - Create OAuth 2.0 Client ID (Desktop app type) - Save credentials to `~/.config/gogcli/credentials.json`
+3. Authenticate: ```bash gog auth add luka.stopar@gmail.com --remote --step 1 --services gmail,calendar ``` - Open the auth URL, sign in, and paste the redirect URL back - Tokens are saved to `~/.config/gogcli/tokens/token-luka.stopar@gmail.com.json`
+
+### Usage
+
+```bash
+# List latest emails
+
+node skills/gmail/dist/gmail.js list 10
+
+# Search emails
+
+node skills/gmail/dist/gmail.js search "from:tomi"
+
+# Read email
+
+node skills/gmail/dist/gmail.js read 19c80530546dc712
+
+```
+
+### What gets stored
+
+- Skill definition: `/workspace/skills/gmail/`
+- CLI: `skills/gmail/dist/gmail.js`
+- Tokens: `~/.config/gogcli/tokens/token-luka.stopar@gmail.com.json`
+
+---
+
+## Sandbox Requirements
+
+For skill installation to work, the sandbox needs:
+
+- **Network access** — sandbox network must not be `"none"` in the OpenClaw config
+- **npm available** — Node.js and npm must be present in the sandbox image (for npm-based CLIs)
+- **PATH configured** — the install directory must be in PATH
+
+### PATH Configuration
+
+The agent installs tools to `/workspace/.npm-global/` which persists across container reboots. To make them available automatically, add to your OpenClaw config (`~/.openclaw/openclaw.json`):
+
+```json
+{
+"agents": {
+"defaults": {
+"sandbox": {
+"docker": {
+"env": {
+"JIRA_API_TOKEN": "your-jira-api-token",
+"PATH": "/workspace/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+}
+}
+}
+}
+}
+}
+
+```
+
+## Persistence
+
+Everything lives in `/workspace/` (bind-mounted to the host), so it survives container reboots and recreations:
+
+- **Skill definitions**: `/workspace/skills//`
+- **CLI tools**: `/workspace/.npm-global/`
+- **Credentials**: tool-specific config files in the workspace
+
+## Security Notes
+
+- Always send credentials in a **private/direct chat**, never in group channels
+- The agent stores credentials only in tool-specific config files, not in memory or log files
+- You can find more skills at clawhub.com
+## Important: Microsoft 365 Credential Storage
+
+**For other sessions**: The Microsoft 365 skill stores credentials in the skill directory, not in `~/.openclaw/credentials/`:\n- **Config**: `skills/microsoft365/config.default.json`\n- **Tokens**: `skills/microsoft365/tokens/ms365.tokens.default.json`\n\nIf you're setting this up in a new session, ensure the `tokens/` directory exists and the config file is present.
+
+---
+

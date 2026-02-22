@@ -1,0 +1,14 @@
+{
+  "name": "eventregistry-skill",
+  "version": "1.0.0",
+  "description": "EventRegistry (NewsAPI.ai) skill for OpenClaw",
+  "main": "dist/eventregistry.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/eventregistry.js"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0"
+  }
+}

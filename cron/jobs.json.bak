@@ -140,7 +140,7 @@
       "name": "Daily OpenClaw Directory Backup",
       "enabled": true,
       "createdAtMs": 1771023878360,
-      "updatedAtMs": 1771549226083,
+      "updatedAtMs": 1771635632825,
       "schedule": {
         "kind": "cron",
         "expr": "0 2 * * *",
@@ -159,12 +159,12 @@
         "to": "8403014547"
       },
       "state": {
-        "nextRunAtMs": 1771635600000,
-        "lastRunAtMs": 1771549200080,
+        "nextRunAtMs": 1771722000000,
+        "lastRunAtMs": 1771635600062,
         "lastStatus": "ok",
-        "lastDurationMs": 26003,
+        "lastDurationMs": 32763,
         "consecutiveErrors": 0,
-        "runningAtMs": 1771635600053
+        "runningAtMs": 1771722000042
       }
     },
     {
@@ -206,7 +206,7 @@
       "name": "Nightly Personal Gmail Triage",
       "enabled": true,
       "createdAtMs": 1771618729376,
-      "updatedAtMs": 1771620848256,
+      "updatedAtMs": 1771646491285,
       "schedule": {
         "kind": "cron",
         "expr": "0 5 * * *",
@@ -227,10 +227,10 @@
       },
       "state": {
         "consecutiveErrors": 0,
-        "nextRunAtMs": 1771646400000,
-        "lastRunAtMs": 1771620377666,
+        "nextRunAtMs": 1771732800000,
+        "lastRunAtMs": 1771646400059,
         "lastStatus": "ok",
-        "lastDurationMs": 76553
+        "lastDurationMs": 91226
       }
     }
   ]

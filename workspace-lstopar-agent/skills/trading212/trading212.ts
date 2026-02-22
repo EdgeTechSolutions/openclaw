@@ -2,15 +2,19 @@ import axios from 'axios';
 import fs from 'fs';
 
 interface Trading212Auth {
-  apiKey: string;
+  apiKeyId: string;
+  secretKey: string;
 }
 
 interface AccountBalance {
-  total: number;          // Total balance
-  available: number;      // Available funds
-  invested: number;       // Invested amount
-  ppl: number;            // Profit/loss
-  result: number;         // Result (total + ppl)
+  total: number;
+  available: number;
+  invested: number;
+  ppl: number;
+  result: number;
+  free: number;
+  pieCash: number;
+  blocked: number;
 }
 
 export class Trading212Client {
@@ -19,8 +23,11 @@ export class Trading212Client {
   constructor(auth: Trading212Auth) {
     this.client = axios.create({
       baseURL: 'https://live.trading212.com/api/v0',
+      auth: {
+        username: auth.apiKeyId,
+        password: auth.secretKey,
+      },
       headers: {
-        'Authorization': auth.apiKey,
         'Content-Type': 'application/json',
       },
     });
@@ -32,9 +39,13 @@ export class Trading212Client {
   }
 }
 
-// Fetch balance using the API key from file
+export function loadConfig(path = '/workspace/.trading212-config.json'): Trading212Auth {
+  const config = JSON.parse(fs.readFileSync(path, 'utf-8'));
+  return { apiKeyId: config.apiKeyId, secretKey: config.secretKey };
+}
+
 export async function fetchBalance(): Promise<AccountBalance> {
-  const apiKey = fs.readFileSync('/home/lstopar/.openclaw/workspace/trading212_api_key.txt', 'utf-8').trim();
-  const client = new Trading212Client({ apiKey });
+  const auth = loadConfig();
+  const client = new Trading212Client(auth);
   return await client.getAccountBalance();
 }
