@@ -9,7 +9,6 @@ metadata:
         "requires":
           {
             "anyBins": ["jira"],
-            "env": ["JIRA_API_TOKEN"],
           },
       },
   }
@@ -18,6 +17,32 @@ metadata:
 # Jira
 
 Natural language interaction with Jira. Supports multiple backends.
+
+## 🔑 Credential Storage
+
+**Credentials are stored at**: `/workspace/.config/.jira/.credentials.yml`
+
+```yaml
+login: user@company.com
+secret: JIRA_API_TOKEN_HERE
+```
+
+**Config is stored at**: `/workspace/.config/.jira/.config.yml`
+
+The `jira` CLI reads the token from the `JIRA_API_TOKEN` environment variable. Before running any jira command, always load it from the credentials file:
+
+```bash
+export JIRA_API_TOKEN=$(grep '^secret:' /workspace/.config/.jira/.credentials.yml | awk '{print $2}')
+```
+
+**When the user provides a new Jira API token**, save it to `/workspace/.config/.jira/.credentials.yml`:
+
+```bash
+cat > /workspace/.config/.jira/.credentials.yml << EOF
+login: luka.stopar@edgetech.si
+secret: THE_TOKEN_HERE
+EOF
+```
 
 ## Backend Detection
 

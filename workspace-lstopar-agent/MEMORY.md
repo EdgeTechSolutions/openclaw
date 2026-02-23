@@ -20,8 +20,18 @@
 
 ---
 
+### **Personal Calendar Policy**
+- When fetching personal calendar, **always query all three**:
+  1. Microsoft 365 calendar: `node /workspace/skills/microsoft365/index.js calendar list`
+  2. Google Workspace primary calendar: `luka@stopar.si`
+  3. Google Workspace shared calendar: `pg2acfjes7eufmjmrakim8hka8@group.calendar.google.com` (Jasna & Luka)
+- Google account is now `luka@stopar.si` (Google Workspace)
+- Merge and sort all events chronologically when presenting
+
 ### **Tool Preferences by Topic**
-- **Personal chat**: Use the **gog skill** (Google Workspace CLI) for email, calendar, and drive operations — not Microsoft 365 tools.
+- **Default email**: Use the **microsoft365 skill** (`node /workspace/skills/microsoft365/index.js --account default`) for email — this covers work emails, Microsoft 365 emails, and any unspecified email requests.
+- **Personal email only**: Use the **gog skill** (Google Workspace CLI) — only when Luka explicitly asks for personal/Gmail emails.
+- **Microsoft 365 credentials**: Token stored at `/workspace/skills/microsoft365/tokens/ms365.tokens.default.json`. No env file at `~/.openclaw/credentials/ms365.env` — credentials are self-contained in the skill directory.
 
 ---
 

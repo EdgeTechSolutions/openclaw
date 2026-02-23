@@ -25,6 +25,13 @@ Things like:
 - Installed: `confluence-cli`
 - **After installing a skill**: always install its CLI tool via npm too, then ask the user for any required credentials/API keys
 
+## Temp Files in Sandbox
+
+- The `write` tool is sandboxed to the workspace — can't write to `/tmp`
+- **Always write temp files to `/workspace/tmp/`** (gitignored, writable by both `write` tool and `exec`)
+- `/workspace/tmp/` persists across container restarts but is excluded from git
+- Example: `write("tmp/confluence-update.md", content)` then reference from exec
+
 ## SSH
 
 - home-server → 192.168.1.100, user: admin

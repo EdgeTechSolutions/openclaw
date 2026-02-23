@@ -4,9 +4,9 @@
       "containerName": "openclaw-sbx-agent-lstopar-agent-888f1ee3",
       "sessionKey": "agent:lstopar-agent",
       "createdAtMs": 1771625477639,
-      "lastUsedAtMs": 1771718257819,
+      "lastUsedAtMs": 1771799835395,
       "image": "openclaw-sandbox:bookworm-slim",
-      "configHash": "d40473d717c276dae7eff9f81d8dcdf32206bc1b1831d1af7488ebdb1531428d"
+      "configHash": "385c3e25f334850702b2238c740b23620a5c5b67809d15577247392e89f1ddeb"
     }
   ]
 }

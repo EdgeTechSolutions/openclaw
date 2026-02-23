@@ -7,17 +7,17 @@
       "name": "Weekly Trading Portfolio Report",
       "enabled": true,
       "createdAtMs": 1770578336587,
-      "updatedAtMs": 1771454481655,
+      "updatedAtMs": 1771747308756,
       "schedule": {
         "kind": "cron",
-        "expr": "0 9 * * 0",
+        "expr": "0 17 * * 5",
         "tz": "Europe/Ljubljana"
       },
       "sessionTarget": "isolated",
       "wakeMode": "next-heartbeat",
       "payload": {
         "kind": "agentTurn",
-        "message": "Generate a weekly report analyzing the user's Trading212 portfolio, macroeconomic news, and impactful events. Include:\n\n1. **Portfolio Summary**: Current holdings, allocation, performance (P&L), and key observations.\n2. **Macroeconomic Trends**: Global and regional economic updates (interest rates, inflation, growth, currencies).\n3. **Impactful Events**: Geopolitical, economic, and sector-specific events affecting markets.\n4. **Potential Impact**: How these trends/events could affect the user's portfolio, with clear scenarios.\n5. **Recommendations**: Short-term and long-term actions (e.g., rebalancing, hedging, profit-taking).\n\nUse the latest data from the Trading212 API and EventRegistry API. Format the report for clarity and readability.\n\nAfter completing the task, respond with:\n- A **success/failure indicator** (e.g., `✅ Success` or `❌ Failed`).\n- A **1-5 bullet-point summary** of what was accomplished. For example:\n  - Analyzed **15 open positions** in the portfolio.\n  - Identified **3 macroeconomic trends** impacting holdings.\n  - Recommended **2 actions** for risk mitigation.\n\n**Important**: Use the `message` tool to post the result to Telegram topic `729` (`#openclaw #cron`) in chat `8403014547`. Example:\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"Your result here\",\n  \"threadId\": \"729\"\n}\n```\n\nFormat the response for Telegram.",
+        "message": "Generate a weekly report analyzing the user's Trading212 portfolio, macroeconomic news, and impactful events. Include:\n\n1. **Portfolio Summary**: Current holdings, allocation, performance (P&L), and key observations.\n2. **Macroeconomic Trends**: Global and regional economic updates (interest rates, inflation, growth, currencies).\n3. **Impactful Events**: Geopolitical, economic, and sector-specific events affecting markets.\n4. **Potential Impact**: How these trends/events could affect the user's portfolio, with clear scenarios.\n5. **Recommendations**: Short-term and long-term actions (e.g., rebalancing, hedging, profit-taking).\n6. **New Position Suggestions**: Based on current portfolio composition, market trends, and macroeconomic context, suggest 3–5 new positions the user could open on Trading212. For each suggestion include: instrument name/ticker, rationale (why now, what thesis), suggested allocation size relative to portfolio, key risks, and a conviction level (High / Medium / Low).\n\nUse the latest data from the Trading212 API and EventRegistry API. Format the report for clarity and readability.\n\nAfter completing the task, respond with:\n- A **success/failure indicator** (e.g., `✅ Success` or `❌ Failed`).\n- A **1-5 bullet-point summary** of what was accomplished. For example:\n  - Analyzed **15 open positions** in the portfolio.\n  - Identified **3 macroeconomic trends** impacting holdings.\n  - Recommended **2 actions** for risk mitigation.\n  - Suggested **4 new positions** to open.\n\n**Important**: Use the `message` tool to post the result to Telegram topic `701` (`#trading @personal`) in chat `8403014547`. Do NOT post to any other topic. Example:\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"Your result here\",\n  \"threadId\": \"701\"\n}\n```\n\nFormat the response for Telegram.",
         "model": "anthropic/claude-opus-4-6",
         "thinking": "on"
       },
@@ -27,12 +27,11 @@
         "to": "8403014547"
       },
       "state": {
-        "nextRunAtMs": 1771747200000,
-        "lastRunAtMs": 1771454481572,
-        "lastStatus": "error",
-        "lastDurationMs": 83,
-        "consecutiveErrors": 2,
-        "lastError": "model not allowed: anthropic/claude-sonnet-4-6"
+        "nextRunAtMs": 1772352000000,
+        "lastRunAtMs": 1771747200474,
+        "lastStatus": "ok",
+        "lastDurationMs": 108282,
+        "consecutiveErrors": 0
       }
     },
     {
@@ -140,7 +139,7 @@
       "name": "Daily OpenClaw Directory Backup",
       "enabled": true,
       "createdAtMs": 1771023878360,
-      "updatedAtMs": 1771635632825,
+      "updatedAtMs": 1771722090011,
       "schedule": {
         "kind": "cron",
         "expr": "0 2 * * *",
@@ -159,12 +158,12 @@
         "to": "8403014547"
       },
       "state": {
-        "nextRunAtMs": 1771722000000,
-        "lastRunAtMs": 1771635600062,
-        "lastStatus": "ok",
-        "lastDurationMs": 32763,
-        "consecutiveErrors": 0,
-        "runningAtMs": 1771722000042
+        "nextRunAtMs": 1771808400000,
+        "lastRunAtMs": 1771722000052,
+        "lastStatus": "error",
+        "lastDurationMs": 89959,
+        "consecutiveErrors": 1,
+        "runningAtMs": 1771808400089
       }
     },
     {
@@ -173,7 +172,7 @@
       "name": "Email Triage Agent",
       "enabled": true,
       "createdAtMs": 1771190372608,
-      "updatedAtMs": 1771614051204,
+      "updatedAtMs": 1771786842160,
       "schedule": {
         "kind": "cron",
         "expr": "0 8,11,15,20 * * 1-5,0",
@@ -193,11 +192,12 @@
         "to": "8403014547"
       },
       "state": {
-        "lastRunAtMs": 1771614000081,
-        "lastStatus": "ok",
-        "lastDurationMs": 51123,
-        "consecutiveErrors": 0,
-        "nextRunAtMs": 1771743600000
+        "lastRunAtMs": 1771786800050,
+        "lastStatus": "error",
+        "lastDurationMs": 42110,
+        "consecutiveErrors": 2,
+        "nextRunAtMs": 1771830000000,
+        "lastError": "cron announce delivery failed"
       }
     },
     {
@@ -206,7 +206,7 @@
       "name": "Nightly Personal Gmail Triage",
       "enabled": true,
       "createdAtMs": 1771618729376,
-      "updatedAtMs": 1771646491285,
+      "updatedAtMs": 1771733012020,
       "schedule": {
         "kind": "cron",
         "expr": "0 5 * * *",
@@ -227,10 +227,10 @@
       },
       "state": {
         "consecutiveErrors": 0,
-        "nextRunAtMs": 1771732800000,
-        "lastRunAtMs": 1771646400059,
+        "nextRunAtMs": 1771819200000,
+        "lastRunAtMs": 1771732800056,
         "lastStatus": "ok",
-        "lastDurationMs": 91226
+        "lastDurationMs": 211964
       }
     }
   ]
