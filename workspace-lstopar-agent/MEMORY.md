@@ -28,6 +28,21 @@
 - Google account is now `luka@stopar.si` (Google Workspace)
 - Merge and sort all events chronologically when presenting
 
+### **GitHub**
+- Authenticated via `gh` CLI as user `lstopar`
+- Organization: `EdgeTechSolutions` (3 repos: openclaw fork, OpenClawConfig, AITools)
+- Auth tokens: `/workspace/.config/gh/hosts.yml`
+
+### **Jira Credential Storage**
+- Credentials stored at `/workspace/.config/.jira/.credentials.yml` (login + secret)
+- Load token each session: `export JIRA_API_TOKEN=$(grep '^secret:' /workspace/.config/.jira/.credentials.yml | awk '{print $2}')`
+- No env var config needed in `openclaw.json`
+
+### **Lobster (Workflow Engine)**
+- Source zip persists at `/workspace/tmp/lobster-main.zip`
+- Needs rebuild after container restarts (extract, npm install, tsc)
+- Not yet enabled as OpenClaw tool (`tools.alsoAllow: ["lobster"]`)
+
 ### **Tool Preferences by Topic**
 - **Default email**: Use the **microsoft365 skill** (`node /workspace/skills/microsoft365/index.js --account default`) for email — this covers work emails, Microsoft 365 emails, and any unspecified email requests.
 - **Personal email only**: Use the **gog skill** (Google Workspace CLI) — only when Luka explicitly asks for personal/Gmail emails.
@@ -42,7 +57,7 @@
 
 ### **Personal Email Categories & Auto-Archive Policy**
 
-The **Nightly Personal Email Categorizer** cron job runs every night at 05:00 Europe/Ljubljana and:
+The **Nightly Personal Email Categorizer** cron job runs every night at 05:00 Europe/Ljubljana using **Claude Opus** and:
 1. Fetches Gmail emails from the last 24 hours via the `gog` skill.
 2. Categorizes them into the following buckets:
 

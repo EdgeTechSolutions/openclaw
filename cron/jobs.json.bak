@@ -40,7 +40,7 @@
       "name": "Daily Jira Task Summary",
       "enabled": true,
       "createdAtMs": 1770579310819,
-      "updatedAtMs": 1771608632867,
+      "updatedAtMs": 1771867884374,
       "schedule": {
         "kind": "cron",
         "expr": "30 18 * * 1-5",
@@ -60,10 +60,10 @@
         "topic": "729"
       },
       "state": {
-        "nextRunAtMs": 1771867800000,
-        "lastRunAtMs": 1771608600058,
+        "nextRunAtMs": 1771954200000,
+        "lastRunAtMs": 1771867800047,
         "lastStatus": "ok",
-        "lastDurationMs": 32809,
+        "lastDurationMs": 84327,
         "consecutiveErrors": 0
       }
     },
@@ -139,7 +139,7 @@
       "name": "Daily OpenClaw Directory Backup",
       "enabled": true,
       "createdAtMs": 1771023878360,
-      "updatedAtMs": 1771722090011,
+      "updatedAtMs": 1771808443446,
       "schedule": {
         "kind": "cron",
         "expr": "0 2 * * *",
@@ -158,12 +158,12 @@
         "to": "8403014547"
       },
       "state": {
-        "nextRunAtMs": 1771808400000,
-        "lastRunAtMs": 1771722000052,
-        "lastStatus": "error",
-        "lastDurationMs": 89959,
-        "consecutiveErrors": 1,
-        "runningAtMs": 1771808400089
+        "nextRunAtMs": 1771894800000,
+        "lastRunAtMs": 1771808400097,
+        "lastStatus": "ok",
+        "lastDurationMs": 43349,
+        "consecutiveErrors": 0,
+        "runningAtMs": 1771894800055
       }
     },
     {
@@ -172,7 +172,7 @@
       "name": "Email Triage Agent",
       "enabled": true,
       "createdAtMs": 1771190372608,
-      "updatedAtMs": 1771786842160,
+      "updatedAtMs": 1771873250924,
       "schedule": {
         "kind": "cron",
         "expr": "0 8,11,15,20 * * 1-5,0",
@@ -192,12 +192,11 @@
         "to": "8403014547"
       },
       "state": {
-        "lastRunAtMs": 1771786800050,
-        "lastStatus": "error",
-        "lastDurationMs": 42110,
-        "consecutiveErrors": 2,
-        "nextRunAtMs": 1771830000000,
-        "lastError": "cron announce delivery failed"
+        "lastRunAtMs": 1771873200054,
+        "lastStatus": "ok",
+        "lastDurationMs": 50870,
+        "consecutiveErrors": 0,
+        "nextRunAtMs": 1771916400000
       }
     },
     {
@@ -206,7 +205,7 @@
       "name": "Nightly Personal Gmail Triage",
       "enabled": true,
       "createdAtMs": 1771618729376,
-      "updatedAtMs": 1771733012020,
+      "updatedAtMs": 1771819268811,
       "schedule": {
         "kind": "cron",
         "expr": "0 5 * * *",
@@ -227,10 +226,10 @@
       },
       "state": {
         "consecutiveErrors": 0,
-        "nextRunAtMs": 1771819200000,
-        "lastRunAtMs": 1771732800056,
+        "nextRunAtMs": 1771905600000,
+        "lastRunAtMs": 1771819200089,
         "lastStatus": "ok",
-        "lastDurationMs": 211964
+        "lastDurationMs": 68722
       }
     }
   ]
