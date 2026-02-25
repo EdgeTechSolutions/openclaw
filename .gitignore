@@ -173,3 +173,12 @@ workspace-lstopar-agent/.eventregistry-config.json
 workspace-lstopar-agent/.trading212-config.json
 workspace-lstopar-agent/skills/*/tokens/
 workspace-lstopar-agent/skills/eventregistry/.eventregistry-config.json
+
+# =============================================================================
+# Browser Data (sandbox browser profiles, caches, cookies)
+# =============================================================================
+browser/
+workspace-*/.[!.]*/
+workspace-*/.cache/
+workspace-*/.pki/
+workspace-*/.npm-global/

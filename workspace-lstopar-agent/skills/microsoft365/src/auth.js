@@ -3,7 +3,7 @@ const { loadConfig, saveTokens, loadTokens, normalizeAccount } = require('./conf
 
 const fetchFn = globalThis.fetch;
 
-const SCOPES = 'User.Read Mail.Read Mail.Send Calendars.ReadWrite Contacts.ReadWrite Files.ReadWrite.All offline_access';
+const SCOPES = 'User.Read Mail.ReadWrite Mail.Send Calendars.ReadWrite Contacts.ReadWrite Files.ReadWrite.All offline_access';
 const PERSONAL_TENANT_ID = '9188040d-6c67-4c5b-b112-36a304b66dad';
 
 function toAccountLabel(value, fallback = 'personal') {

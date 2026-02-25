@@ -1,3 +1,12 @@
 {
-  "entries": []
+  "entries": [
+    {
+      "containerName": "openclaw-sbx-agent-lstopar-agent-888f1ee3",
+      "sessionKey": "agent:lstopar-agent",
+      "createdAtMs": 1771972916392,
+      "lastUsedAtMs": 1771973560233,
+      "image": "openclaw-sandbox:lstopar",
+      "configHash": "385c3e25f334850702b2238c740b23620a5c5b67809d15577247392e89f1ddeb"
+    }
+  ]
 }

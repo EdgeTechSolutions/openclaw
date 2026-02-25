@@ -1,0 +1,58 @@
+{
+  "id": "knowledge-graph",
+  "name": "Knowledge Graph",
+  "version": "0.1.0",
+  "description": "Extracts facts from conversations and emails, stores them as relations in a vector-searchable knowledge graph.",
+  "entry": "src/index.ts",
+  "configSchema": {
+    "type": "object",
+    "properties": {
+      "embeddingProvider": {
+        "type": "string",
+        "enum": ["gemini", "openai"],
+        "default": "gemini"
+      },
+      "embeddingApiKey": {
+        "type": "string"
+      },
+      "embeddingModel": {
+        "type": "string",
+        "default": "text-embedding-004"
+      },
+      "embeddingDimensions": {
+        "type": "number",
+        "default": 768
+      },
+      "extractionModel": {
+        "type": "string",
+        "default": "anthropic/claude-haiku-3.5"
+      },
+      "windowSize": {
+        "type": "number",
+        "default": 8,
+        "description": "Number of messages to buffer before extraction (4 Q&A pairs = 8)"
+      },
+      "flushTimeoutMs": {
+        "type": "number",
+        "default": 300000,
+        "description": "Flush buffer after this many ms of inactivity (default 5 min)"
+      },
+      "minConfidence": {
+        "type": "number",
+        "default": 0.6,
+        "description": "Minimum confidence threshold for storing facts"
+      },
+      "dbPath": {
+        "type": "string",
+        "default": "~/.openclaw/knowledge-graph.db"
+      }
+    },
+    "additionalProperties": false
+  },
+  "uiHints": {
+    "embeddingApiKey": { "label": "Embedding API Key", "sensitive": true },
+    "embeddingProvider": { "label": "Embedding Provider" },
+    "extractionModel": { "label": "Extraction Model (for fact extraction)" },
+    "dbPath": { "label": "Database Path" }
+  }
+}

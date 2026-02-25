@@ -16,7 +16,7 @@ const readline = require('readline');
 
 async function main() {
   // Parse --account flag
-  let account = 'default';
+  let account = 'edgetech';
   const args = process.argv.slice(2);
   const accountIdx = args.indexOf('--account');
   if (accountIdx !== -1 && args[accountIdx + 1]) {

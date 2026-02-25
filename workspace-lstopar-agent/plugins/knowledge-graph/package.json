@@ -1,0 +1,13 @@
+{
+  "name": "@openclaw/knowledge-graph",
+  "version": "0.1.0",
+  "description": "Knowledge graph plugin for OpenClaw — extracts facts, stores as vector-searchable relations",
+  "type": "commonjs",
+  "dependencies": {
+    "better-sqlite3": "^11.0.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.0",
+    "@types/node": "^22.0.0"
+  }
+}

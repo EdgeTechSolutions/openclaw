@@ -32,6 +32,17 @@ Things like:
 - `/workspace/tmp/` persists across container restarts but is excluded from git
 - Example: `write("tmp/confluence-update.md", content)` then reference from exec
 
+## Confluence CLI
+
+- **Never use `--format markdown`** — it breaks JSON code blocks (HTML entity escaping)
+- **Always convert markdown → Confluence storage format (XHTML)** using the converter script at `/workspace/tmp/md-to-confluence.cjs`
+- Workflow:
+  1. Write content as markdown to a `.md` file
+  2. Convert: `NODE_PATH=/workspace/.npm-global/lib/node_modules node /workspace/tmp/md-to-confluence.cjs input.md output.html`
+  3. Upload: `confluence update <pageId> --file output.html --format storage`
+- The converter handles: code blocks → `<ac:structured-macro>` with CDATA, blockquotes → info macros, tables, etc.
+- Requires `marked` npm package (installed at `/workspace/.npm-global/lib/node_modules/marked`)
+
 ## SSH
 
 - home-server → 192.168.1.100, user: admin
