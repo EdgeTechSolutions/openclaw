@@ -1,13 +1,3 @@
 {
-  "entries": [
-    {
-      "containerName": "openclaw-sbx-browser-agent-lstopar-agent-888f1ee3",
-      "sessionKey": "agent:lstopar-agent",
-      "createdAtMs": 1771962056425,
-      "lastUsedAtMs": 1771962105191,
-      "image": "openclaw-sandbox-browser:bookworm-slim",
-      "configHash": "54c090158e7107fcdc12ee9c9becd00abb5f8c80af88ba7e72161a0b0b1aa243",
-      "cdpPort": 32774
-    }
-  ]
+  "entries": []
 }

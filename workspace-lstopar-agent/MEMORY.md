@@ -43,6 +43,12 @@
 - Needs rebuild after container restarts (extract, npm install, tsc)
 - Not yet enabled as OpenClaw tool (`tools.alsoAllow: ["lobster"]`)
 
+### **Document Creation Policy**
+- When creating documents, **upload to OneDrive** at: `OpenClaw-created` folder
+- OneDrive path: `/personal/luka_stopar_edgetech_si/Documents/OpenClaw-created`
+- SharePoint URL: `https://edgtch-my.sharepoint.com/my?id=%2Fpersonal%2Fluka%5Fstopar%5Fedgetech%5Fsi%2FDocuments%2FOpenClaw%2Dcreated`
+- Always send Luka a link to the uploaded file
+
 ### **Tool Preferences by Topic**
 - **Default email**: Use the **microsoft365 skill** (`node /workspace/skills/microsoft365/index.js --account default`) for email — this covers work emails, Microsoft 365 emails, and any unspecified email requests.
 - **Personal email only**: Use the **gog skill** (Google Workspace CLI) — only when Luka explicitly asks for personal/Gmail emails.

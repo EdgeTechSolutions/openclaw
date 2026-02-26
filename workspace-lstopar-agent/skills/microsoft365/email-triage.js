@@ -5,7 +5,7 @@ const { normalizeAccount } = require('./src/config');
 const GRAPH_BASE = 'https://graph.microsoft.com/v1.0';
 
 async function callGraph(endpoint, method = 'GET', body = null) {
-  const account = normalizeAccount('default');
+  const account = normalizeAccount(process.env.MS365_ACCOUNT || 'edgetech');
   const token = await getAccessToken(account);
   if (!token) throw new Error('No access token');
   const headers = { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' };
