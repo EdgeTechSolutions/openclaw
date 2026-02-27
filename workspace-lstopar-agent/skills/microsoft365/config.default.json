@@ -1,5 +1,5 @@
 {
   "clientId": "c1822e94-7d20-44d0-b24e-8656daa7b472",
   "tenantId": "130de1f0-a960-4013-9fe3-2e4ee5ee3d50",
-  "scopes": "User.Read Mail.Read Mail.Send Calendars.ReadWrite Contacts.ReadWrite Files.ReadWrite.All offline_access"
+  "scopes": "User.Read Mail.ReadWrite Mail.Send Calendars.ReadWrite Contacts.ReadWrite Files.ReadWrite.All offline_access"
 }

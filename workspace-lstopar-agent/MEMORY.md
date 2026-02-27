@@ -81,7 +81,7 @@ The **Nightly Personal Email Categorizer** cron job runs every night at 05:00 Eu
 | Bitstamp | No |
 | Wise | No |
 | GitHub | No |
-| Revolut | No |
+| Revolut | **Yes** |
 | Forums | No |
 | Calendar / Zoom / Amazon | No |
 | Other | No |

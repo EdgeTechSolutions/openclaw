@@ -40,7 +40,7 @@
       "name": "Daily Jira Task Summary (Topic 2241)",
       "enabled": true,
       "createdAtMs": 1770579310819,
-      "updatedAtMs": 1772040611806,
+      "updatedAtMs": 1772127078693,
       "schedule": {
         "kind": "cron",
         "expr": "30 18 * * 1-5",
@@ -59,11 +59,12 @@
         "to": "8403014547"
       },
       "state": {
-        "nextRunAtMs": 1772127000000,
-        "lastRunAtMs": 1772040600040,
-        "lastStatus": "ok",
-        "lastDurationMs": 11766,
-        "consecutiveErrors": 0
+        "nextRunAtMs": 1772213400000,
+        "lastRunAtMs": 1772127000053,
+        "lastStatus": "error",
+        "lastDurationMs": 78640,
+        "consecutiveErrors": 1,
+        "lastError": "cron announce delivery failed"
       }
     },
     {
@@ -72,7 +73,7 @@
       "name": "Weekly LLM Research Scan",
       "enabled": true,
       "createdAtMs": 1770623566456,
-      "updatedAtMs": 1771528170630,
+      "updatedAtMs": 1772121854783,
       "schedule": {
         "kind": "cron",
         "expr": "0 17 * * 4",
@@ -92,11 +93,12 @@
         "to": "8403014547"
       },
       "state": {
-        "nextRunAtMs": 1772121600000,
-        "lastRunAtMs": 1771527984992,
-        "lastStatus": "ok",
-        "lastDurationMs": 185638,
-        "consecutiveErrors": 0
+        "nextRunAtMs": 1772726400000,
+        "lastRunAtMs": 1772121600050,
+        "lastStatus": "error",
+        "lastDurationMs": 254733,
+        "consecutiveErrors": 1,
+        "lastError": "cron announce delivery failed"
       }
     },
     {
@@ -105,7 +107,7 @@
       "name": "Weekly Context Engineering Research Update",
       "enabled": true,
       "createdAtMs": 1770732557177,
-      "updatedAtMs": 1771365057954,
+      "updatedAtMs": 1772122109019,
       "schedule": {
         "kind": "cron",
         "expr": "0 17 * * 4",
@@ -125,11 +127,12 @@
         "to": "8403014547"
       },
       "state": {
-        "nextRunAtMs": 1772121600000,
-        "lastRunAtMs": 1771363196958,
-        "lastStatus": "ok",
-        "lastDurationMs": 57613,
-        "consecutiveErrors": 0
+        "nextRunAtMs": 1772726400000,
+        "lastRunAtMs": 1772121854783,
+        "lastStatus": "error",
+        "lastDurationMs": 254236,
+        "consecutiveErrors": 1,
+        "lastError": "cron announce delivery failed"
       }
     },
     {
@@ -138,7 +141,7 @@
       "name": "Daily OpenClaw Directory Backup",
       "enabled": true,
       "createdAtMs": 1771023878360,
-      "updatedAtMs": 1771981253019,
+      "updatedAtMs": 1772067633819,
       "schedule": {
         "kind": "cron",
         "expr": "0 2 * * *",
@@ -157,12 +160,12 @@
         "to": "8403014547"
       },
       "state": {
-        "nextRunAtMs": 1772067600000,
-        "lastRunAtMs": 1771981200022,
+        "nextRunAtMs": 1772154000000,
+        "lastRunAtMs": 1772067600042,
         "lastStatus": "ok",
-        "lastDurationMs": 52997,
+        "lastDurationMs": 33777,
         "consecutiveErrors": 0,
-        "runningAtMs": 1772067600036
+        "runningAtMs": 1772154000028
       }
     },
     {
@@ -171,7 +174,7 @@
       "name": "Email Triage Agent",
       "enabled": true,
       "createdAtMs": 1771190372608,
-      "updatedAtMs": 1772046071106,
+      "updatedAtMs": 1772138914371,
       "schedule": {
         "kind": "cron",
         "expr": "0 8,11,15,20 * * 1-5,0",
@@ -181,22 +184,21 @@
       "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
-        "message": "#### **CRITICAL: Always Try Before Reporting Failure**\nYou MUST always call `microsoft365_ms365_list_messages` to fetch emails before concluding anything about authentication or tool availability. Do NOT rely on previous cron run history to determine if tools are working — previous failures may have been transient and are likely already resolved. If a tool call fails, report the actual error message. Never skip tool calls based on assumptions from past runs.\n\n### Email Triage Agent\n\n#### **Identity**\nYou are acting on behalf of **Luka Stopar** (luka.stopar@edgetech.si). All draft responses MUST be written as if Luka Stopar is the author. Sign all drafts as \"Luka\" or \"Luka Stopar\". Never use any other name or persona.\n\n#### **Email Retrieval**\n1. Fetch emails from my Microsoft 365 inbox.\n2. Only retrieve emails received since the last job run minus 3 hours (to catch delays).\n3. Before processing each email, check semantic memory for the email's `messageId`.\n4. Skip emails already stored in memory.\n\n#### **Email Classification & Actions**\nFor each unprocessed email, classify it into one of these categories and take the corresponding action:\n\n1. **Marketing**\n   - **Action**: Archive the email (move to Archive folder).\n   - **Summary**: Include in Telegram summary as \"Archived (marketing)\".\n\n2. **Newsletter**\n   - **Action**: Click the unsubscribe link in the email body automatically, then archive.\n   - **Summary**: Include in Telegram summary as \"Unsubscribed\".\n\n3. **Tool Notifications**\n   - **Criteria**: Emails from GitHub, Confluence, Jira, Atlassian, or other development/project management tools.\n   - **Action**: None – leave as-is.\n   - **Summary**: Include in Telegram summary as \"Tool notification\".\n\n4. **Actionable (requires my response)**\n   - **Action**:\n     1. Compose a natural, human-like response text using the `ai-humanizer` skill. Remember: you are writing as **Luka Stopar**, sign off as \"Luka\" or \"LP, Luka\".\n     2. Call the `microsoft365_ms365_create_reply_all_draft` tool with the `body` parameter set to the composed response text. This creates the draft directly in Outlook. Example:\n        ```\n        microsoft365_ms365_create_reply_all_draft(\n          message_id=\"<original-message-id>\",\n          body=\"<your composed response text>\",\n          body_type=\"text\"\n        )\n        ```\n     3. The tool response will contain a **`Link:`** field — this is the **draft webLink**. Save this URL. Do NOT use the link from the original email.\n   - **IMPORTANT**: Do NOT delegate draft writing to a sub-agent. You MUST call the `microsoft365_ms365_create_reply_all_draft` tool yourself with the `body` parameter to create the draft.\n   - **IMPORTANT**: For the Telegram summary, use the **`Link:`** from the `ms365_create_reply_all_draft` tool response (the draft link), NOT the link from the original email or `ms365_get_message`. These are different URLs.\n   - **Summary**: Include in Telegram summary as \"Draft ready\" with the draft link.\n\n5. **Informational**\n   - **Criteria**: Emails that inform me but don't require action (confirmations, receipts, FYI messages).\n   - **Action**: Leave as-is.\n   - **Summary**: Include in Telegram summary as \"Informational\".\n\n#### **Memory Storage**\nAfter processing each email, store the following in semantic memory:\n- `messageId`\n- `subject`\n- `sender`\n- `received timestamp`\n- `classification category`\n- `action taken`\n- Brief content summary (for future queries).\n\n#### **Telegram Summary**\nPost a summary to Telegram topic `#comm @all` (topic ID: `761`). Format:\n```\n📬 Email Summary – {date} {time}\n\n{foreach email}:\n- 📌 **[{classification}] Subject**: \"{subject}\"\n  **From**: {sender}\n  **Action**: {action taken}\n  {if action == \"Draft ready\"} 🔗 [View Draft]({DRAFT link from ms365_create_reply_all_draft response, NOT the original email link}) {endif}\n{endforeach}\n\n**Processed**: {count} | **Archived**: {count} | **Drafts created**: {count}\n#openclaw #email\n```\n\n**Important**:\n- Use the `message` tool to post the summary to Telegram topic `761` in chat `8403014547`. Example:\n  ```json\n  {\n    \"action\": \"send\",\n    \"to\": \"8403014547\",\n    \"message\": \"Your summary here\",\n    \"threadId\": \"761\"\n  }\n  ```\n\n#### **Tools to Use**\n- `microsoft365_ms365_list_messages`: Fetch emails.\n- `microsoft365_ms365_get_message`: Retrieve email content.\n- `microsoft365_ms365_move_message`: Archive emails.\n- `microsoft365_ms365_create_reply_all_draft`: Create Reply All drafts with body content. Always pass the `body` parameter with the composed response text. The response contains the draft's `Link:` URL — use THIS for the Telegram summary, not the original email's link.\n- `memory_search`: Check if an email is already processed.\n- `memory_get`: Retrieve stored email data.\n- `write`: Store email data in memory.\n- `message`: Post the summary to Telegram.",
+        "message": "### Email Triage Agent\n\n#### CRITICAL: Use CLI commands\nThe Microsoft 365 skill is a CLI tool. Use `exec` to call it.\n\nCLI reference:\n- **List emails** (last N hours): `node /workspace/skills/microsoft365/email-triage.js list <hours>`\n- **Get full email**: `node /workspace/skills/microsoft365/email-triage.js get <messageId>`\n- **Move to archive**: `node /workspace/skills/microsoft365/email-triage.js move <messageId> archive`\n- **Create reply-all draft**: `echo \"<body text>\" | node /workspace/skills/microsoft365/email-triage.js reply-draft <messageId>`\n\nAll commands output JSON.\n\n#### Identity\nYou are acting on behalf of **Luka Stopar** (luka.stopar@edgetech.si). All draft responses MUST be written as if Luka Stopar is the author. Sign all drafts as \"Luka\" or \"LP, Luka\". Never use any other name or persona.\n\n#### Email Retrieval\n1. Run `node /workspace/skills/microsoft365/email-triage.js list 50` to fetch the last 50 emails.\n2. Before processing each email, check semantic memory for the email's `messageId`.\n3. Skip emails already stored in memory.\n\n#### Email Classification & Actions\nFor each unprocessed email, classify it into one of these categories and take the corresponding action:\n\n1. **Marketing**\n   - **Action**: Archive the email: `node /workspace/skills/microsoft365/email-triage.js move <id> archive`\n   - Also attempt to unsubscribe: inspect the email body/headers for an unsubscribe link (`List-Unsubscribe` header or link containing \"unsubscribe\"/\"opt out\"). If found, perform an HTTP GET to that URL. Record outcome as `unsubscribed` or `unsubscribe_failed`.\n\n2. **Newsletter**\n   - **Action**: Archive the email.\n   - Also attempt to unsubscribe (same process as Marketing).\n\n3. **Tool Notifications**\n   - **Criteria**: Emails from GitHub, Confluence, Jira, Atlassian, Conductor, or other development/project management tools.\n   - **Action**: Archive the email: `node /workspace/skills/microsoft365/email-triage.js move <id> archive`\n\n4. **Actionable (requires my response)**\n   - **Action**:\n     1. First, search your semantic memory and Confluence for information relevant to drafting a response.\n     2. If you find sufficient information to compose a complete, accurate answer:\n        - Compose a natural, human-like response as **Luka Stopar**, sign off as \"Luka\" or \"LP, Luka\".\n        - Create the draft: `echo \"<your response text>\" | node /workspace/skills/microsoft365/email-triage.js reply-draft <messageId>`\n        - The command outputs JSON with `draftId` and `link` — save the `link` for the Telegram summary.\n     3. If you do NOT have enough information to draft a confident answer, leave the email as-is. Do not guess or fabricate information.\n   - **Summary**: \"Draft ready\" with draft link, or \"Needs manual response\" if insufficient info.\n\n5. **Informational**\n   - **Criteria**: Emails that inform but don't require action (confirmations, receipts, FYI messages).\n   - **Action**: Leave as-is.\n\n6. **Invitations**\n   - **Criteria**: Invitations to events, meetings, conferences, webinars, presentations, or similar gatherings.\n   - **Action**:\n     1. Extract event details: title, date/time, location (physical or virtual link), organizer.\n     2. Create a calendar event using the Microsoft 365 skill or calendar API.\n     3. After the calendar event is created, archive the email: `node /workspace/skills/microsoft365/email-triage.js move <id> archive`\n   - **Summary**: \"Calendar event created & archived\" with event details.\n\n#### Memory Storage\nAfter processing each email, append to `memory/email-triage-log.md`:\n- `messageId`, `subject`, `sender`, `received timestamp`, `classification`, `action taken`\n\n#### Telegram Summary\nPost a summary to Telegram topic `#comm @all` (topic ID: `761`). Use the `message` tool:\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"<your summary>\",\n  \"threadId\": \"761\"\n}\n```\n\nFormat — group emails by category. For each email show the subject as an Outlook link and a 1-2 sentence summary:\n\n```\n📬 M365 Email Triage — {date} {time}\n\n📊 {total} processed | 🗂 {archived} archived | 🚫 {unsubscribed} unsubscribed | ✉️ {drafts} drafts | 📅 {events} calendar events\n\n━━━━━━━━━━━━━━━━━━━━━\n✉️ Actionable ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• [Subject](https://outlook.office.com/mail/id/{messageId}) — {1-2 sentence summary}\n  {if draft} 🔗 [View Draft]({draft link}) {endif}\n  {if no draft} ⚠️ Needs manual response {endif}\n\n━━━━━━━━━━━━━━━━━━━━━\n📅 Invitations — Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• {Subject} — {1-2 sentence summary}\n  📅 Event created: {title} @ {date/time} [archived]\n\n━━━━━━━━━━━━━━━━━━━━━\nℹ️ Informational ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• [Subject](https://outlook.office.com/mail/id/{messageId}) — {1-2 sentence summary}\n\n━━━━━━━━━━━━━━━━━━━━━\n🔧 Tool Notifications — Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• {Subject} — {1-2 sentence summary} [archived]\n\n━━━━━━━━━━━━━━━━━━━━━\n📰 Newsletters — Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• {Subject} — {1-2 sentence summary} [archived] {unsubscribed ✓ / unsubscribe failed}\n\n━━━━━━━━━━━━━━━━━━━━━\n🏷️ Marketing — Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• {Subject} — {1-2 sentence summary} [archived] {unsubscribed ✓ / unsubscribe failed}\n\n#openclaw #email\n```\n\nRules:\n- Only include categories with at least 1 email.\n- Non-archived emails MUST have the subject as an Outlook link.\n- Archived categories don't need links.\n- Keep subject lines truncated to 60 chars if needed.\n- If a category has more than 10 emails, show first 10 and append \"… and {N} more\".\n\nDo NOT post to any other Telegram topic.",
         "model": "anthropic/claude-opus-4-6",
         "thinking": "on"
       },
       "delivery": {
-        "mode": "announce",
+        "mode": "none",
         "channel": "telegram",
         "to": "8403014547"
       },
       "state": {
-        "lastRunAtMs": 1772046000041,
-        "lastStatus": "error",
-        "lastDurationMs": 71065,
-        "consecutiveErrors": 3,
-        "nextRunAtMs": 1772089200000,
-        "lastError": "cron announce delivery failed"
+        "lastRunAtMs": 1772132400042,
+        "lastStatus": "ok",
+        "lastDurationMs": 10990,
+        "consecutiveErrors": 0,
+        "nextRunAtMs": 1772175600000
       }
     },
     {
@@ -205,7 +207,7 @@
       "name": "Nightly Personal Gmail Triage",
       "enabled": true,
       "createdAtMs": 1771618729376,
-      "updatedAtMs": 1771992202274,
+      "updatedAtMs": 1772137041708,
       "schedule": {
         "kind": "cron",
         "expr": "0 5 * * *",
@@ -217,19 +219,19 @@
         "kind": "agentTurn",
         "model": "anthropic/claude-opus-4-6",
         "thinking": "on",
-        "message": "## Nightly Personal Gmail Triage\n\n### Step 1 — Fetch Emails\n\nUse the `gog` skill to fetch all emails received in the last 27 hours from the personal Gmail inbox:\n\n```\ngog gmail search 'newer_than:27h' --max 200 --json\n```\n\nIf the result is empty, post a brief \"No new emails\" message to Telegram (topic 1299) and stop.\n\nFor each email, fetch its full content including headers, body, and attachment list:\n```\ngog gmail get <message-id> --json\n```\n\n### Step 1b — Deduplicate Against Memory\n\nBefore processing any email, check semantic memory to skip already-processed ones:\n- For each message ID, call `memory_search` with the query `gmail_triage:<message-id>`.\n- If a match is found, **skip that email** — it was handled in a previous run.\n- Only proceed to Step 2 for emails **not** found in memory.\n\nIf every fetched email is already in memory, post \"No new emails to process (all already handled)\" to Telegram topic 1299 and stop.\n\n### Step 2 — Classify Each Email\n\nClassify every email into exactly one of the following categories based on sender domain, subject, and content. Use the sender patterns as primary signal:\n\n| Category | Sender / Signal |\n|---|---|\n| **Personal / Work** | @stopar.si, @edgetech.si, @gmail.com (personal contacts), direct human correspondence |\n| **Updates & Notifications** | OpenRouter, Mistral, service status emails, app notifications, automated system alerts |\n| **LinkedIn** | @linkedin.com, any LinkedIn jobs/invitations/social |\n| **Promotions** | OpenRouter promotions, Altroke, Zsport, marketing campaigns, discount offers |\n| **Invoices** | Emails containing PDF/document attachments that are invoices, receipts, or billing statements; subject contains \"invoice\", \"receipt\", \"bill\", \"faktura\", or similar; from any billing sender |\n| **Trading 212** | @trading212.com, portfolio alerts, trading notifications |\n| **Qogita (Wholesale)** | @qogita.com, B2B product offers |\n| **Google Workspace** | Google admin alerts, storage warnings, Workspace notifications |\n| **Google (Other)** | Google security alerts, account notices, non-Workspace Google emails |\n| **Apple** | @apple.com, iCloud billing, Apple ID notices |\n| **Bitstamp** | @bitstamp.net, crypto/tax notifications |\n| **Wise** | @wise.com, finance updates |\n| **GitHub** | @github.com, @noreply.github.com, notifications |\n| **Revolut** | @revolut.com, finance updates |\n| **Forums** | Community threads, forum digests, mailing lists |\n| **Calendar / Zoom / Amazon** | Calendar invites, @zoom.us, @amazon.com |\n\nIf an email doesn't fit any category above, place it in **Personal / Work**.\n\n### Step 3 — Upload Invoice Attachments to Google Drive\n\nFor every email classified as **Invoices**:\n\n1. **Identify attachments** from the email JSON (look for `attachments` or `parts` with `filename` ending in `.pdf`, `.docx`, `.xlsx`, or similar document types).\n\n2. **Download each attachment** using the `gog` skill:\n   ```\n   gog gmail attachment <message-id> <attachment-id> --out /tmp/<filename>\n   ```\n\n3. **Determine the target subfolder** from the email's received date:\n   - Format: `yyyy-MM` (e.g. `2026-02` for February 2026).\n   - Parent Drive folder ID: `1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC`\n   - Check if the `yyyy-MM` subfolder already exists:\n     ```\n     gog drive ls --parent 1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC --json\n     ```\n   - If it does not exist, create it:\n     ```\n     gog drive mkdir \"<yyyy-MM>\" --parent 1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC\n     ```\n\n4. **Upload the attachment** into the subfolder:\n   ```\n   gog drive upload /tmp/<filename> --parent <subfolder-id>\n   ```\n\n5. **Record outcome** per attachment:\n   - `uploaded` — upload succeeded; note the Drive file ID and name.\n   - `upload_failed` — upload failed; note the error.\n   - `no_attachment` — email had no recognisable document attachment.\n\n6. Do **not** archive Invoice emails — leave them in the inbox so they remain visible.\n\n### Step 4 — Unsubscribe from Promotions\n\nFor every email classified as **Promotions**:\n\n1. Inspect the email body (already fetched in Step 1) for an unsubscribe link. Look for:\n   - A `List-Unsubscribe` header (preferred — check headers in the `gog gmail get` JSON output).\n   - A hyperlink in the body whose text contains \"unsubscribe\", \"opt out\", \"opt-out\", or similar (case-insensitive).\n2. If an unsubscribe URL is found, perform an HTTP GET request to that URL using the `fetch` tool (or `exec curl <url>` as fallback). Follow redirects.\n3. Record the outcome per email:\n   - `unsubscribed` — request succeeded (2xx or redirect to confirmation page).\n   - `unsubscribe_failed` — request failed or no URL found.\n4. After unsubscribing (or attempting), archive the email using the `gog` skill:\n   ```\n   gog gmail thread modify <thread-id> --remove INBOX\n   ```\n\n### Step 5 — Archive Automatically\n\nFor emails in these categories (excluding Promotions handled in Step 4 and Invoices handled in Step 3), archive them using the `gog` skill:\n```\ngog gmail thread modify <thread-id> --remove INBOX\n```\n\nCategories to auto-archive:\n- **Updates & Notifications**\n- **LinkedIn**\n- **GitHub** (low-priority notifications)\n\nDo NOT archive: Personal / Work, Invoices, Trading 212, Qogita, Google Workspace, Google (Other), Apple, Bitstamp, Wise, Revolut, Forums, Calendar / Zoom / Amazon.\n\n### Step 6 — Build Telegram Summary\n\nCompose a Telegram message summarising all emails grouped by category. Format:\n\n```\n📬 Gmail Triage — {date} {time CET}\n\n📊 {total} emails | 🗂 {archived} archived | 🚫 {unsubscribed} unsubscribed | 🧾 {invoices_uploaded} invoices uploaded\n\n━━━━━━━━━━━━━━━━━━━━━\n👤 Personal / Work ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender 🔗 https://mail.google.com/mail/u/0/#inbox/{thread-id}\n\n[Other non-archived categories follow the same pattern with a Gmail link]\n\n━━━━━━━━━━━━━━━━━━━━━\n🧾 Invoices ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender [uploaded: filename.pdf → Drive/yyyy-MM] 🔗 https://mail.google.com/mail/u/0/#inbox/{thread-id}\n• \"Subject\" — sender [upload failed] 🔗 ...\n• \"Subject\" — sender [no attachment] 🔗 ...\n\n━━━━━━━━━━━━━━━━━━━━━\n🚫 Promotions — Unsubscribed & Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender [unsubscribed ✓]\n• \"Subject\" — sender [unsubscribe failed]\n\n━━━━━━━━━━━━━━━━━━━━━\n🗂 Archived — Updates & Notifications ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender [archived]\n```\n\nRules:\n- Only include categories that have at least 1 email.\n- Non-archived emails (including Invoices) MUST include a direct Gmail link: `https://mail.google.com/mail/u/0/#inbox/{thread-id}`\n- Invoices show the upload outcome and filename; link to original email is included.\n- Promotions show `[unsubscribed ✓]` or `[unsubscribe failed]` per item, no link.\n- Other archived categories show `[archived]`, no link.\n- Keep subject lines quoted and truncated to 60 chars if needed.\n- If a category has more than 10 emails, show the first 10 and append \"… and {N} more\".\n\n### Step 7 — Post to Telegram\n\nUse the `message` tool to post to topic `1299` (`#comm @personal`) in chat `8403014547`:\n\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"<your composed summary>\",\n  \"threadId\": \"1299\"\n}\n```\n\nDo NOT post to any other Telegram topic.\n\n### Step 8 — Memory\n\nAfter the run, store in semantic memory:\n- Run timestamp\n- Total emails processed and count per category\n- Each processed message ID as key `gmail_triage:<message-id>` (used for deduplication in future runs)\n- Unsubscribe outcomes for Promotions emails\n- Drive file IDs and filenames of uploaded invoices\n"
+        "message": "## Nightly Personal Gmail Triage\n\n### Step 1 — Fetch Emails\n\nUse the `gog` skill to fetch all emails received in the last 27 hours from the personal Gmail inbox:\n\n```\ngog gmail search 'newer_than:27h' --max 200 --json\n```\n\nIf the result is empty, post a brief \"No new emails\" message to Telegram (topic 1299) and stop.\n\nFor each email, fetch its full content including headers, body, and attachment list:\n```\ngog gmail get <message-id> --json\n```\n\n### Step 1b — Deduplicate Against Memory\n\nBefore processing any email, check semantic memory to skip already-processed ones:\n- For each message ID, call `memory_search` with the query `gmail_triage:<message-id>`.\n- If a match is found, **skip that email** — it was handled in a previous run.\n- Only proceed to Step 2 for emails **not** found in memory.\n\nIf every fetched email is already in memory, post \"No new emails to process (all already handled)\" to Telegram topic 1299 and stop.\n\n### Step 2 — Classify Each Email\n\nClassify every email into exactly one of the following categories based on sender domain, subject, and content. Use the sender patterns as primary signal:\n\n| Category | Sender / Signal |\n|---|---|\n| **Personal / Work** | @stopar.si, @edgetech.si, @gmail.com (personal contacts), direct human correspondence |\n| **Updates & Notifications** | OpenRouter, Mistral, service status emails, app notifications, automated system alerts |\n| **LinkedIn** | @linkedin.com, any LinkedIn jobs/invitations/social |\n| **Promotions** | OpenRouter promotions, Altroke, Zsport, marketing campaigns, discount offers |\n| **Invoices** | Emails containing PDF/document attachments that are invoices, receipts, or billing statements; subject contains \"invoice\", \"receipt\", \"bill\", \"faktura\", or similar; from any billing sender |\n| **Trading 212** | @trading212.com, portfolio alerts, trading notifications |\n| **Qogita (Wholesale)** | @qogita.com, B2B product offers |\n| **Google Workspace** | Google admin alerts, storage warnings, Workspace notifications |\n| **Google (Other)** | Google security alerts, account notices, non-Workspace Google emails |\n| **Apple** | @apple.com, iCloud billing, Apple ID notices |\n| **Bitstamp** | @bitstamp.net, crypto/tax notifications |\n| **Wise** | @wise.com, finance updates |\n| **GitHub** | @github.com, @noreply.github.com, notifications |\n| **Revolut** | @revolut.com, finance updates |\n| **Forums** | Community threads, forum digests, mailing lists |\n| **Calendar / Zoom / Amazon** | Calendar invites, @zoom.us, @amazon.com |\n\nIf an email doesn't fit any category above, place it in **Personal / Work**.\n\n### Step 3 — Upload Invoice Attachments to Google Drive\n\nFor every email classified as **Invoices**:\n\n1. **Identify attachments** from the email JSON (look for `attachments` or `parts` with `filename` ending in `.pdf`, `.docx`, `.xlsx`, or similar document types).\n\n2. **Download each attachment** using the `gog` skill:\n   ```\n   gog gmail attachment <message-id> <attachment-id> --out /tmp/<filename>\n   ```\n\n3. **Determine the target subfolder** from the email's received date:\n   - Format: `yyyy-MM` (e.g. `2026-02` for February 2026).\n   - Parent Drive folder ID: `1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC`\n   - Check if the `yyyy-MM` subfolder already exists:\n     ```\n     gog drive ls --parent 1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC --json\n     ```\n   - If it does not exist, create it:\n     ```\n     gog drive mkdir \"<yyyy-MM>\" --parent 1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC\n     ```\n\n4. **Upload the attachment** into the subfolder:\n   ```\n   gog drive upload /tmp/<filename> --parent <subfolder-id>\n   ```\n\n5. **Record outcome** per attachment:\n   - `uploaded` — upload succeeded; note the Drive file ID and name.\n   - `upload_failed` — upload failed; note the error.\n   - `no_attachment` — email had no recognisable document attachment.\n\n6. Do **not** archive Invoice emails — leave them in the inbox so they remain visible.\n\n### Step 4 — Unsubscribe from Promotions\n\nFor every email classified as **Promotions**:\n\n1. Inspect the email body (already fetched in Step 1) for an unsubscribe link. Look for:\n   - A `List-Unsubscribe` header (preferred — check headers in the `gog gmail get` JSON output).\n   - A hyperlink in the body whose text contains \"unsubscribe\", \"opt out\", \"opt-out\", or similar (case-insensitive).\n2. If an unsubscribe URL is found, perform an HTTP GET request to that URL using the `fetch` tool (or `exec curl <url>` as fallback). Follow redirects.\n3. Record the outcome per email:\n   - `unsubscribed` — request succeeded (2xx or redirect to confirmation page).\n   - `unsubscribe_failed` — request failed or no URL found.\n4. After unsubscribing (or attempting), archive the email using the `gog` skill:\n   ```\n   gog gmail thread modify <thread-id> --remove INBOX\n   ```\n\n### Step 5 — Archive Automatically\n\nFor emails in these categories (excluding Promotions handled in Step 4 and Invoices handled in Step 3), archive them using the `gog` skill:\n```\ngog gmail thread modify <thread-id> --remove INBOX\n```\n\nCategories to auto-archive:\n- **Updates & Notifications**\n- **LinkedIn**\n- **GitHub** (low-priority notifications)\n- **Revolut**\n\nDo NOT archive: Personal / Work, Invoices, Trading 212, Qogita, Google Workspace, Google (Other), Apple, Bitstamp, Wise, Forums, Calendar / Zoom / Amazon.\n\n### Step 6 — Build Telegram Summary\n\nCompose a Telegram message summarising all emails grouped by category. Format:\n\n```\n📬 Gmail Triage — {date} {time CET}\n\n📊 {total} emails | 🗂 {archived} archived | 🚫 {unsubscribed} unsubscribed | 🧾 {invoices_uploaded} invoices uploaded\n\n━━━━━━━━━━━━━━━━━━━━━\n👤 Personal / Work ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender 🔗 https://mail.google.com/mail/u/0/#inbox/{thread-id}\n\n[Other non-archived categories follow the same pattern with a Gmail link]\n\n━━━━━━━━━━━━━━━━━━━━━\n🧾 Invoices ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender [uploaded: filename.pdf → Drive/yyyy-MM] 🔗 https://mail.google.com/mail/u/0/#inbox/{thread-id}\n• \"Subject\" — sender [upload failed] 🔗 ...\n• \"Subject\" — sender [no attachment] 🔗 ...\n\n━━━━━━━━━━━━━━━━━━━━━\n🚫 Promotions — Unsubscribed & Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender [unsubscribed ✓]\n• \"Subject\" — sender [unsubscribe failed]\n\n━━━━━━━━━━━━━━━━━━━━━\n🗂 Archived — Updates & Notifications ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender [archived]\n\n━━━━━━━━━━━━━━━━━━━━━\n🗂 Archived — Revolut ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender [archived]\n```\n\nRules:\n- Only include categories that have at least 1 email.\n- Non-archived emails (including Invoices) MUST include a direct Gmail link: `https://mail.google.com/mail/u/0/#inbox/{thread-id}`\n- Invoices show the upload outcome and filename; link to original email is included.\n- Promotions show `[unsubscribed ✓]` or `[unsubscribe failed]` per item, no link.\n- Other archived categories show `[archived]`, no link.\n- Keep subject lines quoted and truncated to 60 chars if needed.\n- If a category has more than 10 emails, show the first 10 and append \"… and {N} more\".\n\n### Step 7 — Post to Telegram\n\nUse the `message` tool to post to topic `1299` (`#comm @personal`) in chat `8403014547`:\n\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"<your composed summary>\",\n  \"threadId\": \"1299\"\n}\n```\n\nDo NOT post to any other Telegram topic.\n\n### Step 8 — Memory\n\nAfter the run, store in semantic memory:\n- Run timestamp\n- Total emails processed and count per category\n- Each processed message ID as key `gmail_triage:<message-id>` (used for deduplication in future runs)\n- Unsubscribe outcomes for Promotions emails\n- Drive file IDs and filenames of uploaded invoices"
       },
       "delivery": {
-        "mode": "announce",
+        "mode": "none",
         "channel": "telegram",
         "to": "8403014547"
       },
       "state": {
-        "consecutiveErrors": 2,
-        "nextRunAtMs": 1772078400000,
-        "lastRunAtMs": 1771992000041,
+        "consecutiveErrors": 3,
+        "nextRunAtMs": 1772164800000,
+        "lastRunAtMs": 1772078400040,
         "lastStatus": "error",
-        "lastDurationMs": 202233,
+        "lastDurationMs": 187070,
         "lastError": "cron announce delivery failed"
       }
     }

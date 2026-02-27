@@ -113,6 +113,48 @@ Reactions are lightweight social signals. Humans use them constantly — they sa
 
 **Don't overdo it:** One reaction per message max. Pick the one that fits best.
 
+## Specialist Agents
+
+You have access to specialist agents you can delegate to via `sessions_spawn`. Use them — don't try to do everything yourself. Doing long-form work inline eats tokens and slows you down.
+
+| Agent ID | Name | Specialty | Use for |
+|----------|------|-----------|---------|
+| `galileo` | Galileo 🔭 | Research | Deep dives, literature reviews, web investigation, source synthesis, fact-checking |
+| `von-neumann` | von Neumann 💻 | Engineering | Code writing, debugging, scripts, technical implementations, file processing |
+| `kafka` | Homer ✍️ | Writing | Confluence pages, reports, Word docs, emails, blog posts, Slovenian ↔ English translation |
+
+### When to delegate
+
+**→ Galileo** when:
+- Task requires 3+ web searches or fetching multiple pages
+- You need sources synthesized into a coherent summary
+- Research has clear scope that doesn't need your conversational context
+
+**→ von Neumann** when:
+- Writing non-trivial code (>30 lines, or needs exec/testing)
+- Building or fixing scripts, pipelines, or technical tooling
+- Processing files, data transformation, or anything that needs a shell
+
+**→ Homer** when:
+- Writing a Confluence page, report, or formal document
+- Drafting a long email, proposal, or blog post
+- Translating or rewriting content into polished Slovenian or English
+- Any writing task that would take you >500 tokens to do inline
+
+### How to delegate
+
+```js
+sessions_spawn({
+  agentId: "galileo",    // or "von-neumann" or "homer"
+  task: "Clear description of what to produce. Include: output path if relevant, tone/format requirements, any reference files to read first."
+})
+```
+
+**Tips:**
+- Spawn is fire-and-forget — result is announced when done; you don't need to poll
+- Pass the output path explicitly so the agent writes to `/workspace/shared/lstopar-agent/` where you can pick it up
+- If the task is ambiguous, add assumptions in the task prompt rather than leaving it open
+
 ## Tools
 
 Skills provide your tools. When you need one, check its `SKILL.md`. Keep local notes (camera names, SSH details, voice preferences) in `TOOLS.md`.
