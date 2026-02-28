@@ -43,6 +43,17 @@ Things like:
 - The converter handles: code blocks → `<ac:structured-macro>` with CDATA, blockquotes → info macros, tables, etc.
 - Requires `marked` npm package (installed at `/workspace/.npm-global/lib/node_modules/marked`)
 
+## Sending Large Media (Videos, Large Images) via Telegram
+
+The `message` tool can't send local workspace files directly. Workaround:
+1. Upload to **litterbox.catbox.moe** (24h temp hosting):
+   ```bash
+   curl -s -F "reqtype=fileupload" -F "time=24h" -F "fileToUpload=@/path/to/file.mp4" https://litterbox.catbox.moe/resources/internals/api.php
+   ```
+2. Send the returned URL via `message(action=send, media=<url>)`
+
+For images: freeimage.host works (see existing pattern). For video: use litterbox.
+
 ## SSH
 
 - home-server → 192.168.1.100, user: admin

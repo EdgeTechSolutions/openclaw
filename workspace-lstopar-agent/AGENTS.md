@@ -121,7 +121,8 @@ You have access to specialist agents you can delegate to via `sessions_spawn`. U
 |----------|------|-----------|---------|
 | `galileo` | Galileo 🔭 | Research | Deep dives, literature reviews, web investigation, source synthesis, fact-checking |
 | `von-neumann` | von Neumann 💻 | Engineering | Code writing, debugging, scripts, technical implementations, file processing |
-| `kafka` | Homer ✍️ | Writing | Confluence pages, reports, Word docs, emails, blog posts, Slovenian ↔ English translation |
+| `homer` | Homer ✍️ | Writing | Confluence pages, reports, Word docs, emails, blog posts, Slovenian ↔ English translation |
+| `keynes` | Keynes 📈 | Trading & Finance | Portfolio analysis, market research, trading signals, position recommendations, risk assessment |
 
 ### When to delegate
 
@@ -141,19 +142,85 @@ You have access to specialist agents you can delegate to via `sessions_spawn`. U
 - Translating or rewriting content into polished Slovenian or English
 - Any writing task that would take you >500 tokens to do inline
 
+**→ Keynes** when:
+- User asks about portfolio, positions, balance, or P&L
+- Trading recommendations or "what should I buy/sell?"
+- Weekly/monthly portfolio reports
+- Market research tied to investment decisions
+- Risk analysis, sector exposure, or rebalancing suggestions
+- Any task that requires fetching Trading 212 data + market context
+
 ### How to delegate
 
+#### ⚠️ sessions_spawn is ALWAYS non-blocking
+
+`sessions_spawn` returns `{ status: "accepted" }` immediately — the sub-agent hasn't done anything yet. If you need the result **in your current run** (to continue your analysis, post to Telegram, etc.), you must use the **shared file pattern** below. Do NOT assume the result will arrive back in your context automatically.
+
+The announce fires after the sub-agent finishes, but it arrives as a separate Telegram message in a future session — it does NOT inject back into your running context.
+
+#### Pattern: spawn + poll (use this when you need the result)
+
+**Step 1 — Clean up any stale result file first:**
+```bash
+rm -f /workspace/shared/<agent>-result.md
+```
+
+**Step 2 — Spawn the sub-agent and instruct it to write output to the shared file:**
 ```js
 sessions_spawn({
-  agentId: "galileo",    // or "von-neumann" or "homer"
-  task: "Clear description of what to produce. Include: output path if relevant, tone/format requirements, any reference files to read first."
+  agentId: "galileo",   // or "von-neumann", "homer", "keynes"
+  task: `<your task description>
+
+When finished, write your complete output to: /workspace/shared/galileo-result.md
+Do NOT post anywhere else. Just write the file.`
 })
 ```
 
-**Tips:**
-- Spawn is fire-and-forget — result is announced when done; you don't need to poll
-- Pass the output path explicitly so the agent writes to `/workspace/shared/lstopar-agent/` where you can pick it up
+**Step 3 — Poll until the file appears (3-second interval, max ~5 minutes):**
+```bash
+timeout 300 bash -c 'until [ -f /workspace/shared/galileo-result.md ]; do sleep 3; done'
+```
+
+**Step 4 — Read the result:**
+```bash
+cat /workspace/shared/galileo-result.md
+```
+
+**Step 5 — Clean up:**
+```bash
+rm /workspace/shared/galileo-result.md
+```
+
+#### Output file naming convention
+
+| Agent | Output file |
+|---|---|
+| `galileo` | `/workspace/shared/galileo-result.md` |
+| `von-neumann` | `/workspace/shared/von-neumann-result.md` |
+| `homer` | `/workspace/shared/homer-result.md` |
+| `keynes` | `/workspace/shared/keynes-result.md` |
+
+For multiple concurrent spawns, add a suffix: `galileo-result-research1.md`, `galileo-result-research2.md`
+
+#### Fire-and-forget (only when you do NOT need the result inline)
+
+If you're delegating a task where the sub-agent posts its own output (e.g., directly to Telegram) and you don't need to act on the result, plain spawn is fine:
+
+```js
+sessions_spawn({
+  agentId: "keynes",
+  task: "Fetch portfolio data and post a summary to Telegram topic 701."
+})
+// Don't poll — Keynes handles delivery itself
+```
+
+#### Tips
+
+- Always delete the result file before spawning so a stale file from a previous run doesn't fool the poll
+- `timeout 300` gives the sub-agent 5 minutes; increase for long-running tasks (e.g., `timeout 600` for Galileo on deep research)
+- If the poll times out, check `sessions_list` for the sub-agent's status and log via `sessions_history`
 - If the task is ambiguous, add assumptions in the task prompt rather than leaving it open
+- Sub-agents only get `AGENTS.md` + `TOOLS.md` from their workspace — they do NOT receive `SOUL.md`, `USER.md`, or `IDENTITY.md`; include relevant context in the task prompt itself
 
 ## Tools
 

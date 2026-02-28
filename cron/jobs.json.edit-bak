@@ -3,22 +3,22 @@
   "jobs": [
     {
       "id": "c115a6e8-94b9-49f8-ba4b-f6de8ad10305",
-      "agentId": "main",
+      "agentId": "keynes",
       "name": "Weekly Trading Portfolio Report",
       "enabled": true,
       "createdAtMs": 1770578336587,
-      "updatedAtMs": 1771192640232,
+      "updatedAtMs": 1772224180515,
       "schedule": {
         "kind": "cron",
-        "expr": "0 9 * * 0",
+        "expr": "0 18 * * 5",
         "tz": "Europe/Ljubljana"
       },
       "sessionTarget": "isolated",
-      "wakeMode": "next-heartbeat",
+      "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
-        "message": "Generate a weekly report analyzing the user's Trading212 portfolio, macroeconomic news, and impactful events. Include:\n\n1. **Portfolio Summary**: Current holdings, allocation, performance (P&L), and key observations.\n2. **Macroeconomic Trends**: Global and regional economic updates (interest rates, inflation, growth, currencies).\n3. **Impactful Events**: Geopolitical, economic, and sector-specific events affecting markets.\n4. **Potential Impact**: How these trends/events could affect the user's portfolio, with clear scenarios.\n5. **Recommendations**: Short-term and long-term actions (e.g., rebalancing, hedging, profit-taking).\n\nUse the latest data from the Trading212 API and EventRegistry API. Format the report for clarity and readability.\n\nAfter completing the task, respond with:\n- A **success/failure indicator** (e.g., `✅ Success` or `❌ Failed`).\n- A **1-5 bullet-point summary** of what was accomplished. For example:\n  - Analyzed **15 open positions** in the portfolio.\n  - Identified **3 macroeconomic trends** impacting holdings.\n  - Recommended **2 actions** for risk mitigation.\n\n**Important**: Use the `message` tool to post the result to Telegram topic `729` (`#openclaw #cron`) in chat `8403014547`. Example:\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"Your result here\",\n  \"threadId\": \"729\"\n}\n```\n\nFormat the response for Telegram.",
-        "model": "synthetic/mistral-large-2512",
+        "message": "Generate a weekly report analyzing Luka's Trading212 portfolio, macroeconomic news, and impactful events.\n\n## Step 1 — Fetch Portfolio Data\n\nUse the Trading212 skill CLI (already configured at `/workspace/.trading212-config.json`):\n\n```bash\ncd /workspace && node skills/trading212/dist/trading212.js summary\ncd /workspace && node skills/trading212/dist/trading212.js positions\n```\n\nIf these fail, try direct curl with Basic Auth:\n```bash\nsource /workspace/.env\ncurl -s -u \"$TRADING212_API_KEY_ID:$TRADING212_SECRET_KEY\" https://live.trading212.com/api/v0/equity/account/cash\ncurl -s -u \"$TRADING212_API_KEY_ID:$TRADING212_SECRET_KEY\" https://live.trading212.com/api/v0/equity/portfolio\n```\n\nIf API calls fail with 401/403, explicitly state this in the report and continue with macro analysis only.\n\n## Step 2 — Fetch Market Context\n\nUse web_search and EventRegistry API to gather:\n- Key macroeconomic events this week (ECB, Fed, inflation data, GDP)\n- Geopolitical events with market impact\n- Sector-specific news relevant to the portfolio\n\n## Step 3 — Compose the Report\n\nInclude:\n1. **Portfolio Summary**: Total value, P&L, cash, allocation by position\n2. **Macroeconomic Trends**: 3-5 key macro developments\n3. **Impactful Events**: Geopolitical or sector events affecting holdings\n4. **Potential Impact**: How trends/events affect specific positions — be concrete\n5. **Recommendations**: Short and long-term actions with conviction levels (High/Medium/Low)\n6. **New Position Suggestions**: 3-5 ideas with ticker, thesis, suggested allocation %, risks, and conviction level\n\n## Step 4 — Post to Telegram\n\nPost the report to topic `701` (`#trading @personal`) in chat `8403014547`:\n\n```json\n{\"action\": \"send\", \"to\": \"8403014547\", \"message\": \"<report>\", \"threadId\": \"701\"}\n```\n\nDo NOT post to any other topic.\n\n## Step 5 — Update Memory\n\nAfter posting, update `memory/YYYY-MM-DD.md` with:\n- Portfolio snapshot (total value, P&L)\n- Key recommendations made\n- Any API issues encountered\n\nFormat the report for Telegram using the template in TOOLS.md.",
+        "model": "anthropic/claude-sonnet-4-6",
         "thinking": "on"
       },
       "delivery": {
@@ -27,20 +27,20 @@
         "to": "8403014547"
       },
       "state": {
-        "nextRunAtMs": 1771747200000,
-        "lastRunAtMs": 1771142400051,
+        "nextRunAtMs": 1772816400000,
+        "lastRunAtMs": 1772223916902,
         "lastStatus": "ok",
-        "lastDurationMs": 224255,
+        "lastDurationMs": 263332,
         "consecutiveErrors": 0
       }
     },
     {
       "id": "ee222aac-11f2-419b-bfa1-28910be5db68",
-      "agentId": "main",
-      "name": "Daily Jira Task Summary",
+      "agentId": "lstopar-agent",
+      "name": "Daily Jira Task Summary (Topic 2241)",
       "enabled": true,
       "createdAtMs": 1770579310819,
-      "updatedAtMs": 1771263053489,
+      "updatedAtMs": 1772213494871,
       "schedule": {
         "kind": "cron",
         "expr": "30 18 * * 1-5",
@@ -50,8 +50,8 @@
       "wakeMode": "next-heartbeat",
       "payload": {
         "kind": "agentTurn",
-        "message": "Create a summary of Jira tasks with the following details:\n\n1. **New tasks assigned to me in the last 48 hours**\n2. **Tasks assigned to me that are overdue**\n3. **Tasks assigned to other people that are overdue**\n4. **Tasks that were completed in the last 48 hours**\n5. **New tasks created in the last 48 hours (regardless of assignee)**\n\nUse the Jira API to fetch the data. Credentials are stored in `/home/lstopar/.openclaw/.env`.\n\nAfter completing the task, respond with:\n- A **success/failure indicator** (e.g., `✅ Success` or `❌ Failed`).\n- A **1-5 bullet-point summary** of what was accomplished. For example:\n  - Found **3 new tasks** assigned to you.\n  - **2 tasks** are overdue.\n  - **5 tasks** were completed in the last 48 hours.\n\n**Important**: Use the `message` tool to post the result to Telegram topic `729` (`#openclaw #cron`) in chat `8403014547`. Example:\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"Your result here\",\n  \"threadId\": \"729\"\n}\n```\n\nFormat the response for Telegram.",
-        "model": "synthetic/mistral-large-2512"
+        "message": "Create a summary of Jira tasks with the following details:\n\n1. **New tasks assigned to me in the last 48 hours**\n2. **Tasks assigned to me that are overdue**\n3. **Tasks assigned to other people that are overdue**\n4. **Tasks that were completed in the last 48 hours**\n5. **New tasks created in the last 48 hours (regardless of assignee)**\n\nUse the Jira API to fetch the data. Credentials are stored in `/home/lstopar/.openclaw/.env`.\n\nAfter completing the task, respond with:\n- A **success/failure indicator** (e.g., `✅ Success` or `❌ Failed`).\n- A **1-5 bullet-point summary** of what was accomplished. For example:\n  - Found **3 new tasks** assigned to you.\n  - **2 tasks** are overdue.\n  - **5 tasks** were completed in the last 48 hours.\n\n**Important**: Use the `message` tool to post the result to Telegram topic `2241` (this chat) in chat `8403014547`. Example:\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"Your result here\",\n  \"threadId\": \"2241\"\n}\n```\n\nFormat the response for Telegram.",
+        "model": "anthropic/claude-opus-4-6"
       },
       "delivery": {
         "mode": "announce",
@@ -59,20 +59,20 @@
         "to": "8403014547"
       },
       "state": {
-        "nextRunAtMs": 1771349400000,
-        "lastRunAtMs": 1771263000050,
+        "nextRunAtMs": 1772472600000,
+        "lastRunAtMs": 1772213400048,
         "lastStatus": "ok",
-        "lastDurationMs": 53439,
+        "lastDurationMs": 94823,
         "consecutiveErrors": 0
       }
     },
     {
       "id": "dfa312f0-140e-499e-87db-d3babfa26059",
-      "agentId": "main",
+      "agentId": "lstopar-agent",
       "name": "Weekly LLM Research Scan",
       "enabled": true,
       "createdAtMs": 1770623566456,
-      "updatedAtMs": 1771166586532,
+      "updatedAtMs": 1772121854783,
       "schedule": {
         "kind": "cron",
         "expr": "0 17 * * 4",
@@ -82,8 +82,8 @@
       "wakeMode": "next-heartbeat",
       "payload": {
         "kind": "agentTurn",
-        "message": "Scan arXiv (cs.CL and cs.LG), Hugging Face trending papers, and other relevant sources for the most potentially impactful papers about LLM models and foundational models published in the last 7 days. Focus on new architectures, new training approaches, and new techniques of training. Compile a list of papers with direct links, key contributions, and a brief summary of why they are important.\n\nAfter completing the task, respond with:\n- A **success/failure indicator** (e.g., `✅ Success` or `❌ Failed`).\n- A **1-5 bullet-point summary** of what was accomplished. For example:\n  - Found **5 impactful papers** on arXiv.\n  - **2 papers** introduced new training techniques.\n  - Summarized **key contributions** for each paper.\n\n**Important**: Use the `message` tool to post the result to Telegram topic `729` (`#openclaw #cron`) in chat `8403014547`. Example:\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"Your result here\",\n  \"threadId\": \"729\"\n}\n```\n\nFormat the response for Telegram.",
-        "model": "synthetic/mistral-large-2512",
+        "message": "Scan arXiv (cs.CL and cs.LG), Hugging Face trending papers, and other relevant sources for the most impactful papers about LLM models and foundational models published in the last 7 days. Focus on: new architectures, new training approaches, new techniques, efficiency improvements, and alignment advances.\n\n## Step 1 — Research\nCollect candidate papers. For each, note: title, authors, publication date, arXiv/HF link, key contribution, and relevance score (1–10).\n\n## Step 2 — Update Confluence\nRead the current Confluence page at https://edgetech-atlassian.atlassian.net/wiki/spaces/Engineerin/pages/13893636/Research+llms.\n\nMerge the new papers with existing content following these rules:\n- **Structure by topic**: Group papers under clear topic headings (e.g., Architecture Innovations, Training Techniques, Efficiency & Quantization, Alignment & Safety, Multimodal Models, Reasoning & Planning).\n- **Rank by relevance within each topic**: Most impactful papers at the top. Assign a relevance score (⭐ 1–5) to each paper based on novelty, practical impact, and citation/community traction.\n- **Retain the best existing content**: Keep previously listed papers that are still highly relevant. Remove or demote papers that are outdated, superseded, or low-impact compared to new entries.\n- **Each paper entry must include**: Title (linked to paper), authors, date, ⭐ relevance score, key contribution (2–3 sentences), and why it matters.\n- **Quality over quantity**: Only include papers that materially advance understanding of LLMs. Skip incremental or low-impact work.\n\n## Step 3 — Report\nAfter updating Confluence, respond with:\n- ✅ Success or ❌ Failed\n- 1–5 bullet points summarising: topics covered, number of new papers added, papers removed/demoted, and key highlights\n- Link to the updated page: https://edgetech-atlassian.atlassian.net/wiki/spaces/Engineerin/pages/13893636/Research+llms\n\n## Step 4 — Notify\nUse the `message` tool to post the summary to Telegram topic `945` (`#tech #research`) in chat `8403014547`:\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"Your summary here\",\n  \"threadId\": \"945\"\n}\n```\n\nThe Telegram message MUST end with:\n📄 [View on Confluence](https://edgetech-atlassian.atlassian.net/wiki/spaces/Engineerin/pages/13893636/Research+llms)\n\nFormat the Telegram message clearly with emoji and bullet points. Do NOT post to any other Telegram topic.",
+        "model": "anthropic/claude-opus-4-6",
         "thinking": "off"
       },
       "delivery": {
@@ -92,16 +92,21 @@
         "to": "8403014547"
       },
       "state": {
-        "nextRunAtMs": 1771516800000
+        "nextRunAtMs": 1772726400000,
+        "lastRunAtMs": 1772121600050,
+        "lastStatus": "error",
+        "lastDurationMs": 254733,
+        "consecutiveErrors": 1,
+        "lastError": "cron announce delivery failed"
       }
     },
     {
       "id": "acd718a2-f668-4420-a04a-c3649af21b03",
-      "agentId": "main",
+      "agentId": "lstopar-agent",
       "name": "Weekly Context Engineering Research Update",
       "enabled": true,
       "createdAtMs": 1770732557177,
-      "updatedAtMs": 1771166586693,
+      "updatedAtMs": 1772122109019,
       "schedule": {
         "kind": "cron",
         "expr": "0 17 * * 4",
@@ -111,8 +116,8 @@
       "wakeMode": "next-heartbeat",
       "payload": {
         "kind": "agentTurn",
-        "message": "Research scientific papers from arXiv and Hugging Face trending papers to find the latest approaches and frameworks for context engineering for AI agents. Write a technical summary and update the Confluence page at https://edgetech-atlassian.atlassian.net/wiki/spaces/Engineerin/pages/3735553/Research. Ensure references are included under each approach.\n\nAfter completing the task, respond with:\n- A **success/failure indicator** (e.g., `✅ Success` or `❌ Failed`).\n- A **1-5 bullet-point summary** of what was accomplished. For example:\n  - Researched **4 new frameworks** for context engineering.\n  - Updated Confluence page with **3 new approaches**.\n  - Added **references** for all sources.\n\n**Important**: Use the `message` tool to post the result to Telegram topic `729` (`#openclaw #cron`) in chat `8403014547`. Example:\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"Your result here\",\n  \"threadId\": \"729\"\n}\n```\n\nFormat the response for Telegram.",
-        "model": "synthetic/mistral-large-2512",
+        "message": "Research scientific papers from arXiv and Hugging Face trending papers to find the latest approaches and frameworks for context engineering for AI agents. Focus on:\n- **High-impact papers** that introduce novel techniques or demonstrate significant improvements\n- **Foundational papers** that provide comprehensive understanding of context engineering principles\n- **Practical frameworks** with clear implementation guidance and real-world applications\n- Papers that address key challenges: context length, memory management, retrieval, compression, attention mechanisms\n\nWrite a technical summary prioritizing:\n1. **Impact**: Papers with novel approaches, strong results, or wide adoption\n2. **Clarity**: Papers that explain *how* and *why* techniques work, not just *what* they achieve\n3. **Actionability**: Frameworks with concrete implementation patterns and best practices\n\nUpdate the Confluence page at https://edgetech-atlassian.atlassian.net/wiki/spaces/Engineerin/pages/3735553/Research with:\n- Each approach organized by category (e.g., Memory Management, Context Compression, Retrieval-Augmented)\n- For each paper: title, authors, key innovation, practical takeaways, and reference link\n- Clear explanations of *how* each technique works and *when* to use it\n- Code examples or implementation notes where available\n\n**Quality over quantity**: Include only papers that materially advance understanding of agentic context engineering. Skip incremental improvements or papers without clear practical value.\n\nAfter completing the task, respond with:\n- A **success/failure indicator** (e.g., `✅ Success` or `❌ Failed`).\n- A **1-5 bullet-point summary** of what was accomplished:\n  - Number of high-impact papers added (with brief justification for selection)\n  - Key techniques or frameworks discovered\n  - Practical insights gained\n- A **direct link** to the updated Confluence page: https://edgetech-atlassian.atlassian.net/wiki/spaces/Engineerin/pages/3735553/Research\n\n**Important**: Use the `message` tool to post the result to Telegram topic `729` (`#openclaw #cron`) in chat `8403014547`. Example:\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"Your result here\",\n  \"threadId\": \"729\"\n}\n```\n\nThe Telegram message MUST always end with a link to the Confluence page:\n📄 [View on Confluence](https://edgetech-atlassian.atlassian.net/wiki/spaces/Engineerin/pages/3735553/Research)\n\nFormat the response for Telegram.",
+        "model": "anthropic/claude-opus-4-6",
         "thinking": "off"
       },
       "delivery": {
@@ -121,7 +126,12 @@
         "to": "8403014547"
       },
       "state": {
-        "nextRunAtMs": 1771516800000
+        "nextRunAtMs": 1772726400000,
+        "lastRunAtMs": 1772121854783,
+        "lastStatus": "error",
+        "lastDurationMs": 254236,
+        "consecutiveErrors": 1,
+        "lastError": "cron announce delivery failed"
       }
     },
     {
@@ -130,7 +140,7 @@
       "name": "Daily OpenClaw Directory Backup",
       "enabled": true,
       "createdAtMs": 1771023878360,
-      "updatedAtMs": 1771203653688,
+      "updatedAtMs": 1772154028311,
       "schedule": {
         "kind": "cron",
         "expr": "0 2 * * *",
@@ -141,7 +151,7 @@
       "payload": {
         "kind": "agentTurn",
         "message": "Push the ~/.openclaw directory to its Git repository. Follow these steps:\n\n1. Navigate to ~/.openclaw.\n2. Stage all changes: `git add .`\n3. Commit changes with a message: `git commit -m \"Daily auto-backup: $(date '+%Y-%m-%d %H:%M:%S')\"`\n4. Push to the remote repository: `git push origin main`\n\nIf there are no changes, exit silently. If the push fails, retry once after 30 seconds.\n\nAfter completing the task, respond with:\n- A **success/failure indicator** (e.g., `✅ Success` or `❌ Failed`).\n- A **1-5 bullet-point summary** of what was accomplished. For example:\n  - Pushed **5 new files** to the repository.\n  - Committed changes with message: `Daily auto-backup: 2026-02-14 02:00:00`.\n  - No changes detected (if applicable).\n- A footer: `#openclaw #cron`.\n\nFormat the response for Telegram.",
-        "model": "synthetic/mistral-large-2512"
+        "model": "anthropic/claude-opus-4-6"
       },
       "delivery": {
         "mode": "announce",
@@ -149,20 +159,20 @@
         "to": "8403014547"
       },
       "state": {
-        "nextRunAtMs": 1771290000000,
-        "lastRunAtMs": 1771203600040,
+        "nextRunAtMs": 1772240400000,
+        "lastRunAtMs": 1772154000034,
         "lastStatus": "ok",
-        "lastDurationMs": 53648,
+        "lastDurationMs": 28277,
         "consecutiveErrors": 0
       }
     },
     {
       "id": "68e53dae-c120-44b5-82f9-55b5b4866473",
-      "agentId": "main",
+      "agentId": "lstopar-agent",
       "name": "Email Triage Agent",
-      "enabled": false,
+      "enabled": true,
       "createdAtMs": 1771190372608,
-      "updatedAtMs": 1771251440385,
+      "updatedAtMs": 1772218847194,
       "schedule": {
         "kind": "cron",
         "expr": "0 8,11,15,20 * * 1-5,0",
@@ -172,20 +182,54 @@
       "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
-        "message": "### Email Triage Agent\n\n#### **Email Retrieval**\n1. Fetch emails from my Microsoft 365 inbox.\n2. Only retrieve emails received since the last job run minus 3 hours (to catch delays).\n3. Before processing each email, check semantic memory for the email's `messageId`.\n4. Skip emails already stored in memory.\n\n#### **Email Classification & Actions**\nFor each unprocessed email, classify it into one of these categories and take the corresponding action:\n\n1. **Marketing**\n   - **Action**: Archive the email (move to Archive folder).\n   - **Summary**: Include in Telegram summary as \"Archived (marketing)\".\n\n2. **Newsletter**\n   - **Action**: Click the unsubscribe link in the email body automatically, then archive.\n   - **Summary**: Include in Telegram summary as \"Unsubscribed\".\n\n3. **Tool Notifications**\n   - **Criteria**: Emails from GitHub, Confluence, Jira, Atlassian, or other development/project management tools.\n   - **Action**: None – leave as-is.\n   - **Summary**: Include in Telegram summary as \"Tool notification\".\n\n4. **Actionable (requires my response)**\n   - **Action**:\n     - Draft a response using the `ai-humanizer` skill to ensure natural, human-like writing.\n     - Save as a draft.\n     - Reply All to the original message.\n   - **Summary**: Include in Telegram summary as \"Draft ready\" with brief context.\n\n5. **Informational**\n   - **Criteria**: Emails that inform me but don't require action (confirmations, receipts, FYI messages).\n   - **Action**: Leave as-is.\n   - **Summary**: Include in Telegram summary as \"Informational\".\n\n#### **Memory Storage**\nAfter processing each email, store the following in semantic memory:\n- `messageId`\n- `subject`\n- `sender`\n- `received timestamp`\n- `classification category`\n- `action taken`\n- Brief content summary (for future queries).\n\n#### **Telegram Summary**\nPost a summary to Telegram topic `#comm @all` (topic ID: `761`). Format:\n```\n📬 Email Summary – {date} {time}\n\n{foreach email}:\n- 📌 **[{classification}] Subject**: \"{subject}\"\n  **From**: {sender}\n  **Action**: {action taken}\n  {if action == \"Draft ready\"} 🔗 [View Draft](outlook web link) {endif}\n{endforeach}\n\n**Processed**: {count} | **Archived**: {count} | **Drafts created**: {count}\n#openclaw #email\n```\n\n**Important**:\n- Use the `message` tool to post the summary to Telegram topic `761` in chat `8403014547`. Example:\n  ```json\n  {\n    \"action\": \"send\",\n    \"to\": \"8403014547\",\n    \"message\": \"Your summary here\",\n    \"threadId\": \"761\"\n  }\n  ```\n\n#### **Tools to Use**\n- `microsoft365_ms365_list_messages`: Fetch emails.\n- `microsoft365_ms365_get_message`: Retrieve email content.\n- `microsoft365_ms365_move_message`: Archive emails.\n- `microsoft365_ms365_create_reply_draft`: Draft responses.\n- `memory_search`: Check if an email is already processed.\n- `memory_get`: Retrieve stored email data.\n- `write`: Store email data in memory.\n- `message`: Post the summary to Telegram.",
-        "model": "synthetic/mistral-large-2512",
+        "message": "### Email Triage Agent\n\n#### CRITICAL: Use CLI commands\nThe Microsoft 365 skill is a CLI tool. Use `exec` to call it.\n\nCLI reference:\n- **List emails** (last N hours): `node /workspace/skills/microsoft365/email-triage.js list <hours>`\n- **Get full email**: `node /workspace/skills/microsoft365/email-triage.js get <messageId>`\n- **Move to archive**: `node /workspace/skills/microsoft365/email-triage.js move <messageId> archive`\n- **Create reply-all draft**: `echo \"<body text>\" | node /workspace/skills/microsoft365/email-triage.js reply-draft <messageId>`\n\nAll commands output JSON.\n\n#### Identity\nYou are acting on behalf of **Luka Stopar** (luka.stopar@edgetech.si). All draft responses MUST be written as if Luka Stopar is the author. Sign all drafts as \"Luka\" or \"LP, Luka\". Never use any other name or persona.\n\n#### Email Retrieval\n1. Run `node /workspace/skills/microsoft365/email-triage.js list 50` to fetch the last 50 emails.\n2. Before processing each email, check semantic memory for the email's `messageId`.\n3. Skip emails already stored in memory.\n\n#### Email Classification & Actions\nFor each unprocessed email, classify it into one of these categories and take the corresponding action:\n\n1. **Marketing**\n   - **Action**: Archive the email: `node /workspace/skills/microsoft365/email-triage.js move <id> archive`\n   - Also attempt to unsubscribe: inspect the email body/headers for an unsubscribe link (`List-Unsubscribe` header or link containing \"unsubscribe\"/\"opt out\"). If found, perform an HTTP GET to that URL. Record outcome as `unsubscribed` or `unsubscribe_failed`.\n\n2. **Newsletter**\n   - **Action**: Archive the email.\n   - Also attempt to unsubscribe (same process as Marketing).\n\n3. **Tool Notifications**\n   - **Criteria**: Emails from GitHub, Confluence, Jira, Atlassian, Conductor, or other development/project management tools.\n   - **Action**: Archive the email: `node /workspace/skills/microsoft365/email-triage.js move <id> archive`\n\n4. **Actionable (requires my response)**\n   - **Action**:\n     1. First, search your semantic memory and Confluence for information relevant to drafting a response.\n     2. If you find sufficient information to compose a complete, accurate answer:\n        - Compose a natural, human-like response as **Luka Stopar**, sign off as \"Luka\" or \"LP, Luka\".\n        - Create the draft: `echo \"<your response text>\" | node /workspace/skills/microsoft365/email-triage.js reply-draft <messageId>`\n        - The command outputs JSON with `draftId` and `link` — save the `link` for the Telegram summary.\n     3. If you do NOT have enough information to draft a confident answer, leave the email as-is. Do not guess or fabricate information.\n   - **Summary**: \"Draft ready\" with draft link, or \"Needs manual response\" if insufficient info.\n\n5. **Informational**\n   - **Criteria**: Emails that inform but don't require action (confirmations, receipts, FYI messages).\n   - **Action**: Leave as-is.\n\n6. **Invitations**\n   - **Criteria**: Invitations to events, meetings, conferences, webinars, presentations, or similar gatherings.\n   - **Action**:\n     1. Extract event details: title, date/time, location (physical or virtual link), organizer.\n     2. Create a calendar event using the Microsoft 365 skill or calendar API.\n     3. After the calendar event is created, archive the email: `node /workspace/skills/microsoft365/email-triage.js move <id> archive`\n   - **Summary**: \"Calendar event created & archived\" with event details.\n\n#### Memory Storage\nAfter processing each email, append to `memory/email-triage-log.md`:\n- `messageId`, `subject`, `sender`, `received timestamp`, `classification`, `action taken`\n\n#### Telegram Summary\nPost a summary to Telegram topic `#comm @all` (topic ID: `761`). Use the `message` tool:\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"<your summary>\",\n  \"threadId\": \"761\"\n}\n```\n\nFormat — group emails by category. For each email show the subject as an Outlook link and a 1-2 sentence summary:\n\n```\n📬 M365 Email Triage — {date} {time}\n\n📊 {total} processed | 🗂 {archived} archived | 🚫 {unsubscribed} unsubscribed | ✉️ {drafts} drafts | 📅 {events} calendar events\n\n━━━━━━━━━━━━━━━━━━━━━\n✉️ Actionable ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• [Subject](https://outlook.office.com/mail/id/{messageId}) — {1-2 sentence summary}\n  {if draft} 🔗 [View Draft]({draft link}) {endif}\n  {if no draft} ⚠️ Needs manual response {endif}\n\n━━━━━━━━━━━━━━━━━━━━━\n📅 Invitations — Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• {Subject} — {1-2 sentence summary}\n  📅 Event created: {title} @ {date/time} [archived]\n\n━━━━━━━━━━━━━━━━━━━━━\nℹ️ Informational ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• [Subject](https://outlook.office.com/mail/id/{messageId}) — {1-2 sentence summary}\n\n━━━━━━━━━━━━━━━━━━━━━\n🔧 Tool Notifications — Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• {Subject} — {1-2 sentence summary} [archived]\n\n━━━━━━━━━━━━━━━━━━━━━\n📰 Newsletters — Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• {Subject} — {1-2 sentence summary} [archived] {unsubscribed ✓ / unsubscribe failed}\n\n━━━━━━━━━━━━━━━━━━━━━\n🏷️ Marketing — Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• {Subject} — {1-2 sentence summary} [archived] {unsubscribed ✓ / unsubscribe failed}\n\n#openclaw #email\n```\n\nRules:\n- Only include categories with at least 1 email.\n- Non-archived emails MUST have the subject as an Outlook link.\n- Archived categories don't need links.\n- Keep subject lines truncated to 60 chars if needed.\n- If a category has more than 10 emails, show first 10 and append \"… and {N} more\".\n\nDo NOT post to any other Telegram topic.",
+        "model": "anthropic/claude-opus-4-6",
         "thinking": "on"
       },
       "delivery": {
-        "mode": "announce",
+        "mode": "none",
         "channel": "telegram",
         "to": "8403014547"
       },
       "state": {
-        "lastRunAtMs": 1771250400035,
+        "lastRunAtMs": 1772218800035,
         "lastStatus": "ok",
-        "lastDurationMs": 214783,
-        "consecutiveErrors": 0
+        "lastDurationMs": 47159,
+        "consecutiveErrors": 0,
+        "nextRunAtMs": 1772348400000
+      }
+    },
+    {
+      "id": "8d36ec52-0c10-4376-bd85-44d358abed6c",
+      "agentId": "lstopar-agent",
+      "name": "Nightly Personal Gmail Triage",
+      "enabled": true,
+      "createdAtMs": 1771618729376,
+      "updatedAtMs": 1772164906751,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 5 * * *",
+        "tz": "Europe/Ljubljana"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "next-heartbeat",
+      "payload": {
+        "kind": "agentTurn",
+        "model": "anthropic/claude-opus-4-6",
+        "thinking": "on",
+        "message": "## Nightly Personal Gmail Triage\n\n### Step 1 — Fetch Emails\n\nUse the `gog` skill to fetch all emails received in the last 27 hours from the personal Gmail inbox:\n\n```\ngog gmail search 'newer_than:27h' --max 200 --json\n```\n\nIf the result is empty, post a brief \"No new emails\" message to Telegram (topic 1299) and stop.\n\nFor each email, fetch its full content including headers, body, and attachment list:\n```\ngog gmail get <message-id> --json\n```\n\n### Step 1b — Deduplicate Against Memory\n\nBefore processing any email, check semantic memory to skip already-processed ones:\n- For each message ID, call `memory_search` with the query `gmail_triage:<message-id>`.\n- If a match is found, **skip that email** — it was handled in a previous run.\n- Only proceed to Step 2 for emails **not** found in memory.\n\nIf every fetched email is already in memory, post \"No new emails to process (all already handled)\" to Telegram topic 1299 and stop.\n\n### Step 2 — Classify Each Email\n\nClassify every email into exactly one of the following categories based on sender domain, subject, and content. Use the sender patterns as primary signal:\n\n| Category | Sender / Signal |\n|---|---|\n| **Personal / Work** | @stopar.si, @edgetech.si, @gmail.com (personal contacts), direct human correspondence |\n| **Updates & Notifications** | OpenRouter, Mistral, service status emails, app notifications, automated system alerts |\n| **LinkedIn** | @linkedin.com, any LinkedIn jobs/invitations/social |\n| **Promotions** | OpenRouter promotions, Altroke, Zsport, marketing campaigns, discount offers |\n| **Invoices** | Emails containing PDF/document attachments that are invoices, receipts, or billing statements; subject contains \"invoice\", \"receipt\", \"bill\", \"faktura\", or similar; from any billing sender |\n| **Trading 212** | @trading212.com, portfolio alerts, trading notifications |\n| **Qogita (Wholesale)** | @qogita.com, B2B product offers |\n| **Google Workspace** | Google admin alerts, storage warnings, Workspace notifications |\n| **Google (Other)** | Google security alerts, account notices, non-Workspace Google emails |\n| **Apple** | @apple.com, iCloud billing, Apple ID notices |\n| **Bitstamp** | @bitstamp.net, crypto/tax notifications |\n| **Wise** | @wise.com, finance updates |\n| **GitHub** | @github.com, @noreply.github.com, notifications |\n| **Revolut** | @revolut.com, finance updates |\n| **Forums** | Community threads, forum digests, mailing lists |\n| **Calendar / Zoom / Amazon** | Calendar invites, @zoom.us, @amazon.com |\n\nIf an email doesn't fit any category above, place it in **Personal / Work**.\n\n### Step 3 — Upload Invoice Attachments to Google Drive\n\nFor every email classified as **Invoices**:\n\n1. **Identify attachments** from the email JSON (look for `attachments` or `parts` with `filename` ending in `.pdf`, `.docx`, `.xlsx`, or similar document types).\n\n2. **Download each attachment** using the `gog` skill:\n   ```\n   gog gmail attachment <message-id> <attachment-id> --out /tmp/<filename>\n   ```\n\n3. **Determine the target subfolder** from the email's received date:\n   - Format: `yyyy-MM` (e.g. `2026-02` for February 2026).\n   - Parent Drive folder ID: `1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC`\n   - Check if the `yyyy-MM` subfolder already exists:\n     ```\n     gog drive ls --parent 1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC --json\n     ```\n   - If it does not exist, create it:\n     ```\n     gog drive mkdir \"<yyyy-MM>\" --parent 1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC\n     ```\n\n4. **Upload the attachment** into the subfolder:\n   ```\n   gog drive upload /tmp/<filename> --parent <subfolder-id>\n   ```\n\n5. **Record outcome** per attachment:\n   - `uploaded` — upload succeeded; note the Drive file ID and name.\n   - `upload_failed` — upload failed; note the error.\n   - `no_attachment` — email had no recognisable document attachment.\n\n6. Do **not** archive Invoice emails — leave them in the inbox so they remain visible.\n\n### Step 4 — Unsubscribe from Promotions\n\nFor every email classified as **Promotions**:\n\n1. Inspect the email body (already fetched in Step 1) for an unsubscribe link. Look for:\n   - A `List-Unsubscribe` header (preferred — check headers in the `gog gmail get` JSON output).\n   - A hyperlink in the body whose text contains \"unsubscribe\", \"opt out\", \"opt-out\", or similar (case-insensitive).\n2. If an unsubscribe URL is found, perform an HTTP GET request to that URL using the `fetch` tool (or `exec curl <url>` as fallback). Follow redirects.\n3. Record the outcome per email:\n   - `unsubscribed` — request succeeded (2xx or redirect to confirmation page).\n   - `unsubscribe_failed` — request failed or no URL found.\n4. After unsubscribing (or attempting), archive the email using the `gog` skill:\n   ```\n   gog gmail thread modify <thread-id> --remove INBOX\n   ```\n\n### Step 5 — Archive Automatically\n\nFor emails in these categories (excluding Promotions handled in Step 4 and Invoices handled in Step 3), archive them using the `gog` skill:\n```\ngog gmail thread modify <thread-id> --remove INBOX\n```\n\nCategories to auto-archive:\n- **Updates & Notifications**\n- **LinkedIn**\n- **GitHub** (low-priority notifications)\n- **Revolut**\n\nDo NOT archive: Personal / Work, Invoices, Trading 212, Qogita, Google Workspace, Google (Other), Apple, Bitstamp, Wise, Forums, Calendar / Zoom / Amazon.\n\n### Step 6 — Build Telegram Summary\n\nCompose a Telegram message summarising all emails grouped by category. Format:\n\n```\n📬 Gmail Triage — {date} {time CET}\n\n📊 {total} emails | 🗂 {archived} archived | 🚫 {unsubscribed} unsubscribed | 🧾 {invoices_uploaded} invoices uploaded\n\n━━━━━━━━━━━━━━━━━━━━━\n👤 Personal / Work ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender 🔗 https://mail.google.com/mail/u/0/#inbox/{thread-id}\n\n[Other non-archived categories follow the same pattern with a Gmail link]\n\n━━━━━━━━━━━━━━━━━━━━━\n🧾 Invoices ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender [uploaded: filename.pdf → Drive/yyyy-MM] 🔗 https://mail.google.com/mail/u/0/#inbox/{thread-id}\n• \"Subject\" — sender [upload failed] 🔗 ...\n• \"Subject\" — sender [no attachment] 🔗 ...\n\n━━━━━━━━━━━━━━━━━━━━━\n🚫 Promotions — Unsubscribed & Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender [unsubscribed ✓]\n• \"Subject\" — sender [unsubscribe failed]\n\n━━━━━━━━━━━━━━━━━━━━━\n🗂 Archived — Updates & Notifications ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender [archived]\n\n━━━━━━━━━━━━━━━━━━━━━\n🗂 Archived — Revolut ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender [archived]\n```\n\nRules:\n- Only include categories that have at least 1 email.\n- Non-archived emails (including Invoices) MUST include a direct Gmail link: `https://mail.google.com/mail/u/0/#inbox/{thread-id}`\n- Invoices show the upload outcome and filename; link to original email is included.\n- Promotions show `[unsubscribed ✓]` or `[unsubscribe failed]` per item, no link.\n- Other archived categories show `[archived]`, no link.\n- Keep subject lines quoted and truncated to 60 chars if needed.\n- If a category has more than 10 emails, show the first 10 and append \"… and {N} more\".\n\n### Step 7 — Post to Telegram\n\nUse the `message` tool to post to topic `1299` (`#comm @personal`) in chat `8403014547`:\n\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"<your composed summary>\",\n  \"threadId\": \"1299\"\n}\n```\n\nDo NOT post to any other Telegram topic.\n\n### Step 8 — Memory\n\nAfter the run, store in semantic memory:\n- Run timestamp\n- Total emails processed and count per category\n- Each processed message ID as key `gmail_triage:<message-id>` (used for deduplication in future runs)\n- Unsubscribe outcomes for Promotions emails\n- Drive file IDs and filenames of uploaded invoices"
+      },
+      "delivery": {
+        "mode": "none",
+        "channel": "telegram",
+        "to": "8403014547"
+      },
+      "state": {
+        "consecutiveErrors": 0,
+        "nextRunAtMs": 1772251200000,
+        "lastRunAtMs": 1772164800043,
+        "lastStatus": "ok",
+        "lastDurationMs": 106708
       }
     }
   ]

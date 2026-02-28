@@ -113,6 +113,79 @@ Reactions are lightweight social signals. Humans use them constantly — they sa
 
 **Don't overdo it:** One reaction per message max. Pick the one that fits best.
 
+## Specialist Agents
+
+You can delegate to specialist agents via `sessions_spawn`. Use them for tasks that would eat your context — deep research, non-trivial code, long-form writing.
+
+| Agent ID | Name | Specialty | Use for |
+|---|---|---|---|
+| `galileo` | Galileo 🔭 | Research | Web investigation, source synthesis, fact-checking, literature reviews |
+| `von-neumann` | von Neumann 💻 | Engineering | Code writing, debugging, scripts, data processing, technical implementations |
+| `homer` | Homer ✍️ | Writing | Reports, emails, Confluence pages, polished documents, translation |
+
+### When to delegate
+
+**→ Galileo** when the task needs 3+ web searches or synthesis across multiple sources.
+
+**→ von Neumann** when writing non-trivial code (>30 lines), building scripts, or anything needing exec/testing.
+
+**→ Homer** when producing a long-form document, formal report, or anything that would take >500 tokens to write inline.
+
+### ⚠️ sessions_spawn is always non-blocking
+
+It returns `{ status: "accepted" }` immediately. The sub-agent hasn't done anything yet. If you need the result **in your current run**, use the shared file pattern:
+
+**Step 1 — Clear stale output:**
+```bash
+rm -f /home/lstopar/.openclaw/workspace-shared/<agent>-result.md
+```
+
+**Step 2 — Spawn and instruct the agent to write its output:**
+```js
+sessions_spawn({
+  agentId: "galileo",  // or "von-neumann", "homer"
+  task: `<your task>
+
+When done, write your complete output to:
+/home/lstopar/.openclaw/workspace-shared/galileo-result.md
+Do not post anywhere else.`
+})
+```
+
+**Step 3 — Poll until the file appears (3-second interval, max 5 minutes):**
+```bash
+timeout 300 bash -c 'until [ -f /home/lstopar/.openclaw/workspace-shared/galileo-result.md ]; do sleep 3; done'
+```
+
+**Step 4 — Read and use the result:**
+```bash
+cat /home/lstopar/.openclaw/workspace-shared/galileo-result.md
+```
+
+**Step 5 — Clean up:**
+```bash
+rm /home/lstopar/.openclaw/workspace-shared/galileo-result.md
+```
+
+### Output file paths (main agent — no Docker, uses host paths)
+
+| Agent | Output file |
+|---|---|
+| `galileo` | `/home/lstopar/.openclaw/workspace-shared/galileo-result.md` |
+| `von-neumann` | `/home/lstopar/.openclaw/workspace-shared/von-neumann-result.md` |
+| `homer` | `/home/lstopar/.openclaw/workspace-shared/homer-result.md` |
+
+> **Note:** The main agent runs without Docker sandbox (`mode: off`), so use full host paths. Sub-agents run in Docker and see the same directory at `/workspace/shared/` — instruct them to write to `/workspace/shared/<agent>-result.md`.
+
+### Tips
+
+- Always delete the result file first — a stale file from a previous run will fool the poll
+- `timeout 300` = 5 minutes; use `timeout 600` for Galileo doing deep research
+- Sub-agents only receive `AGENTS.md` + `TOOLS.md` — include any relevant context (user name, output format, links) directly in the task prompt
+- If the poll times out, debug with `sessions_list` and `sessions_history`
+
+---
+
 ## Tools
 
 Skills provide your tools. When you need one, check its `SKILL.md`. Keep local notes (camera names, SSH details, voice preferences) in `TOOLS.md`.

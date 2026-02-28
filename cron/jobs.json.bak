@@ -3,21 +3,21 @@
   "jobs": [
     {
       "id": "c115a6e8-94b9-49f8-ba4b-f6de8ad10305",
-      "agentId": "lstopar-agent",
+      "agentId": "keynes",
       "name": "Weekly Trading Portfolio Report",
       "enabled": true,
       "createdAtMs": 1770578336587,
-      "updatedAtMs": 1771747308756,
+      "updatedAtMs": 1772227462102,
       "schedule": {
         "kind": "cron",
-        "expr": "0 17 * * 5",
+        "expr": "0 18 * * 5",
         "tz": "Europe/Ljubljana"
       },
       "sessionTarget": "isolated",
-      "wakeMode": "next-heartbeat",
+      "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
-        "message": "Generate a weekly report analyzing the user's Trading212 portfolio, macroeconomic news, and impactful events. Include:\n\n1. **Portfolio Summary**: Current holdings, allocation, performance (P&L), and key observations.\n2. **Macroeconomic Trends**: Global and regional economic updates (interest rates, inflation, growth, currencies).\n3. **Impactful Events**: Geopolitical, economic, and sector-specific events affecting markets.\n4. **Potential Impact**: How these trends/events could affect the user's portfolio, with clear scenarios.\n5. **Recommendations**: Short-term and long-term actions (e.g., rebalancing, hedging, profit-taking).\n6. **New Position Suggestions**: Based on current portfolio composition, market trends, and macroeconomic context, suggest 3–5 new positions the user could open on Trading212. For each suggestion include: instrument name/ticker, rationale (why now, what thesis), suggested allocation size relative to portfolio, key risks, and a conviction level (High / Medium / Low).\n\nUse the latest data from the Trading212 API and EventRegistry API. Format the report for clarity and readability.\n\nAfter completing the task, respond with:\n- A **success/failure indicator** (e.g., `✅ Success` or `❌ Failed`).\n- A **1-5 bullet-point summary** of what was accomplished. For example:\n  - Analyzed **15 open positions** in the portfolio.\n  - Identified **3 macroeconomic trends** impacting holdings.\n  - Recommended **2 actions** for risk mitigation.\n  - Suggested **4 new positions** to open.\n\n**Important**: Use the `message` tool to post the result to Telegram topic `701` (`#trading @personal`) in chat `8403014547`. Do NOT post to any other topic. Example:\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"Your result here\",\n  \"threadId\": \"701\"\n}\n```\n\nFormat the response for Telegram.",
+        "message": "Generate a weekly report analyzing the user's Trading212 portfolio, macroeconomic news, impactful events, and **undervalued asset opportunities**. Include:\n\n1. **Portfolio Summary**: Current holdings, allocation, performance (P&L), and key observations.\n2. **Macroeconomic Trends**: Global and regional economic updates (interest rates, inflation, growth, currencies).\n3. **Impactful Events**: Geopolitical, economic, and sector-specific events affecting markets.\n4. **Potential Impact**: How these trends/events could affect the user's portfolio, with clear scenarios.\n5. **Recommendations**: Short-term and long-term actions (e.g., rebalancing, hedging, profit-taking).\n6. **New Position Suggestions**: Based on current portfolio composition, market trends, and macroeconomic context, suggest 3–5 new positions the user could open on Trading212. For each suggestion include: instrument name/ticker, rationale (why now, what thesis), suggested allocation size relative to portfolio, key risks, and a conviction level (High / Medium / Low).\n\n### **NEW: Undervalued Asset Analysis**\n7. **Undervalued Assets**: Identify 3–5 potentially undervalued assets (stocks, ETFs, commodities) based on:\n   - **Fundamental analysis**: P/E, P/B, EV/EBITDA, dividend yield, free cash flow yield\n   - **Technical analysis**: RSI, moving averages, support/resistance levels\n   - **Market sentiment**: Short interest, analyst ratings, institutional ownership\n   - **Macro context**: Sector rotation, interest rate sensitivity, geopolitical exposure\n   - **Catalysts**: Upcoming earnings, product launches, regulatory changes, M&A rumors\n\n   For each undervalued asset, provide:\n   - Ticker, name, current price\n   - Key valuation metrics (e.g., P/E, P/B, dividend yield)\n   - Why it's undervalued (thesis)\n   - Catalysts that could unlock value\n   - Key risks\n   - Conviction level (High / Medium / Low)\n   - Suggested allocation size relative to portfolio\n\nUse the latest data from the Trading212 API and EventRegistry API. Format the report for clarity and readability.\n\nAfter completing the task, respond with:\n- A **success/failure indicator** (e.g., `✅ Success` or `❌ Failed`).\n- A **1-5 bullet-point summary** of what was accomplished.\n\n**Important**: Use the `message` tool to post the result to Telegram topic `701` (`#trading @personal`) in chat `8403014547`. Do NOT post to any other topic.",
         "model": "anthropic/claude-opus-4-6",
         "thinking": "on"
       },
@@ -27,11 +27,12 @@
         "to": "8403014547"
       },
       "state": {
-        "nextRunAtMs": 1772352000000,
-        "lastRunAtMs": 1771747200474,
-        "lastStatus": "ok",
-        "lastDurationMs": 108282,
-        "consecutiveErrors": 0
+        "nextRunAtMs": 1772816400000,
+        "lastRunAtMs": 1772227272894,
+        "lastStatus": "error",
+        "lastDurationMs": 189208,
+        "consecutiveErrors": 2,
+        "lastError": "cron announce delivery failed"
       }
     },
     {
@@ -40,7 +41,7 @@
       "name": "Daily Jira Task Summary (Topic 2241)",
       "enabled": true,
       "createdAtMs": 1770579310819,
-      "updatedAtMs": 1772127078693,
+      "updatedAtMs": 1772213494871,
       "schedule": {
         "kind": "cron",
         "expr": "30 18 * * 1-5",
@@ -59,12 +60,11 @@
         "to": "8403014547"
       },
       "state": {
-        "nextRunAtMs": 1772213400000,
-        "lastRunAtMs": 1772127000053,
-        "lastStatus": "error",
-        "lastDurationMs": 78640,
-        "consecutiveErrors": 1,
-        "lastError": "cron announce delivery failed"
+        "nextRunAtMs": 1772472600000,
+        "lastRunAtMs": 1772213400048,
+        "lastStatus": "ok",
+        "lastDurationMs": 94823,
+        "consecutiveErrors": 0
       }
     },
     {
@@ -107,10 +107,10 @@
       "name": "Weekly Context Engineering Research Update",
       "enabled": true,
       "createdAtMs": 1770732557177,
-      "updatedAtMs": 1772122109019,
+      "updatedAtMs": 1772226966433,
       "schedule": {
         "kind": "cron",
-        "expr": "0 17 * * 4",
+        "expr": "0 19 * * 4",
         "tz": "Europe/Ljubljana"
       },
       "sessionTarget": "isolated",
@@ -127,7 +127,7 @@
         "to": "8403014547"
       },
       "state": {
-        "nextRunAtMs": 1772726400000,
+        "nextRunAtMs": 1772733600000,
         "lastRunAtMs": 1772121854783,
         "lastStatus": "error",
         "lastDurationMs": 254236,
@@ -141,10 +141,10 @@
       "name": "Daily OpenClaw Directory Backup",
       "enabled": true,
       "createdAtMs": 1771023878360,
-      "updatedAtMs": 1772067633819,
+      "updatedAtMs": 1772226960881,
       "schedule": {
         "kind": "cron",
-        "expr": "0 2 * * *",
+        "expr": "0 3 * * *",
         "tz": "Europe/Ljubljana"
       },
       "sessionTarget": "isolated",
@@ -160,12 +160,12 @@
         "to": "8403014547"
       },
       "state": {
-        "nextRunAtMs": 1772154000000,
-        "lastRunAtMs": 1772067600042,
+        "nextRunAtMs": 1772244000000,
+        "lastRunAtMs": 1772154000034,
         "lastStatus": "ok",
-        "lastDurationMs": 33777,
+        "lastDurationMs": 28277,
         "consecutiveErrors": 0,
-        "runningAtMs": 1772154000028
+        "runningAtMs": 1772244000067
       }
     },
     {
@@ -174,10 +174,10 @@
       "name": "Email Triage Agent",
       "enabled": true,
       "createdAtMs": 1771190372608,
-      "updatedAtMs": 1772138914371,
+      "updatedAtMs": 1772226966687,
       "schedule": {
         "kind": "cron",
-        "expr": "0 8,11,15,20 * * 1-5,0",
+        "expr": "15 8,11,15,20 * * 1-5,0",
         "tz": "Europe/Ljubljana"
       },
       "sessionTarget": "isolated",
@@ -194,11 +194,11 @@
         "to": "8403014547"
       },
       "state": {
-        "lastRunAtMs": 1772132400042,
+        "lastRunAtMs": 1772218800035,
         "lastStatus": "ok",
-        "lastDurationMs": 10990,
+        "lastDurationMs": 47159,
         "consecutiveErrors": 0,
-        "nextRunAtMs": 1772175600000
+        "nextRunAtMs": 1772349300000
       }
     },
     {
@@ -207,7 +207,7 @@
       "name": "Nightly Personal Gmail Triage",
       "enabled": true,
       "createdAtMs": 1771618729376,
-      "updatedAtMs": 1772137041708,
+      "updatedAtMs": 1772226884661,
       "schedule": {
         "kind": "cron",
         "expr": "0 5 * * *",
@@ -219,20 +219,84 @@
         "kind": "agentTurn",
         "model": "anthropic/claude-opus-4-6",
         "thinking": "on",
-        "message": "## Nightly Personal Gmail Triage\n\n### Step 1 — Fetch Emails\n\nUse the `gog` skill to fetch all emails received in the last 27 hours from the personal Gmail inbox:\n\n```\ngog gmail search 'newer_than:27h' --max 200 --json\n```\n\nIf the result is empty, post a brief \"No new emails\" message to Telegram (topic 1299) and stop.\n\nFor each email, fetch its full content including headers, body, and attachment list:\n```\ngog gmail get <message-id> --json\n```\n\n### Step 1b — Deduplicate Against Memory\n\nBefore processing any email, check semantic memory to skip already-processed ones:\n- For each message ID, call `memory_search` with the query `gmail_triage:<message-id>`.\n- If a match is found, **skip that email** — it was handled in a previous run.\n- Only proceed to Step 2 for emails **not** found in memory.\n\nIf every fetched email is already in memory, post \"No new emails to process (all already handled)\" to Telegram topic 1299 and stop.\n\n### Step 2 — Classify Each Email\n\nClassify every email into exactly one of the following categories based on sender domain, subject, and content. Use the sender patterns as primary signal:\n\n| Category | Sender / Signal |\n|---|---|\n| **Personal / Work** | @stopar.si, @edgetech.si, @gmail.com (personal contacts), direct human correspondence |\n| **Updates & Notifications** | OpenRouter, Mistral, service status emails, app notifications, automated system alerts |\n| **LinkedIn** | @linkedin.com, any LinkedIn jobs/invitations/social |\n| **Promotions** | OpenRouter promotions, Altroke, Zsport, marketing campaigns, discount offers |\n| **Invoices** | Emails containing PDF/document attachments that are invoices, receipts, or billing statements; subject contains \"invoice\", \"receipt\", \"bill\", \"faktura\", or similar; from any billing sender |\n| **Trading 212** | @trading212.com, portfolio alerts, trading notifications |\n| **Qogita (Wholesale)** | @qogita.com, B2B product offers |\n| **Google Workspace** | Google admin alerts, storage warnings, Workspace notifications |\n| **Google (Other)** | Google security alerts, account notices, non-Workspace Google emails |\n| **Apple** | @apple.com, iCloud billing, Apple ID notices |\n| **Bitstamp** | @bitstamp.net, crypto/tax notifications |\n| **Wise** | @wise.com, finance updates |\n| **GitHub** | @github.com, @noreply.github.com, notifications |\n| **Revolut** | @revolut.com, finance updates |\n| **Forums** | Community threads, forum digests, mailing lists |\n| **Calendar / Zoom / Amazon** | Calendar invites, @zoom.us, @amazon.com |\n\nIf an email doesn't fit any category above, place it in **Personal / Work**.\n\n### Step 3 — Upload Invoice Attachments to Google Drive\n\nFor every email classified as **Invoices**:\n\n1. **Identify attachments** from the email JSON (look for `attachments` or `parts` with `filename` ending in `.pdf`, `.docx`, `.xlsx`, or similar document types).\n\n2. **Download each attachment** using the `gog` skill:\n   ```\n   gog gmail attachment <message-id> <attachment-id> --out /tmp/<filename>\n   ```\n\n3. **Determine the target subfolder** from the email's received date:\n   - Format: `yyyy-MM` (e.g. `2026-02` for February 2026).\n   - Parent Drive folder ID: `1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC`\n   - Check if the `yyyy-MM` subfolder already exists:\n     ```\n     gog drive ls --parent 1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC --json\n     ```\n   - If it does not exist, create it:\n     ```\n     gog drive mkdir \"<yyyy-MM>\" --parent 1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC\n     ```\n\n4. **Upload the attachment** into the subfolder:\n   ```\n   gog drive upload /tmp/<filename> --parent <subfolder-id>\n   ```\n\n5. **Record outcome** per attachment:\n   - `uploaded` — upload succeeded; note the Drive file ID and name.\n   - `upload_failed` — upload failed; note the error.\n   - `no_attachment` — email had no recognisable document attachment.\n\n6. Do **not** archive Invoice emails — leave them in the inbox so they remain visible.\n\n### Step 4 — Unsubscribe from Promotions\n\nFor every email classified as **Promotions**:\n\n1. Inspect the email body (already fetched in Step 1) for an unsubscribe link. Look for:\n   - A `List-Unsubscribe` header (preferred — check headers in the `gog gmail get` JSON output).\n   - A hyperlink in the body whose text contains \"unsubscribe\", \"opt out\", \"opt-out\", or similar (case-insensitive).\n2. If an unsubscribe URL is found, perform an HTTP GET request to that URL using the `fetch` tool (or `exec curl <url>` as fallback). Follow redirects.\n3. Record the outcome per email:\n   - `unsubscribed` — request succeeded (2xx or redirect to confirmation page).\n   - `unsubscribe_failed` — request failed or no URL found.\n4. After unsubscribing (or attempting), archive the email using the `gog` skill:\n   ```\n   gog gmail thread modify <thread-id> --remove INBOX\n   ```\n\n### Step 5 — Archive Automatically\n\nFor emails in these categories (excluding Promotions handled in Step 4 and Invoices handled in Step 3), archive them using the `gog` skill:\n```\ngog gmail thread modify <thread-id> --remove INBOX\n```\n\nCategories to auto-archive:\n- **Updates & Notifications**\n- **LinkedIn**\n- **GitHub** (low-priority notifications)\n- **Revolut**\n\nDo NOT archive: Personal / Work, Invoices, Trading 212, Qogita, Google Workspace, Google (Other), Apple, Bitstamp, Wise, Forums, Calendar / Zoom / Amazon.\n\n### Step 6 — Build Telegram Summary\n\nCompose a Telegram message summarising all emails grouped by category. Format:\n\n```\n📬 Gmail Triage — {date} {time CET}\n\n📊 {total} emails | 🗂 {archived} archived | 🚫 {unsubscribed} unsubscribed | 🧾 {invoices_uploaded} invoices uploaded\n\n━━━━━━━━━━━━━━━━━━━━━\n👤 Personal / Work ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender 🔗 https://mail.google.com/mail/u/0/#inbox/{thread-id}\n\n[Other non-archived categories follow the same pattern with a Gmail link]\n\n━━━━━━━━━━━━━━━━━━━━━\n🧾 Invoices ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender [uploaded: filename.pdf → Drive/yyyy-MM] 🔗 https://mail.google.com/mail/u/0/#inbox/{thread-id}\n• \"Subject\" — sender [upload failed] 🔗 ...\n• \"Subject\" — sender [no attachment] 🔗 ...\n\n━━━━━━━━━━━━━━━━━━━━━\n🚫 Promotions — Unsubscribed & Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender [unsubscribed ✓]\n• \"Subject\" — sender [unsubscribe failed]\n\n━━━━━━━━━━━━━━━━━━━━━\n🗂 Archived — Updates & Notifications ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender [archived]\n\n━━━━━━━━━━━━━━━━━━━━━\n🗂 Archived — Revolut ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender [archived]\n```\n\nRules:\n- Only include categories that have at least 1 email.\n- Non-archived emails (including Invoices) MUST include a direct Gmail link: `https://mail.google.com/mail/u/0/#inbox/{thread-id}`\n- Invoices show the upload outcome and filename; link to original email is included.\n- Promotions show `[unsubscribed ✓]` or `[unsubscribe failed]` per item, no link.\n- Other archived categories show `[archived]`, no link.\n- Keep subject lines quoted and truncated to 60 chars if needed.\n- If a category has more than 10 emails, show the first 10 and append \"… and {N} more\".\n\n### Step 7 — Post to Telegram\n\nUse the `message` tool to post to topic `1299` (`#comm @personal`) in chat `8403014547`:\n\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"<your composed summary>\",\n  \"threadId\": \"1299\"\n}\n```\n\nDo NOT post to any other Telegram topic.\n\n### Step 8 — Memory\n\nAfter the run, store in semantic memory:\n- Run timestamp\n- Total emails processed and count per category\n- Each processed message ID as key `gmail_triage:<message-id>` (used for deduplication in future runs)\n- Unsubscribe outcomes for Promotions emails\n- Drive file IDs and filenames of uploaded invoices"
+        "message": "## Nightly Personal Gmail Triage\n\n### Step 1 — Fetch Emails\n\nUse the `gog` skill to fetch all emails received in the last 27 hours from the personal Gmail inbox:\n\n```\ngog gmail search 'newer_than:27h' --max 200 --json\n```\n\nIf the result is empty, end your turn with: \"📬 Gmail Triage — {date}\\n\\nNo new emails.\"\n\nFor each email, fetch its full content including headers, body, and attachment list:\n```\ngog gmail get <message-id> --json\n```\n\n### Step 1b — Deduplicate Against Memory\n\nBefore processing any email, check semantic memory to skip already-processed ones:\n- For each message ID, call `memory_search` with the query `gmail_triage:<message-id>`.\n- If a match is found, **skip that email** — it was handled in a previous run.\n- Only proceed to Step 2 for emails **not** found in memory.\n\nIf every fetched email is already in memory, end your turn with: \"📬 Gmail Triage — {date}\\n\\nNo new emails to process (all already handled).\"\n\n### Step 2 — Classify Each Email\n\nClassify every email into exactly one of the following categories based on sender domain, subject, and content. Use the sender patterns as primary signal:\n\n| Category | Sender / Signal |\n|---|---|\n| **Personal / Work** | @stopar.si, @edgetech.si, @gmail.com (personal contacts), direct human correspondence |\n| **Updates & Notifications** | OpenRouter, Mistral, service status emails, app notifications, automated system alerts |\n| **LinkedIn** | @linkedin.com, any LinkedIn jobs/invitations/social |\n| **Promotions** | OpenRouter promotions, Altroke, Zsport, marketing campaigns, discount offers |\n| **Invoices** | Emails containing PDF/document attachments that are invoices, receipts, or billing statements; subject contains \"invoice\", \"receipt\", \"bill\", \"faktura\", or similar; from any billing sender |\n| **Trading 212** | @trading212.com, portfolio alerts, trading notifications |\n| **Qogita (Wholesale)** | @qogita.com, B2B product offers |\n| **Google Workspace** | Google admin alerts, storage warnings, Workspace notifications |\n| **Google (Other)** | Google security alerts, account notices, non-Workspace Google emails |\n| **Apple** | @apple.com, iCloud billing, Apple ID notices |\n| **Bitstamp** | @bitstamp.net, crypto/tax notifications |\n| **Wise** | @wise.com, finance updates |\n| **GitHub** | @github.com, @noreply.github.com, notifications |\n| **Revolut** | @revolut.com, finance updates |\n| **Forums** | Community threads, forum digests, mailing lists |\n| **Calendar / Zoom / Amazon** | Calendar invites, @zoom.us, @amazon.com |\n\nIf an email doesn't fit any category above, place it in **Personal / Work**.\n\n### Step 3 — Upload Invoice Attachments to Google Drive\n\nFor every email classified as **Invoices**:\n\n1. **Identify attachments** from the email JSON (look for `attachments` or `parts` with `filename` ending in `.pdf`, `.docx`, `.xlsx`, or similar document types).\n\n2. **Download each attachment** using the `gog` skill:\n   ```\n   gog gmail attachment <message-id> <attachment-id> --out /tmp/<filename>\n   ```\n\n3. **Determine the target subfolder** from the email's received date:\n   - Format: `yyyy-MM` (e.g. `2026-02` for February 2026).\n   - Parent Drive folder ID: `1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC`\n   - Check if the `yyyy-MM` subfolder already exists:\n     ```\n     gog drive ls --parent 1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC --json\n     ```\n   - If it does not exist, create it:\n     ```\n     gog drive mkdir \"<yyyy-MM>\" --parent 1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC\n     ```\n\n4. **Upload the attachment** into the subfolder:\n   ```\n   gog drive upload /tmp/<filename> --parent <subfolder-id>\n   ```\n\n5. **Record outcome** per attachment:\n   - `uploaded` — upload succeeded; note the Drive file ID and name.\n   - `upload_failed` — upload failed; note the error.\n   - `no_attachment` — email had no recognisable document attachment.\n\n6. Do **not** archive Invoice emails — leave them in the inbox so they remain visible.\n\n### Step 4 — Unsubscribe from Promotions\n\nFor every email classified as **Promotions**:\n\n1. Inspect the email body (already fetched in Step 1) for an unsubscribe link. Look for:\n   - A `List-Unsubscribe` header (preferred — check headers in the `gog gmail get` JSON output).\n   - A hyperlink in the body whose text contains \"unsubscribe\", \"opt out\", \"opt-out\", or similar (case-insensitive).\n2. If an unsubscribe URL is found, perform an HTTP GET request to that URL using the `fetch` tool (or `exec curl <url>` as fallback). Follow redirects.\n3. Record the outcome per email:\n   - `unsubscribed` — request succeeded (2xx or redirect to confirmation page).\n   - `unsubscribe_failed` — request failed or no URL found.\n4. After unsubscribing (or attempting), archive the email using the `gog` skill:\n   ```\n   gog gmail thread modify <thread-id> --remove INBOX\n   ```\n\n### Step 5 — Archive Automatically\n\nFor emails in these categories (excluding Promotions handled in Step 4 and Invoices handled in Step 3), archive them using the `gog` skill:\n```\ngog gmail thread modify <thread-id> --remove INBOX\n```\n\nCategories to auto-archive:\n- **Updates & Notifications**\n- **LinkedIn**\n- **GitHub** (low-priority notifications)\n- **Revolut**\n\nDo NOT archive: Personal / Work, Invoices, Trading 212, Qogita, Google Workspace, Google (Other), Apple, Bitstamp, Wise, Forums, Calendar / Zoom / Amazon.\n\n### Step 6 — Return Summary\n\nEnd your turn with the following formatted summary as your **final message**. Do NOT call the `message` tool — just return the text below as your reply:\n\n```\n📬 Gmail Triage — {date} {time CET}\n\n📊 {total} emails | 🗂 {archived} archived | 🚫 {unsubscribed} unsubscribed | 🧾 {invoices_uploaded} invoices uploaded\n\n━━━━━━━━━━━━━━━━━━━━━\n👤 Personal / Work ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender 🔗 https://mail.google.com/mail/u/0/#inbox/{thread-id}\n\n[Repeat for each non-archived category with Gmail links]\n\n━━━━━━━━━━━━━━━━━━━━━\n🧾 Invoices ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender [uploaded: filename.pdf → Drive/yyyy-MM] 🔗 https://mail.google.com/mail/u/0/#inbox/{thread-id}\n\n━━━━━━━━━━━━━━━━━━━━━\n🚫 Promotions — Unsubscribed & Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender [unsubscribed ✓]\n• \"Subject\" — sender [unsubscribe failed]\n\n━━━━━━━━━━━━━━━━━━━━━\n🗂 Archived — Updates & Notifications ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender [archived]\n\n[Repeat for each archived category]\n```\n\nRules:\n- Only include categories that have at least 1 email.\n- Non-archived emails (including Invoices) MUST include a direct Gmail link.\n- Promotions show `[unsubscribed ✓]` or `[unsubscribe failed]` per item, no link.\n- Other archived categories show `[archived]`, no link.\n- Keep subject lines quoted and truncated to 60 chars if needed.\n- If a category has more than 10 emails, show the first 10 and append \"… and {N} more\".\n\n### Step 7 — Memory\n\nBefore returning the summary, store in semantic memory:\n- Run timestamp\n- Total emails processed and count per category\n- Each processed message ID as key `gmail_triage:<message-id>` (used for deduplication in future runs)\n- Unsubscribe outcomes for Promotions emails\n- Drive file IDs and filenames of uploaded invoices"
       },
       "delivery": {
-        "mode": "none",
+        "mode": "announce",
         "channel": "telegram",
         "to": "8403014547"
       },
       "state": {
-        "consecutiveErrors": 3,
-        "nextRunAtMs": 1772164800000,
-        "lastRunAtMs": 1772078400040,
-        "lastStatus": "error",
-        "lastDurationMs": 187070,
-        "lastError": "cron announce delivery failed"
+        "consecutiveErrors": 0,
+        "nextRunAtMs": 1772251200000,
+        "lastRunAtMs": 1772164800043,
+        "lastStatus": "ok",
+        "lastDurationMs": 106708
+      }
+    },
+    {
+      "id": "2cd979fd-7d51-4d81-9b85-99b20b0ce274",
+      "agentId": "main",
+      "sessionKey": "agent:main:main",
+      "name": "Weekly OpenClaw System Review",
+      "enabled": true,
+      "createdAtMs": 1772224921535,
+      "updatedAtMs": 1772226475529,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 3 * * 6",
+        "tz": "Europe/Ljubljana"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "model": "anthropic/claude-sonnet-4-6",
+        "thinking": "on",
+        "message": "## Weekly OpenClaw System Review\n\nYou are performing a comprehensive weekly audit of this OpenClaw installation. Be concrete and actionable — avoid vague suggestions. Every issue should come with a specific fix.\n\n---\n\n## Phase 1 — Data Collection\n\nCollect all of the following before analysis:\n\n```bash\n# Config\nopenclaw gateway status\ncat ~/.openclaw/openclaw.json\n\n# Cron jobs and recent run history\n# (use cron tool: list all jobs, fetch runs for each)\n\n# Workspace sizes\ndu -sh ~/.openclaw/workspace-* 2>/dev/null\ndu -sh ~/.openclaw/cron/ 2>/dev/null\nfind ~/.openclaw -name '*.tmp' 2>/dev/null | wc -l\n\n# Memory file sizes across all workspaces\nfind ~/.openclaw/workspace-*/memory -name '*.md' -exec wc -l {} + 2>/dev/null | tail -20\nwc -l ~/.openclaw/workspace-*/MEMORY.md 2>/dev/null\n\n# Skill inventories\nls ~/.openclaw/workspace-*/skills/ 2>/dev/null\n\n# Disk usage\ndf -h ~/\n\n# Docker\ndocker images | grep openclaw\ndocker ps -a | grep openclaw\n\n# Recent gateway log errors and warnings (last 24h)\ngrep -E '\"ERROR\"|\"WARN\"' /tmp/openclaw/openclaw-$(date +%Y-%m-%d).log 2>/dev/null | tail -50\n```\n\nAlso use the `cron` tool to:\n- List all jobs (including disabled)\n- Fetch run history for each job — note any with `lastStatus: error` or `consecutiveErrors > 0`\n\nAlso use the `gateway` tool to read the full config.\n\n---\n\n## Phase 2 — Analysis\n\nAnalyze the collected data across these dimensions:\n\n### A. Cron Job Health\n- List all jobs with recent errors and the specific error message\n- Identify jobs that consistently fail or time out\n- Check for jobs with `wakeMode: next-heartbeat` that could miss their schedule (prefer `now`)\n- Flag jobs with overlapping schedules that could cause resource contention on the Pi\n- Identify the top 3 most token-expensive jobs (by `usage.total_tokens` in run history)\n- Check whether Opus is used where Sonnet would suffice (flag any non-analysis job using Opus)\n\n### B. Agent Configuration\n- For each agent, verify it has appropriate tool allowlists (flag over-permissioned agents)\n- Check that all agent workspaces exist on disk\n- Verify core files exist in each workspace: AGENTS.md, SOUL.md, TOOLS.md, IDENTITY.md, USER.md, MEMORY.md\n- Identify agents that could benefit from being spawned as sub-agents vs running inline\n- Check `subagents.allowAgents` lists — are there missing agent-to-agent relationships that would be useful?\n- Flag agents that have `allowAgents` entries for agents that don't exist in the config\n\n### C. Security Audit\n- Check sandbox configs — are any agents running with `mode: off` that shouldn't be?\n- Review tool allowlists for over-permission (e.g., an agent with `gateway` or `cron` access that doesn't need it)\n- Look for secrets or API keys mentioned in cron job prompts (they should be in .env, not hardcoded)\n- Check if Docker containers are running as root vs unprivileged user\n- Verify workspace bind mounts are appropriate (rw vs ro)\n\n### D. Memory & Workspace Hygiene\n- Flag agent MEMORY.md files over 200 lines (bloat risk)\n- Flag memory/ directories with more than 30 daily files (old ones should be summarized and pruned)\n- List any `.tmp` files in the cron directory and flag if > 10\n- Check workspace sizes — flag any over 500MB\n\n### E. Skill & Tool Gaps\n- Review what each agent actually does in its cron jobs and compare to available tools\n- Search ClawHub (https://clawhub.com) for skills relevant to this setup:\n  - Finance/trading skills\n  - Monitoring/alerting skills\n  - Productivity integrations\n  - Any skills that would enhance Keynes, Cyril, Galileo, or Homer\n- Identify skills installed in one agent workspace that should also be in another\n- Flag skills with outdated npm dependencies\n\n### F. Architectural Patterns\n- Identify tasks currently done inline in cron prompts that would be better delegated to a specialist agent\n- Look for repeated logic across multiple cron job prompts that could be extracted into a shared skill\n- Suggest new agents that would complement the existing fleet (Galileo, von Neumann, Homer, Keynes)\n- Identify opportunities to chain agents (e.g., Keynes → Homer for report formatting)\n\n### G. Performance & Cost\n- Estimate weekly token spend by job (from run history usage data)\n- Flag jobs where `thinking: on` may not be necessary (routine data fetch + format jobs don't need thinking)\n- Suggest schedule adjustments to spread load across the day/week\n- Check if any jobs could be merged to reduce total API calls\n\n---\n\n## Phase 3 — Report\n\nCompose a structured report. Use this format:\n\n```\n🔍 OpenClaw Weekly System Review — {date}\n\n━━━━━━━━━━━━━━━━━━━━━\n🚨 Critical Issues ({count})\n━━━━━━━━━━━━━━━━━━━━━\n[Issues requiring immediate action — broken jobs, security holes, missing credentials]\n• Issue: ...\n  Fix: ...\n\n━━━━━━━━━━━━━━━━━━━━━\n⚠️ Warnings ({count})\n━━━━━━━━━━━━━━━━━━━━━\n[Non-blocking issues — antipatterns, bloat, suboptimal config]\n• Warning: ...\n  Suggestion: ...\n\n━━━━━━━━━━━━━━━━━━━━━\n🤖 Agent Suggestions ({count})\n━━━━━━━━━━━━━━━━━━━━━\n[New agents or agent improvements]\n• ...\n\n━━━━━━━━━━━━━━━━━━━━━\n🧩 Skill Suggestions ({count})\n━━━━━━━━━━━━━━━━━━━━━\n[New skills from ClawHub or custom]\n• {Skill name} — {why it would help} — {which agent would use it}\n  🔗 {ClawHub link if found}\n\n━━━━━━━━━━━━━━━━━━━━━\n💡 Architectural Improvements ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• ...\n\n━━━━━━━━━━━━━━━━━━━━━\n💰 Cost & Performance ({weekly_token_estimate} tokens est.)\n━━━━━━━━━━━━━━━━━━━━━\n• Most expensive job: {name} (~{tokens} tokens/week)\n• Thinking flag review: {job} — thinking may be unnecessary\n• Schedule suggestion: ...\n\n━━━━━━━━━━━━━━━━━━━━━\n🧹 Hygiene\n━━━━━━━━━━━━━━━━━━━━━\n• Workspace sizes: ...\n• Memory bloat: ...\n• Tmp files: ...\n\n#openclaw #review\n```\n\nSplit into multiple Telegram messages if the report exceeds 3000 characters.\n\n---\n\n## Phase 4 — Post to Telegram\n\nPost the report to topic `615` (`#openclaw #dev`) in chat `8403014547`:\n\n```json\n{\"action\": \"send\", \"to\": \"8403014547\", \"message\": \"<part 1>\", \"threadId\": \"615\"}\n```\n\nSend additional messages to the same topic for subsequent parts.\n\n---\n\n## Phase 5 — Memory\n\nAppend a summary to the main workspace `memory/YYYY-MM-DD.md`:\n- Issues found (count by severity)\n- Top 3 action items\n- Any changes made (if any auto-fixes were safe to apply)"
+      },
+      "delivery": {
+        "mode": "announce",
+        "channel": "telegram",
+        "to": "8403014547"
+      },
+      "state": {
+        "nextRunAtMs": 1772244000000,
+        "lastRunAtMs": 1772226118828,
+        "lastStatus": "ok",
+        "lastDurationMs": 356701,
+        "consecutiveErrors": 0,
+        "runningAtMs": 1772244000067
+      }
+    },
+    {
+      "id": "3dd18be9-b286-414f-a502-800f54185868",
+      "agentId": "keynes",
+      "sessionKey": "agent:lstopar-agent:main:thread:2320",
+      "name": "Mid-Week Portfolio Check",
+      "enabled": true,
+      "createdAtMs": 1772225055345,
+      "updatedAtMs": 1772225055345,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 18 * * 3",
+        "tz": "Europe/Ljubljana"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "## Mid-Week Portfolio Check\n\n### Step 1 — Fetch Portfolio Data\n\nFetch current portfolio from Trading 212:\n```bash\nnode /workspace/skills/trading212/dist/trading212.js positions\nnode /workspace/skills/trading212/dist/trading212.js account\n```\n\nIf API fails, wait 30 seconds and retry once. If still failing, post \"⚠️ Mid-week check — T212 API down\" to Telegram topic 701 chat 8403014547 and stop.\n\n### Step 2 — Compare to Friday Snapshot\n\nRead `/workspace/shared/lstopar-agent/trading/weekly-snapshot-latest.json`.\n\nCalculate:\n- Portfolio value change since Friday (€ and %)\n- Positions down >5% since Friday — flag these\n- Positions up >5% since Friday — note these\n- Any positions hitting new lows\n\nIf the snapshot file doesn't exist, skip comparison and just show current portfolio summary.\n\n### Step 3 — Quick Macro Scan\n\nUse web search for:\n- Major market moves this week (indices, notable stocks)\n- Any breaking macro news (rate decisions, inflation data, geopolitical events)\n- Earnings from holdings this week\n\nKeep this brief — 3-5 bullet points max.\n\n### Step 4 — Post to Telegram\n\nPost to topic 701 in chat 8403014547 using the message tool:\n\n```\n🔄 Mid-Week Check — {date}\n\n💰 Portfolio: €{value} ({+/-}% since Friday)\n🔴 Down >5%: {tickers or \"none\"}\n🟢 Up >5%: {tickers or \"none\"}\n📰 Key news: {1-2 top headlines}\n```\n\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"<your summary>\",\n  \"threadId\": \"701\"\n}\n```\n\nDo NOT post to any other Telegram topic. Keep it short — this is a check-in, not a full report.",
+        "model": "anthropic/claude-sonnet-4-6",
+        "thinking": "on"
+      },
+      "delivery": {
+        "mode": "announce",
+        "channel": "telegram",
+        "to": "8403014547"
+      },
+      "state": {
+        "nextRunAtMs": 1772643600000
       }
     }
   ]

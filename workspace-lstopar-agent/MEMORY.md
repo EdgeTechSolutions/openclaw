@@ -56,6 +56,12 @@
 
 ---
 
+### **Image/Video Generation**
+- **Always use Nano Banana Pro skill** (`/workspace/skills/nano-banana-pro/`) for generating images and video materials
+- Script: `uv run /workspace/skills/nano-banana-pro/scripts/generate_image.py`
+- Workflow: 1K draft → iterate → 4K final
+- Output lands in `/workspace/` — file tool can read it but message tool can't send local files (use inline MEDIA or tell user the path)
+
 ### **Trading 212 Balance Policy**
 - **Always fetch the latest balance** from the Trading 212 tool if the last check was **older than 5 minutes**.
 - Do **not** rely on cached or previously stored data for balance inquiries.
