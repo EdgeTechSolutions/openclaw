@@ -182,3 +182,6 @@ workspace-*/.[!.]*/
 workspace-*/.cache/
 workspace-*/.pki/
 workspace-*/.npm-global/
+
+/knowledge-graph.db
+/knowledge-graph.db-*

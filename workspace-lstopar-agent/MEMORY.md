@@ -93,3 +93,14 @@ The **Nightly Personal Email Categorizer** cron job runs every night at 05:00 Eu
 | Other | No |
 
 3. Posts a grouped summary with links to each email to Telegram topic `1299` (`#comm @personal`).
+
+### **General Principles**
+- **Always verify data before writing to Confluence.** Fetch from source first, write once. Estimates are not acceptable for documented pages — one wrong publish requires a correction and wastes Luka's time.
+
+### **Hugging Face Skill**
+- Built locally at `/workspace/skills/huggingface/` (not on ClawHub)
+- Three scripts (stdlib only, no pip deps):
+  - `search_models.py` — search HF Hub by query/task/sort (`downloads`, `likes`, `lastModified`, `createdAt`); `--new` = alias for lastModified; note: `trending` is **not** a valid sort value (400 error)
+  - `leaderboard.py` — Open LLM Leaderboard v2; filters: `--max-params`, `--min-params`, `--no-moe`, `--no-merged`; default scan 500 rows, `--scan 2000` for full coverage
+  - `model_info.py` — detailed metadata for a single model
+- `HF_TOKEN` env var supported for higher rate limits / gated models

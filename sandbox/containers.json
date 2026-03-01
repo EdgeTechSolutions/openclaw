@@ -1,26 +1,10 @@
 {
   "entries": [
     {
-      "containerName": "openclaw-sbx-agent-keynes-d9c6f8bb",
-      "sessionKey": "agent:keynes",
-      "createdAtMs": 1772224328393,
-      "lastUsedAtMs": 1772224669674,
-      "image": "openclaw-sandbox:lstopar",
-      "configHash": "8408bc4a16438a84b73b6780a9cbbb4b5c5eb96c126e2d91aee1ea0569062312"
-    },
-    {
-      "containerName": "openclaw-sbx-agent-galileo-3782d51c",
-      "sessionKey": "agent:galileo",
-      "createdAtMs": 1772214080160,
-      "lastUsedAtMs": 1772230428250,
-      "image": "openclaw-sandbox:lstopar",
-      "configHash": "02bbded98ce7e73f5160074ea02e8dd720e19694ef1b9b9758f36380bdcff62e"
-    },
-    {
       "containerName": "openclaw-sbx-agent-lstopar-agent-888f1ee3",
       "sessionKey": "agent:lstopar-agent",
       "createdAtMs": 1771972916392,
-      "lastUsedAtMs": 1772232593024,
+      "lastUsedAtMs": 1772319500588,
       "image": "openclaw-sandbox:lstopar",
       "configHash": "cbf727fa946d566a040be1168aea8f2e690bcaa9ea6f423e90db8ed7be2ad0c4"
     }

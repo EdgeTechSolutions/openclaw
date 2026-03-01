@@ -7,7 +7,7 @@
       "name": "Weekly Trading Portfolio Report",
       "enabled": true,
       "createdAtMs": 1770578336587,
-      "updatedAtMs": 1772227462102,
+      "updatedAtMs": 1772265229562,
       "schedule": {
         "kind": "cron",
         "expr": "0 18 * * 5",
@@ -17,14 +17,15 @@
       "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
-        "message": "Generate a weekly report analyzing the user's Trading212 portfolio, macroeconomic news, impactful events, and **undervalued asset opportunities**. Include:\n\n1. **Portfolio Summary**: Current holdings, allocation, performance (P&L), and key observations.\n2. **Macroeconomic Trends**: Global and regional economic updates (interest rates, inflation, growth, currencies).\n3. **Impactful Events**: Geopolitical, economic, and sector-specific events affecting markets.\n4. **Potential Impact**: How these trends/events could affect the user's portfolio, with clear scenarios.\n5. **Recommendations**: Short-term and long-term actions (e.g., rebalancing, hedging, profit-taking).\n6. **New Position Suggestions**: Based on current portfolio composition, market trends, and macroeconomic context, suggest 3–5 new positions the user could open on Trading212. For each suggestion include: instrument name/ticker, rationale (why now, what thesis), suggested allocation size relative to portfolio, key risks, and a conviction level (High / Medium / Low).\n\n### **NEW: Undervalued Asset Analysis**\n7. **Undervalued Assets**: Identify 3–5 potentially undervalued assets (stocks, ETFs, commodities) based on:\n   - **Fundamental analysis**: P/E, P/B, EV/EBITDA, dividend yield, free cash flow yield\n   - **Technical analysis**: RSI, moving averages, support/resistance levels\n   - **Market sentiment**: Short interest, analyst ratings, institutional ownership\n   - **Macro context**: Sector rotation, interest rate sensitivity, geopolitical exposure\n   - **Catalysts**: Upcoming earnings, product launches, regulatory changes, M&A rumors\n\n   For each undervalued asset, provide:\n   - Ticker, name, current price\n   - Key valuation metrics (e.g., P/E, P/B, dividend yield)\n   - Why it's undervalued (thesis)\n   - Catalysts that could unlock value\n   - Key risks\n   - Conviction level (High / Medium / Low)\n   - Suggested allocation size relative to portfolio\n\nUse the latest data from the Trading212 API and EventRegistry API. Format the report for clarity and readability.\n\nAfter completing the task, respond with:\n- A **success/failure indicator** (e.g., `✅ Success` or `❌ Failed`).\n- A **1-5 bullet-point summary** of what was accomplished.\n\n**Important**: Use the `message` tool to post the result to Telegram topic `701` (`#trading @personal`) in chat `8403014547`. Do NOT post to any other topic.",
+        "message": "Generate a weekly report analyzing the user's Trading212 portfolio, macroeconomic news, impactful events, and **undervalued asset opportunities**. Include:\n\n1. **Portfolio Summary**: Current holdings, allocation, performance (P&L), and key observations.\n2. **Macroeconomic Trends**: Global and regional economic updates (interest rates, inflation, growth, currencies).\n3. **Impactful Events**: Geopolitical, economic, and sector-specific events affecting markets.\n4. **Potential Impact**: How these trends/events could affect the user's portfolio, with clear scenarios.\n5. **Recommendations**: Short-term and long-term actions (e.g., rebalancing, hedging, profit-taking).\n6. **New Position Suggestions**: Based on current portfolio composition, market trends, and macroeconomic context, suggest 3–5 new positions the user could open on Trading212. For each suggestion include: instrument name/ticker, rationale (why now, what thesis), suggested allocation size relative to portfolio, key risks, and a conviction level (High / Medium / Low).\n\n### **NEW: Undervalued Asset Analysis**\n7. **Undervalued Assets**: Identify 3–5 potentially undervalued assets (stocks, ETFs, commodities) based on:\n   - **Fundamental analysis**: P/E, P/B, EV/EBITDA, dividend yield, free cash flow yield\n   - **Technical analysis**: RSI, moving averages, support/resistance levels\n   - **Market sentiment**: Short interest, analyst ratings, institutional ownership\n   - **Macro context**: Sector rotation, interest rate sensitivity, geopolitical exposure\n   - **Catalysts**: Upcoming earnings, product launches, regulatory changes, M&A rumors\n\n   For each undervalued asset, provide:\n   - Ticker, name, current price\n   - Key valuation metrics (e.g., P/E, P/B, dividend yield)\n   - Why it's undervalued (thesis)\n   - Catalysts that could unlock value\n   - Key risks\n   - Conviction level (High / Medium / Low)\n   - Suggested allocation size relative to portfolio\n\nUse the latest data from the Trading212 API and EventRegistry API. Format the report for clarity and readability.\n\n### Backup: Write Report to File\n\nBefore posting to Telegram, write the complete report to a backup file:\n```bash\nDATE=$(date +%Y-%m-%d)\nexec bash -c \"cat > /workspace/shared/trading-report-${DATE}.md\" << 'REPORT'\n<full report content here>\nREPORT\n```\nThis ensures the report is recoverable even if Telegram delivery fails.\n\nAfter completing the task, respond with:\n- A **success/failure indicator** (e.g., `✅ Success` or `❌ Failed`).\n- A **1-5 bullet-point summary** of what was accomplished.\n\n**Important**: Use the `message` tool to post the result to Telegram topic `701` (`#trading @personal`) in chat `8403014547`. Do NOT post to any other topic.",
         "model": "anthropic/claude-opus-4-6",
         "thinking": "on"
       },
       "delivery": {
         "mode": "announce",
         "channel": "telegram",
-        "to": "8403014547"
+        "to": "8403014547",
+        "bestEffort": true
       },
       "state": {
         "nextRunAtMs": 1772816400000,
@@ -73,7 +74,7 @@
       "name": "Weekly LLM Research Scan",
       "enabled": true,
       "createdAtMs": 1770623566456,
-      "updatedAtMs": 1772121854783,
+      "updatedAtMs": 1772265229769,
       "schedule": {
         "kind": "cron",
         "expr": "0 17 * * 4",
@@ -90,7 +91,8 @@
       "delivery": {
         "mode": "announce",
         "channel": "telegram",
-        "to": "8403014547"
+        "to": "8403014547",
+        "bestEffort": true
       },
       "state": {
         "nextRunAtMs": 1772726400000,
@@ -141,7 +143,7 @@
       "name": "Daily OpenClaw Directory Backup",
       "enabled": true,
       "createdAtMs": 1771023878360,
-      "updatedAtMs": 1772226960881,
+      "updatedAtMs": 1772244043118,
       "schedule": {
         "kind": "cron",
         "expr": "0 3 * * *",
@@ -160,12 +162,12 @@
         "to": "8403014547"
       },
       "state": {
-        "nextRunAtMs": 1772244000000,
-        "lastRunAtMs": 1772154000034,
+        "nextRunAtMs": 1772330400000,
+        "lastRunAtMs": 1772244000075,
         "lastStatus": "ok",
-        "lastDurationMs": 28277,
+        "lastDurationMs": 43043,
         "consecutiveErrors": 0,
-        "runningAtMs": 1772244000067
+        "runningAtMs": 1772330400044
       }
     },
     {
@@ -174,7 +176,7 @@
       "name": "Email Triage Agent",
       "enabled": true,
       "createdAtMs": 1771190372608,
-      "updatedAtMs": 1772226966687,
+      "updatedAtMs": 1772265229987,
       "schedule": {
         "kind": "cron",
         "expr": "15 8,11,15,20 * * 1-5,0",
@@ -185,8 +187,8 @@
       "payload": {
         "kind": "agentTurn",
         "message": "### Email Triage Agent\n\n#### CRITICAL: Use CLI commands\nThe Microsoft 365 skill is a CLI tool. Use `exec` to call it.\n\nCLI reference:\n- **List emails** (last N hours): `node /workspace/skills/microsoft365/email-triage.js list <hours>`\n- **Get full email**: `node /workspace/skills/microsoft365/email-triage.js get <messageId>`\n- **Move to archive**: `node /workspace/skills/microsoft365/email-triage.js move <messageId> archive`\n- **Create reply-all draft**: `echo \"<body text>\" | node /workspace/skills/microsoft365/email-triage.js reply-draft <messageId>`\n\nAll commands output JSON.\n\n#### Identity\nYou are acting on behalf of **Luka Stopar** (luka.stopar@edgetech.si). All draft responses MUST be written as if Luka Stopar is the author. Sign all drafts as \"Luka\" or \"LP, Luka\". Never use any other name or persona.\n\n#### Email Retrieval\n1. Run `node /workspace/skills/microsoft365/email-triage.js list 50` to fetch the last 50 emails.\n2. Before processing each email, check semantic memory for the email's `messageId`.\n3. Skip emails already stored in memory.\n\n#### Email Classification & Actions\nFor each unprocessed email, classify it into one of these categories and take the corresponding action:\n\n1. **Marketing**\n   - **Action**: Archive the email: `node /workspace/skills/microsoft365/email-triage.js move <id> archive`\n   - Also attempt to unsubscribe: inspect the email body/headers for an unsubscribe link (`List-Unsubscribe` header or link containing \"unsubscribe\"/\"opt out\"). If found, perform an HTTP GET to that URL. Record outcome as `unsubscribed` or `unsubscribe_failed`.\n\n2. **Newsletter**\n   - **Action**: Archive the email.\n   - Also attempt to unsubscribe (same process as Marketing).\n\n3. **Tool Notifications**\n   - **Criteria**: Emails from GitHub, Confluence, Jira, Atlassian, Conductor, or other development/project management tools.\n   - **Action**: Archive the email: `node /workspace/skills/microsoft365/email-triage.js move <id> archive`\n\n4. **Actionable (requires my response)**\n   - **Action**:\n     1. First, search your semantic memory and Confluence for information relevant to drafting a response.\n     2. If you find sufficient information to compose a complete, accurate answer:\n        - Compose a natural, human-like response as **Luka Stopar**, sign off as \"Luka\" or \"LP, Luka\".\n        - Create the draft: `echo \"<your response text>\" | node /workspace/skills/microsoft365/email-triage.js reply-draft <messageId>`\n        - The command outputs JSON with `draftId` and `link` — save the `link` for the Telegram summary.\n     3. If you do NOT have enough information to draft a confident answer, leave the email as-is. Do not guess or fabricate information.\n   - **Summary**: \"Draft ready\" with draft link, or \"Needs manual response\" if insufficient info.\n\n5. **Informational**\n   - **Criteria**: Emails that inform but don't require action (confirmations, receipts, FYI messages).\n   - **Action**: Leave as-is.\n\n6. **Invitations**\n   - **Criteria**: Invitations to events, meetings, conferences, webinars, presentations, or similar gatherings.\n   - **Action**:\n     1. Extract event details: title, date/time, location (physical or virtual link), organizer.\n     2. Create a calendar event using the Microsoft 365 skill or calendar API.\n     3. After the calendar event is created, archive the email: `node /workspace/skills/microsoft365/email-triage.js move <id> archive`\n   - **Summary**: \"Calendar event created & archived\" with event details.\n\n#### Memory Storage\nAfter processing each email, append to `memory/email-triage-log.md`:\n- `messageId`, `subject`, `sender`, `received timestamp`, `classification`, `action taken`\n\n#### Telegram Summary\nPost a summary to Telegram topic `#comm @all` (topic ID: `761`). Use the `message` tool:\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"<your summary>\",\n  \"threadId\": \"761\"\n}\n```\n\nFormat — group emails by category. For each email show the subject as an Outlook link and a 1-2 sentence summary:\n\n```\n📬 M365 Email Triage — {date} {time}\n\n📊 {total} processed | 🗂 {archived} archived | 🚫 {unsubscribed} unsubscribed | ✉️ {drafts} drafts | 📅 {events} calendar events\n\n━━━━━━━━━━━━━━━━━━━━━\n✉️ Actionable ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• [Subject](https://outlook.office.com/mail/id/{messageId}) — {1-2 sentence summary}\n  {if draft} 🔗 [View Draft]({draft link}) {endif}\n  {if no draft} ⚠️ Needs manual response {endif}\n\n━━━━━━━━━━━━━━━━━━━━━\n📅 Invitations — Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• {Subject} — {1-2 sentence summary}\n  📅 Event created: {title} @ {date/time} [archived]\n\n━━━━━━━━━━━━━━━━━━━━━\nℹ️ Informational ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• [Subject](https://outlook.office.com/mail/id/{messageId}) — {1-2 sentence summary}\n\n━━━━━━━━━━━━━━━━━━━━━\n🔧 Tool Notifications — Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• {Subject} — {1-2 sentence summary} [archived]\n\n━━━━━━━━━━━━━━━━━━━━━\n📰 Newsletters — Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• {Subject} — {1-2 sentence summary} [archived] {unsubscribed ✓ / unsubscribe failed}\n\n━━━━━━━━━━━━━━━━━━━━━\n🏷️ Marketing — Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• {Subject} — {1-2 sentence summary} [archived] {unsubscribed ✓ / unsubscribe failed}\n\n#openclaw #email\n```\n\nRules:\n- Only include categories with at least 1 email.\n- Non-archived emails MUST have the subject as an Outlook link.\n- Archived categories don't need links.\n- Keep subject lines truncated to 60 chars if needed.\n- If a category has more than 10 emails, show first 10 and append \"… and {N} more\".\n\nDo NOT post to any other Telegram topic.",
-        "model": "anthropic/claude-opus-4-6",
-        "thinking": "on"
+        "model": "anthropic/claude-sonnet-4-6",
+        "thinking": "off"
       },
       "delivery": {
         "mode": "none",
@@ -207,7 +209,7 @@
       "name": "Nightly Personal Gmail Triage",
       "enabled": true,
       "createdAtMs": 1771618729376,
-      "updatedAtMs": 1772226884661,
+      "updatedAtMs": 1772318011067,
       "schedule": {
         "kind": "cron",
         "expr": "0 5 * * *",
@@ -228,10 +230,10 @@
       },
       "state": {
         "consecutiveErrors": 0,
-        "nextRunAtMs": 1772251200000,
-        "lastRunAtMs": 1772164800043,
+        "nextRunAtMs": 1772337600000,
+        "lastRunAtMs": 1772251200056,
         "lastStatus": "ok",
-        "lastDurationMs": 106708
+        "lastDurationMs": 149787
       }
     },
     {
@@ -241,7 +243,7 @@
       "name": "Weekly OpenClaw System Review",
       "enabled": true,
       "createdAtMs": 1772224921535,
-      "updatedAtMs": 1772226475529,
+      "updatedAtMs": 1772244255310,
       "schedule": {
         "kind": "cron",
         "expr": "0 3 * * 6",
@@ -261,12 +263,11 @@
         "to": "8403014547"
       },
       "state": {
-        "nextRunAtMs": 1772244000000,
-        "lastRunAtMs": 1772226118828,
+        "nextRunAtMs": 1772848800000,
+        "lastRunAtMs": 1772244043118,
         "lastStatus": "ok",
-        "lastDurationMs": 356701,
-        "consecutiveErrors": 0,
-        "runningAtMs": 1772244000067
+        "lastDurationMs": 212192,
+        "consecutiveErrors": 0
       }
     },
     {

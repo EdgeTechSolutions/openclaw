@@ -72,6 +72,8 @@ export default function register(api: any) {
   const extractionConfig: ExtractionConfig = {
     gatewayUrl: `http://127.0.0.1:${api.config?.gateway?.port || 18789}`,
     model: pluginConfig.extractionModel,
+    // Resolve auth token: try config first, then env (gateway resolves ${VAR} before passing config)
+    authToken: process.env.UI_AUTH_TOKEN || process.env.OPENCLAW_TOKEN,
   };
 
   // Track processing stats
@@ -158,54 +160,45 @@ export default function register(api: any) {
 
   // ─── HOOKS ────────────────────────────────────────────────
 
-  // Capture inbound messages
-  api.registerHook(
-    "message:received",
-    async (event: any) => {
-      const content = event.context?.content;
+  // Capture inbound messages (typed hook API)
+  api.on(
+    "message_received",
+    async (event: any, ctx: any) => {
+      const content = event.content;
       if (!content) return;
 
       const conversationId =
-        event.context?.conversationId ||
-        event.context?.channelId ||
-        event.sessionKey ||
+        ctx?.conversationId ||
+        ctx?.channelId ||
         "unknown";
 
-      const sender = event.context?.from || "user";
+      const sender = event.from || "user";
 
       await buffer.addMessage(conversationId, sender, content);
     },
-    {
-      name: "knowledge-graph.message-received",
-      description: "Buffers inbound messages for fact extraction",
-    }
   );
 
-  // Capture outbound messages (agent replies)
-  api.registerHook(
-    "message:sent",
-    async (event: any) => {
-      const content = event.context?.content;
+  // Capture outbound messages (typed hook API)
+  api.on(
+    "message_sent",
+    async (event: any, ctx: any) => {
+      const content = event.content;
       if (!content) return;
 
       const conversationId =
-        event.context?.conversationId ||
-        event.context?.channelId ||
-        event.sessionKey ||
+        ctx?.conversationId ||
+        ctx?.channelId ||
         "unknown";
 
       await buffer.addMessage(conversationId, "agent", content);
     },
-    {
-      name: "knowledge-graph.message-sent",
-      description: "Buffers outbound messages for fact extraction",
-    }
   );
 
   // ─── AGENT TOOL ───────────────────────────────────────────
 
   api.registerTool({
     name: "knowledge_graph",
+    label: "Knowledge Graph",
     description:
       "Search and manage the knowledge graph. Stores facts extracted from conversations as (subject, relation, object) triples with vector embeddings for semantic search.",
     parameters: {
@@ -260,36 +253,41 @@ export default function register(api: any) {
       },
       required: ["action"],
     },
-    handler: async (params: any) => {
+    async execute(_toolCallId: string, params: any) {
+      const json = (result: unknown) => ({
+        content: [{ type: "text" as const, text: JSON.stringify(result, null, 2) }],
+        details: result,
+      });
+
       const limit = params.limit || 10;
 
       switch (params.action) {
         case "search": {
-          if (!params.query) return { error: "query is required for search" };
+          if (!params.query) return json({ error: "query is required for search" });
           if (!pluginConfig.embeddingApiKey) {
-            return { error: "Embedding API key not configured. Use action=entity or action=relation instead." };
+            return json({ error: "Embedding API key not configured. Use action=entity or action=relation instead." });
           }
           const queryEmb = await getEmbedding(params.query, embeddingConfig);
           const results = db.searchByVector(queryEmb, limit);
-          return { results, count: results.length };
+          return json({ results, count: results.length });
         }
 
         case "entity": {
-          if (!params.entity) return { error: "entity name is required" };
+          if (!params.entity) return json({ error: "entity name is required" });
           const facts = db.searchByEntity(params.entity, limit);
-          return { entity: params.entity, facts, count: facts.length };
+          return json({ entity: params.entity, facts, count: facts.length });
         }
 
         case "relation": {
-          if (!params.relation) return { error: "relation type is required" };
+          if (!params.relation) return json({ error: "relation type is required" });
           const facts = db.searchByRelation(params.relation, limit);
-          return { relation: params.relation, facts, count: facts.length };
+          return json({ relation: params.relation, facts, count: facts.length });
         }
 
         case "stats": {
           const dbStats = db.getStats();
           const bufferStats = buffer.getStats();
-          return {
+          return json({
             entities: dbStats.entities,
             relations: dbStats.relations,
             mentions: dbStats.mentions,
@@ -297,42 +295,42 @@ export default function register(api: any) {
             totalStored,
             activeBuffers: Object.keys(bufferStats).length,
             buffers: bufferStats,
-          };
+          });
         }
 
         case "recent": {
           const facts = db.getAllFacts(limit);
-          return { facts, count: facts.length };
+          return json({ facts, count: facts.length });
         }
 
         case "similar": {
-          if (!params.entity) return { error: "entity name is required" };
+          if (!params.entity) return json({ error: "entity name is required" });
           if (!pluginConfig.embeddingApiKey) {
-            return { error: "Embedding API key not configured." };
+            return json({ error: "Embedding API key not configured." });
           }
           const entityEmb = await getEmbedding(params.entity, embeddingConfig);
           const similar = db.findSimilarEntities(entityEmb, limit);
-          return { entity: params.entity, similar, count: similar.length };
+          return json({ entity: params.entity, similar, count: similar.length });
         }
 
         case "merge": {
           if (!params.merge_from || !params.merge_into) {
-            return { error: "merge_from and merge_into are required" };
+            return json({ error: "merge_from and merge_into are required" });
           }
           try {
             db.deduplicateEntities(params.merge_into, params.merge_from);
-            return {
+            return json({
               success: true,
               message: `Merged "${params.merge_from}" into "${params.merge_into}"`,
-            };
+            });
           } catch (err: any) {
-            return { error: err.message };
+            return json({ error: err.message });
           }
         }
 
         case "add": {
           if (!params.subject || !params.relation || !params.object) {
-            return { error: "subject, relation, and object are required" };
+            return json({ error: "subject, relation, and object are required" });
           }
           const subjectId = db.getOrCreateEntity(
             params.subject,
@@ -364,30 +362,47 @@ export default function register(api: any) {
             }
           }
 
-          return {
+          return json({
             success: true,
             fact: `${params.subject} --[${params.relation}]--> ${params.object}`,
             relationId,
-          };
+          });
         }
 
         case "mentions": {
-          if (!params.entity) return { error: "entity name is required" };
+          if (!params.entity) return json({ error: "entity name is required" });
           const entityId = db.getEntityId(params.entity);
           if (entityId === null) {
-            return { error: `Entity "${params.entity}" not found in graph` };
+            return json({ error: `Entity "${params.entity}" not found in graph` });
           }
           const mentions = db.getMentions(entityId, limit);
-          return { entity: params.entity, entityId, mentions, count: mentions.length };
+          return json({ entity: params.entity, entityId, mentions, count: mentions.length });
         }
 
         default:
-          return {
+          return json({
             error: `Unknown action: ${params.action}. Use: search, entity, relation, stats, recent, similar, merge, add, mentions`,
-          };
+          });
       }
     },
   });
+
+  // ─── SHUTDOWN HOOK ────────────────────────────────────────
+  // Flush pending messages and destroy the setInterval timer on gateway stop.
+  api.on(
+    "gateway_stop",
+    async () => {
+      console.log("[knowledge-graph] Gateway stopping — flushing buffers and cleaning up...");
+      try {
+        await buffer.flushAll();
+      } catch (err: any) {
+        console.error("[knowledge-graph] Flush error on shutdown:", err.message);
+      }
+      buffer.destroy();
+      db.close();
+      console.log("[knowledge-graph] Cleanup done.");
+    },
+  );
 
   console.log("[knowledge-graph] Plugin registered successfully");
   console.log(`[knowledge-graph] Buffer: window=${pluginConfig.windowSize}, flush=${pluginConfig.flushTimeoutMs}ms`);
