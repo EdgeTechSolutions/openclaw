@@ -19,8 +19,13 @@ export interface ExtractionConfig {
 
 const EXTRACTION_PROMPT = `You are a knowledge graph fact extractor. Given a conversation block, extract factual relations as structured triples.
 
-Rules:
-- Only extract CONCRETE facts (decisions, preferences, events, relationships, configurations, deadlines)
+CRITICAL RULE — EXISTING vs DESIGNED:
+- ONLY extract facts about things that ALREADY EXIST or have ALREADY HAPPENED
+- SKIP anything that is a plan, design, proposal, idea, or hypothetical ("we could", "let's build", "what if", "I want to", "should we", "would be nice")
+- A fact is only valid if it describes a current or past state of the world, not a future or imagined one
+
+Other rules:
+- Only extract CONCRETE facts (decisions made, preferences stated, events that occurred, configurations in place)
 - Skip greetings, filler, opinions without substance, and small talk
 - Normalize entity names (e.g., "Luka" and "Luka Stopar" → use the most complete form)
 - Use lowercase snake_case for relation types
@@ -149,40 +154,51 @@ function tryParseJson(s: string): unknown {
 }
 
 /**
- * Alternative extraction using direct LLM API call (no llm-task dependency).
- * Falls back to this if llm-task is not available.
+ * Extract facts using an OpenAI-compatible API (Mistral, OpenRouter, etc.)
  */
 export async function extractFactsDirect(
   conversationBlock: string,
   apiKey: string,
-  model: string = "mistral-large-latest"
+  model: string = "mistral-large-latest",
+  baseUrl: string = "https://api.mistral.ai/v1"
 ): Promise<ExtractedFact[]> {
   const prompt = EXTRACTION_PROMPT.replace("{CONVERSATION}", conversationBlock);
 
+  const headers: Record<string, string> = {
+    Authorization: `Bearer ${apiKey}`,
+    "Content-Type": "application/json",
+  };
+  // OpenRouter requires these headers
+  if (baseUrl.includes("openrouter")) {
+    headers["HTTP-Referer"] = "https://openclaw.ai";
+    headers["X-Title"] = "OpenClaw Knowledge Graph";
+  }
+
   try {
-    const resp = await fetch("https://api.mistral.ai/v1/chat/completions", {
+    const resp = await fetch(`${baseUrl}/chat/completions`, {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
+      headers,
       body: JSON.stringify({
         model,
         messages: [{ role: "user", content: prompt }],
         temperature: 0.1,
-        response_format: { type: "json_object" },
+        max_tokens: 2000,
       }),
     });
 
-    if (!resp.ok) return [];
+    if (!resp.ok) {
+      const errText = await resp.text().catch(() => "(unreadable)");
+      console.error(`[knowledge-graph] Direct LLM extraction failed: HTTP ${resp.status}: ${errText}`);
+      return [];
+    }
 
     const data = await resp.json();
     const content = data.choices?.[0]?.message?.content;
     if (!content) return [];
 
-    const parsed = JSON.parse(content);
-    return Array.isArray(parsed) ? parsed : parsed.facts || [];
-  } catch {
+    return parseExtractionResponse(content);
+  } catch (err: any) {
+    console.error(`[knowledge-graph] Direct extraction error: ${err.message}`);
     return [];
   }
 }

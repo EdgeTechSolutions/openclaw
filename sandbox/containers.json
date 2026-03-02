@@ -1,12 +1,28 @@
 {
   "entries": [
     {
+      "containerName": "openclaw-sbx-agent-von-neumann-039e0146",
+      "sessionKey": "agent:von-neumann",
+      "createdAtMs": 1772396694437,
+      "lastUsedAtMs": 1772396694437,
+      "image": "openclaw-sandbox:lstopar",
+      "configHash": "ad428ca8e17595bcf78d3e6e8fb2f3c9976ba4ce5a8bf2efb1f440b40927a4df"
+    },
+    {
       "containerName": "openclaw-sbx-agent-lstopar-agent-888f1ee3",
       "sessionKey": "agent:lstopar-agent",
       "createdAtMs": 1771972916392,
-      "lastUsedAtMs": 1772319500588,
+      "lastUsedAtMs": 1772405326110,
       "image": "openclaw-sandbox:lstopar",
-      "configHash": "cbf727fa946d566a040be1168aea8f2e690bcaa9ea6f423e90db8ed7be2ad0c4"
+      "configHash": "40ebc093cc36ce1dae235ad2beed7b6ab71336e8d11610a20f5d30563d84797e"
+    },
+    {
+      "containerName": "openclaw-sbx-agent-darwin-e6086bfb",
+      "sessionKey": "agent:darwin",
+      "createdAtMs": 1772413245713,
+      "lastUsedAtMs": 1772413245713,
+      "image": "openclaw-sandbox:lstopar",
+      "configHash": "969573462c3483b6303d58f636c6bad89a7b34e78fba768cb07d8303d20eb8c9"
     }
   ]
 }

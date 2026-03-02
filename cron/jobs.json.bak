@@ -143,7 +143,7 @@
       "name": "Daily OpenClaw Directory Backup",
       "enabled": true,
       "createdAtMs": 1771023878360,
-      "updatedAtMs": 1772244043118,
+      "updatedAtMs": 1772330469211,
       "schedule": {
         "kind": "cron",
         "expr": "0 3 * * *",
@@ -153,21 +153,22 @@
       "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
-        "message": "Push the ~/.openclaw directory to its Git repository. Follow these steps:\n\n1. Navigate to ~/.openclaw.\n2. Stage all changes: `git add .`\n3. Commit changes with a message: `git commit -m \"Daily auto-backup: $(date '+%Y-%m-%d %H:%M:%S')\"`\n4. Push to the remote repository: `git push origin main`\n\nIf there are no changes, exit silently. If the push fails, retry once after 30 seconds.\n\nAfter completing the task, respond with:\n- A **success/failure indicator** (e.g., `✅ Success` or `❌ Failed`).\n- A **1-5 bullet-point summary** of what was accomplished. For example:\n  - Pushed **5 new files** to the repository.\n  - Committed changes with message: `Daily auto-backup: 2026-02-14 02:00:00`.\n  - No changes detected (if applicable).\n- A footer: `#openclaw #cron`.\n\nFormat the response for Telegram.",
+        "message": "Push the ~/.openclaw directory to its Git repository. Follow these steps:\n\n1. Navigate to ~/.openclaw.\n2. Stage all changes: `git add .`\n3. Commit changes with a message: `git commit -m \"Daily auto-backup: $(date '+%Y-%m-%d %H:%M:%S')\"`\n4. Push to the remote repository: `git push origin master`\n\nIf there are no changes, exit silently. If the push fails, retry once after 30 seconds.\n\nAfter completing the task, respond with:\n- A **success/failure indicator** (e.g., `✅ Success` or `❌ Failed`).\n- A **1-5 bullet-point summary** of what was accomplished.\n- A footer: `#openclaw #cron`.\n\nFormat the response for Telegram.",
         "model": "anthropic/claude-opus-4-6"
       },
       "delivery": {
         "mode": "announce",
         "channel": "telegram",
-        "to": "8403014547"
+        "to": "8403014547",
+        "bestEffort": true
       },
       "state": {
-        "nextRunAtMs": 1772330400000,
-        "lastRunAtMs": 1772244000075,
-        "lastStatus": "ok",
-        "lastDurationMs": 43043,
-        "consecutiveErrors": 0,
-        "runningAtMs": 1772330400044
+        "nextRunAtMs": 1772416800000,
+        "lastRunAtMs": 1772330400051,
+        "lastStatus": "error",
+        "lastDurationMs": 44833,
+        "consecutiveErrors": 1,
+        "runningAtMs": 1772416800052
       }
     },
     {
@@ -176,7 +177,7 @@
       "name": "Email Triage Agent",
       "enabled": true,
       "createdAtMs": 1771190372608,
-      "updatedAtMs": 1772265229987,
+      "updatedAtMs": 1772392544541,
       "schedule": {
         "kind": "cron",
         "expr": "15 8,11,15,20 * * 1-5,0",
@@ -196,11 +197,11 @@
         "to": "8403014547"
       },
       "state": {
-        "lastRunAtMs": 1772218800035,
+        "lastRunAtMs": 1772392500039,
         "lastStatus": "ok",
-        "lastDurationMs": 47159,
+        "lastDurationMs": 44502,
         "consecutiveErrors": 0,
-        "nextRunAtMs": 1772349300000
+        "nextRunAtMs": 1772435700000
       }
     },
     {
@@ -209,7 +210,7 @@
       "name": "Nightly Personal Gmail Triage",
       "enabled": true,
       "createdAtMs": 1771618729376,
-      "updatedAtMs": 1772318011067,
+      "updatedAtMs": 1772379259610,
       "schedule": {
         "kind": "cron",
         "expr": "0 5 * * *",
@@ -221,7 +222,7 @@
         "kind": "agentTurn",
         "model": "anthropic/claude-opus-4-6",
         "thinking": "on",
-        "message": "## Nightly Personal Gmail Triage\n\n### Step 1 — Fetch Emails\n\nUse the `gog` skill to fetch all emails received in the last 27 hours from the personal Gmail inbox:\n\n```\ngog gmail search 'newer_than:27h' --max 200 --json\n```\n\nIf the result is empty, end your turn with: \"📬 Gmail Triage — {date}\\n\\nNo new emails.\"\n\nFor each email, fetch its full content including headers, body, and attachment list:\n```\ngog gmail get <message-id> --json\n```\n\n### Step 1b — Deduplicate Against Memory\n\nBefore processing any email, check semantic memory to skip already-processed ones:\n- For each message ID, call `memory_search` with the query `gmail_triage:<message-id>`.\n- If a match is found, **skip that email** — it was handled in a previous run.\n- Only proceed to Step 2 for emails **not** found in memory.\n\nIf every fetched email is already in memory, end your turn with: \"📬 Gmail Triage — {date}\\n\\nNo new emails to process (all already handled).\"\n\n### Step 2 — Classify Each Email\n\nClassify every email into exactly one of the following categories based on sender domain, subject, and content. Use the sender patterns as primary signal:\n\n| Category | Sender / Signal |\n|---|---|\n| **Personal / Work** | @stopar.si, @edgetech.si, @gmail.com (personal contacts), direct human correspondence |\n| **Updates & Notifications** | OpenRouter, Mistral, service status emails, app notifications, automated system alerts |\n| **LinkedIn** | @linkedin.com, any LinkedIn jobs/invitations/social |\n| **Promotions** | OpenRouter promotions, Altroke, Zsport, marketing campaigns, discount offers |\n| **Invoices** | Emails containing PDF/document attachments that are invoices, receipts, or billing statements; subject contains \"invoice\", \"receipt\", \"bill\", \"faktura\", or similar; from any billing sender |\n| **Trading 212** | @trading212.com, portfolio alerts, trading notifications |\n| **Qogita (Wholesale)** | @qogita.com, B2B product offers |\n| **Google Workspace** | Google admin alerts, storage warnings, Workspace notifications |\n| **Google (Other)** | Google security alerts, account notices, non-Workspace Google emails |\n| **Apple** | @apple.com, iCloud billing, Apple ID notices |\n| **Bitstamp** | @bitstamp.net, crypto/tax notifications |\n| **Wise** | @wise.com, finance updates |\n| **GitHub** | @github.com, @noreply.github.com, notifications |\n| **Revolut** | @revolut.com, finance updates |\n| **Forums** | Community threads, forum digests, mailing lists |\n| **Calendar / Zoom / Amazon** | Calendar invites, @zoom.us, @amazon.com |\n\nIf an email doesn't fit any category above, place it in **Personal / Work**.\n\n### Step 3 — Upload Invoice Attachments to Google Drive\n\nFor every email classified as **Invoices**:\n\n1. **Identify attachments** from the email JSON (look for `attachments` or `parts` with `filename` ending in `.pdf`, `.docx`, `.xlsx`, or similar document types).\n\n2. **Download each attachment** using the `gog` skill:\n   ```\n   gog gmail attachment <message-id> <attachment-id> --out /tmp/<filename>\n   ```\n\n3. **Determine the target subfolder** from the email's received date:\n   - Format: `yyyy-MM` (e.g. `2026-02` for February 2026).\n   - Parent Drive folder ID: `1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC`\n   - Check if the `yyyy-MM` subfolder already exists:\n     ```\n     gog drive ls --parent 1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC --json\n     ```\n   - If it does not exist, create it:\n     ```\n     gog drive mkdir \"<yyyy-MM>\" --parent 1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC\n     ```\n\n4. **Upload the attachment** into the subfolder:\n   ```\n   gog drive upload /tmp/<filename> --parent <subfolder-id>\n   ```\n\n5. **Record outcome** per attachment:\n   - `uploaded` — upload succeeded; note the Drive file ID and name.\n   - `upload_failed` — upload failed; note the error.\n   - `no_attachment` — email had no recognisable document attachment.\n\n6. Do **not** archive Invoice emails — leave them in the inbox so they remain visible.\n\n### Step 4 — Unsubscribe from Promotions\n\nFor every email classified as **Promotions**:\n\n1. Inspect the email body (already fetched in Step 1) for an unsubscribe link. Look for:\n   - A `List-Unsubscribe` header (preferred — check headers in the `gog gmail get` JSON output).\n   - A hyperlink in the body whose text contains \"unsubscribe\", \"opt out\", \"opt-out\", or similar (case-insensitive).\n2. If an unsubscribe URL is found, perform an HTTP GET request to that URL using the `fetch` tool (or `exec curl <url>` as fallback). Follow redirects.\n3. Record the outcome per email:\n   - `unsubscribed` — request succeeded (2xx or redirect to confirmation page).\n   - `unsubscribe_failed` — request failed or no URL found.\n4. After unsubscribing (or attempting), archive the email using the `gog` skill:\n   ```\n   gog gmail thread modify <thread-id> --remove INBOX\n   ```\n\n### Step 5 — Archive Automatically\n\nFor emails in these categories (excluding Promotions handled in Step 4 and Invoices handled in Step 3), archive them using the `gog` skill:\n```\ngog gmail thread modify <thread-id> --remove INBOX\n```\n\nCategories to auto-archive:\n- **Updates & Notifications**\n- **LinkedIn**\n- **GitHub** (low-priority notifications)\n- **Revolut**\n\nDo NOT archive: Personal / Work, Invoices, Trading 212, Qogita, Google Workspace, Google (Other), Apple, Bitstamp, Wise, Forums, Calendar / Zoom / Amazon.\n\n### Step 6 — Return Summary\n\nEnd your turn with the following formatted summary as your **final message**. Do NOT call the `message` tool — just return the text below as your reply:\n\n```\n📬 Gmail Triage — {date} {time CET}\n\n📊 {total} emails | 🗂 {archived} archived | 🚫 {unsubscribed} unsubscribed | 🧾 {invoices_uploaded} invoices uploaded\n\n━━━━━━━━━━━━━━━━━━━━━\n👤 Personal / Work ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender 🔗 https://mail.google.com/mail/u/0/#inbox/{thread-id}\n\n[Repeat for each non-archived category with Gmail links]\n\n━━━━━━━━━━━━━━━━━━━━━\n🧾 Invoices ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender [uploaded: filename.pdf → Drive/yyyy-MM] 🔗 https://mail.google.com/mail/u/0/#inbox/{thread-id}\n\n━━━━━━━━━━━━━━━━━━━━━\n🚫 Promotions — Unsubscribed & Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender [unsubscribed ✓]\n• \"Subject\" — sender [unsubscribe failed]\n\n━━━━━━━━━━━━━━━━━━━━━\n🗂 Archived — Updates & Notifications ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender [archived]\n\n[Repeat for each archived category]\n```\n\nRules:\n- Only include categories that have at least 1 email.\n- Non-archived emails (including Invoices) MUST include a direct Gmail link.\n- Promotions show `[unsubscribed ✓]` or `[unsubscribe failed]` per item, no link.\n- Other archived categories show `[archived]`, no link.\n- Keep subject lines quoted and truncated to 60 chars if needed.\n- If a category has more than 10 emails, show the first 10 and append \"… and {N} more\".\n\n### Step 7 — Memory\n\nBefore returning the summary, store in semantic memory:\n- Run timestamp\n- Total emails processed and count per category\n- Each processed message ID as key `gmail_triage:<message-id>` (used for deduplication in future runs)\n- Unsubscribe outcomes for Promotions emails\n- Drive file IDs and filenames of uploaded invoices"
+        "message": "## Nightly Personal Gmail Triage\n\n### Step 1 — Fetch Emails\n\nUse the `gog` skill to fetch all emails received in the last 27 hours from the personal Gmail inbox:\n\n```\ngog gmail search 'newer_than:27h' --max 200 --json\n```\n\nIf the result is empty, post a brief \"📬 Gmail Triage — {date}\\n\\nNo new emails.\" to Telegram topic 1299 and stop.\n\nFor each email, fetch its full content including headers, body, and attachment list:\n```\ngog gmail get <message-id> --json\n```\n\n### Step 1b — Deduplicate Against Memory\n\nBefore processing any email, check semantic memory to skip already-processed ones:\n- For each message ID, call `memory_search` with the query `gmail_triage:<message-id>`.\n- If a match is found, **skip that email** — it was handled in a previous run.\n- Only proceed to Step 2 for emails **not** found in memory.\n\nIf every fetched email is already in memory, post \"No new emails to process (all already handled).\" to Telegram topic 1299 and stop.\n\n### Step 2 — Classify Each Email\n\nClassify every email into exactly one of the following categories based on sender domain, subject, and content. Use the sender patterns as primary signal:\n\n| Category | Sender / Signal |\n|---|---|\n| **Personal / Work** | @stopar.si, @edgetech.si, @gmail.com (personal contacts), direct human correspondence |\n| **Updates & Notifications** | OpenRouter, Mistral, service status emails, app notifications, automated system alerts |\n| **LinkedIn** | @linkedin.com, any LinkedIn jobs/invitations/social |\n| **Promotions** | OpenRouter promotions, Altroke, Zsport, marketing campaigns, discount offers |\n| **Invoices** | Emails containing PDF/document attachments that are invoices, receipts, or billing statements; subject contains \"invoice\", \"receipt\", \"bill\", \"faktura\", or similar; from any billing sender |\n| **Trading 212** | @trading212.com, portfolio alerts, trading notifications |\n| **Qogita (Wholesale)** | @qogita.com, B2B product offers |\n| **Google Workspace** | Google admin alerts, storage warnings, Workspace notifications |\n| **Google (Other)** | Google security alerts, account notices, non-Workspace Google emails |\n| **Apple** | @apple.com, iCloud billing, Apple ID notices |\n| **Bitstamp** | @bitstamp.net, crypto/tax notifications |\n| **Wise** | @wise.com, finance updates |\n| **GitHub** | @github.com, @noreply.github.com, notifications |\n| **Revolut** | @revolut.com, finance updates |\n| **Forums** | Community threads, forum digests, mailing lists |\n| **Calendar / Zoom / Amazon** | Calendar invites, @zoom.us, @amazon.com |\n\nIf an email doesn't fit any category above, place it in **Personal / Work**.\n\n### Step 3 — Upload Invoice Attachments to Google Drive\n\nFor every email classified as **Invoices**:\n\n1. **Identify attachments** from the email JSON (look for `attachments` or `parts` with `filename` ending in `.pdf`, `.docx`, `.xlsx`, or similar document types).\n\n2. **Download each attachment** using the `gog` skill:\n   ```\n   gog gmail attachment <message-id> <attachment-id> --out /tmp/<filename>\n   ```\n\n3. **Determine the target subfolder** from the email's received date:\n   - Format: `yyyy-MM` (e.g. `2026-02` for February 2026).\n   - Parent Drive folder ID: `1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC`\n   - Check if the `yyyy-MM` subfolder already exists:\n     ```\n     gog drive ls --parent 1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC --json\n     ```\n   - If it does not exist, create it:\n     ```\n     gog drive mkdir \"<yyyy-MM>\" --parent 1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC\n     ```\n\n4. **Upload the attachment** into the subfolder:\n   ```\n   gog drive upload /tmp/<filename> --parent <subfolder-id>\n   ```\n\n5. **Record outcome** per attachment:\n   - `uploaded` — upload succeeded; note the Drive file ID and name.\n   - `upload_failed` — upload failed; note the error.\n   - `no_attachment` — email had no recognisable document attachment.\n\n6. Do **not** archive Invoice emails — leave them in the inbox so they remain visible.\n\n### Step 4 — Unsubscribe from Promotions\n\nFor every email classified as **Promotions**:\n\n1. Inspect the email body (already fetched in Step 1) for an unsubscribe link. Look for:\n   - A `List-Unsubscribe` header (preferred — check headers in the `gog gmail get` JSON output).\n   - A hyperlink in the body whose text contains \"unsubscribe\", \"opt out\", \"opt-out\", or similar (case-insensitive).\n2. If an unsubscribe URL is found, perform an HTTP GET request to that URL using the `fetch` tool (or `exec curl <url>` as fallback). Follow redirects.\n3. Record the outcome per email:\n   - `unsubscribed` — request succeeded (2xx or redirect to confirmation page).\n   - `unsubscribe_failed` — request failed or no URL found.\n4. After unsubscribing (or attempting), archive the email using the `gog` skill:\n   ```\n   gog gmail thread modify <thread-id> --remove INBOX\n   ```\n\n### Step 5 — Archive Automatically\n\nFor emails in these categories (excluding Promotions handled in Step 4 and Invoices handled in Step 3), archive them using the `gog` skill:\n```\ngog gmail thread modify <thread-id> --remove INBOX\n```\n\nCategories to auto-archive:\n- **Updates & Notifications**\n- **LinkedIn**\n- **GitHub** (low-priority notifications)\n- **Revolut**\n\nDo NOT archive: Personal / Work, Invoices, Trading 212, Qogita, Google Workspace, Google (Other), Apple, Bitstamp, Wise, Forums, Calendar / Zoom / Amazon.\n\n### Step 6 — Post Summary to Telegram\n\nUse the `message` tool to post the summary to topic `1299` (`#comm @personal`) in chat `8403014547`:\n\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"<your composed summary>\",\n  \"threadId\": \"1299\"\n}\n```\n\nFormat:\n```\n📬 Gmail Triage — {date} {time CET}\n\n📊 {total} emails | 🗂 {archived} archived | 🚫 {unsubscribed} unsubscribed | 🧾 {invoices_uploaded} invoices uploaded\n\n━━━━━━━━━━━━━━━━━━━━━\n👤 Personal / Work ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender 🔗 https://mail.google.com/mail/u/0/#inbox/{thread-id}\n\n[Repeat for each non-archived category with Gmail links]\n\n━━━━━━━━━━━━━━━━━━━━━\n🧾 Invoices ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender [uploaded: filename.pdf → Drive/yyyy-MM] 🔗 https://mail.google.com/mail/u/0/#inbox/{thread-id}\n\n━━━━━━━━━━━━━━━━━━━━━\n🚫 Promotions — Unsubscribed & Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender [unsubscribed ✓]\n• \"Subject\" — sender [unsubscribe failed]\n\n━━━━━━━━━━━━━━━━━━━━━\n🗂 Archived — Updates & Notifications ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender [archived]\n\n[Repeat for each archived category]\n```\n\nRules:\n- Only include categories that have at least 1 email.\n- Non-archived emails (including Invoices) MUST include a direct Gmail link.\n- Promotions show `[unsubscribed ✓]` or `[unsubscribe failed]` per item, no link.\n- Other archived categories show `[archived]`, no link.\n- Keep subject lines quoted and truncated to 60 chars if needed.\n- If a category has more than 10 emails, show the first 10 and append \"… and {N} more\".\n- Do NOT post to any other Telegram topic.\n\n### Step 7 — Memory\n\nAfter posting, store in semantic memory:\n- Run timestamp\n- Total emails processed and count per category\n- Each processed message ID as key `gmail_triage:<message-id>` (used for deduplication in future runs)\n- Unsubscribe outcomes for Promotions emails\n- Drive file IDs and filenames of uploaded invoices"
       },
       "delivery": {
         "mode": "announce",
@@ -230,10 +231,10 @@
       },
       "state": {
         "consecutiveErrors": 0,
-        "nextRunAtMs": 1772337600000,
-        "lastRunAtMs": 1772251200056,
+        "nextRunAtMs": 1772424000000,
+        "lastRunAtMs": 1772337600057,
         "lastStatus": "ok",
-        "lastDurationMs": 149787
+        "lastDurationMs": 146705
       }
     },
     {
@@ -298,6 +299,39 @@
       },
       "state": {
         "nextRunAtMs": 1772643600000
+      }
+    },
+    {
+      "id": "39d7abc9-94de-452f-9b08-30a561d6bcba",
+      "agentId": "darwin",
+      "sessionKey": "agent:main:telegram:group:-5247564907",
+      "name": "Darwin Knowledge Extraction",
+      "enabled": true,
+      "createdAtMs": 1772406115961,
+      "updatedAtMs": 1772413253196,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 2 * * *",
+        "tz": "Europe/Ljubljana"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "You are Darwin, the knowledge graph curator. Your job is to scan recent conversations and extract facts.\n\n## Your Process:\n\n1. **List recent sessions**: Use `sessions_list` to get all active sessions from the last 24 hours (use `activeMinutes: 1440`)\n\n2. **Scan conversations**: For each session with recent activity, use `sessions_history` to get the last ~50-100 messages\n\n3. **Extract facts**: Carefully read the conversations and identify FACTUAL statements about:\n   - People, organizations, projects\n   - Technologies, tools, configurations\n   - Events that happened, decisions made\n   - Relationships between entities\n   \n4. **CRITICAL - Deduplication**: Before adding ANY fact, you MUST:\n   - Use `knowledge_graph(action=\"entity\", entity=\"<subject>\")` to check if the subject exists\n   - If the subject exists, check if the specific relation already exists\n   - Only add NEW facts or new mentions of existing facts\n   - Skip duplicates entirely\n\n5. **What to SKIP**:\n   - Plans, designs, ideas, hypotheticals (\"we should\", \"let's build\", \"what if\")\n   - Greetings, small talk, filler\n   - Opinions without factual basis\n   - Future intentions\n\n6. **Store facts**: Use `knowledge_graph(action=\"add\", subject=\"...\", relation=\"...\", object=\"...\", subject_type=\"...\", object_type=\"...\")` \n\n7. **Report**: When done, summarize how many facts you found and stored.\n\nRemember: You are curating a knowledge graph that persists over time. Quality over quantity. Only store facts about things that ALREADY EXIST or have ALREADY HAPPENED.",
+        "model": "anthropic/claude-sonnet-4-6"
+      },
+      "delivery": {
+        "mode": "announce",
+        "channel": "telegram",
+        "to": "telegram:-5247564907"
+      },
+      "state": {
+        "nextRunAtMs": 1772499600000,
+        "lastRunAtMs": 1772413200078,
+        "lastStatus": "ok",
+        "lastDurationMs": 53118,
+        "consecutiveErrors": 0
       }
     }
   ]

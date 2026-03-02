@@ -1,32 +1,23 @@
 /**
  * Knowledge Graph Plugin for OpenClaw
  *
- * Extracts facts from conversations and emails, stores them as relations
- * in a vector-searchable knowledge graph backed by SQLite.
+ * Stores facts as (subject, relation, object) triples in SQLite.
+ * Fact extraction is handled externally by the Darwin agent (cron job).
  *
  * Features:
- * - Sliding window message buffer (4 Q&A pairs with 50% overlap)
- * - LLM-based fact extraction (subject, relation, object triples)
+ * - SQLite-backed knowledge graph
  * - Vector embeddings for semantic search (Gemini or OpenAI)
- * - Agent tool for querying the graph
- * - Entity deduplication
+ * - Agent tool for querying and managing the graph
  */
 
 import { createDB, type KnowledgeGraphDB } from "./db";
 import { getEmbedding, type EmbeddingConfig } from "./embeddings";
-import { extractFacts, type ExtractionConfig } from "./extraction";
-import { MessageBuffer } from "./buffer";
-// Note: entity_embeddings and fact_embeddings are legacy tables kept for backward compat.
-// The primary vector mechanism is now the mentions table.
 
 interface PluginConfig {
   embeddingProvider: "gemini" | "openai";
   embeddingApiKey: string;
   embeddingModel: string;
   embeddingDimensions: number;
-  extractionModel: string;
-  windowSize: number;
-  flushTimeoutMs: number;
   minConfidence: number;
   dbPath: string;
 }
@@ -36,9 +27,6 @@ const DEFAULT_CONFIG: PluginConfig = {
   embeddingApiKey: "",
   embeddingModel: "text-embedding-004",
   embeddingDimensions: 768,
-  extractionModel: "anthropic/claude-haiku-4.5",
-  windowSize: 8,
-  flushTimeoutMs: 300000,
   minConfidence: 0.6,
   dbPath: "/workspace/knowledge-graph.db",
 };
@@ -49,15 +37,12 @@ export default function register(api: any) {
     ...(api.config?.plugins?.entries?.["knowledge-graph"]?.config || {}),
   };
 
-  // Validate required config
   if (!pluginConfig.embeddingApiKey) {
     console.warn(
-      "[knowledge-graph] No embeddingApiKey configured. Vector search will be disabled. " +
-      "Set plugins.entries.knowledge-graph.config.embeddingApiKey in openclaw.json"
+      "[knowledge-graph] No embeddingApiKey configured. Vector search will be disabled."
     );
   }
 
-  // Initialize database
   const db: KnowledgeGraphDB = createDB(pluginConfig.dbPath);
   db.init();
   console.log("[knowledge-graph] Database initialized at", pluginConfig.dbPath);
@@ -68,131 +53,6 @@ export default function register(api: any) {
     model: pluginConfig.embeddingModel,
     dimensions: pluginConfig.embeddingDimensions,
   };
-
-  const extractionConfig: ExtractionConfig = {
-    gatewayUrl: `http://127.0.0.1:${api.config?.gateway?.port || 18789}`,
-    model: pluginConfig.extractionModel,
-    // Resolve auth token: try config first, then env (gateway resolves ${VAR} before passing config)
-    authToken: process.env.UI_AUTH_TOKEN || process.env.OPENCLAW_TOKEN,
-  };
-
-  // Track processing stats
-  let totalExtracted = 0;
-  let totalStored = 0;
-
-  /**
-   * Process a conversation block: extract facts, compute embeddings, store.
-   */
-  async function processBlock(conversationId: string, block: string): Promise<void> {
-    console.log(`[knowledge-graph] Processing block from ${conversationId} (${block.length} chars)`);
-
-    // 1. Extract facts via LLM
-    const facts = await extractFacts(block, extractionConfig);
-    totalExtracted += facts.length;
-
-    if (facts.length === 0) {
-      console.log("[knowledge-graph] No facts extracted from block");
-      return;
-    }
-
-    console.log(`[knowledge-graph] Extracted ${facts.length} facts`);
-
-    // 2. Store each fact
-    for (const fact of facts) {
-      if (fact.confidence < pluginConfig.minConfidence) {
-        console.log(`[knowledge-graph] Skipping low-confidence fact: ${fact.subject} ${fact.relation} ${fact.object} (${fact.confidence})`);
-        continue;
-      }
-
-      try {
-        // Create/get entities
-        const subjectId = db.getOrCreateEntity(fact.subject, fact.subject_type || "unknown");
-        const objectId = db.getOrCreateEntity(fact.object, fact.object_type || "unknown");
-
-        // Store relation
-        const relationId = db.storeRelation(
-          subjectId,
-          fact.relation,
-          objectId,
-          fact.confidence,
-          conversationId.split(":")[0] || "chat", // source channel
-          conversationId,
-          block.substring(0, 500) // store truncated context
-        );
-
-        // 3. Store mentions with vector embeddings (if API key configured).
-        // Each fact produces two mentions — one anchored to the subject entity,
-        // one anchored to the object entity — both using the fact statement as
-        // the mention text. A single embedding call covers both mentions.
-        if (pluginConfig.embeddingApiKey) {
-          try {
-            const mentionText = `${fact.subject} ${fact.relation.replace(/_/g, " ")} ${fact.object}`;
-            const mentionSource = conversationId.split(":")[0] || "chat";
-            const embedding = await getEmbedding(mentionText, embeddingConfig);
-
-            db.storeMention(subjectId, mentionText, embedding, mentionSource, conversationId);
-            db.storeMention(objectId, mentionText, embedding, mentionSource, conversationId);
-          } catch (embErr: any) {
-            console.error(`[knowledge-graph] Mention embedding error: ${embErr.message}`);
-            // Facts are still stored; only mention embeddings are missing
-          }
-        }
-
-        totalStored++;
-        console.log(
-          `[knowledge-graph] Stored: ${fact.subject} --[${fact.relation}]--> ${fact.object} (${fact.confidence})`
-        );
-      } catch (err: any) {
-        console.error(`[knowledge-graph] Store error: ${err.message}`);
-      }
-    }
-  }
-
-  // Initialize message buffer
-  const buffer = new MessageBuffer(
-    {
-      windowSize: pluginConfig.windowSize,
-      stepSize: Math.floor(pluginConfig.windowSize / 2),
-      flushTimeoutMs: pluginConfig.flushTimeoutMs,
-    },
-    processBlock
-  );
-
-  // ─── HOOKS ────────────────────────────────────────────────
-
-  // Capture inbound messages (typed hook API)
-  api.on(
-    "message_received",
-    async (event: any, ctx: any) => {
-      const content = event.content;
-      if (!content) return;
-
-      const conversationId =
-        ctx?.conversationId ||
-        ctx?.channelId ||
-        "unknown";
-
-      const sender = event.from || "user";
-
-      await buffer.addMessage(conversationId, sender, content);
-    },
-  );
-
-  // Capture outbound messages (typed hook API)
-  api.on(
-    "message_sent",
-    async (event: any, ctx: any) => {
-      const content = event.content;
-      if (!content) return;
-
-      const conversationId =
-        ctx?.conversationId ||
-        ctx?.channelId ||
-        "unknown";
-
-      await buffer.addMessage(conversationId, "agent", content);
-    },
-  );
 
   // ─── AGENT TOOL ───────────────────────────────────────────
 
@@ -286,15 +146,10 @@ export default function register(api: any) {
 
         case "stats": {
           const dbStats = db.getStats();
-          const bufferStats = buffer.getStats();
           return json({
             entities: dbStats.entities,
             relations: dbStats.relations,
             mentions: dbStats.mentions,
-            totalExtracted,
-            totalStored,
-            activeBuffers: Object.keys(bufferStats).length,
-            buffers: bufferStats,
           });
         }
 
@@ -345,20 +200,19 @@ export default function register(api: any) {
             params.relation,
             objectId,
             1.0,
-            "manual",
+            "darwin",
             "",
-            "Manually added via agent tool"
+            params.context || ""
           );
 
-          // Store mentions with embeddings
           if (pluginConfig.embeddingApiKey) {
             try {
               const mentionText = `${params.subject} ${params.relation.replace(/_/g, " ")} ${params.object}`;
               const embedding = await getEmbedding(mentionText, embeddingConfig);
-              db.storeMention(subjectId, mentionText, embedding, "manual", "");
-              db.storeMention(objectId, mentionText, embedding, "manual", "");
+              db.storeMention(subjectId, mentionText, embedding, "darwin", "");
+              db.storeMention(objectId, mentionText, embedding, "darwin", "");
             } catch (embErr: any) {
-              console.warn(`[knowledge-graph] Mention embedding error on manual add: ${embErr.message}`);
+              console.warn(`[knowledge-graph] Mention embedding error: ${embErr.message}`);
             }
           }
 
@@ -387,25 +241,9 @@ export default function register(api: any) {
     },
   });
 
-  // ─── SHUTDOWN HOOK ────────────────────────────────────────
-  // Flush pending messages and destroy the setInterval timer on gateway stop.
-  api.on(
-    "gateway_stop",
-    async () => {
-      console.log("[knowledge-graph] Gateway stopping — flushing buffers and cleaning up...");
-      try {
-        await buffer.flushAll();
-      } catch (err: any) {
-        console.error("[knowledge-graph] Flush error on shutdown:", err.message);
-      }
-      buffer.destroy();
-      db.close();
-      console.log("[knowledge-graph] Cleanup done.");
-    },
-  );
+  api.on("gateway_stop", () => {
+    db.close();
+  });
 
-  console.log("[knowledge-graph] Plugin registered successfully");
-  console.log(`[knowledge-graph] Buffer: window=${pluginConfig.windowSize}, flush=${pluginConfig.flushTimeoutMs}ms`);
-  console.log(`[knowledge-graph] Embeddings: ${pluginConfig.embeddingProvider}/${pluginConfig.embeddingModel} (${pluginConfig.embeddingDimensions}d)`);
-  console.log(`[knowledge-graph] Extraction model: ${pluginConfig.extractionModel}`);
+  console.log("[knowledge-graph] Plugin ready (Darwin-mode: extraction handled by scheduled agent)");
 }

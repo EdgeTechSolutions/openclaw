@@ -1,18 +1,15 @@
 {
   "id": "knowledge-graph",
   "name": "Knowledge Graph",
-  "version": "0.1.0",
-  "description": "Extracts facts from conversations and emails, stores them as relations in a vector-searchable knowledge graph.",
+  "version": "0.2.0",
+  "description": "Stores facts as (subject, relation, object) triples in a vector-searchable SQLite knowledge graph. Fact extraction is handled by the Darwin agent.",
   "entry": "src/index.ts",
   "configSchema": {
     "type": "object",
     "properties": {
       "embeddingProvider": {
         "type": "string",
-        "enum": [
-          "gemini",
-          "openai"
-        ],
+        "enum": ["gemini", "openai"],
         "default": "gemini"
       },
       "embeddingApiKey": {
@@ -26,24 +23,9 @@
         "type": "number",
         "default": 768
       },
-      "extractionModel": {
-        "type": "string",
-        "default": "anthropic/claude-haiku-3.5"
-      },
-      "windowSize": {
-        "type": "number",
-        "default": 8,
-        "description": "Number of messages to buffer before extraction (4 Q&A pairs = 8)"
-      },
-      "flushTimeoutMs": {
-        "type": "number",
-        "default": 300000,
-        "description": "Flush buffer after this many ms of inactivity (default 5 min)"
-      },
       "minConfidence": {
         "type": "number",
-        "default": 0.6,
-        "description": "Minimum confidence threshold for storing facts"
+        "default": 0.6
       },
       "dbPath": {
         "type": "string",
@@ -59,9 +41,6 @@
     },
     "embeddingProvider": {
       "label": "Embedding Provider"
-    },
-    "extractionModel": {
-      "label": "Extraction Model (for fact extraction)"
     },
     "dbPath": {
       "label": "Database Path"

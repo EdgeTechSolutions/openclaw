@@ -38,3 +38,44 @@
 |-----------|---------|--------|----------|---------------|--------|
 | ...NhbXwAAA= | 🔔 It's happening Monday: Horizon Europe webinar | iryna.moroz@uitp.org | 2026-02-27T17:52:14Z | Informational | Left as-is |
 | ...NhbXvAAA= | ANEKS K POGODBI - SRIP GoDigital - 2026 | gasper.cizelj@gzs.si | 2026-02-27T15:23:43Z | Actionable | Needs manual response (contract annex review & sign) |
+
+## 2026-03-01 08:15
+
+| messageId | subject | sender | received | classification | action |
+|-----------|---------|--------|----------|---------------|--------|
+| ...OfXZjAAA= | Remove permissions roadblocks with Premium | noreply@e.atlassian.com | 2026-02-28T23:07:13Z | Marketing | Archived, unsubscribe failed (preferences page only) |
+| ...OfXZkAAA= | Your new draw.io Diagrams Standard trial | noreply@po.atlassian.net | 2026-02-28T20:17:30Z | Tool Notification | Archived |
+| ...OfXZqAAA= | Tentative: EdgeTech Initial Team Meeting | miro.budimir@edgetech.si | 2026-02-28T19:44:41Z | Tool Notification | Archived (RSVP response) |
+| ...OfXZrAAA= | (Scopus Q4) Invitation to Submit: Veredas do Direito | editor2@journalveredas.com | 2026-02-28T17:02:30Z | Marketing | Archived, unsubscribed ✓ |
+| ...OfXZnAAA= | Accepted: EdgeTech Initial Team Meeting (Joao Pita Costa) | sdg.ircai@gmail.com | 2026-02-28T16:21:40Z | Tool Notification | Archived (RSVP response) |
+| ...OfXZoAAA= | Accepted: EdgeTech Initial Team Meeting (Luis Rei) | me@luisrei.com | 2026-02-28T13:34:53Z | Tool Notification | Archived (RSVP response) |
+| ...OfXZpAAA= | Declined: EdgeTech Initial Team Meeting (Maja Škrjanc) | maja.skrjanc@edgetech.si | 2026-02-28T10:24:30Z | Tool Notification | Archived (RSVP response) |
+| ...OfNQOAAA= | EdgeTech Initial Team Meeting (original invite) | me@luisrei.com | 2026-02-28T09:23:02Z | Tool Notification | Left as-is (invite already in calendar) |
+| ...OfXZlAAA= | How businesses use Scaleway's cloud services | welcome@news.scaleway.com | 2026-02-28T06:45:22Z | Marketing | Archived, unsubscribed (page loaded, likely ✓) |
+| ...OKywJAAA= | Your AI Studio subscription is now active | mistral@email.mistral.ai | 2026-02-27T21:41:07Z | Informational | Left as-is |
+| ...OfXZmAAA= | Your perfect workspace is waiting | mg@instantoffices.com | 2026-02-27T19:19:34Z | Marketing | Archived, unsubscribe failed (requires email reply) |
+
+## 2026-03-01 11:15
+
+| messageId | subject | sender | received | classification | action |
+|-----------|---------|--------|----------|---------------|--------|
+| ...OfNQPAAA= | Unsubscribe (sent reply to Instant Offices) | luka.stopar@edgetech.si | 2026-03-01T07:48:09Z | Informational | Left as-is (own sent item) |
+
+## 2026-03-01 15:15
+
+| messageId | subject | sender | received | classification | action |
+|-----------|---------|--------|----------|---------------|--------|
+| ...OfPNtAAA= | Success! Your invite for EdgeTech Team Meeting is up | mailer@doodle.com | 2026-03-01T12:43:43Z | Tool Notification | Archived |
+| ...OfPNvAAA= | Update: New response to poll - Mitja | mailer@doodle.com | 2026-03-01T12:56:09Z | Tool Notification | Archived |
+| ...OfPNwAAA= | Update: New response to poll - Maja | mailer@doodle.com | 2026-03-01T13:31:02Z | Tool Notification | Archived |
+| ...OfPNxAAA= | Update: New response to poll - Ilija Tavchioski | mailer@doodle.com | 2026-03-01T13:55:26Z | Tool Notification | Archived |
+| ...OfPNuAAA= | Want more time back? Here's 15% off Pro. | natalie@doodle.com | 2026-03-01T12:50:58Z | Marketing | Archived, unsubscribed ✓ |
+| ...OfNQRAAA= | Canceled: EdgeTech Initial Team Meeting | luka.stopar@edgetech.si | 2026-03-01T12:51:48Z | Informational | Left as-is (own sent item — cancellation notice) |
+| ...OfNQQAAA= | Rescheduling initial team meeting | luka.stopar@edgetech.si | 2026-03-01T12:51:11Z | Informational | Left as-is (own sent item — rescheduling email with Doodle link) |
+
+## 2026-03-01 20:15
+
+| messageId | subject | sender | received | classification | action |
+|-----------|---------|--------|----------|---------------|--------|
+| ...OfPNyAAA= | Updated response: EdgeTech Team Meeting (Mitja) | mailer@doodle.com | 2026-03-01T15:51:01Z | Tool Notification | Archived |
+| ...OfPNzAAA= | Update: New response to poll (Miro Budimir) | mailer@doodle.com | 2026-03-01T16:30:06Z | Tool Notification | Archived |
