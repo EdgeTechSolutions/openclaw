@@ -79,3 +79,35 @@
 |-----------|---------|--------|----------|---------------|--------|
 | ...OfPNyAAA= | Updated response: EdgeTech Team Meeting (Mitja) | mailer@doodle.com | 2026-03-01T15:51:01Z | Tool Notification | Archived |
 | ...OfPNzAAA= | Update: New response to poll (Miro Budimir) | mailer@doodle.com | 2026-03-01T16:30:06Z | Tool Notification | Archived |
+
+## 2026-03-02 08:15
+
+| messageId | subject | sender | received | classification | action |
+|-----------|---------|--------|----------|---------------|--------|
+| ...OfPN2AAA= | Re: Letno porocilo IJS | polona.skraba@ijs.si | 2026-03-02T07:14:19Z | Informational | Left as-is (reply received — annual report in progress, ready end of March) |
+| ...OfPN1AAA= | Weekly digest: Microsoft service updates | o365mc@microsoft.com | 2026-03-02T02:31:29Z | Tool Notification | Archived |
+| ...OfPN0AAA= | [Iaio] screen recordings | matej.kovacic@ijs.si | 2026-03-01T19:41:05Z | Actionable | Needs manual response (decision required: share recordings with Chris + deletion timeline) |
+
+## 2026-03-02 11:15
+
+| messageId | subject | sender | received | classification | action |
+|-----------|---------|--------|----------|---------------|--------|
+| ...OfPN3AAA= | Re: [Iaio] screen recordings | matej.kovacic@ijs.si | 2026-03-02T07:53:14Z | Actionable | Needs manual response (Matej asks what data cleanup means beyond recordings/Moodle/emails) |
+| ...OfNQSAAA= | Zanimanje za najem pisarne | luka.stopar@edgetech.si | 2026-03-02T08:41:44Z | Informational | Left as-is (own sent item — office rental inquiry to Poligon) |
+| ...OfNApAAA= | (no subject) | luka.stopar@edgetech.si | 2026-03-02T09:09:33Z | Informational | Left as-is (own sent item — blank email to david@makerspace.si) |
+
+## 2026-03-02 15:15
+
+| messageId | subject | sender | received | classification | action |
+|-----------|---------|--------|----------|---------------|--------|
+| ...OfPOBAAA= | Vabilo na žalno sejo ob slovesu prof. dr. Borisa Frleca | Polona.Strnad@ijs.si | 2026-03-02T14:13:41Z | Invitation | Calendar event created (Thu 12 Mar 2026, 13:00, Velika predavalnica IJS, Jamova 39) + Archived |
+| ...OfPOAAAA= | sklep o davčni izvršbi | FURS | 2026-03-02T14:xx:xxZ | Actionable | Needs manual response (FURS tax levy — requires urgent attention) |
+| ...OfPN-AAA= | Your free trial on Memgraph Cloud is ending soon | team@memgraph.com | 2026-03-02T14:03:52Z | Marketing | Archived (no unsubscribe link found in email body) |
+| ...OfPN_AAA= | Re: [Iaio] screen recordings | andy.brodnik@fri.uni-lj.si | 2026-03-02T10:xx:xxZ | Informational | Left as-is (Andy cc's Luka on data cleanup thread with Matej) |
+| ...OfPN9AAA= | Your guide to evaluating draw.io for Confluence | mirka@drawio-app.com | 2026-03-02T12:19:09Z | Newsletter | Archived + Unsubscribed ✓ (HTTP 200) |
+| ...OfPN8AAA= | Welcome to your draw.io diagramming resource hub! | team@drawio-app.com | 2026-03-02T12:18:47Z | Newsletter | Archived + Unsubscribed ✓ (HTTP 200) |
+| ...OfPN7AAA= | Today! Access LINK - UITP Info Session | iryna.moroz@uitp.org | 2026-03-02T11:42:28Z | Informational | Left as-is (same-day webinar reminder: UITP Horizon Europe, 15:00 CET today) |
+| ...OfPN6AAA= | Re: Zanimanje za najem pisarne | info@poligon.si | 2026-03-02T11:00:56Z | Informational | Left as-is (Poligon replies: "Žal ne" — no space available) |
+| ...OfPN5AAA= | Prijazni opomnik | maja.skrjanc@ijs.si | 2026-03-02T10:xx:xxZ | Actionable | Needs manual response (reminder to upload SIJ PPT to EdgeTech OneDrive) |
+| ...OfPN4AAA= | Re: Zanimanje za najem pisarne | david@makerspace.si | 2026-03-02T10:xx:xxZ | Actionable | Needs manual response (David asks 3 questions: budget, parking, IT equipment before offering options) |
+| ...OfNQTAAA= | Zanimanje za najem pisarne | luka.stopar@edgetech.si | 2026-03-02T10:52:44Z | Informational | Left as-is (own sent item — office rental inquiry to Makerspace/David) |

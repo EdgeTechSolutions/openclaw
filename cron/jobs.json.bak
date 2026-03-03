@@ -61,7 +61,7 @@
         "to": "8403014547"
       },
       "state": {
-        "nextRunAtMs": 1772472600000,
+        "nextRunAtMs": 1772559000000,
         "lastRunAtMs": 1772213400048,
         "lastStatus": "ok",
         "lastDurationMs": 94823,
@@ -143,7 +143,7 @@
       "name": "Daily OpenClaw Directory Backup",
       "enabled": true,
       "createdAtMs": 1771023878360,
-      "updatedAtMs": 1772330469211,
+      "updatedAtMs": 1772416834448,
       "schedule": {
         "kind": "cron",
         "expr": "0 3 * * *",
@@ -163,12 +163,12 @@
         "bestEffort": true
       },
       "state": {
-        "nextRunAtMs": 1772416800000,
-        "lastRunAtMs": 1772330400051,
-        "lastStatus": "error",
-        "lastDurationMs": 44833,
-        "consecutiveErrors": 1,
-        "runningAtMs": 1772416800052
+        "nextRunAtMs": 1772503200000,
+        "lastRunAtMs": 1772416800080,
+        "lastStatus": "ok",
+        "lastDurationMs": 34368,
+        "consecutiveErrors": 0,
+        "runningAtMs": 1772503200032
       }
     },
     {
@@ -177,7 +177,7 @@
       "name": "Email Triage Agent",
       "enabled": true,
       "createdAtMs": 1771190372608,
-      "updatedAtMs": 1772392544541,
+      "updatedAtMs": 1772483067373,
       "schedule": {
         "kind": "cron",
         "expr": "15 8,11,15,20 * * 1-5,0",
@@ -187,9 +187,9 @@
       "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
-        "message": "### Email Triage Agent\n\n#### CRITICAL: Use CLI commands\nThe Microsoft 365 skill is a CLI tool. Use `exec` to call it.\n\nCLI reference:\n- **List emails** (last N hours): `node /workspace/skills/microsoft365/email-triage.js list <hours>`\n- **Get full email**: `node /workspace/skills/microsoft365/email-triage.js get <messageId>`\n- **Move to archive**: `node /workspace/skills/microsoft365/email-triage.js move <messageId> archive`\n- **Create reply-all draft**: `echo \"<body text>\" | node /workspace/skills/microsoft365/email-triage.js reply-draft <messageId>`\n\nAll commands output JSON.\n\n#### Identity\nYou are acting on behalf of **Luka Stopar** (luka.stopar@edgetech.si). All draft responses MUST be written as if Luka Stopar is the author. Sign all drafts as \"Luka\" or \"LP, Luka\". Never use any other name or persona.\n\n#### Email Retrieval\n1. Run `node /workspace/skills/microsoft365/email-triage.js list 50` to fetch the last 50 emails.\n2. Before processing each email, check semantic memory for the email's `messageId`.\n3. Skip emails already stored in memory.\n\n#### Email Classification & Actions\nFor each unprocessed email, classify it into one of these categories and take the corresponding action:\n\n1. **Marketing**\n   - **Action**: Archive the email: `node /workspace/skills/microsoft365/email-triage.js move <id> archive`\n   - Also attempt to unsubscribe: inspect the email body/headers for an unsubscribe link (`List-Unsubscribe` header or link containing \"unsubscribe\"/\"opt out\"). If found, perform an HTTP GET to that URL. Record outcome as `unsubscribed` or `unsubscribe_failed`.\n\n2. **Newsletter**\n   - **Action**: Archive the email.\n   - Also attempt to unsubscribe (same process as Marketing).\n\n3. **Tool Notifications**\n   - **Criteria**: Emails from GitHub, Confluence, Jira, Atlassian, Conductor, or other development/project management tools.\n   - **Action**: Archive the email: `node /workspace/skills/microsoft365/email-triage.js move <id> archive`\n\n4. **Actionable (requires my response)**\n   - **Action**:\n     1. First, search your semantic memory and Confluence for information relevant to drafting a response.\n     2. If you find sufficient information to compose a complete, accurate answer:\n        - Compose a natural, human-like response as **Luka Stopar**, sign off as \"Luka\" or \"LP, Luka\".\n        - Create the draft: `echo \"<your response text>\" | node /workspace/skills/microsoft365/email-triage.js reply-draft <messageId>`\n        - The command outputs JSON with `draftId` and `link` — save the `link` for the Telegram summary.\n     3. If you do NOT have enough information to draft a confident answer, leave the email as-is. Do not guess or fabricate information.\n   - **Summary**: \"Draft ready\" with draft link, or \"Needs manual response\" if insufficient info.\n\n5. **Informational**\n   - **Criteria**: Emails that inform but don't require action (confirmations, receipts, FYI messages).\n   - **Action**: Leave as-is.\n\n6. **Invitations**\n   - **Criteria**: Invitations to events, meetings, conferences, webinars, presentations, or similar gatherings.\n   - **Action**:\n     1. Extract event details: title, date/time, location (physical or virtual link), organizer.\n     2. Create a calendar event using the Microsoft 365 skill or calendar API.\n     3. After the calendar event is created, archive the email: `node /workspace/skills/microsoft365/email-triage.js move <id> archive`\n   - **Summary**: \"Calendar event created & archived\" with event details.\n\n#### Memory Storage\nAfter processing each email, append to `memory/email-triage-log.md`:\n- `messageId`, `subject`, `sender`, `received timestamp`, `classification`, `action taken`\n\n#### Telegram Summary\nPost a summary to Telegram topic `#comm @all` (topic ID: `761`). Use the `message` tool:\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"<your summary>\",\n  \"threadId\": \"761\"\n}\n```\n\nFormat — group emails by category. For each email show the subject as an Outlook link and a 1-2 sentence summary:\n\n```\n📬 M365 Email Triage — {date} {time}\n\n📊 {total} processed | 🗂 {archived} archived | 🚫 {unsubscribed} unsubscribed | ✉️ {drafts} drafts | 📅 {events} calendar events\n\n━━━━━━━━━━━━━━━━━━━━━\n✉️ Actionable ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• [Subject](https://outlook.office.com/mail/id/{messageId}) — {1-2 sentence summary}\n  {if draft} 🔗 [View Draft]({draft link}) {endif}\n  {if no draft} ⚠️ Needs manual response {endif}\n\n━━━━━━━━━━━━━━━━━━━━━\n📅 Invitations — Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• {Subject} — {1-2 sentence summary}\n  📅 Event created: {title} @ {date/time} [archived]\n\n━━━━━━━━━━━━━━━━━━━━━\nℹ️ Informational ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• [Subject](https://outlook.office.com/mail/id/{messageId}) — {1-2 sentence summary}\n\n━━━━━━━━━━━━━━━━━━━━━\n🔧 Tool Notifications — Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• {Subject} — {1-2 sentence summary} [archived]\n\n━━━━━━━━━━━━━━━━━━━━━\n📰 Newsletters — Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• {Subject} — {1-2 sentence summary} [archived] {unsubscribed ✓ / unsubscribe failed}\n\n━━━━━━━━━━━━━━━━━━━━━\n🏷️ Marketing — Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• {Subject} — {1-2 sentence summary} [archived] {unsubscribed ✓ / unsubscribe failed}\n\n#openclaw #email\n```\n\nRules:\n- Only include categories with at least 1 email.\n- Non-archived emails MUST have the subject as an Outlook link.\n- Archived categories don't need links.\n- Keep subject lines truncated to 60 chars if needed.\n- If a category has more than 10 emails, show first 10 and append \"… and {N} more\".\n\nDo NOT post to any other Telegram topic.",
-        "model": "anthropic/claude-sonnet-4-6",
-        "thinking": "off"
+        "message": "### Email Triage Agent\n\n#### CRITICAL: Use CLI commands\nThe Microsoft 365 skill is a CLI tool. Use `exec` to call it.\n\nCLI reference:\n- **List emails** (last N hours): `node /workspace/skills/microsoft365/email-triage.js list <hours>`\n- **Get full email**: `node /workspace/skills/microsoft365/email-triage.js get <messageId>`\n- **Move to archive**: `node /workspace/skills/microsoft365/email-triage.js move <messageId> archive`\n- **Create reply-all draft**: `echo \"<body text>\" | node /workspace/skills/microsoft365/email-triage.js reply-draft <messageId>`\n\nAll commands output JSON.\n\n#### Identity\nYou are acting on behalf of **Luka Stopar** (luka.stopar@edgetech.si). All draft responses MUST be written as if Luka Stopar is the author. Sign all drafts as \"Luka\" or \"LP, Luka\". Never use any other name or persona.\n\n#### Email Retrieval\n1. Run `node /workspace/skills/microsoft365/email-triage.js list 50` to fetch the last 50 emails.\n2. **SKIP** any emails where the sender is **Luka Stopar** (luka.stopar@edgetech.si) — these are your own sent emails.\n3. Before processing each remaining email, check semantic memory for the email's `messageId`.\n4. Skip emails already stored in memory.\n\n#### Email Classification & Actions\nFor each unprocessed email, classify it into one of these categories and take the corresponding action:\n\n1. **Marketing**\n   - **Action**: Archive the email: `node /workspace/skills/microsoft365/email-triage.js move <id> archive`\n   - Also attempt to unsubscribe: inspect the email body/headers for an unsubscribe link (`List-Unsubscribe` header or link containing \"unsubscribe\"/\"opt out\"). If found, perform an HTTP GET to that URL. Record outcome as `unsubscribed` or `unsubscribe_failed`.\n\n2. **Newsletter**\n   - **Action**: Archive the email.\n   - Also attempt to unsubscribe (same process as Marketing).\n\n3. **Tool Notifications**\n   - **Criteria**: Emails from GitHub, Confluence, Jira, Atlassian, Conductor, or other development/project management tools.\n   - **Action**: Archive the email: `node /workspace/skills/microsoft365/email-triage.js move <id> archive`\n\n4. **Actionable (requires my response)**\n   - **Action**:\n     1. First, search your semantic memory and Confluence for information relevant to drafting a response.\n     2. If you find sufficient information to compose a complete, accurate answer:\n        - Compose a natural, human-like response as **Luka Stopar**, sign off as \"Luka\" or \"LP, Luka\".\n        - Create the draft: `echo \"<your response text>\" | node /workspace/skills/microsoft365/email-triage.js reply-draft <messageId>`\n        - The command outputs JSON with `draftId` and `link` — save the `link` for the Telegram summary.\n     3. If you do NOT have enough information to draft a confident answer, leave the email as-is. Do not guess or fabricate information.\n   - **Summary**: \"Draft ready\" with draft link, or \"Needs manual response\" if insufficient info.\n\n5. **Informational**\n   - **Criteria**: Emails that inform but don't require action (confirmations, receipts, FYI messages, notifications).\n   - **Action**: Archive the email: `node /workspace/skills/microsoft365/email-triage.js move <id> archive`\n   - **Rationale**: If no action is needed, archive to keep inbox clean.\n\n6. **Invitations**\n   - **Criteria**: Invitations to events, meetings, conferences, webinars, presentations, or similar gatherings.\n   - **Action**:\n     1. Extract event details: title, date/time, location (physical or virtual link), organizer.\n     2. Create a calendar event using the Microsoft 365 skill or calendar API.\n     3. After the calendar event is created, archive the email: `node /workspace/skills/microsoft365/email-triage.js move <id> archive`\n   - **Summary**: \"Calendar event created & archived\" with event details.\n\n#### Memory Storage\nAfter processing each email, append to `memory/email-triage-log.md`:\n- `messageId`, `subject`, `sender`, `received timestamp`, `classification`, `action taken`\n\n#### Telegram Summary\nPost a summary to Telegram topic `#comm @all` (topic ID: `761`). Use the `message` tool:\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"<your summary>\",\n  \"threadId\": \"761\"\n}\n```\n\nFormat — group emails by category. **ALL emails must include an Outlook link**, even archived ones:\n\n```\n📬 M365 Email Triage — {date} {time}\n\n📊 {total} processed | 🗂 {archived} archived | 🚫 {unsubscribed} unsubscribed | ✉️ {drafts} drafts | 📅 {events} calendar events\n\n━━━━━━━━━━━━━━━━━━━━━\n✉️ Actionable ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• [Subject](https://outlook.office.com/mail/id/{messageId}) — {1-2 sentence summary}\n  {if draft} 🔗 [View Draft]({draft link}) {endif}\n  {if no draft} ⚠️ Needs manual response {endif}\n\n━━━━━━━━━━━━━━━━━━━━━\n📅 Invitations — Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• [Subject](https://outlook.office.com/mail/id/{messageId}) — {1-2 sentence summary}\n  📅 Event: {title} @ {date/time}\n\n━━━━━━━━━━━━━━━━━━━━━\nℹ️ Informational — Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• [Subject](https://outlook.office.com/mail/id/{messageId}) — {1-2 sentence summary}\n\n━━━━━━━━━━━━━━━━━━━━━\n🔧 Tool Notifications — Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• [Subject](https://outlook.office.com/mail/id/{messageId}) — {1-2 sentence summary}\n\n━━━━━━━━━━━━━━━━━━━━━\n📰 Newsletters — Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• [Subject](https://outlook.office.com/mail/id/{messageId}) — {1-2 sentence summary}\n  {unsubscribed ✓ / unsubscribe failed}\n\n━━━━━━━━━━━━━━━━━━━━━\n🏷️ Marketing — Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• [Subject](https://outlook.office.com/mail/id/{messageId}) — {1-2 sentence summary}\n  {unsubscribed ✓ / unsubscribe failed}\n\n#openclaw #email\n```\n\nRules:\n- Only include categories with at least 1 email.\n- **ALL emails must have an Outlook link** (format: `https://outlook.office.com/mail/id/{messageId}`), even archived ones.\n- Keep subject lines truncated to 60 chars if needed.\n- If a category has more than 10 emails, show first 10 and append \"… and {N} more\".\n\nDo NOT post to any other Telegram topic.",
+        "model": "anthropic/claude-opus-4-6",
+        "thinking": "on"
       },
       "delivery": {
         "mode": "none",
@@ -197,11 +197,11 @@
         "to": "8403014547"
       },
       "state": {
-        "lastRunAtMs": 1772392500039,
+        "lastRunAtMs": 1772460900075,
         "lastStatus": "ok",
-        "lastDurationMs": 44502,
+        "lastDurationMs": 225006,
         "consecutiveErrors": 0,
-        "nextRunAtMs": 1772435700000
+        "nextRunAtMs": 1772522100000
       }
     },
     {
@@ -210,7 +210,7 @@
       "name": "Nightly Personal Gmail Triage",
       "enabled": true,
       "createdAtMs": 1771618729376,
-      "updatedAtMs": 1772379259610,
+      "updatedAtMs": 1772424143898,
       "schedule": {
         "kind": "cron",
         "expr": "0 5 * * *",
@@ -231,10 +231,10 @@
       },
       "state": {
         "consecutiveErrors": 0,
-        "nextRunAtMs": 1772424000000,
-        "lastRunAtMs": 1772337600057,
+        "nextRunAtMs": 1772510400000,
+        "lastRunAtMs": 1772424000037,
         "lastStatus": "ok",
-        "lastDurationMs": 146705
+        "lastDurationMs": 143861
       }
     },
     {
@@ -308,7 +308,7 @@
       "name": "Darwin Knowledge Extraction",
       "enabled": true,
       "createdAtMs": 1772406115961,
-      "updatedAtMs": 1772413253196,
+      "updatedAtMs": 1772499829498,
       "schedule": {
         "kind": "cron",
         "expr": "0 2 * * *",
@@ -318,7 +318,7 @@
       "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
-        "message": "You are Darwin, the knowledge graph curator. Your job is to scan recent conversations and extract facts.\n\n## Your Process:\n\n1. **List recent sessions**: Use `sessions_list` to get all active sessions from the last 24 hours (use `activeMinutes: 1440`)\n\n2. **Scan conversations**: For each session with recent activity, use `sessions_history` to get the last ~50-100 messages\n\n3. **Extract facts**: Carefully read the conversations and identify FACTUAL statements about:\n   - People, organizations, projects\n   - Technologies, tools, configurations\n   - Events that happened, decisions made\n   - Relationships between entities\n   \n4. **CRITICAL - Deduplication**: Before adding ANY fact, you MUST:\n   - Use `knowledge_graph(action=\"entity\", entity=\"<subject>\")` to check if the subject exists\n   - If the subject exists, check if the specific relation already exists\n   - Only add NEW facts or new mentions of existing facts\n   - Skip duplicates entirely\n\n5. **What to SKIP**:\n   - Plans, designs, ideas, hypotheticals (\"we should\", \"let's build\", \"what if\")\n   - Greetings, small talk, filler\n   - Opinions without factual basis\n   - Future intentions\n\n6. **Store facts**: Use `knowledge_graph(action=\"add\", subject=\"...\", relation=\"...\", object=\"...\", subject_type=\"...\", object_type=\"...\")` \n\n7. **Report**: When done, summarize how many facts you found and stored.\n\nRemember: You are curating a knowledge graph that persists over time. Quality over quantity. Only store facts about things that ALREADY EXIST or have ALREADY HAPPENED.",
+        "message": "You are Darwin, the knowledge graph curator. Run your nightly fact extraction now.\n\n## Step 1 — Load last run state\n\nRead `/workspace/last-scan.json`. It contains `lastRunAt` (ISO timestamp or null). If null, this is your first run — scan everything from the last 7 days.\n\n## Step 2 — Discover active sessions\n\nCall `sessions_list(activeMinutes=1440)` to get all sessions active in the last 24h.\n\n## Step 3 — Scan each session incrementally\n\nFor each session:\n1. Call `sessions_history(sessionKey=\"...\", limit=200)` to get recent messages\n2. **Filter to only messages with `timestamp > lastRunAt`** — skip anything already processed\n3. If no new messages, skip this session entirely\n\n## Step 4 — Extract facts from new messages\n\nRead through the new messages and identify FACTUAL statements. Only extract facts about things that **already exist or have already happened**.\n\nSKIP:\n- Plans, proposals, designs (\"we should\", \"let's build\", \"what if\", \"I want to\")\n- Greetings, small talk, filler\n- Questions without confirmed answers\n- Future intentions\n\nEXTRACT:\n- People, their roles, relationships\n- Technologies/tools confirmed to be in use\n- Decisions that were made\n- Configurations confirmed to be in place\n\n## Step 5 — Deduplicate before every insert\n\nFor each candidate fact:\n1. `knowledge_graph(action=\"entity\", entity=\"<subject>\")` — check if subject exists\n2. If subject exists, check if the exact `relation + object` is already stored in the results\n3. If YES → skip (fact already known)\n4. If NO → `knowledge_graph(action=\"add\", subject=\"...\", relation=\"...\", object=\"...\", subject_type=\"...\", object_type=\"...\")`\n\n## Step 6 — Save state\n\nWrite back `/workspace/last-scan.json`:\n```json\n{\n  \"lastRunAt\": \"<current ISO timestamp>\",\n  \"lastRunSummary\": { \"sessionsScanned\": N, \"factsAdded\": N, \"factsSkipped\": N }\n}\n```\n\nAlso write a brief log to `/workspace/memory/<YYYY-MM-DD>.md`.\n\n## Step 7 — Report\n\nSummarise: sessions scanned, facts added, facts skipped (duplicates). Keep it brief — 3-5 lines.",
         "model": "anthropic/claude-sonnet-4-6"
       },
       "delivery": {
@@ -327,10 +327,10 @@
         "to": "telegram:-5247564907"
       },
       "state": {
-        "nextRunAtMs": 1772499600000,
-        "lastRunAtMs": 1772413200078,
+        "nextRunAtMs": 1772586000000,
+        "lastRunAtMs": 1772499600054,
         "lastStatus": "ok",
-        "lastDurationMs": 53118,
+        "lastDurationMs": 229444,
         "consecutiveErrors": 0
       }
     }

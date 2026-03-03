@@ -1,4 +1,15 @@
 {
-  "lastRunAt": "2026-03-02T01:00:00.000Z",
-  "sessionsScanned": {}
+  "lastRunAt": "2026-03-03T01:00:00.000Z",
+  "lastRunSummary": {
+    "sessionsScanned": 5,
+    "factsAdded": 12,
+    "factsSkipped": 0
+  },
+  "sessionsScanned": {
+    "agent:main:telegram:group:-5247564907": "2026-03-03T01:00:00.000Z",
+    "agent:lstopar-agent:main:thread:2320": "2026-03-03T01:00:00.000Z",
+    "agent:lstopar-agent:main:thread:761": "2026-03-03T01:00:00.000Z",
+    "agent:lstopar-agent:main:thread:979": "2026-03-03T01:00:00.000Z",
+    "agent:lstopar-agent:main:thread:701": "2026-03-03T01:00:00.000Z"
+  }
 }
