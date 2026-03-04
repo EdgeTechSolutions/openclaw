@@ -111,3 +111,46 @@
 | ...OfPN5AAA= | Prijazni opomnik | maja.skrjanc@ijs.si | 2026-03-02T10:xx:xxZ | Actionable | Needs manual response (reminder to upload SIJ PPT to EdgeTech OneDrive) |
 | ...OfPN4AAA= | Re: Zanimanje za najem pisarne | david@makerspace.si | 2026-03-02T10:xx:xxZ | Actionable | Needs manual response (David asks 3 questions: budget, parking, IT equipment before offering options) |
 | ...OfNQTAAA= | Zanimanje za najem pisarne | luka.stopar@edgetech.si | 2026-03-02T10:52:44Z | Informational | Left as-is (own sent item — office rental inquiry to Makerspace/David) |
+
+## 2026-03-03 08:15
+
+| messageId | subject | sender | received | classification | action |
+|-----------|---------|--------|----------|---------------|--------|
+| ...OfPOFAAA= | Accepted: EdgeTech Initial Team Meeting [hybrid] | miro.budimir@edgetech.si | 2026-03-03T06:55:50Z | Tool Notification | Archived (RSVP accepted) |
+| ...OfXaFAAA= | 555749 is your verification code | notifications@console.agentmail.to | 2026-03-02T21:02:32Z | Informational | Archived (verification code, already used) |
+| ...OfXZ_AAA= | Your Scaleway invoice #3124826 for February 2026 | no-reply@scaleway.net | 2026-03-02T16:21:40Z | Informational | Archived (€0.00 invoice) |
+| ...OfQreAAA= | Welcome to AgentMail, Luka! | adi@agentmail.to | 2026-03-02T21:03:03Z | Informational | Archived (welcome/onboarding email) |
+| ...OfcQHAAA= | EdgeTech sestanek | gregor.nastran@atvp.si | 2026-03-02T15:01:30Z | Invitation | Left as-is (meeting invite — needs accept/decline) |
+
+## 2026-03-03 11:15
+
+| messageId | subject | sender | received | classification | action |
+|-----------|---------|--------|----------|---------------|--------|
+| ...OfPOPAAA= | Re: [Iaio] posnetki zaslonov | davor.orlic@ijs.si | 2026-03-03T09:45:38Z | Informational | Archived (Davor: don't share, don't delete until Zindi internal report) |
+| ...OfPOOAAA= | [Iaio] posnetki zaslonov | matej.kovacic@ijs.si | 2026-03-03T09:43:59Z | Informational | Archived (Matej asks about sharing/deleting screen recordings) |
+| ...OfPONAAA= | Accepted: EdgeTech Initial Team Meeting [hybrid] | maja.skrjanc@edgetech.si | 2026-03-03T08:54:50Z | Tool Notification | Archived (RSVP accepted) |
+| ...OfPOMAAA= | Update: New response to poll EdgeTech Team Meeting | mailer@doodle.com | 2026-03-03T08:41:33Z | Tool Notification | Archived (Joao Pita Costa responded) |
+| ...OfPOLAAA= | Declined: EdgeTech Initial Team Meeting [hybrid] | sdg.ircai@gmail.com | 2026-03-03T08:39:18Z | Tool Notification | Archived (Joao Pita Costa declined) |
+| ...OfPOKAAA= | Accepted: EdgeTech Initial Team Meeting [hybrid] | me@luisrei.com | 2026-03-03T08:07:53Z | Tool Notification | Archived (Luis Rei accepted) |
+| ...OfPOJAAA= | [AI] E3 Wednesday meetings | polona.skraba@ijs.si | 2026-03-03T08:03:22Z | Informational | Archived (Wed Mar 4 E3 meeting — Alenka Guček presents VANTAGE & PERISCOPE projects) |
+| ...OfPOIAAA= | Sprejeto: EdgeTech Initial Team Meeting [hybrid] | iztok.rencelj@edgetech.si | 2026-03-03T08:02:01Z | Tool Notification | Archived (Iztok Renčelj accepted) |
+| ...OfPOHAAA= | RE: sklep o davčni izvršbi | Tamara.Ivanjko@ijs.si | 2026-03-03T07:25:04Z | Informational | Archived (Tamara confirms receipt: "Velja, hvala za obvestilo") |
+| ...OfPOGAAA= | [AI] GraphSys workshop | Joze.Rozanec@ijs.si | 2026-03-03T07:20:50Z | Informational | Archived (GraphSys'26 workshop accepted, CfP shared) |
+
+## 2026-03-03 15:15
+
+| messageId | subject | sender | received | classification | action |
+|-----------|---------|--------|----------|---------------|--------|
+| ...Qiu31AAA= | Dogodki IJS / JSI events / 3. 3. 2026 | Polona.Strnad@ijs.si | 2026-03-03T14:01:56Z | Informational | Archived (IJS events digest) |
+| ...Qiu30AAA= | Dodeljena naloga / Stroškovnik: feb 2026, 3761 - BRADEŠKO LUKA | eds@ijs.si | 2026-03-03T11:24:32Z | Tool Notification | Archived (EDS system task — cost sheet approval, due 4 Mar) |
+| ...Qiu3zAAA= | interni sestanek na temo AVPT | iztok.rencelj@edgetech.si | 2026-03-03T11:12:05Z | Invitation | Left as-is (meeting invite from Iztok — needs accept/decline) |
+| ...Qiu3xAAA= | povezava do mape | iztok.rencelj@edgetech.si | 2026-03-03T11:05:55Z | Informational | Archived (AVTP folder link) |
+| ...Qiu3wAAA= | Iztok Renčelj shared the folder "AVTP" with you | iztok.rencelj@edgetech.si | 2026-03-03T11:05:14Z | Tool Notification | Archived (OneDrive folder share) |
+| ...OfXaYAAA= | Re: [Iaio] posnetki zaslonov | matej.kovacic@ijs.si | 2026-03-03T10:25:35Z | Informational | Archived (Matej acknowledges — will wait for instructions to delete/share) |
+
+## 2026-03-03 20:15
+
+| messageId | subject | sender | received | classification | action |
+|-----------|---------|--------|----------|---------------|--------|
+| ...Qiu32AAA= | Thank you for attending! UITP Info Session | iryna.moroz@uitp.org | 2026-03-03T16:36:05Z | Informational | Archived (post-webinar thank you + recording link) |
+| ...QizbQAAA= | Follow-Up: Let Your Digital Innovation— Indexed in Scopus | tricia004@scijournal.net | 2026-03-03T15:02:22Z | Marketing | Archived (predatory journal spam, no unsubscribe link) |

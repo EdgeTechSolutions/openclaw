@@ -1,0 +1,2796 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATVP AI Sistem — Wireframes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* =============================================
+     GLOBAL RESET & BASE
+  ============================================= */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: #f0f2f5;
+    color: #2d2d2d;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* =============================================
+     TABLE OF CONTENTS (STICKY SIDEBAR)
+  ============================================= */
+  .page-wrapper {
+    display: flex;
+    min-height: 100vh;
+  }
+  .toc-sidebar {
+    width: 240px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    background: #2d2d2d;
+    padding: 24px 0;
+    z-index: 100;
+  }
+  .toc-sidebar::-webkit-scrollbar { width: 4px; }
+  .toc-sidebar::-webkit-scrollbar-track { background: transparent; }
+  .toc-sidebar::-webkit-scrollbar-thumb { background: #555; border-radius: 2px; }
+  .toc-header {
+    padding: 0 20px 16px;
+    border-bottom: 1px solid #444;
+    margin-bottom: 16px;
+  }
+  .toc-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .toc-logo-box {
+    width: 32px; height: 32px;
+    background: #0078a8;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; color: white; font-size: 13px;
+  }
+  .toc-title { color: #fff; font-weight: 600; font-size: 13px; }
+  .toc-subtitle { color: #aaa; font-size: 11px; }
+  .toc-label {
+    padding: 4px 20px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #888;
+    margin-top: 8px;
+  }
+  .toc-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 20px;
+    color: #ccc;
+    text-decoration: none;
+    font-size: 12.5px;
+    transition: background 0.15s, color 0.15s;
+    border-left: 3px solid transparent;
+  }
+  .toc-link:hover {
+    background: rgba(255,255,255,0.07);
+    color: #fff;
+    border-left-color: #0078a8;
+  }
+  .toc-num {
+    width: 20px; height: 20px;
+    background: #444;
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    font-weight: 600;
+    color: #aaa;
+    flex-shrink: 0;
+  }
+
+  .main-content {
+    flex: 1;
+    padding: 40px 48px;
+    min-width: 0;
+  }
+
+  /* =============================================
+     WIREFRAME SECTION WRAPPER
+  ============================================= */
+  .wf-section {
+    margin-bottom: 80px;
+    scroll-margin-top: 24px;
+  }
+  .wf-section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #e0e0e0;
+  }
+  .wf-section-num {
+    width: 36px; height: 36px;
+    background: #0078a8;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; color: white; font-size: 15px;
+    flex-shrink: 0;
+  }
+  .wf-section-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #2d2d2d;
+  }
+  .wf-section-desc {
+    font-size: 13px;
+    color: #777;
+    margin-top: 2px;
+  }
+  .wf-frame {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.09), 0 1px 3px rgba(0,0,0,0.06);
+    overflow: hidden;
+    border: 1px solid #e8e8e8;
+  }
+  .wf-browser-bar {
+    background: #f8f8f8;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .wf-dots { display: flex; gap: 6px; }
+  .wf-dot {
+    width: 12px; height: 12px; border-radius: 50%;
+  }
+  .wf-dot.red { background: #ff5f57; }
+  .wf-dot.yellow { background: #febc2e; }
+  .wf-dot.green { background: #28c840; }
+  .wf-url-bar {
+    flex: 1;
+    background: #efefef;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 4px 12px;
+    font-size: 11.5px;
+    color: #666;
+    font-family: monospace;
+  }
+
+  /* =============================================
+     COMMON UI COMPONENTS
+  ============================================= */
+  /* Nav Bar */
+  .topnav {
+    background: #2d2d2d;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 16px;
+  }
+  .topnav-logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+  .topnav-logo-box {
+    width: 30px; height: 30px;
+    background: #0078a8;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; color: white; font-size: 12px;
+  }
+  .topnav-brand { color: white; font-weight: 600; font-size: 15px; }
+  .topnav-brand span { color: #0078a8; }
+  .topnav-spacer { flex: 1; }
+  .topnav-item {
+    display: flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    color: #ccc;
+    font-size: 16px;
+    cursor: pointer;
+    position: relative;
+  }
+  .topnav-item:hover { background: rgba(255,255,255,0.18); color: white; }
+  .badge {
+    position: absolute;
+    top: -3px; right: -3px;
+    width: 16px; height: 16px;
+    background: #e67e22;
+    border-radius: 50%;
+    font-size: 9px;
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+  }
+  .avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600; font-size: 13px;
+    flex-shrink: 0;
+  }
+  .avatar-blue { background: #0078a8; color: white; }
+  .avatar-green { background: #27ae60; color: white; }
+  .avatar-orange { background: #e67e22; color: white; }
+  .avatar-purple { background: #8e44ad; color: white; }
+  .avatar-teal { background: #16a085; color: white; }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .btn-primary { background: #0078a8; color: white; }
+  .btn-primary:hover { background: #005f8a; }
+  .btn-secondary { background: #f0f0f0; color: #2d2d2d; border: 1px solid #ddd; }
+  .btn-secondary:hover { background: #e5e5e5; }
+  .btn-outline { background: transparent; color: #0078a8; border: 1px solid #0078a8; }
+  .btn-outline:hover { background: #f0f8fc; }
+  .btn-danger { background: #e74c3c; color: white; }
+  .btn-sm { padding: 5px 10px; font-size: 12px; }
+  .btn-icon {
+    width: 32px; height: 32px;
+    padding: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 4px;
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    font-size: 14px;
+    color: #555;
+  }
+  .btn-icon:hover { background: #e5e5e5; }
+
+  /* Status Badges */
+  .status-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .status-done { background: #d4edda; color: #155724; }
+  .status-processing { background: #fff3cd; color: #856404; }
+  .status-error { background: #f8d7da; color: #721c24; }
+  .status-active { background: #cce5ff; color: #004085; }
+
+  /* Tables */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; }
+  thead th {
+    background: #f8f9fa;
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 2px solid #e8e8e8;
+    white-space: nowrap;
+  }
+  tbody td {
+    padding: 11px 14px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 13px;
+    color: #333;
+  }
+  tbody tr:hover td { background: #fafbfc; }
+  tbody tr:last-child td { border-bottom: none; }
+
+  /* Forms */
+  .form-group { margin-bottom: 16px; }
+  .form-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 5px;
+  }
+  .form-input, .form-select, .form-textarea {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #333;
+    background: white;
+    font-family: inherit;
+  }
+  .form-input:focus, .form-textarea:focus {
+    outline: none;
+    border-color: #0078a8;
+    box-shadow: 0 0 0 3px rgba(0,120,168,0.12);
+  }
+  .form-textarea { resize: vertical; min-height: 80px; }
+
+  /* Cards */
+  .card {
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #e8e8e8;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .card-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .card-title { font-weight: 600; font-size: 14px; }
+  .card-body { padding: 16px 20px; }
+
+  /* Sidebar Navigation */
+  .app-sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    background: #2d2d2d;
+    min-height: 100%;
+    padding: 16px 0;
+  }
+  .sidebar-section-label {
+    padding: 4px 16px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #888;
+    margin-top: 12px;
+    margin-bottom: 4px;
+  }
+  .sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 16px;
+    color: #bbb;
+    text-decoration: none;
+    font-size: 13px;
+    border-left: 3px solid transparent;
+    transition: all 0.15s;
+  }
+  .sidebar-link:hover { background: rgba(255,255,255,0.07); color: white; }
+  .sidebar-link.active {
+    background: rgba(0,120,168,0.2);
+    color: white;
+    border-left-color: #0078a8;
+  }
+  .sidebar-icon { width: 18px; text-align: center; font-size: 15px; }
+
+  /* App Layout */
+  .app-layout {
+    display: flex;
+    height: calc(100% - 56px);
+    min-height: 600px;
+  }
+  .app-main { flex: 1; overflow: auto; }
+  .app-main-inner { padding: 24px; }
+
+  /* Breadcrumb */
+  .breadcrumb {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; color: #888;
+    margin-bottom: 16px;
+  }
+  .breadcrumb a { color: #0078a8; text-decoration: none; }
+  .breadcrumb-sep { color: #ccc; }
+
+  /* Checkbox */
+  .checkbox-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 0;
+    font-size: 13px;
+    color: #333;
+    cursor: pointer;
+  }
+  .checkbox-item input[type=checkbox] {
+    width: 15px; height: 15px;
+    accent-color: #0078a8;
+    cursor: pointer;
+  }
+
+  /* Highlight colors for legislation */
+  .hl-blue { background: rgba(0,120,168,0.18); border-radius: 2px; }
+  .hl-green { background: rgba(39,174,96,0.2); border-radius: 2px; }
+  .hl-orange { background: rgba(230,126,34,0.2); border-radius: 2px; }
+  .hl-purple { background: rgba(142,68,173,0.2); border-radius: 2px; }
+
+  /* Chat Bubble */
+  .chat-bubble {
+    display: flex; gap: 10px;
+    margin-bottom: 16px;
+    align-items: flex-start;
+  }
+  .chat-bubble.user { flex-direction: row-reverse; }
+  .chat-msg {
+    max-width: 75%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .chat-msg.bot {
+    background: #f0f2f5;
+    color: #2d2d2d;
+    border-radius: 4px 12px 12px 12px;
+  }
+  .chat-msg.user-msg {
+    background: #0078a8;
+    color: white;
+    border-radius: 12px 4px 12px 12px;
+  }
+
+  /* Floating Chat Button */
+  .fab {
+    position: absolute;
+    bottom: 24px; right: 24px;
+    width: 52px; height: 52px;
+    background: #0078a8;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: white;
+    font-size: 22px;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,120,168,0.4);
+    z-index: 10;
+  }
+
+  /* Speaker badges for transcript */
+  .speaker-badge {
+    display: inline-flex; align-items: center;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .speaker-a { background: #d6eaf8; color: #1a5276; }
+  .speaker-b { background: #d5f5e3; color: #1e8449; }
+  .speaker-c { background: #fdebd0; color: #935116; }
+
+  /* Color dot */
+  .color-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  /* Split pane */
+  .split-pane {
+    display: flex;
+    height: 100%;
+    min-height: 500px;
+  }
+  .split-left {
+    width: 340px;
+    flex-shrink: 0;
+    border-right: 1px solid #e8e8e8;
+    overflow-y: auto;
+  }
+  .split-right {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0;
+  }
+  .pane-header {
+    padding: 14px 16px;
+    border-bottom: 1px solid #e8e8e8;
+    background: #fafafa;
+    font-size: 12px;
+    font-weight: 600;
+    color: #555;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  /* Annotation / source ref */
+  .source-ref {
+    display: inline;
+    color: #0078a8;
+    font-size: 11px;
+    font-weight: 600;
+    vertical-align: super;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .source-ref:hover { text-decoration: underline; }
+
+  /* Misc utils */
+  .flex { display: flex; }
+  .flex-col { flex-direction: column; }
+  .items-center { align-items: center; }
+  .items-start { align-items: flex-start; }
+  .justify-between { justify-content: space-between; }
+  .gap-8 { gap: 8px; }
+  .gap-12 { gap: 12px; }
+  .gap-16 { gap: 16px; }
+  .gap-24 { gap: 24px; }
+  .mt-8 { margin-top: 8px; }
+  .mt-12 { margin-top: 12px; }
+  .mt-16 { margin-top: 16px; }
+  .mb-8 { margin-bottom: 8px; }
+  .mb-12 { margin-bottom: 12px; }
+  .mb-16 { margin-bottom: 16px; }
+  .mb-24 { margin-bottom: 24px; }
+  .p-16 { padding: 16px; }
+  .p-20 { padding: 20px; }
+  .p-24 { padding: 24px; }
+  .text-sm { font-size: 12px; }
+  .text-xs { font-size: 11px; }
+  .text-muted { color: #888; }
+  .text-accent { color: #0078a8; }
+  .font-medium { font-weight: 500; }
+  .font-semibold { font-weight: 600; }
+  .font-bold { font-weight: 700; }
+  .w-full { width: 100%; }
+
+  /* Modal overlay */
+  .modal-overlay {
+    background: rgba(0,0,0,0.45);
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+  }
+  .modal {
+    background: white;
+    border-radius: 10px;
+    width: 560px;
+    max-width: 90%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    overflow: hidden;
+  }
+  .modal-header {
+    padding: 18px 24px;
+    border-bottom: 1px solid #e8e8e8;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .modal-title { font-size: 16px; font-weight: 700; }
+  .modal-close {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: #f0f0f0;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    color: #666;
+  }
+  .modal-body { padding: 24px; }
+  .modal-footer {
+    padding: 16px 24px;
+    border-top: 1px solid #e8e8e8;
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    background: #fafafa;
+  }
+
+  /* Grid */
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+
+  /* Working group card */
+  .wg-card {
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #e8e8e8;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    overflow: hidden;
+    cursor: pointer;
+    transition: box-shadow 0.15s, transform 0.15s;
+  }
+  .wg-card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+  }
+  .wg-card-img {
+    height: 100px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px;
+  }
+  .wg-card-body { padding: 14px; }
+  .wg-card-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+  .wg-card-meta {
+    display: flex; gap: 12px;
+    font-size: 11.5px; color: #888;
+    margin-top: 8px;
+  }
+  .wg-card-meta-item { display: flex; align-items: center; gap: 4px; }
+
+  /* Upload zone */
+  .upload-zone {
+    border: 2px dashed #c0d8e8;
+    border-radius: 8px;
+    padding: 32px;
+    text-align: center;
+    background: #f8fbfd;
+    color: #666;
+  }
+  .upload-zone-icon { font-size: 32px; margin-bottom: 8px; color: #0078a8; }
+
+  /* Toolbar */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .toolbar-sep { width: 1px; height: 24px; background: #ddd; margin: 0 4px; }
+
+  /* Transcript line */
+  .transcript-line {
+    display: flex;
+    gap: 0;
+    padding: 8px 0;
+    border-bottom: 1px solid #f5f5f5;
+    position: relative;
+  }
+  .transcript-line:hover { background: #fafbfc; }
+  .ts-time {
+    width: 64px;
+    flex-shrink: 0;
+    font-size: 11px;
+    color: #aaa;
+    font-family: monospace;
+    padding-top: 2px;
+  }
+  .ts-speaker { flex-shrink: 0; margin-right: 10px; }
+  .ts-text { flex: 1; font-size: 13px; line-height: 1.6; color: #333; }
+  .ts-actions {
+    flex-shrink: 0;
+    display: flex; gap: 4px;
+    opacity: 0;
+    padding-left: 8px;
+  }
+  .transcript-line:hover .ts-actions { opacity: 1; }
+  .ts-action-btn {
+    width: 24px; height: 24px;
+    border-radius: 4px;
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    color: #666;
+  }
+
+  /* Pagination */
+  .pagination {
+    display: flex; align-items: center; gap: 4px;
+    padding: 16px 0;
+    justify-content: center;
+  }
+  .page-btn {
+    width: 32px; height: 32px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background: white;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: #555;
+  }
+  .page-btn.active { background: #0078a8; border-color: #0078a8; color: white; }
+  .page-btn:hover:not(.active) { background: #f0f0f0; }
+
+  /* Search bar */
+  .search-bar {
+    display: flex; align-items: center;
+    background: white;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    padding: 6px 12px;
+    gap: 8px;
+  }
+  .search-bar input {
+    border: none; outline: none;
+    font-size: 13px; color: #333;
+    font-family: inherit;
+    width: 200px;
+    background: transparent;
+  }
+  .search-icon { color: #aaa; font-size: 14px; }
+
+  /* Stat pills for admin */
+  .stat-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 12px;
+    background: #f0f8fc;
+    border: 1px solid #c2e0ef;
+    border-radius: 20px;
+    font-size: 12px; color: #0078a8; font-weight: 600;
+  }
+
+  /* Audit log */
+  .audit-row td:first-child { color: #0078a8; font-weight: 500; }
+
+  /* Version badge */
+  .version-tag {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 600;
+    background: #e8f4f8;
+    color: #0078a8;
+    border: 1px solid #c2e0ef;
+  }
+
+  /* Section divider annotation */
+  .wf-note {
+    background: #fffbf0;
+    border: 1px solid #f0d080;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #7a5e00;
+    margin-bottom: 16px;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  /* Agent card */
+  .agent-card {
+    background: white;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: box-shadow 0.15s;
+  }
+  .agent-card:hover { box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+  .agent-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .agent-info { flex: 1; }
+  .agent-name { font-weight: 600; font-size: 14px; margin-bottom: 2px; }
+  .agent-desc { font-size: 12px; color: #888; }
+
+  /* Quick action chips */
+  .quick-chips {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    padding: 8px 12px;
+  }
+  .chip {
+    padding: 5px 10px;
+    background: #f0f8fc;
+    border: 1px solid #c2e0ef;
+    border-radius: 14px;
+    font-size: 12px;
+    color: #0078a8;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .chip:hover { background: #d6edf7; }
+
+  /* Collapse icon */
+  .collapse-icon { font-style: normal; }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <!-- ============================================================
+       TABLE OF CONTENTS SIDEBAR
+  ============================================================ -->
+  <nav class="toc-sidebar">
+    <div class="toc-header">
+      <div class="toc-logo">
+        <div class="toc-logo-box">AT</div>
+        <div>
+          <div class="toc-title">ATVP AI Sistem</div>
+          <div class="toc-subtitle">Wireframes — v1.0</div>
+        </div>
+      </div>
+    </div>
+    <div class="toc-label">Zasloni</div>
+    <a href="#screen-1" class="toc-link"><span class="toc-num">1</span>Prijava</a>
+    <a href="#screen-2" class="toc-link"><span class="toc-num">2</span>Nadzorna plošča</a>
+    <a href="#screen-3" class="toc-link"><span class="toc-num">3</span>Delovna skupina</a>
+    <a href="#screen-4" class="toc-link"><span class="toc-num">4</span>Pregled transkripta</a>
+    <a href="#screen-5" class="toc-link"><span class="toc-num">5</span>Asistent — Povzemanje</a>
+    <a href="#screen-6" class="toc-link"><span class="toc-num">6</span>Asistent — Zakonodaja</a>
+    <a href="#screen-7" class="toc-link"><span class="toc-num">7</span>Asistent — Transkript</a>
+    <a href="#screen-8" class="toc-link"><span class="toc-num">8</span>Specializirani agenti</a>
+    <a href="#screen-9" class="toc-link"><span class="toc-num">9</span>Chatbot widget</a>
+    <a href="#screen-10" class="toc-link"><span class="toc-num">10</span>Administracija</a>
+    <div class="toc-label" style="margin-top:24px;">Projekt</div>
+    <div style="padding: 8px 20px; font-size:11.5px; color:#777; line-height:1.6;">
+      ATVP AI Sistem<br>
+      Klient: ATVP<br>
+      Verzija: 1.0<br>
+      Datum: Mar 2026
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       MAIN CONTENT
+  ============================================================ -->
+  <main class="main-content">
+
+    <!-- PAGE TITLE -->
+    <div style="margin-bottom: 40px;">
+      <h1 style="font-size:28px; font-weight:800; color:#2d2d2d; margin-bottom:6px;">ATVP AI Sistem — Wireframes</h1>
+      <p style="color:#777; font-size:14px;">Interaktivni wireframe dokument za sistem umetne inteligence Agencije za trg vrednostnih papirjev</p>
+    </div>
+
+    <!-- ====================================================
+         SCREEN 1: LOGIN PAGE
+    ==================================================== -->
+    <section class="wf-section" id="screen-1">
+      <div class="wf-section-header">
+        <div class="wf-section-num">1</div>
+        <div>
+          <div class="wf-section-title">Prijavna stran (Login)</div>
+          <div class="wf-section-desc">Azure AD SSO prijavni zaslon z logotipom ATVP in imenom sistema</div>
+        </div>
+      </div>
+      <div class="wf-frame">
+        <div class="wf-browser-bar">
+          <div class="wf-dots"><div class="wf-dot red"></div><div class="wf-dot yellow"></div><div class="wf-dot green"></div></div>
+          <div class="wf-url-bar">https://ai.a-tvp.si/login</div>
+        </div>
+        <!-- Login page content -->
+        <div style="min-height: 600px; background: linear-gradient(135deg, #1a2a3a 0%, #2d2d2d 60%, #1e3a4a 100%); display:flex; align-items:stretch;">
+          <!-- Left decorative panel -->
+          <div style="width: 45%; padding: 60px 48px; display:flex; flex-direction:column; justify-content:center; position:relative; overflow:hidden;">
+            <!-- Decorative circles -->
+            <div style="position:absolute; top:-60px; right:-60px; width:240px; height:240px; border-radius:50%; background:rgba(0,120,168,0.12);"></div>
+            <div style="position:absolute; bottom:-40px; left:-40px; width:180px; height:180px; border-radius:50%; background:rgba(230,126,34,0.08);"></div>
+            <!-- Logo -->
+            <div style="display:flex; align-items:center; gap:14px; margin-bottom:48px;">
+              <div style="width:52px;height:52px;background:#0078a8;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:white;">AT</div>
+              <div>
+                <div style="color:white; font-size:20px; font-weight:700;">ATVP</div>
+                <div style="color:#aaa; font-size:12px;">Agencija za trg vrednostnih papirjev</div>
+              </div>
+            </div>
+            <h2 style="color:white; font-size:28px; font-weight:800; line-height:1.3; margin-bottom:16px;">
+              Dobrodošli v<br><span style="color:#0078a8;">AI Sistemu ATVP</span>
+            </h2>
+            <p style="color:#aaa; font-size:14px; line-height:1.7; max-width:340px;">
+              Centralizirana platforma za analizo dokumentov, zakonodaje in transkriptov z umetno inteligenco za delovne skupine ATVP.
+            </p>
+            <div style="margin-top:40px; display:flex; flex-direction:column; gap:12px;">
+              <div style="display:flex;align-items:center;gap:10px; color:#aaa; font-size:13px;">
+                <span style="color:#0078a8;">✓</span> Analiza in povzemanje dokumentov z AI
+              </div>
+              <div style="display:flex;align-items:center;gap:10px; color:#aaa; font-size:13px;">
+                <span style="color:#0078a8;">✓</span> Referenciranje zakonodajnih členov
+              </div>
+              <div style="display:flex;align-items:center;gap:10px; color:#aaa; font-size:13px;">
+                <span style="color:#0078a8;">✓</span> Upravljanje transkriptov sej
+              </div>
+              <div style="display:flex;align-items:center;gap:10px; color:#aaa; font-size:13px;">
+                <span style="color:#0078a8;">✓</span> Specializirani AI agenti za posamezne naloge
+              </div>
+            </div>
+          </div>
+          <!-- Right login form panel -->
+          <div style="flex:1; background:white; display:flex; align-items:center; justify-content:center; padding:60px 48px; border-radius: 0 0 0 0;">
+            <div style="width:100%; max-width:360px;">
+              <div style="text-align:center; margin-bottom:40px;">
+                <div style="width:64px;height:64px;background:#f0f8fc;border:2px solid #c2e0ef;border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:28px;">🔐</div>
+                <h3 style="font-size:22px; font-weight:700; color:#2d2d2d; margin-bottom:6px;">Prijava v sistem</h3>
+                <p style="font-size:13px; color:#888;">Uporabite vaš ATVP račun</p>
+              </div>
+              <!-- Azure AD SSO Button -->
+              <div style="border: 1px solid #e0e0e0; border-radius:8px; padding: 20px; background: #fafbfc; margin-bottom: 24px;">
+                <p style="font-size:12px; color:#888; text-align:center; margin-bottom:14px;">Prijavite se s slovensko vladno enoto SSO</p>
+                <button style="width:100%;padding:12px;background:#0078a8;color:white;border:none;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;font-family:inherit;">
+                  <svg width="18" height="18" viewBox="0 0 21 21" fill="none">
+                    <rect x="1" y="1" width="9" height="9" fill="white" opacity="0.9"/>
+                    <rect x="11" y="1" width="9" height="9" fill="#50a0e0"/>
+                    <rect x="1" y="11" width="9" height="9" fill="#50a0e0"/>
+                    <rect x="11" y="11" width="9" height="9" fill="white" opacity="0.9"/>
+                  </svg>
+                  Prijava z Microsoft Azure AD
+                </button>
+              </div>
+              <div style="text-align:center; margin-bottom:20px;">
+                <span style="font-size:12px; color:#bbb;">— ali —</span>
+              </div>
+              <!-- Manual login form (secondary) -->
+              <div style="margin-bottom:16px;">
+                <label style="display:block; font-size:12px; font-weight:600; color:#555; margin-bottom:5px;">E-poštni naslov</label>
+                <input type="email" placeholder="ime.priimek@a-tvp.si" style="width:100%;padding:9px 12px;border:1px solid #d0d0d0;border-radius:4px;font-size:13px;color:#888;font-family:inherit;background:#fafafa;">
+              </div>
+              <div style="margin-bottom:20px;">
+                <label style="display:block; font-size:12px; font-weight:600; color:#555; margin-bottom:5px;">Geslo</label>
+                <input type="password" placeholder="••••••••" style="width:100%;padding:9px 12px;border:1px solid #d0d0d0;border-radius:4px;font-size:13px;font-family:inherit;background:#fafafa;">
+              </div>
+              <button style="width:100%;padding:10px;background:#2d2d2d;color:white;border:none;border-radius:4px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;">
+                Prijava z geslom
+              </button>
+              <p style="text-align:center; margin-top:20px; font-size:12px; color:#aaa;">
+                Imate težave s prijavo? <a href="#" style="color:#0078a8;">Kontaktirajte IT podporo</a>
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- Footer -->
+        <div style="background:#f8f9fa; border-top:1px solid #e8e8e8; padding:10px 24px; display:flex; align-items:center; justify-content:space-between;">
+          <span style="font-size:11px; color:#aaa;">© 2026 Agencija za trg vrednostnih papirjev · Vse pravice pridržane</span>
+          <div style="display:flex; gap:16px;">
+            <a href="#" style="font-size:11px; color:#aaa; text-decoration:none;">Pogoji uporabe</a>
+            <a href="#" style="font-size:11px; color:#aaa; text-decoration:none;">Zasebnost</a>
+            <a href="#" style="font-size:11px; color:#aaa; text-decoration:none;">Pomoč</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================
+         SCREEN 2: DASHBOARD
+    ==================================================== -->
+    <section class="wf-section" id="screen-2">
+      <div class="wf-section-header">
+        <div class="wf-section-num">2</div>
+        <div>
+          <div class="wf-section-title">Nadzorna plošča (Dashboard)</div>
+          <div class="wf-section-desc">Pregled delovnih skupin s karticami, navigacija in plavajoči chatbot gumb</div>
+        </div>
+      </div>
+      <div class="wf-frame">
+        <div class="wf-browser-bar">
+          <div class="wf-dots"><div class="wf-dot red"></div><div class="wf-dot yellow"></div><div class="wf-dot green"></div></div>
+          <div class="wf-url-bar">https://ai.a-tvp.si/dashboard</div>
+        </div>
+        <!-- Top Nav -->
+        <div class="topnav">
+          <div class="topnav-logo">
+            <div class="topnav-logo-box">AT</div>
+            <span class="topnav-brand">ATVP <span>AI Sistem</span></span>
+          </div>
+          <div class="topnav-spacer"></div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <!-- Search bar in topnav -->
+            <div style="display:flex;align-items:center;background:rgba(255,255,255,0.1);border-radius:4px;padding:5px 10px;gap:6px;">
+              <span style="color:#aaa;font-size:13px;">🔍</span>
+              <input placeholder="Iskanje..." style="border:none;background:transparent;outline:none;font-size:13px;color:#ddd;width:160px;font-family:inherit;" />
+            </div>
+            <div class="topnav-item">
+              🔔
+              <span class="badge">3</span>
+            </div>
+            <div class="topnav-item">❓</div>
+            <div style="display:flex;align-items:center;gap:8px;padding:4px 8px;border-radius:6px;background:rgba(255,255,255,0.1);cursor:pointer;">
+              <div class="avatar avatar-blue">MK</div>
+              <div>
+                <div style="color:white;font-size:12px;font-weight:600;">Maja Kovač</div>
+                <div style="color:#aaa;font-size:10px;">Administratorka</div>
+              </div>
+              <span style="color:#aaa;font-size:10px;">▾</span>
+            </div>
+          </div>
+        </div>
+        <!-- Dashboard content -->
+        <div style="padding: 28px 28px 80px; background:#f5f5f5; min-height:580px; position:relative;">
+          <!-- Welcome bar -->
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;">
+            <div>
+              <h2 style="font-size:20px;font-weight:700;color:#2d2d2d;margin-bottom:2px;">Dober dan, Maja! 👋</h2>
+              <p style="font-size:13px;color:#888;">Upravljate 4 delovne skupine · Sre, 4. mar 2026</p>
+            </div>
+            <div style="display:flex;gap:10px;">
+              <div style="background:white;border-radius:8px;border:1px solid #e8e8e8;padding:12px 18px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+                <div style="font-size:22px;font-weight:700;color:#0078a8;">4</div>
+                <div style="font-size:11px;color:#888;">Delovne skupine</div>
+              </div>
+              <div style="background:white;border-radius:8px;border:1px solid #e8e8e8;padding:12px 18px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+                <div style="font-size:22px;font-weight:700;color:#0078a8;">127</div>
+                <div style="font-size:11px;color:#888;">Dokumentov</div>
+              </div>
+              <div style="background:white;border-radius:8px;border:1px solid #e8e8e8;padding:12px 18px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+                <div style="font-size:22px;font-weight:700;color:#e67e22;">12</div>
+                <div style="font-size:11px;color:#888;">Transkriptov</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section title -->
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+            <h3 style="font-size:15px;font-weight:700;color:#2d2d2d;">Moje delovne skupine</h3>
+            <div style="display:flex;gap:8px;">
+              <button class="btn btn-secondary btn-sm">⊞ Mrežni prikaz</button>
+              <button class="btn btn-primary btn-sm">+ Nova skupina</button>
+            </div>
+          </div>
+
+          <!-- Working group cards grid -->
+          <div class="grid-3" style="margin-bottom:32px;">
+
+            <!-- Card 1 -->
+            <div class="wg-card">
+              <div class="wg-card-img" style="background: linear-gradient(135deg, #e8f4f8, #d6eaf8);">📊</div>
+              <div class="wg-card-body">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px;">
+                  <div class="wg-card-title">Nadzor kapitalskega trga</div>
+                  <span class="status-badge status-active" style="font-size:10px;">Aktivna</span>
+                </div>
+                <div style="font-size:12px;color:#888;margin-bottom:10px;">Analiza poročil in zahtev glede kapitalskih instrumentov</div>
+                <div style="display:flex;gap:4px;margin-bottom:10px;">
+                  <div class="avatar avatar-blue" style="width:24px;height:24px;font-size:10px;">MK</div>
+                  <div class="avatar avatar-green" style="width:24px;height:24px;font-size:10px;">JP</div>
+                  <div class="avatar avatar-orange" style="width:24px;height:24px;font-size:10px;">AN</div>
+                  <div style="width:24px;height:24px;border-radius:50%;background:#eee;border:1px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:9px;color:#888;">+3</div>
+                </div>
+                <div class="wg-card-meta">
+                  <div class="wg-card-meta-item">👥 6 članov</div>
+                  <div class="wg-card-meta-item">📄 42 dok.</div>
+                  <div class="wg-card-meta-item">🎤 5 tra.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="wg-card">
+              <div class="wg-card-img" style="background: linear-gradient(135deg, #fef9e7, #fdebd0);">⚖️</div>
+              <div class="wg-card-body">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px;">
+                  <div class="wg-card-title">Regulatorna skladnost MiFID II</div>
+                  <span class="status-badge status-active" style="font-size:10px;">Aktivna</span>
+                </div>
+                <div style="font-size:12px;color:#888;margin-bottom:10px;">Pregled skladnosti s predpisi MiFID II in MiFIR</div>
+                <div style="display:flex;gap:4px;margin-bottom:10px;">
+                  <div class="avatar avatar-purple" style="width:24px;height:24px;font-size:10px;">LN</div>
+                  <div class="avatar avatar-teal" style="width:24px;height:24px;font-size:10px;">BH</div>
+                  <div style="width:24px;height:24px;border-radius:50%;background:#eee;border:1px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:9px;color:#888;">+5</div>
+                </div>
+                <div class="wg-card-meta">
+                  <div class="wg-card-meta-item">👥 7 članov</div>
+                  <div class="wg-card-meta-item">📄 38 dok.</div>
+                  <div class="wg-card-meta-item">🎤 3 tra.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="wg-card">
+              <div class="wg-card-img" style="background: linear-gradient(135deg, #e8f8f0, #d5f5e3);">🏦</div>
+              <div class="wg-card-body">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px;">
+                  <div class="wg-card-title">Pregled investicijskih skladov</div>
+                  <span class="status-badge status-active" style="font-size:10px;">Aktivna</span>
+                </div>
+                <div style="font-size:12px;color:#888;margin-bottom:10px;">Analiza prospektov in letnih poročil investicijskih skladov</div>
+                <div style="display:flex;gap:4px;margin-bottom:10px;">
+                  <div class="avatar avatar-orange" style="width:24px;height:24px;font-size:10px;">TM</div>
+                  <div class="avatar avatar-blue" style="width:24px;height:24px;font-size:10px;">KP</div>
+                  <div style="width:24px;height:24px;border-radius:50%;background:#eee;border:1px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:9px;color:#888;">+2</div>
+                </div>
+                <div class="wg-card-meta">
+                  <div class="wg-card-meta-item">👥 4 člani</div>
+                  <div class="wg-card-meta-item">📄 29 dok.</div>
+                  <div class="wg-card-meta-item">🎤 2 tra.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="wg-card">
+              <div class="wg-card-img" style="background: linear-gradient(135deg, #f4ecf7, #e8daef);">🛡️</div>
+              <div class="wg-card-body">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px;">
+                  <div class="wg-card-title">Zaščita vlagateljev</div>
+                  <span class="status-badge status-processing" style="font-size:10px;">Miruje</span>
+                </div>
+                <div style="font-size:12px;color:#888;margin-bottom:10px;">Pregled pritožb in zaščita pravic vlagateljev</div>
+                <div style="display:flex;gap:4px;margin-bottom:10px;">
+                  <div class="avatar avatar-green" style="width:24px;height:24px;font-size:10px;">SS</div>
+                  <div style="width:24px;height:24px;border-radius:50%;background:#eee;border:1px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:9px;color:#888;">+3</div>
+                </div>
+                <div class="wg-card-meta">
+                  <div class="wg-card-meta-item">👥 4 člani</div>
+                  <div class="wg-card-meta-item">📄 18 dok.</div>
+                  <div class="wg-card-meta-item">🎤 2 tra.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Add new group card -->
+            <div style="border: 2px dashed #d0d0d0; border-radius:8px; display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;cursor:pointer;color:#aaa;transition:all 0.15s;min-height:180px;">
+              <div style="font-size:28px;margin-bottom:8px;">➕</div>
+              <div style="font-size:13px;font-weight:600;">Nova delovna skupina</div>
+              <div style="font-size:11px;margin-top:4px;">Kliknite za dodajanje</div>
+            </div>
+
+          </div>
+
+          <!-- Recent activity -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">🕒 Nedavna dejavnost</span>
+              <a href="#" style="font-size:12px;color:#0078a8;text-decoration:none;">Vse dejavnosti</a>
+            </div>
+            <div style="padding:0;">
+              <div style="display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid #f5f5f5;">
+                <div class="avatar avatar-blue" style="width:28px;height:28px;font-size:11px;flex-shrink:0;">JP</div>
+                <div style="flex:1;">
+                  <span style="font-size:13px;"><b>Janez Pečnik</b> je naložil dokument <span style="color:#0078a8;">Letno_porocilo_2025.pdf</span></span>
+                  <div style="font-size:11px;color:#aaa;">Nadzor kapitalskega trga · pred 15 min</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid #f5f5f5;">
+                <div class="avatar avatar-purple" style="width:28px;height:28px;font-size:11px;flex-shrink:0;">LN</div>
+                <div style="flex:1;">
+                  <span style="font-size:13px;"><b>Lara Novak</b> je zaključila analizo transkripta <span style="color:#0078a8;">Seja_komisije_28feb.mp4</span></span>
+                  <div style="font-size:11px;color:#aaa;">MiFID II · pred 1 uro</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;padding:10px 16px;">
+                <div class="avatar avatar-orange" style="width:28px;height:28px;font-size:11px;flex-shrink:0;">TM</div>
+                <div style="flex:1;">
+                  <span style="font-size:13px;"><b>Tomaž Merhar</b> je ustvaril povzetek za <span style="color:#0078a8;">Prospekt_NLB_sklad.pdf</span></span>
+                  <div style="font-size:11px;color:#aaa;">Investicijski skladi · pred 2 urah</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Floating chatbot button -->
+          <div class="fab" title="Odpri AI asistenta">💬</div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================
+         SCREEN 3: WORKING GROUP DETAIL
+    ==================================================== -->
+    <section class="wf-section" id="screen-3">
+      <div class="wf-section-header">
+        <div class="wf-section-num">3</div>
+        <div>
+          <div class="wf-section-title">Delovna skupina — Podrobnosti</div>
+          <div class="wf-section-desc">Zavihki: Dokumenti, Člani, Relevantni členi, Transkripti, Asistenti</div>
+        </div>
+      </div>
+
+      <!-- Note -->
+      <div class="wf-note">
+        <span>ℹ️</span>
+        <span>Prikazani so vsi zavihki: Dokumenti (privzet), Člani, Relevantni členi, Transkripti, Asistenti — vsak z lastno vsebino.</span>
+      </div>
+
+      <!-- TAB: Dokumenti -->
+      <div style="margin-bottom:12px;"><strong style="font-size:13px;color:#555;">Zavihek: Dokumenti</strong></div>
+      <div class="wf-frame" style="margin-bottom:32px;">
+        <div class="wf-browser-bar">
+          <div class="wf-dots"><div class="wf-dot red"></div><div class="wf-dot yellow"></div><div class="wf-dot green"></div></div>
+          <div class="wf-url-bar">https://ai.a-tvp.si/groups/nadzor-kapitalskega-trga/dokumenti</div>
+        </div>
+        <div class="topnav">
+          <div class="topnav-logo"><div class="topnav-logo-box">AT</div><span class="topnav-brand">ATVP <span>AI Sistem</span></span></div>
+          <div class="topnav-spacer"></div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div class="topnav-item">🔔<span class="badge">3</span></div>
+            <div class="avatar avatar-blue">MK</div>
+          </div>
+        </div>
+        <div class="app-layout">
+          <div class="app-sidebar">
+            <div style="padding:14px 16px;border-bottom:1px solid #3a3a3a;margin-bottom:8px;">
+              <div style="color:#aaa;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Delovna skupina</div>
+              <div style="color:white;font-size:13px;font-weight:600;">Nadzor kapitalskega trga</div>
+            </div>
+            <a class="sidebar-link active" href="#"><span class="sidebar-icon">📄</span> Dokumenti <span style="margin-left:auto;background:#0078a8;color:white;border-radius:10px;padding:1px 7px;font-size:10px;">42</span></a>
+            <a class="sidebar-link" href="#"><span class="sidebar-icon">👥</span> Člani <span style="margin-left:auto;background:#444;color:#aaa;border-radius:10px;padding:1px 7px;font-size:10px;">6</span></a>
+            <a class="sidebar-link" href="#"><span class="sidebar-icon">⚖️</span> Relevantni členi</a>
+            <a class="sidebar-link" href="#"><span class="sidebar-icon">🎤</span> Transkripti <span style="margin-left:auto;background:#444;color:#aaa;border-radius:10px;padding:1px 7px;font-size:10px;">5</span></a>
+            <a class="sidebar-link" href="#"><span class="sidebar-icon">🤖</span> Asistenti</a>
+            <div style="margin-top:auto;padding:16px;">
+              <a class="sidebar-link" style="border-radius:4px;" href="#"><span class="sidebar-icon">⚙️</span> Nastavitve skupine</a>
+            </div>
+          </div>
+          <div class="app-main">
+            <div class="app-main-inner">
+              <div class="breadcrumb">
+                <a href="#">Nadzorna plošča</a><span class="breadcrumb-sep">›</span>
+                <span>Nadzor kapitalskega trga</span><span class="breadcrumb-sep">›</span>
+                <span>Dokumenti</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+                <h2 style="font-size:18px;font-weight:700;">Dokumenti</h2>
+                <div style="display:flex;gap:8px;">
+                  <div class="search-bar"><span class="search-icon">🔍</span><input placeholder="Iskanje dokumentov..."></div>
+                  <button class="btn btn-secondary"><span>☁️</span> OneDrive sinhronizacija</button>
+                  <button class="btn btn-primary"><span>⬆</span> Naloži dokument</button>
+                </div>
+              </div>
+              <!-- Filter chips -->
+              <div style="display:flex;gap:8px;margin-bottom:14px;">
+                <button style="padding:5px 12px;border-radius:14px;border:1px solid #0078a8;background:#f0f8fc;color:#0078a8;font-size:12px;cursor:pointer;font-family:inherit;">Vsi (42)</button>
+                <button style="padding:5px 12px;border-radius:14px;border:1px solid #e0e0e0;background:white;color:#666;font-size:12px;cursor:pointer;font-family:inherit;">PDF (28)</button>
+                <button style="padding:5px 12px;border-radius:14px;border:1px solid #e0e0e0;background:white;color:#666;font-size:12px;cursor:pointer;font-family:inherit;">Word (9)</button>
+                <button style="padding:5px 12px;border-radius:14px;border:1px solid #e0e0e0;background:white;color:#666;font-size:12px;cursor:pointer;font-family:inherit;">Excel (5)</button>
+              </div>
+              <div class="card">
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th style="width:32px;"><input type="checkbox" style="accent-color:#0078a8;"></th>
+                        <th>Ime dokumenta</th>
+                        <th>Vrsta</th>
+                        <th>Naložen</th>
+                        <th>Naložil</th>
+                        <th>Velikost</th>
+                        <th>Status</th>
+                        <th style="width:90px;">Dejanja</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><input type="checkbox" checked style="accent-color:#0078a8;"></td>
+                        <td><div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">📄</span><div><div style="font-weight:500;color:#0078a8;cursor:pointer;">Letno_porocilo_2025_KDD.pdf</div><div style="font-size:11px;color:#aaa;">Letno poročilo</div></div></div></td>
+                        <td><span class="status-badge status-error" style="background:#fde8e0;color:#c0392b;">PDF</span></td>
+                        <td style="color:#666;">4. mar 2026</td>
+                        <td><div style="display:flex;align-items:center;gap:6px;"><div class="avatar avatar-blue" style="width:22px;height:22px;font-size:9px;">JP</div><span>Janez Pečnik</span></div></td>
+                        <td style="color:#666;">4,2 MB</td>
+                        <td><span class="status-badge status-done">✓ Indeksirano</span></td>
+                        <td><div style="display:flex;gap:4px;"><button class="btn-icon" title="Poglej">👁</button><button class="btn-icon" title="Prenesi">⬇</button><button class="btn-icon" title="Izbriši">🗑</button></div></td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" style="accent-color:#0078a8;"></td>
+                        <td><div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">📊</span><div><div style="font-weight:500;color:#0078a8;cursor:pointer;">MiFID_II_Porocilo_Q4_2025.xlsx</div><div style="font-size:11px;color:#aaa;">Kvartalno poročilo</div></div></div></td>
+                        <td><span class="status-badge" style="background:#e8f5e9;color:#2e7d32;">XLSX</span></td>
+                        <td style="color:#666;">2. mar 2026</td>
+                        <td><div style="display:flex;align-items:center;gap:6px;"><div class="avatar avatar-green" style="width:22px;height:22px;font-size:9px;">AN</div><span>Ana Novak</span></div></td>
+                        <td style="color:#666;">1,8 MB</td>
+                        <td><span class="status-badge status-done">✓ Indeksirano</span></td>
+                        <td><div style="display:flex;gap:4px;"><button class="btn-icon">👁</button><button class="btn-icon">⬇</button><button class="btn-icon">🗑</button></div></td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" style="accent-color:#0078a8;"></td>
+                        <td><div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">📝</span><div><div style="font-weight:500;color:#0078a8;cursor:pointer;">Sklep_ATVP_2025-145.docx</div><div style="font-size:11px;color:#aaa;">Sklep</div></div></div></td>
+                        <td><span class="status-badge" style="background:#e3f2fd;color:#1565c0;">DOCX</span></td>
+                        <td style="color:#666;">28. feb 2026</td>
+                        <td><div style="display:flex;align-items:center;gap:6px;"><div class="avatar avatar-orange" style="width:22px;height:22px;font-size:9px;">TM</div><span>Tomaž Merhar</span></div></td>
+                        <td style="color:#666;">340 kB</td>
+                        <td><span class="status-badge status-processing">⟳ Indeksiranje...</span></td>
+                        <td><div style="display:flex;gap:4px;"><button class="btn-icon">👁</button><button class="btn-icon">⬇</button><button class="btn-icon">🗑</button></div></td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" style="accent-color:#0078a8;"></td>
+                        <td><div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">📄</span><div><div style="font-weight:500;color:#0078a8;cursor:pointer;">Uredba_EU_596_2014_MAR.pdf</div><div style="font-size:11px;color:#aaa;">Zakonodajni akt EU</div></div></div></td>
+                        <td><span class="status-badge status-error" style="background:#fde8e0;color:#c0392b;">PDF</span></td>
+                        <td style="color:#666;">15. jan 2026</td>
+                        <td><div style="display:flex;align-items:center;gap:6px;"><div class="avatar avatar-purple" style="width:22px;height:22px;font-size:9px;">LN</div><span>Lara Novak</span></div></td>
+                        <td style="color:#666;">2,1 MB</td>
+                        <td><span class="status-badge status-done">✓ Indeksirano</span></td>
+                        <td><div style="display:flex;gap:4px;"><button class="btn-icon">👁</button><button class="btn-icon">⬇</button><button class="btn-icon">🗑</button></div></td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" style="accent-color:#0078a8;"></td>
+                        <td><div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">📄</span><div><div style="font-weight:500;color:#0078a8;cursor:pointer;">ESMA_Guidelines_2025_Compliance.pdf</div><div style="font-size:11px;color:#aaa;">Smernice ESMA</div></div></div></td>
+                        <td><span class="status-badge status-error" style="background:#fde8e0;color:#c0392b;">PDF</span></td>
+                        <td style="color:#666;">10. jan 2026</td>
+                        <td><div style="display:flex;align-items:center;gap:6px;"><div class="avatar avatar-teal" style="width:22px;height:22px;font-size:9px;">BH</div><span>Bojan Horvat</span></div></td>
+                        <td style="color:#666;">5,7 MB</td>
+                        <td><span class="status-badge status-done">✓ Indeksirano</span></td>
+                        <td><div style="display:flex;gap:4px;"><button class="btn-icon">👁</button><button class="btn-icon">⬇</button><button class="btn-icon">🗑</button></div></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div style="padding:10px 16px;background:#fafafa;border-top:1px solid #f0f0f0;display:flex;align-items:center;justify-content:space-between;">
+                  <span style="font-size:12px;color:#888;">Prikazujem 1–5 od 42 dokumentov</span>
+                  <div class="pagination" style="padding:0;">
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <button class="page-btn">›</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: Člani -->
+      <div style="margin-bottom:12px;"><strong style="font-size:13px;color:#555;">Zavihek: Člani</strong></div>
+      <div class="wf-frame" style="margin-bottom:32px;">
+        <div class="wf-browser-bar">
+          <div class="wf-dots"><div class="wf-dot red"></div><div class="wf-dot yellow"></div><div class="wf-dot green"></div></div>
+          <div class="wf-url-bar">https://ai.a-tvp.si/groups/nadzor-kapitalskega-trga/clani</div>
+        </div>
+        <div class="topnav">
+          <div class="topnav-logo"><div class="topnav-logo-box">AT</div><span class="topnav-brand">ATVP <span>AI Sistem</span></span></div>
+          <div class="topnav-spacer"></div>
+          <div class="avatar avatar-blue">MK</div>
+        </div>
+        <div class="app-layout">
+          <div class="app-sidebar">
+            <div style="padding:14px 16px;border-bottom:1px solid #3a3a3a;margin-bottom:8px;">
+              <div style="color:#aaa;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Delovna skupina</div>
+              <div style="color:white;font-size:13px;font-weight:600;">Nadzor kapitalskega trga</div>
+            </div>
+            <a class="sidebar-link" href="#"><span class="sidebar-icon">📄</span> Dokumenti</a>
+            <a class="sidebar-link active" href="#"><span class="sidebar-icon">👥</span> Člani</a>
+            <a class="sidebar-link" href="#"><span class="sidebar-icon">⚖️</span> Relevantni členi</a>
+            <a class="sidebar-link" href="#"><span class="sidebar-icon">🎤</span> Transkripti</a>
+            <a class="sidebar-link" href="#"><span class="sidebar-icon">🤖</span> Asistenti</a>
+          </div>
+          <div class="app-main">
+            <div class="app-main-inner">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+                <h2 style="font-size:18px;font-weight:700;">Člani delovne skupine</h2>
+                <button class="btn btn-primary">+ Dodaj člana</button>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <div style="background:white;border:1px solid #e8e8e8;border-radius:8px;padding:14px 18px;display:flex;align-items:center;gap:14px;">
+                  <div class="avatar avatar-blue" style="width:40px;height:40px;font-size:15px;">MK</div>
+                  <div style="flex:1;">
+                    <div style="font-weight:600;font-size:14px;">Maja Kovač</div>
+                    <div style="font-size:12px;color:#888;">maja.kovac@a-tvp.si</div>
+                  </div>
+                  <span class="status-badge status-active" style="font-size:11px;">Vodja skupine</span>
+                  <button class="btn btn-secondary btn-sm">Uredi</button>
+                  <button class="btn btn-sm" style="background:#fde8e0;color:#c0392b;border:none;">Odstrani</button>
+                </div>
+                <div style="background:white;border:1px solid #e8e8e8;border-radius:8px;padding:14px 18px;display:flex;align-items:center;gap:14px;">
+                  <div class="avatar avatar-green" style="width:40px;height:40px;font-size:15px;">JP</div>
+                  <div style="flex:1;">
+                    <div style="font-weight:600;font-size:14px;">Janez Pečnik</div>
+                    <div style="font-size:12px;color:#888;">janez.pecnik@a-tvp.si</div>
+                  </div>
+                  <span class="status-badge status-done" style="font-size:11px;">Analitik</span>
+                  <button class="btn btn-secondary btn-sm">Uredi</button>
+                  <button class="btn btn-sm" style="background:#fde8e0;color:#c0392b;border:none;">Odstrani</button>
+                </div>
+                <div style="background:white;border:1px solid #e8e8e8;border-radius:8px;padding:14px 18px;display:flex;align-items:center;gap:14px;">
+                  <div class="avatar avatar-orange" style="width:40px;height:40px;font-size:15px;">AN</div>
+                  <div style="flex:1;">
+                    <div style="font-weight:600;font-size:14px;">Ana Novak</div>
+                    <div style="font-size:12px;color:#888;">ana.novak@a-tvp.si</div>
+                  </div>
+                  <span class="status-badge status-done" style="font-size:11px;">Analitik</span>
+                  <button class="btn btn-secondary btn-sm">Uredi</button>
+                  <button class="btn btn-sm" style="background:#fde8e0;color:#c0392b;border:none;">Odstrani</button>
+                </div>
+                <div style="background:white;border:1px solid #e8e8e8;border-radius:8px;padding:14px 18px;display:flex;align-items:center;gap:14px;">
+                  <div class="avatar avatar-purple" style="width:40px;height:40px;font-size:15px;">LN</div>
+                  <div style="flex:1;">
+                    <div style="font-weight:600;font-size:14px;">Lara Novak</div>
+                    <div style="font-size:12px;color:#888;">lara.novak@a-tvp.si</div>
+                  </div>
+                  <span class="status-badge" style="background:#f3e5f5;color:#6a1b9a;font-size:11px;">Pravna svetovalka</span>
+                  <button class="btn btn-secondary btn-sm">Uredi</button>
+                  <button class="btn btn-sm" style="background:#fde8e0;color:#c0392b;border:none;">Odstrani</button>
+                </div>
+                <div style="background:white;border:1px solid #e8e8e8;border-radius:8px;padding:14px 18px;display:flex;align-items:center;gap:14px;">
+                  <div class="avatar avatar-teal" style="width:40px;height:40px;font-size:15px;">BH</div>
+                  <div style="flex:1;">
+                    <div style="font-weight:600;font-size:14px;">Bojan Horvat</div>
+                    <div style="font-size:12px;color:#888;">bojan.horvat@a-tvp.si</div>
+                  </div>
+                  <span class="status-badge status-done" style="font-size:11px;">Analitik</span>
+                  <button class="btn btn-secondary btn-sm">Uredi</button>
+                  <button class="btn btn-sm" style="background:#fde8e0;color:#c0392b;border:none;">Odstrani</button>
+                </div>
+                <div style="background:white;border:1px solid #e8e8e8;border-radius:8px;padding:14px 18px;display:flex;align-items:center;gap:14px;">
+                  <div class="avatar avatar-green" style="width:40px;height:40px;font-size:15px;">SS</div>
+                  <div style="flex:1;">
+                    <div style="font-weight:600;font-size:14px;">Sara Simič</div>
+                    <div style="font-size:12px;color:#888;">sara.simic@a-tvp.si</div>
+                  </div>
+                  <span class="status-badge" style="background:#e8f5e9;color:#2e7d32;font-size:11px;">Pregledovalka</span>
+                  <button class="btn btn-secondary btn-sm">Uredi</button>
+                  <button class="btn btn-sm" style="background:#fde8e0;color:#c0392b;border:none;">Odstrani</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: Relevantni členi -->
+      <div style="margin-bottom:12px;"><strong style="font-size:13px;color:#555;">Zavihek: Relevantni členi zakonodaje</strong></div>
+      <div class="wf-frame" style="margin-bottom:32px;">
+        <div class="wf-browser-bar">
+          <div class="wf-dots"><div class="wf-dot red"></div><div class="wf-dot yellow"></div><div class="wf-dot green"></div></div>
+          <div class="wf-url-bar">https://ai.a-tvp.si/groups/nadzor-kapitalskega-trga/relevantni-cleni</div>
+        </div>
+        <div class="topnav"><div class="topnav-logo"><div class="topnav-logo-box">AT</div><span class="topnav-brand">ATVP <span>AI Sistem</span></span></div><div class="topnav-spacer"></div><div class="avatar avatar-blue">MK</div></div>
+        <div class="app-layout">
+          <div class="app-sidebar">
+            <div style="padding:14px 16px;border-bottom:1px solid #3a3a3a;margin-bottom:8px;"><div style="color:#aaa;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Delovna skupina</div><div style="color:white;font-size:13px;font-weight:600;">Nadzor kapitalskega trga</div></div>
+            <a class="sidebar-link" href="#"><span class="sidebar-icon">📄</span> Dokumenti</a>
+            <a class="sidebar-link" href="#"><span class="sidebar-icon">👥</span> Člani</a>
+            <a class="sidebar-link active" href="#"><span class="sidebar-icon">⚖️</span> Relevantni členi</a>
+            <a class="sidebar-link" href="#"><span class="sidebar-icon">🎤</span> Transkripti</a>
+            <a class="sidebar-link" href="#"><span class="sidebar-icon">🤖</span> Asistenti</a>
+          </div>
+          <div class="app-main">
+            <div class="app-main-inner">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+                <h2 style="font-size:18px;font-weight:700;">Relevantni zakonodajni členi</h2>
+                <div style="display:flex;gap:8px;">
+                  <div class="search-bar"><span class="search-icon">🔍</span><input placeholder="Iskanje členov..."></div>
+                  <button class="btn btn-secondary btn-sm">Filter po zakonu</button>
+                </div>
+              </div>
+              <p style="font-size:13px;color:#666;margin-bottom:16px;">Izberite zakonodajne člene, ki so relevantni za to delovno skupino. Izbrani členi bodo na voljo pri referenciranju dokumentov.</p>
+
+              <!-- Legislation groups -->
+              <div style="display:flex;flex-direction:column;gap:12px;">
+                <div class="card">
+                  <div style="padding:12px 16px;background:#f0f8fc;border-bottom:1px solid #e0eef5;display:flex;align-items:center;gap:10px;">
+                    <input type="checkbox" checked style="accent-color:#0078a8;">
+                    <span style="font-weight:600;font-size:13px;color:#0078a8;">Zakon o trgu finančnih instrumentov (ZTFI-1)</span>
+                    <span style="margin-left:auto;font-size:12px;color:#888;">12/45 členov izbranih</span>
+                  </div>
+                  <div style="padding:8px 16px;">
+                    <div class="checkbox-item"><input type="checkbox" checked><span><b>Člen 2</b> — Opredelitev pojmov</span></div>
+                    <div class="checkbox-item"><input type="checkbox" checked><span><b>Člen 15</b> — Obveznosti investicijskih podjetij</span></div>
+                    <div class="checkbox-item"><input type="checkbox" checked><span><b>Člen 23</b> — Obvladovanje nasprotja interesov</span></div>
+                    <div class="checkbox-item"><input type="checkbox"><span><b>Člen 30</b> — Zahteve glede organiziranosti</span></div>
+                    <div class="checkbox-item"><input type="checkbox" checked><span><b>Člen 42</b> — Pooblastilo za opravljanje investicijskih storitev</span></div>
+                    <div style="padding:6px 0;"><a href="#" style="font-size:12px;color:#0078a8;">Prikaži vse člene ▾</a></div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div style="padding:12px 16px;background:#fef9e7;border-bottom:1px solid #f5e6c0;display:flex;align-items:center;gap:10px;">
+                    <input type="checkbox" checked style="accent-color:#0078a8;">
+                    <span style="font-weight:600;font-size:13px;color:#e67e22;">Uredba EU 596/2014 (MAR)</span>
+                    <span style="margin-left:auto;font-size:12px;color:#888;">8/20 členov izbranih</span>
+                  </div>
+                  <div style="padding:8px 16px;">
+                    <div class="checkbox-item"><input type="checkbox" checked><span><b>Člen 7</b> — Notranje informacije</span></div>
+                    <div class="checkbox-item"><input type="checkbox" checked><span><b>Člen 8</b> — Zloraba notranjih informacij</span></div>
+                    <div class="checkbox-item"><input type="checkbox"><span><b>Člen 12</b> — Tržna manipulacija</span></div>
+                    <div class="checkbox-item"><input type="checkbox" checked><span><b>Člen 17</b> — Razkrivanje notranjih informacij</span></div>
+                    <div style="padding:6px 0;"><a href="#" style="font-size:12px;color:#0078a8;">Prikaži vse člene ▾</a></div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div style="padding:12px 16px;background:#f4ecf7;border-bottom:1px solid #e8d5f0;display:flex;align-items:center;gap:10px;">
+                    <input type="checkbox" style="accent-color:#0078a8;">
+                    <span style="font-weight:600;font-size:13px;color:#8e44ad;">Direktiva MiFID II (2014/65/EU)</span>
+                    <span style="margin-left:auto;font-size:12px;color:#888;">0/38 členov izbranih</span>
+                  </div>
+                  <div style="padding:8px 16px;color:#aaa;font-size:13px;font-style:italic;">
+                    Zakon ni aktiven za to skupino. Kliknite potrditveno polje za aktivacijo.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: Transkripti -->
+      <div style="margin-bottom:12px;"><strong style="font-size:13px;color:#555;">Zavihek: Transkripti</strong></div>
+      <div class="wf-frame" style="margin-bottom:32px;">
+        <div class="wf-browser-bar">
+          <div class="wf-dots"><div class="wf-dot red"></div><div class="wf-dot yellow"></div><div class="wf-dot green"></div></div>
+          <div class="wf-url-bar">https://ai.a-tvp.si/groups/nadzor-kapitalskega-trga/transkripti</div>
+        </div>
+        <div class="topnav"><div class="topnav-logo"><div class="topnav-logo-box">AT</div><span class="topnav-brand">ATVP <span>AI Sistem</span></span></div><div class="topnav-spacer"></div><div class="avatar avatar-blue">MK</div></div>
+        <div class="app-layout">
+          <div class="app-sidebar">
+            <div style="padding:14px 16px;border-bottom:1px solid #3a3a3a;margin-bottom:8px;"><div style="color:#aaa;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Delovna skupina</div><div style="color:white;font-size:13px;font-weight:600;">Nadzor kapitalskega trga</div></div>
+            <a class="sidebar-link" href="#"><span class="sidebar-icon">📄</span> Dokumenti</a>
+            <a class="sidebar-link" href="#"><span class="sidebar-icon">👥</span> Člani</a>
+            <a class="sidebar-link" href="#"><span class="sidebar-icon">⚖️</span> Relevantni členi</a>
+            <a class="sidebar-link active" href="#"><span class="sidebar-icon">🎤</span> Transkripti</a>
+            <a class="sidebar-link" href="#"><span class="sidebar-icon">🤖</span> Asistenti</a>
+          </div>
+          <div class="app-main">
+            <div class="app-main-inner">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+                <h2 style="font-size:18px;font-weight:700;">Transkripti sej</h2>
+                <button class="btn btn-primary">🎬 Uvozi video</button>
+              </div>
+              <div class="card">
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Ime transkripta</th>
+                        <th>Datum seje</th>
+                        <th>Trajanje</th>
+                        <th>Govorci</th>
+                        <th>Status</th>
+                        <th style="width:100px;">Dejanja</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎤</span><div><div style="font-weight:500;color:#0078a8;cursor:pointer;">Seja_komisije_04mar2026</div><div style="font-size:11px;color:#aaa;">Redna seja — Kapitalski trg</div></div></div></td>
+                        <td style="color:#666;">4. mar 2026</td>
+                        <td style="color:#666;">2h 18min</td>
+                        <td><div style="display:flex;gap:3px;"><div class="avatar avatar-blue" style="width:20px;height:20px;font-size:8px;">MK</div><div class="avatar avatar-green" style="width:20px;height:20px;font-size:8px;">JP</div><div class="avatar avatar-orange" style="width:20px;height:20px;font-size:8px;">AN</div><span style="font-size:11px;color:#aaa;margin-left:4px;">+3</span></div></td>
+                        <td><span class="status-badge status-done">✓ Zaključen</span></td>
+                        <td><div style="display:flex;gap:4px;"><button class="btn btn-sm btn-primary">Odpri</button><button class="btn-icon">⬇</button></div></td>
+                      </tr>
+                      <tr>
+                        <td><div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎤</span><div><div style="font-weight:500;color:#0078a8;cursor:pointer;">Seja_komisije_28feb2026</div><div style="font-size:11px;color:#aaa;">Izredna seja — MiFID II</div></div></div></td>
+                        <td style="color:#666;">28. feb 2026</td>
+                        <td style="color:#666;">1h 42min</td>
+                        <td><div style="display:flex;gap:3px;"><div class="avatar avatar-purple" style="width:20px;height:20px;font-size:8px;">LN</div><div class="avatar avatar-teal" style="width:20px;height:20px;font-size:8px;">BH</div></div></td>
+                        <td><span class="status-badge status-done">✓ Zaključen</span></td>
+                        <td><div style="display:flex;gap:4px;"><button class="btn btn-sm btn-primary">Odpri</button><button class="btn-icon">⬇</button></div></td>
+                      </tr>
+                      <tr>
+                        <td><div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">⟳</span><div><div style="font-weight:500;color:#333;">Seja_komisije_20feb2026</div><div style="font-size:11px;color:#aaa;">Redna seja — Nadzor</div></div></div></td>
+                        <td style="color:#666;">20. feb 2026</td>
+                        <td style="color:#666;">3h 05min</td>
+                        <td><div style="display:flex;gap:3px;"><div class="avatar avatar-blue" style="width:20px;height:20px;font-size:8px;">MK</div><div class="avatar avatar-green" style="width:20px;height:20px;font-size:8px;">JP</div></div></td>
+                        <td><span class="status-badge status-processing">⟳ V obdelavi</span></td>
+                        <td><div style="display:flex;gap:4px;"><button class="btn btn-sm btn-secondary" disabled>Odpri</button><button class="btn-icon">⬇</button></div></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: Asistenti -->
+      <div style="margin-bottom:12px;"><strong style="font-size:13px;color:#555;">Zavihek: Asistenti</strong></div>
+      <div class="wf-frame">
+        <div class="wf-browser-bar">
+          <div class="wf-dots"><div class="wf-dot red"></div><div class="wf-dot yellow"></div><div class="wf-dot green"></div></div>
+          <div class="wf-url-bar">https://ai.a-tvp.si/groups/nadzor-kapitalskega-trga/asistenti</div>
+        </div>
+        <div class="topnav"><div class="topnav-logo"><div class="topnav-logo-box">AT</div><span class="topnav-brand">ATVP <span>AI Sistem</span></span></div><div class="topnav-spacer"></div><div class="avatar avatar-blue">MK</div></div>
+        <div class="app-layout">
+          <div class="app-sidebar">
+            <div style="padding:14px 16px;border-bottom:1px solid #3a3a3a;margin-bottom:8px;"><div style="color:#aaa;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Delovna skupina</div><div style="color:white;font-size:13px;font-weight:600;">Nadzor kapitalskega trga</div></div>
+            <a class="sidebar-link" href="#"><span class="sidebar-icon">📄</span> Dokumenti</a>
+            <a class="sidebar-link" href="#"><span class="sidebar-icon">👥</span> Člani</a>
+            <a class="sidebar-link" href="#"><span class="sidebar-icon">⚖️</span> Relevantni členi</a>
+            <a class="sidebar-link" href="#"><span class="sidebar-icon">🎤</span> Transkripti</a>
+            <a class="sidebar-link active" href="#"><span class="sidebar-icon">🤖</span> Asistenti</a>
+          </div>
+          <div class="app-main">
+            <div class="app-main-inner">
+              <div style="margin-bottom:24px;">
+                <h2 style="font-size:18px;font-weight:700;margin-bottom:4px;">AI Asistenti</h2>
+                <p style="font-size:13px;color:#888;">Izberite asistenta za analizo dokumentov in transkriptov vaše delovne skupine.</p>
+              </div>
+              <div class="grid-2">
+                <div class="agent-card" style="border-left:4px solid #0078a8;">
+                  <div class="agent-icon" style="background:#e8f4f8;">📋</div>
+                  <div class="agent-info">
+                    <div class="agent-name">Asistent za povzemanje</div>
+                    <div class="agent-desc">Generira povzetke izbranih dokumentov in transkriptov z viri</div>
+                  </div>
+                  <button class="btn btn-primary btn-sm">Odpri</button>
+                </div>
+                <div class="agent-card" style="border-left:4px solid #e67e22;">
+                  <div class="agent-icon" style="background:#fef0e3;">⚖️</div>
+                  <div class="agent-info">
+                    <div class="agent-name">Referenciranje zakonodaje</div>
+                    <div class="agent-desc">Poišče povezave med dokumenti in zakonodajnimi členi</div>
+                  </div>
+                  <button class="btn btn-primary btn-sm">Odpri</button>
+                </div>
+                <div class="agent-card" style="border-left:4px solid #27ae60;">
+                  <div class="agent-icon" style="background:#eafaf1;">🎤</div>
+                  <div class="agent-info">
+                    <div class="agent-name">Referenciranje transkripta</div>
+                    <div class="agent-desc">Poveže izjave iz transkriptov z dokumenti v korpusu</div>
+                  </div>
+                  <button class="btn btn-primary btn-sm">Odpri</button>
+                </div>
+                <div class="agent-card" style="border-left:4px solid #8e44ad;">
+                  <div class="agent-icon" style="background:#f4ecf7;">🤖</div>
+                  <div class="agent-info">
+                    <div class="agent-name">Specializirani agenti</div>
+                    <div class="agent-desc">Ustvari in upravljaj namenske AI agente s prilagojenim kontekstom</div>
+                  </div>
+                  <button class="btn btn-primary btn-sm">Odpri</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================
+         SCREEN 4: TRANSCRIPT VIEW
+    ==================================================== -->
+    <section class="wf-section" id="screen-4">
+      <div class="wf-section-header">
+        <div class="wf-section-num">4</div>
+        <div>
+          <div class="wf-section-title">Pregled transkripta</div>
+          <div class="wf-section-desc">Govorniki z barvnimi oznakami, časovne oznake, prilagajanje, priloge</div>
+        </div>
+      </div>
+      <div class="wf-frame">
+        <div class="wf-browser-bar">
+          <div class="wf-dots"><div class="wf-dot red"></div><div class="wf-dot yellow"></div><div class="wf-dot green"></div></div>
+          <div class="wf-url-bar">https://ai.a-tvp.si/groups/nadzor-kapitalskega-trga/transkripti/seja-04mar2026</div>
+        </div>
+        <div class="topnav">
+          <div class="topnav-logo"><div class="topnav-logo-box">AT</div><span class="topnav-brand">ATVP <span>AI Sistem</span></span></div>
+          <div class="topnav-spacer"></div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div class="topnav-item">🔔<span class="badge">3</span></div>
+            <div class="avatar avatar-blue">MK</div>
+          </div>
+        </div>
+        <div style="background:#f5f5f5;min-height:700px;">
+          <!-- Page header -->
+          <div style="background:white;border-bottom:1px solid #e8e8e8;padding:14px 24px;">
+            <div class="breadcrumb" style="margin-bottom:8px;">
+              <a href="#">Nadzorna plošča</a><span class="breadcrumb-sep">›</span>
+              <a href="#">Nadzor kapitalskega trga</a><span class="breadcrumb-sep">›</span>
+              <a href="#">Transkripti</a><span class="breadcrumb-sep">›</span>
+              <span>Seja komisije 04.03.2026</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <div>
+                <h2 style="font-size:18px;font-weight:700;margin-bottom:2px;">Seja komisije — 4. marca 2026</h2>
+                <div style="display:flex;align-items:center;gap:12px;font-size:12px;color:#888;">
+                  <span>📅 4. mar 2026</span>
+                  <span>⏱ 2h 18min</span>
+                  <span>👥 6 govornikov</span>
+                  <span class="status-badge status-done" style="font-size:11px;">✓ Zaključen</span>
+                </div>
+              </div>
+              <div style="display:flex;gap:8px;">
+                <button class="btn btn-secondary">✏️ Uredi</button>
+                <button class="btn btn-secondary">📎 Dodaj prilogo</button>
+                <button class="btn btn-primary">⬇ Izvozi</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Speaker legend -->
+          <div style="background:white;border-bottom:1px solid #e8e8e8;padding:10px 24px;display:flex;align-items:center;gap:20px;">
+            <span style="font-size:12px;font-weight:600;color:#555;">Govorniki:</span>
+            <span class="speaker-badge speaker-a">MK — Maja Kovač</span>
+            <span class="speaker-badge speaker-b">JP — Janez Pečnik</span>
+            <span class="speaker-badge speaker-c">AN — Ana Novak</span>
+            <span class="speaker-badge" style="background:#f3e5f5;color:#6a1b9a;">LN — Lara Novak</span>
+            <span class="speaker-badge" style="background:#e0f2f1;color:#004d40;">BH — Bojan Horvat</span>
+          </div>
+
+          <!-- Toolbar -->
+          <div class="toolbar" style="background:white;border-bottom:1px solid #e8e8e8;">
+            <button class="btn btn-secondary btn-sm">✏️ Način urejanja</button>
+            <div class="toolbar-sep"></div>
+            <button class="btn btn-secondary btn-sm">🔍 Iskanje v transkripu</button>
+            <button class="btn btn-secondary btn-sm">⬇ Izvozi PDF</button>
+            <button class="btn btn-secondary btn-sm">📋 Izvozi Word</button>
+            <div class="toolbar-sep"></div>
+            <div style="margin-left:auto;font-size:12px;color:#888;">Skupaj: 847 vrstic · 12.430 besed</div>
+          </div>
+
+          <!-- Transcript lines -->
+          <div style="max-width:900px;margin:0 auto;padding:24px;display:flex;flex-direction:column;gap:0;">
+
+            <div class="transcript-line">
+              <div class="ts-time">00:00:00</div>
+              <div class="ts-speaker"><span class="speaker-badge speaker-a">MK</span></div>
+              <div class="ts-text">Pozdravljeni. Začenjamo redno sejo komisije za nadzor kapitalskega trga. Na dnevnem redu imamo pregled letnega poročila KDD za leto 2025 ter obravnavo predloga sprememb Zakona o trgu finančnih instrumentov.</div>
+              <div class="ts-actions">
+                <button class="ts-action-btn" title="Uredi">✏️</button>
+                <button class="ts-action-btn" title="Priloži">📎</button>
+              </div>
+            </div>
+
+            <div class="transcript-line" style="background:#fff8f0;">
+              <div class="ts-time">00:01:34</div>
+              <div class="ts-speaker"><span class="speaker-badge speaker-b">JP</span></div>
+              <div class="ts-text">Hvala, predsednica. Glede letnega poročila KDD bi rad izpostavil, da so rezultati za leto 2025 v skladu z načrtovanimi vrednostmi. Skupni obseg transakcij je dosegel 4,2 milijarde EUR, kar je 12% rast glede na predhodno leto. <span style="color:#0078a8;font-size:12px;cursor:pointer;" title="Prilojena opomba">📎</span></div>
+              <div class="ts-actions">
+                <button class="ts-action-btn">✏️</button>
+                <button class="ts-action-btn">📎</button>
+              </div>
+            </div>
+
+            <!-- Attachment marker -->
+            <div style="margin-left:64px;margin-bottom:8px;margin-top:2px;padding:6px 12px;background:#f0f8fc;border:1px solid #c2e0ef;border-radius:6px;display:inline-flex;align-items:center;gap:8px;font-size:12px;color:#0078a8;">
+              📎 <a href="#" style="color:#0078a8;text-decoration:none;font-weight:500;">Letno_porocilo_2025_KDD.pdf</a> <span style="color:#aaa;">— str. 12–18</span>
+            </div>
+
+            <div class="transcript-line">
+              <div class="ts-time">00:04:12</div>
+              <div class="ts-speaker"><span class="speaker-badge speaker-c">AN</span></div>
+              <div class="ts-text">Ali bi lahko pojasnili metodologijo izračuna rasti? Zanima me, ali je ta rast realna ali je del tega posledica inflacijskih pritiskov na nominalne vrednosti transakcij.</div>
+              <div class="ts-actions">
+                <button class="ts-action-btn">✏️</button>
+                <button class="ts-action-btn">📎</button>
+              </div>
+            </div>
+
+            <div class="transcript-line">
+              <div class="ts-time">00:05:48</div>
+              <div class="ts-speaker"><span class="speaker-badge speaker-b">JP</span></div>
+              <div class="ts-text">Dobro vprašanje. Realna rast, prilagojena za inflacijo, je bila 7,3%. Metodologija je opisana v Dodatku B poročila, sklicujemo pa se na standard ESMA za merjenje obsega transakcij.</div>
+              <div class="ts-actions">
+                <button class="ts-action-btn">✏️</button>
+                <button class="ts-action-btn">📎</button>
+              </div>
+            </div>
+
+            <div class="transcript-line" style="background:#fff8f0;">
+              <div class="ts-time">00:08:22</div>
+              <div class="ts-speaker"><span class="speaker-badge" style="background:#f3e5f5;color:#6a1b9a;">LN</span></div>
+              <div class="ts-text">Rada bi se dotaknila pravnega vidika. V skladu s členom 23 ZTFI-1 je KDD dolžna razkrivati podatke o transakcijah na način, ki preprečuje identifikacijo posameznih udeležencev. Ali je to zagotovljeno v obstoječih sistemih? <span style="color:#0078a8;font-size:12px;cursor:pointer;">📎</span></div>
+              <div class="ts-actions">
+                <button class="ts-action-btn">✏️</button>
+                <button class="ts-action-btn">📎</button>
+              </div>
+            </div>
+
+            <div style="margin-left:64px;margin-bottom:8px;margin-top:2px;padding:6px 12px;background:#f0f8fc;border:1px solid #c2e0ef;border-radius:6px;display:inline-flex;align-items:center;gap:8px;font-size:12px;color:#0078a8;">
+              📎 <a href="#" style="color:#0078a8;text-decoration:none;font-weight:500;">Sklep_ATVP_2025-145.docx</a> <span style="color:#aaa;">— Pravna analiza razkrivanja</span>
+            </div>
+
+            <div class="transcript-line">
+              <div class="ts-time">00:11:05</div>
+              <div class="ts-speaker"><span class="speaker-badge" style="background:#e0f2f1;color:#004d40;">BH</span></div>
+              <div class="ts-text">Glede tehničnih sistemov: da, KDD ima implementiran sistem anonimizacije v skladu z zahtevami GDPR in Uredbe MAR. Podrobnosti so v tehničnem dokumentu, ki smo ga prejeli prejšnji teden.</div>
+              <div class="ts-actions">
+                <button class="ts-action-btn">✏️</button>
+                <button class="ts-action-btn">📎</button>
+              </div>
+            </div>
+
+            <div class="transcript-line">
+              <div class="ts-time">00:13:30</div>
+              <div class="ts-speaker"><span class="speaker-badge speaker-a">MK</span></div>
+              <div class="ts-text">Hvala vsem za razpravo. Preidimo na drugo točko dnevnega reda — predlog sprememb ZTFI-1. Besedo ima Janez Pečnik.</div>
+              <div class="ts-actions">
+                <button class="ts-action-btn">✏️</button>
+                <button class="ts-action-btn">📎</button>
+              </div>
+            </div>
+
+            <!-- Inline edit mode example -->
+            <div class="transcript-line" style="background:#fffbf0;border:1px dashed #f0d080;border-radius:4px;">
+              <div class="ts-time">00:15:12</div>
+              <div class="ts-speaker"><span class="speaker-badge speaker-b">JP</span></div>
+              <div class="ts-text">
+                <textarea style="width:100%;border:1px solid #0078a8;border-radius:4px;padding:6px;font-size:13px;font-family:inherit;resize:none;outline:none;min-height:60px;">Predlagamo spremembo člena 42 ZTFI-1, ki bi razširila pogoje za pooblastilo investicijskim podjetjem. Konkretno gre za...</textarea>
+                <div style="display:flex;gap:6px;margin-top:6px;">
+                  <button class="btn btn-primary btn-sm">💾 Shrani</button>
+                  <button class="btn btn-secondary btn-sm">✕ Prekliči</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================
+         SCREEN 5: DOCUMENT SUMMARIZATION ASSISTANT
+    ==================================================== -->
+    <section class="wf-section" id="screen-5">
+      <div class="wf-section-header">
+        <div class="wf-section-num">5</div>
+        <div>
+          <div class="wf-section-title">Asistent za povzemanje dokumentov</div>
+          <div class="wf-section-desc">Korak 1: Izbor dokumentov · Korak 2: Generirani povzetek z viri</div>
+        </div>
+      </div>
+      <div class="wf-frame">
+        <div class="wf-browser-bar">
+          <div class="wf-dots"><div class="wf-dot red"></div><div class="wf-dot yellow"></div><div class="wf-dot green"></div></div>
+          <div class="wf-url-bar">https://ai.a-tvp.si/groups/nadzor-kapitalskega-trga/asistenti/povzemanje</div>
+        </div>
+        <div class="topnav"><div class="topnav-logo"><div class="topnav-logo-box">AT</div><span class="topnav-brand">ATVP <span>AI Sistem</span></span></div><div class="topnav-spacer"></div><div class="avatar avatar-blue">MK</div></div>
+        <div style="background:#f5f5f5;min-height:700px;padding:24px;">
+          <div class="breadcrumb" style="margin-bottom:16px;">
+            <a href="#">Nadzor kapitalskega trga</a><span class="breadcrumb-sep">›</span>
+            <a href="#">Asistenti</a><span class="breadcrumb-sep">›</span>
+            <span>Povzemanje dokumentov</span>
+          </div>
+
+          <!-- Step indicator -->
+          <div style="display:flex;align-items:center;gap:0;margin-bottom:28px;background:white;border-radius:8px;border:1px solid #e8e8e8;overflow:hidden;">
+            <div style="flex:1;padding:14px 20px;display:flex;align-items:center;gap:10px;background:#0078a8;color:white;">
+              <div style="width:24px;height:24px;border-radius:50%;background:white;color:#0078a8;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">1</div>
+              <div><div style="font-weight:600;font-size:13px;">Izbor dokumentov</div><div style="font-size:11px;opacity:0.8;">Izberite dokumente za povzetek</div></div>
+            </div>
+            <div style="width:0;height:0;border-top:28px solid transparent;border-bottom:28px solid transparent;border-left:18px solid #0078a8;"></div>
+            <div style="flex:1;padding:14px 20px 14px 30px;display:flex;align-items:center;gap:10px;color:#aaa;">
+              <div style="width:24px;height:24px;border-radius:50%;background:#e0e0e0;color:#aaa;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">2</div>
+              <div><div style="font-weight:600;font-size:13px;color:#bbb;">Generirani povzetek</div><div style="font-size:11px;color:#ccc;">Pregled in izvoz</div></div>
+            </div>
+          </div>
+
+          <div class="grid-2" style="gap:20px;align-items:start;">
+            <!-- Document selection -->
+            <div class="card">
+              <div class="card-header">
+                <span class="card-title">📁 Dokumenti korpusa</span>
+                <span style="font-size:12px;color:#888;">3 izbrani</span>
+              </div>
+              <div class="card-body" style="padding:0;">
+                <div style="padding:10px 16px;border-bottom:1px solid #f0f0f0;">
+                  <div class="search-bar" style="width:100%;"><span class="search-icon">🔍</span><input placeholder="Filtriraj dokumente..." style="width:100%;"></div>
+                </div>
+                <div style="max-height:320px;overflow-y:auto;">
+                  <div class="checkbox-item" style="padding:10px 16px;border-bottom:1px solid #f5f5f5;background:#f0f8fc;">
+                    <input type="checkbox" checked>
+                    <div>
+                      <div style="font-weight:500;font-size:13px;">Letno_porocilo_2025_KDD.pdf</div>
+                      <div style="font-size:11px;color:#aaa;">PDF · 4,2 MB · 4. mar 2026</div>
+                    </div>
+                  </div>
+                  <div class="checkbox-item" style="padding:10px 16px;border-bottom:1px solid #f5f5f5;">
+                    <input type="checkbox">
+                    <div>
+                      <div style="font-weight:500;font-size:13px;">MiFID_II_Porocilo_Q4_2025.xlsx</div>
+                      <div style="font-size:11px;color:#aaa;">XLSX · 1,8 MB · 2. mar 2026</div>
+                    </div>
+                  </div>
+                  <div class="checkbox-item" style="padding:10px 16px;border-bottom:1px solid #f5f5f5;background:#f0f8fc;">
+                    <input type="checkbox" checked>
+                    <div>
+                      <div style="font-weight:500;font-size:13px;">Sklep_ATVP_2025-145.docx</div>
+                      <div style="font-size:11px;color:#aaa;">DOCX · 340 kB · 28. feb 2026</div>
+                    </div>
+                  </div>
+                  <div class="checkbox-item" style="padding:10px 16px;border-bottom:1px solid #f5f5f5;">
+                    <input type="checkbox">
+                    <div>
+                      <div style="font-weight:500;font-size:13px;">Uredba_EU_596_2014_MAR.pdf</div>
+                      <div style="font-size:11px;color:#aaa;">PDF · 2,1 MB · 15. jan 2026</div>
+                    </div>
+                  </div>
+                  <div class="checkbox-item" style="padding:10px 16px;border-bottom:1px solid #f5f5f5;background:#f0f8fc;">
+                    <input type="checkbox" checked>
+                    <div>
+                      <div style="font-weight:500;font-size:13px;">Seja_komisije_04mar2026 (transkript)</div>
+                      <div style="font-size:11px;color:#aaa;">Transkript · 4. mar 2026</div>
+                    </div>
+                  </div>
+                  <div class="checkbox-item" style="padding:10px 16px;">
+                    <input type="checkbox">
+                    <div>
+                      <div style="font-weight:500;font-size:13px;">ESMA_Guidelines_2025_Compliance.pdf</div>
+                      <div style="font-size:11px;color:#aaa;">PDF · 5,7 MB · 10. jan 2026</div>
+                    </div>
+                  </div>
+                </div>
+                <div style="padding:12px 16px;border-top:1px solid #f0f0f0;">
+                  <div class="upload-zone" style="padding:16px;">
+                    <div style="font-size:20px;margin-bottom:4px;color:#0078a8;">📎</div>
+                    <div style="font-size:12px;color:#888;">Dodaj zunanji dokument</div>
+                    <button class="btn btn-outline btn-sm" style="margin-top:8px;">Izberi datoteko</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Options + Generate -->
+            <div style="display:flex;flex-direction:column;gap:16px;">
+              <div class="card">
+                <div class="card-header"><span class="card-title">⚙️ Nastavitve povzetka</span></div>
+                <div class="card-body">
+                  <div class="form-group">
+                    <label class="form-label">Dolžina povzetka</label>
+                    <select class="form-select">
+                      <option>Kratek (1–2 strani)</option>
+                      <option selected>Srednji (3–5 strani)</option>
+                      <option>Podroben (5+ strani)</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Fokus vsebine</label>
+                    <div class="checkbox-item"><input type="checkbox" checked><span>Ključne ugotovitve</span></div>
+                    <div class="checkbox-item"><input type="checkbox" checked><span>Pravni vidiki in sklicevanja</span></div>
+                    <div class="checkbox-item"><input type="checkbox"><span>Finančni kazalniki</span></div>
+                    <div class="checkbox-item"><input type="checkbox" checked><span>Priporočila in sklepi</span></div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Jezik izhoda</label>
+                    <select class="form-select">
+                      <option selected>Slovenščina</option>
+                      <option>Angleščina</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <button class="btn btn-primary w-full" style="padding:12px;font-size:14px;justify-content:center;">
+                🤖 Generiraj povzetek
+              </button>
+                <i>💡 Izberite dokumente na levi strani in nastavite parametre povzetka. Generirani povzetek bo vključeval sklice na izvorne dokumente.</i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2 preview (generated summary) -->
+        <div style="padding:24px;background:#f5f5f5;border-top:2px dashed #e0e0e0;">
+          <div style="text-align:center;font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px;">▼ Korak 2: Generirani povzetek (po generiranju) ▼</div>
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">📝 Povzetek — 3 dokumenti</span>
+              <div style="display:flex;gap:8px;">
+                <button class="btn btn-secondary btn-sm">📄 Izvozi PDF</button>
+                <button class="btn btn-secondary btn-sm">📝 Izvozi Word</button>
+                <button class="btn btn-outline btn-sm">🔄 Ponovno generiraj</button>
+              </div>
+            </div>
+            <div class="card-body" style="font-size:13px;line-height:1.8;">
+              <h3 style="font-size:15px;font-weight:700;margin-bottom:12px;color:#2d2d2d;">Povzetek ključnih ugotovitev</h3>
+              <p style="margin-bottom:12px;">
+                Na podlagi analize letnega poročila KDD <a href="#" class="source-ref">[1]</a>, sklepa ATVP-2025-145 <a href="#" class="source-ref">[2]</a> in transktipta seje komisije <a href="#" class="source-ref">[3]</a> so bile identificirane naslednje ključne ugotovitve:
+              </p>
+              <p style="margin-bottom:12px;">
+                <strong>1. Nadzor kapitalskega trga:</strong> V letu 2025 je bil zaznan porast prijav sumljivih transakcij za 23 % v primerjavi z letom 2024, kar nakazuje izboljšano ozaveščenost udeležencev trga. Komisija je na seji obravnavala predloge za okrepitev nadzornih mehanizmov <a href="#" class="source-ref">[3, 14:23]</a>.
+              </p>
+              <p style="margin-bottom:12px;">
+                <strong>2. Pravni vidiki:</strong> Sklep ATVP-2025-145 <a href="#" class="source-ref">[2]</a> nalaga dodatno poročanje v skladu z Uredbo (EU) 596/2014 (MAR), členi 16–19. Rok za implementacijo je 30. april 2026.
+              </p>
+              <p>
+                <strong>3. Priporočila:</strong> Komisija predlaga vzpostavitev avtomatiziranega sistema za odkrivanje zlorab trga, ki bi deloval v realnem času <a href="#" class="source-ref">[3, 42:10]</a>.
+              </p>
+              <div style="margin-top:20px;padding:14px;background:#f8f9fa;border-radius:6px;border:1px solid #e8e8e8;">
+                <div style="font-weight:600;font-size:12px;color:#555;margin-bottom:8px;">📚 Viri</div>
+                <div style="font-size:12px;color:#666;line-height:2;">
+                  <div><span style="color:#0078a8;font-weight:600;">[1]</span> Letno_porocilo_2025_KDD.pdf — str. 12–45</div>
+                  <div><span style="color:#0078a8;font-weight:600;">[2]</span> Sklep_ATVP_2025-145.docx — celoten dokument</div>
+                  <div><span style="color:#0078a8;font-weight:600;">[3]</span> Seja_komisije_04mar2026 (transkript) — 14:23, 28:05, 42:10</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ====================================================
+         SCREEN 6: LEGISLATION REFERENCING ASSISTANT
+    ==================================================== -->
+    <section class="wf-section" id="screen-6">
+      <div class="wf-section-header">
+        <div class="wf-section-num">6</div>
+        <div>
+          <div class="wf-section-title">Asistent za referenciranje zakonodaje</div>
+          <div class="wf-section-desc">Razdeljen pogled: zakonodajni členi z barvnimi oznakami ↔ dokumenti z označenimi sklicevanji</div>
+        </div>
+      </div>
+      <div class="wf-frame">
+        <div class="wf-browser-bar">
+          <div class="wf-dots"><div class="wf-dot red"></div><div class="wf-dot yellow"></div><div class="wf-dot green"></div></div>
+          <div class="wf-url-bar">https://ai.a-tvp.si/groups/nadzor-kapitalskega-trga/asistenti/zakonodaja</div>
+        </div>
+        <div class="topnav"><div class="topnav-logo"><div class="topnav-logo-box">AT</div><span class="topnav-brand">ATVP <span>AI Sistem</span></span></div><div class="topnav-spacer"></div><div class="avatar avatar-blue">MK</div></div>
+
+        <!-- Color legend -->
+        <div style="background:#f8f9fa;border-bottom:1px solid #e8e8e8;padding:10px 20px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+          <span style="font-size:12px;font-weight:600;color:#555;">Legenda barv:</span>
+          <span style="display:flex;align-items:center;gap:6px;font-size:12px;"><span class="color-dot" style="background:#0078a8;"></span> Čl. 16 MAR — Preprečevanje zlorab trga</span>
+          <span style="display:flex;align-items:center;gap:6px;font-size:12px;"><span class="color-dot" style="background:#27ae60;"></span> Čl. 17 MAR — Objava notranjih informacij</span>
+          <span style="display:flex;align-items:center;gap:6px;font-size:12px;"><span class="color-dot" style="background:#e67e22;"></span> Čl. 19 MAR — Posli vodilnih delavcev</span>
+          <span style="display:flex;align-items:center;gap:6px;font-size:12px;"><span class="color-dot" style="background:#8e44ad;"></span> Čl. 5 ZTFI-1 — Nadzor nad izdajatelji</span>
+        </div>
+
+        <div class="split-pane">
+          <!-- Left: Legislation articles -->
+          <div class="split-left" style="width:360px;">
+            <div class="pane-header">
+              <span>📜 Zakonodajni členi</span>
+              <span style="font-size:11px;color:#0078a8;">4 izbrani</span>
+            </div>
+            <div style="padding:8px 12px;border-bottom:1px solid #f0f0f0;">
+              <div class="search-bar" style="width:100%;"><span class="search-icon">🔍</span><input placeholder="Iskanje členov..." style="width:100%;background:transparent;border:none;outline:none;font-size:13px;"></div>
+            </div>
+            <div>
+              <div class="checkbox-item" style="padding:12px 16px;border-bottom:1px solid #f5f5f5;background:#f0f8fc;">
+                <input type="checkbox" checked>
+                <span class="color-dot" style="background:#0078a8;"></span>
+                <div>
+                  <div style="font-weight:500;font-size:13px;">Čl. 16 — Uredba (EU) 596/2014 (MAR)</div>
+                  <div style="font-size:11px;color:#888;">Preprečevanje in odkrivanje zlorab trga</div>
+                </div>
+              </div>
+              <div class="checkbox-item" style="padding:12px 16px;border-bottom:1px solid #f5f5f5;background:#f0f8fc;">
+                <input type="checkbox" checked>
+                <span class="color-dot" style="background:#27ae60;"></span>
+                <div>
+                  <div style="font-weight:500;font-size:13px;">Čl. 17 — Uredba (EU) 596/2014 (MAR)</div>
+                  <div style="font-size:11px;color:#888;">Javna objava notranjih informacij</div>
+                </div>
+              </div>
+              <div class="checkbox-item" style="padding:12px 16px;border-bottom:1px solid #f5f5f5;background:#f0f8fc;">
+                <input type="checkbox" checked>
+                <span class="color-dot" style="background:#e67e22;"></span>
+                <div>
+                  <div style="font-weight:500;font-size:13px;">Čl. 19 — Uredba (EU) 596/2014 (MAR)</div>
+                  <div style="font-size:11px;color:#888;">Posli vodilnih delavcev</div>
+                </div>
+              </div>
+              <div class="checkbox-item" style="padding:12px 16px;border-bottom:1px solid #f5f5f5;background:#f0f8fc;">
+                <input type="checkbox" checked>
+                <span class="color-dot" style="background:#8e44ad;"></span>
+                <div>
+                  <div style="font-weight:500;font-size:13px;">Čl. 5 — ZTFI-1</div>
+                  <div style="font-size:11px;color:#888;">Nadzor nad izdajatelji vrednostnih papirjev</div>
+                </div>
+              </div>
+              <div class="checkbox-item" style="padding:12px 16px;border-bottom:1px solid #f5f5f5;">
+                <input type="checkbox">
+                <span class="color-dot" style="background:#ccc;"></span>
+                <div>
+                  <div style="font-weight:500;font-size:13px;">Čl. 18 — Uredba (EU) 596/2014 (MAR)</div>
+                  <div style="font-size:11px;color:#888;">Seznami oseb z notranjimi informacijami</div>
+                </div>
+              </div>
+              <div class="checkbox-item" style="padding:12px 16px;">
+                <input type="checkbox">
+                <span class="color-dot" style="background:#ccc;"></span>
+                <div>
+                  <div style="font-weight:500;font-size:13px;">Čl. 12 — ZBan-3</div>
+                  <div style="font-size:11px;color:#888;">Nadzor bančnih storitev</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Document matches with highlights -->
+          <div class="split-right">
+            <div class="pane-header">
+              <span>📄 Dokumenti s sklicevanji</span>
+              <button class="btn btn-sm btn-secondary">Analiziraj izbrane</button>
+            </div>
+            <div style="padding:16px;">
+              <!-- Document result card -->
+              <div class="card" style="margin-bottom:16px;">
+                <div class="card-header" style="cursor:pointer;">
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <span style="font-size:18px;">📄</span>
+                    <div>
+                      <div class="card-title">Letno_porocilo_2025_KDD.pdf</div>
+                      <div style="font-size:11px;color:#888;margin-top:2px;">4 zadetki · Relevantnost: 92%</div>
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:4px;">
+                    <span class="color-dot" style="background:#0078a8;"></span>
+                    <span class="color-dot" style="background:#27ae60;"></span>
+                    <span class="color-dot" style="background:#e67e22;"></span>
+                  </div>
+                </div>
+                <div class="card-body" style="font-size:13px;line-height:1.7;">
+                  <p style="margin-bottom:10px;">...na podlagi <span class="hl-blue">sistematičnega spremljanja trga v skladu s 16. členom Uredbe MAR je KDD vzpostavil mehanizme za odkrivanje sumljivih transakcij</span>, ki omogočajo...</p>
+                  <p style="margin-bottom:10px;">...obveznost <span class="hl-green">razkritja notranjih informacij po 17. členu MAR je bila izpolnjena v 98 % primerov</span>, kar predstavlja izboljšanje...</p>
+                  <p>...evidenca poslov vodilnih delavcev kaže, da so bile <span class="hl-orange">vse prijave v skladu z zahtevami 19. člena MAR pravočasno podane</span>...</p>
+                </div>
+              </div>
+
+              <div class="card" style="margin-bottom:16px;">
+                <div class="card-header" style="cursor:pointer;">
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <span style="font-size:18px;">📄</span>
+                    <div>
+                      <div class="card-title">Sklep_ATVP_2025-145.docx</div>
+                      <div style="font-size:11px;color:#888;margin-top:2px;">2 zadetka · Relevantnost: 87%</div>
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:4px;">
+                    <span class="color-dot" style="background:#0078a8;"></span>
+                    <span class="color-dot" style="background:#8e44ad;"></span>
+                  </div>
+                </div>
+                <div class="card-body" style="font-size:13px;line-height:1.7;">
+                  <p style="margin-bottom:10px;">...Agencija na podlagi <span class="hl-purple">5. člena ZTFI-1 izvaja nadzor nad izdajatelji vrednostnih papirjev</span> ter pri tem upošteva...</p>
+                  <p>...v okviru nadzornih pristojnosti iz <span class="hl-blue">16. člena Uredbe MAR nalaga poročevalske obveznosti</span>...</p>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header" style="cursor:pointer;">
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <span style="font-size:18px;">🎙️</span>
+                    <div>
+                      <div class="card-title">Seja_komisije_04mar2026 (transkript)</div>
+                      <div style="font-size:11px;color:#888;margin-top:2px;">3 zadetki · Relevantnost: 79%</div>
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:4px;">
+                    <span class="color-dot" style="background:#27ae60;"></span>
+                    <span class="color-dot" style="background:#e67e22;"></span>
+                  </div>
+                </div>
+                <div class="card-body" style="font-size:13px;line-height:1.7;color:#888;font-style:italic;">
+                  Kliknite za prikaz označenega besedila...
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================
+         SCREEN 7: TRANSCRIPT REFERENCING ASSISTANT
+    ==================================================== -->
+    <section class="wf-section" id="screen-7">
+      <div class="wf-section-header">
+        <div class="wf-section-num">7</div>
+        <div>
+          <div class="wf-section-title">Asistent za referenciranje transkripta</div>
+          <div class="wf-section-desc">Izbor besedila v transkriptu ↔ prikaz povezanih dokumentov</div>
+        </div>
+      </div>
+      <div class="wf-frame">
+        <div class="wf-browser-bar">
+          <div class="wf-dots"><div class="wf-dot red"></div><div class="wf-dot yellow"></div><div class="wf-dot green"></div></div>
+          <div class="wf-url-bar">https://ai.a-tvp.si/groups/nadzor-kapitalskega-trga/asistenti/transkript</div>
+        </div>
+        <div class="topnav"><div class="topnav-logo"><div class="topnav-logo-box">AT</div><span class="topnav-brand">ATVP <span>AI Sistem</span></span></div><div class="topnav-spacer"></div><div class="avatar avatar-blue">MK</div></div>
+
+        <div class="wf-note" style="margin:16px 16px 0;">
+          <span>💡</span>
+          <span>Označite del besedila v transkriptu na levi, da se na desni prikažejo dokumenti, ki se nanašajo na izbrano izjavo.</span>
+        </div>
+
+        <div class="split-pane" style="margin-top:0;">
+          <!-- Left: Transcript text -->
+          <div class="split-left" style="width:50%;">
+            <div class="pane-header">
+              <span>🎙️ Seja komisije — 4. marca 2026</span>
+              <select style="font-size:11px;border:1px solid #ddd;border-radius:4px;padding:3px 8px;">
+                <option>Celoten transkript</option>
+              </select>
+            </div>
+            <div style="padding:16px;">
+              <div class="transcript-line">
+                <div class="ts-time">00:00</div>
+                <div class="ts-speaker"><span class="speaker-badge speaker-a">dr. Kovač</span></div>
+                <div class="ts-text">Spoštovani, pričenjam 42. sejo komisije za nadzor kapitalskega trga.</div>
+              </div>
+              <div class="transcript-line">
+                <div class="ts-time">00:45</div>
+                <div class="ts-speaker"><span class="speaker-badge speaker-a">dr. Kovač</span></div>
+                <div class="ts-text">Danes obravnavamo poročilo o skladnosti KDD za leto 2025.</div>
+              </div>
+              <div class="transcript-line">
+                <div class="ts-time">02:12</div>
+                <div class="ts-speaker"><span class="speaker-badge speaker-b">mag. Novak</span></div>
+                <div class="ts-text">Hvala, predsednica. V pregledu smo zaznali, da je prišlo do 23-odstotnega porasta prijav sumljivih transakcij.</div>
+              </div>
+              <div class="transcript-line" style="background:#e8f4fc;border-left:3px solid #0078a8;">
+                <div class="ts-time">04:38</div>
+                <div class="ts-speaker"><span class="speaker-badge speaker-b">mag. Novak</span></div>
+                <div class="ts-text" style="font-weight:500;">
+                  <span style="background:rgba(0,120,168,0.2);padding:2px 0;">Menimo, da bi bilo treba vzpostaviti avtomatiziran sistem za odkrivanje tržnih zlorab, ki bi deloval v realnem času in bi se povezoval z bazami podatkov ESMA.</span>
+                  <div style="margin-top:6px;font-size:11px;color:#0078a8;font-weight:600;">✨ Označeno besedilo — 3 dokumenti najdeni →</div>
+                </div>
+              </div>
+              <div class="transcript-line">
+                <div class="ts-time">06:15</div>
+                <div class="ts-speaker"><span class="speaker-badge speaker-c">Zajc</span></div>
+                <div class="ts-text">Se strinjam s predlogom. Ali imamo že analizo stroškov za takšen sistem?</div>
+              </div>
+              <div class="transcript-line">
+                <div class="ts-time">07:50</div>
+                <div class="ts-speaker"><span class="speaker-badge speaker-b">mag. Novak</span></div>
+                <div class="ts-text">Pripravili smo predračun, ki ga najdete v priloženem dokumentu MiFID II poročila za Q4.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Related documents -->
+          <div class="split-right">
+            <div class="pane-header">
+              <span>📎 Povezani dokumenti</span>
+              <span style="font-size:11px;color:#0078a8;">3 rezultati</span>
+            </div>
+            <div style="padding:16px;">
+              <div style="font-size:12px;color:#888;margin-bottom:12px;">Dokumenti, ki se nanašajo na: <em>"...vzpostaviti avtomatiziran sistem za odkrivanje tržnih zlorab..."</em></div>
+
+              <div class="card" style="margin-bottom:12px;">
+                <div class="card-header" style="cursor:pointer;">
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <span style="font-size:16px;">📄</span>
+                    <div>
+                      <div style="font-weight:600;font-size:13px;">ESMA_Guidelines_2025_Compliance.pdf</div>
+                      <div style="font-size:11px;color:#888;">Relevantnost: 94% · str. 34–38</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body" style="font-size:13px;line-height:1.7;">
+                  <p>...<span class="hl-blue">automated surveillance systems should be implemented by all national competent authorities to detect and report suspicious transactions in real-time</span>, integrating with ESMA's central databases...</p>
+                </div>
+              </div>
+
+              <div class="card" style="margin-bottom:12px;">
+                <div class="card-header" style="cursor:pointer;">
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <span style="font-size:16px;">📄</span>
+                    <div>
+                      <div style="font-weight:600;font-size:13px;">Letno_porocilo_2025_KDD.pdf</div>
+                      <div style="font-size:11px;color:#888;">Relevantnost: 82% · str. 56</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body" style="font-size:13px;line-height:1.7;">
+                  <p>...<span class="hl-blue">predlagamo implementacijo sistema za avtomatizirano odkrivanje tržnih anomalij</span>, ki bi temeljil na strojnem učenju in analizi vzorcev...</p>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header" style="cursor:pointer;">
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <span style="font-size:16px;">📊</span>
+                    <div>
+                      <div style="font-weight:600;font-size:13px;">MiFID_II_Porocilo_Q4_2025.xlsx</div>
+                      <div style="font-size:11px;color:#888;">Relevantnost: 71% · list "Analiza stroškov"</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body" style="font-size:13px;line-height:1.7;">
+                  <p>...<span class="hl-blue">stroškovna analiza avtomatiziranega nadzornega sistema: ocenjena investicija 420.000 EUR, letni operativni stroški 85.000 EUR</span>...</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================
+         SCREEN 8: SPECIALIZED AGENTS
+    ==================================================== -->
+    <section class="wf-section" id="screen-8">
+      <div class="wf-section-header">
+        <div class="wf-section-num">8</div>
+        <div>
+          <div class="wf-section-title">Specializirani agenti</div>
+          <div class="wf-section-desc">Upravljanje in pogovor s prilagojenimi AI agenti, omejenimi na izbrane dokumente</div>
+        </div>
+      </div>
+      <div class="wf-frame" style="position:relative;">
+        <div class="wf-browser-bar">
+          <div class="wf-dots"><div class="wf-dot red"></div><div class="wf-dot yellow"></div><div class="wf-dot green"></div></div>
+          <div class="wf-url-bar">https://ai.a-tvp.si/groups/nadzor-kapitalskega-trga/asistenti/agenti</div>
+        </div>
+        <div class="topnav"><div class="topnav-logo"><div class="topnav-logo-box">AT</div><span class="topnav-brand">ATVP <span>AI Sistem</span></span></div><div class="topnav-spacer"></div><div class="avatar avatar-blue">MK</div></div>
+
+        <div style="background:#f5f5f5;min-height:700px;padding:24px;">
+          <div class="breadcrumb" style="margin-bottom:16px;">
+            <a href="#">Nadzor kapitalskega trga</a><span class="breadcrumb-sep">›</span>
+            <a href="#">Asistenti</a><span class="breadcrumb-sep">›</span>
+            <span>Specializirani agenti</span>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+            <h2 style="font-size:18px;font-weight:700;">Specializirani agenti</h2>
+            <button class="btn btn-primary">＋ Ustvari agenta</button>
+          </div>
+
+          <div class="grid-2" style="gap:20px;align-items:start;">
+            <!-- Agent list -->
+            <div>
+              <div class="agent-card" style="border-left:3px solid #0078a8;background:#f8fbfe;">
+                <div class="agent-icon" style="background:#e8f4fa;color:#0078a8;">🔍</div>
+                <div class="agent-info">
+                  <div class="agent-name">MAR Compliance Agent</div>
+                  <div class="agent-desc">Specializiran za vprašanja skladnosti z Uredbo MAR. Obseg: 12 dokumentov, 3 zakonodajni členi.</div>
+                </div>
+                <button class="btn btn-sm btn-outline">💬 Pogovor</button>
+              </div>
+              <div class="agent-card">
+                <div class="agent-icon" style="background:#fef4e8;color:#e67e22;">📊</div>
+                <div class="agent-info">
+                  <div class="agent-name">KDD Analitik</div>
+                  <div class="agent-desc">Analiza poročil KDD in primerjava letnih kazalnikov. Obseg: 8 dokumentov.</div>
+                </div>
+                <button class="btn btn-sm btn-outline">💬 Pogovor</button>
+              </div>
+              <div class="agent-card">
+                <div class="agent-icon" style="background:#eaf7ef;color:#27ae60;">⚖️</div>
+                <div class="agent-info">
+                  <div class="agent-name">Pravni Svetovalec</div>
+                  <div class="agent-desc">Odgovarja na pravna vprašanja iz ZTFI-1, ZBan-3 in EU uredb. Obseg: 24 dokumentov, 15 členov.</div>
+                </div>
+                <button class="btn btn-sm btn-outline">💬 Pogovor</button>
+              </div>
+            </div>
+
+            <!-- Chat interface -->
+            <div class="card" style="display:flex;flex-direction:column;min-height:420px;">
+              <div class="card-header" style="background:#f8f9fa;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <div class="agent-icon" style="background:#e8f4fa;color:#0078a8;width:32px;height:32px;font-size:16px;border-radius:8px;">🔍</div>
+                  <div>
+                    <div style="font-weight:600;font-size:13px;">MAR Compliance Agent</div>
+                    <div style="font-size:11px;color:#888;">12 dokumentov · 3 zakonodajni členi</div>
+                  </div>
+                </div>
+                <span class="status-badge status-active">Aktiven</span>
+              </div>
+              <div class="card-body" style="flex:1;overflow-y:auto;padding:16px;background:#fafafa;">
+                <div class="chat-bubble user">
+                  <div class="chat-msg user-msg">Katere obveznosti ima izdajatelj po 17. členu MAR glede objave notranjih informacij?</div>
+                </div>
+                <div class="chat-bubble">
+                  <div class="avatar avatar-blue" style="width:28px;height:28px;font-size:12px;">🔍</div>
+                  <div class="chat-msg bot">
+                    Po 17. členu Uredbe (EU) 596/2014 mora izdajatelj notranje informacije objaviti čim prej. Objava mora biti <strong>točna, popolna in nedvoumna</strong>. <a href="#" class="source-ref">[Čl. 17(1) MAR]</a><br><br>
+                    Izdajatelj lahko objavo odloži le, če so izpolnjeni pogoji iz 17(4) člena, tj. da bi takojšnja objava lahko ogrozila legitimne interese. <a href="#" class="source-ref">[Sklep ATVP-2025-145, str. 8]</a>
+                  </div>
+                </div>
+              </div>
+              <div style="padding:12px 16px;border-top:1px solid #e8e8e8;display:flex;gap:8px;">
+                <input class="form-input" style="flex:1;" placeholder="Vprašajte agenta...">
+                <button class="btn btn-primary">Pošlji</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Create agent modal overlay (shown as part of wireframe) -->
+          <div style="margin-top:24px;border:2px dashed #e0e0e0;border-radius:8px;padding:16px;background:#fafafa;">
+            <div style="text-align:center;font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px;">▼ Modal: Ustvari novega agenta ▼</div>
+            <div class="modal" style="position:relative;margin:0 auto;">
+              <div class="modal-header">
+                <span class="modal-title">Ustvari specializiranega agenta</span>
+                <button class="modal-close">✕</button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <label class="form-label">Ime agenta</label>
+                  <input class="form-input" value="Novi nadzorni agent">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Sistemski prompt</label>
+                  <textarea class="form-textarea" rows="3">Si strokovnjak za nadzor finančnih trgov v Sloveniji. Odgovarjaš izključno na podlagi priloženih dokumentov in zakonodaje. Vedno navedi vire.</textarea>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Izbor dokumentov</label>
+                  <div style="border:1px solid #d0d0d0;border-radius:4px;padding:8px;max-height:120px;overflow-y:auto;">
+                    <div class="checkbox-item"><input type="checkbox" checked><span style="font-size:12px;">Letno_porocilo_2025_KDD.pdf</span></div>
+                    <div class="checkbox-item"><input type="checkbox" checked><span style="font-size:12px;">Sklep_ATVP_2025-145.docx</span></div>
+                    <div class="checkbox-item"><input type="checkbox"><span style="font-size:12px;">MiFID_II_Porocilo_Q4_2025.xlsx</span></div>
+                    <div class="checkbox-item"><input type="checkbox" checked><span style="font-size:12px;">ESMA_Guidelines_2025_Compliance.pdf</span></div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Izbor zakonodaje</label>
+                  <div style="border:1px solid #d0d0d0;border-radius:4px;padding:8px;max-height:100px;overflow-y:auto;">
+                    <div class="checkbox-item"><input type="checkbox" checked><span style="font-size:12px;">Uredba (EU) 596/2014 (MAR)</span></div>
+                    <div class="checkbox-item"><input type="checkbox"><span style="font-size:12px;">ZTFI-1</span></div>
+                    <div class="checkbox-item"><input type="checkbox"><span style="font-size:12px;">ZBan-3</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-secondary">Prekliči</button>
+                <button class="btn btn-primary">Ustvari agenta</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================
+         SCREEN 9: CHATBOT FLOATING WIDGET
+    ==================================================== -->
+    <section class="wf-section" id="screen-9">
+      <div class="wf-section-header">
+        <div class="wf-section-num">9</div>
+        <div>
+          <div class="wf-section-title">Chatbot (plavajoči widget)</div>
+          <div class="wf-section-desc">Plavajoči gumb, ki se razširi v pogovorno okno s predlogi hitrih akcij</div>
+        </div>
+      </div>
+      <div class="wf-frame" style="position:relative;min-height:600px;">
+        <div class="wf-browser-bar">
+          <div class="wf-dots"><div class="wf-dot red"></div><div class="wf-dot yellow"></div><div class="wf-dot green"></div></div>
+          <div class="wf-url-bar">https://ai.a-tvp.si/groups/nadzor-kapitalskega-trga</div>
+        </div>
+        <div class="topnav"><div class="topnav-logo"><div class="topnav-logo-box">AT</div><span class="topnav-brand">ATVP <span>AI Sistem</span></span></div><div class="topnav-spacer"></div><div class="avatar avatar-blue">MK</div></div>
+
+        <div style="background:#f5f5f5;min-height:500px;padding:24px;position:relative;">
+          <!-- Dimmed background content to show context -->
+          <div style="opacity:0.3;">
+            <h2 style="font-size:18px;font-weight:700;margin-bottom:16px;">Nadzor kapitalskega trga</h2>
+            <div class="grid-3">
+              <div class="card"><div class="card-body"><div style="font-size:24px;text-align:center;padding:20px;">📁</div><div style="text-align:center;font-size:13px;font-weight:500;">Dokumenti</div></div></div>
+              <div class="card"><div class="card-body"><div style="font-size:24px;text-align:center;padding:20px;">👥</div><div style="text-align:center;font-size:13px;font-weight:500;">Člani</div></div></div>
+              <div class="card"><div class="card-body"><div style="font-size:24px;text-align:center;padding:20px;">🎙️</div><div style="text-align:center;font-size:13px;font-weight:500;">Transkripti</div></div></div>
+            </div>
+          </div>
+
+          <!-- Chat panel (expanded state) -->
+          <div style="position:absolute;bottom:24px;right:24px;width:380px;background:white;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.18);overflow:hidden;border:1px solid #e0e0e0;">
+            <!-- Chat header -->
+            <div style="background:#2d2d2d;padding:14px 18px;display:flex;align-items:center;gap:12px;">
+              <div style="width:36px;height:36px;background:#0078a8;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;">🤖</div>
+              <div style="flex:1;">
+                <div style="color:white;font-weight:600;font-size:14px;">ATVP AI Asistent</div>
+                <div style="color:#aaa;font-size:11px;">Kontekst: Nadzor kapitalskega trga</div>
+              </div>
+              <div style="color:#aaa;font-size:18px;cursor:pointer;">✕</div>
+            </div>
+
+            <!-- Context indicator -->
+            <div style="padding:8px 16px;background:#f0f8fc;border-bottom:1px solid #e0e8f0;font-size:11px;color:#0078a8;display:flex;align-items:center;gap:6px;">
+              <span>📂</span>
+              <span>Delovna skupina: <strong>Nadzor kapitalskega trga</strong> · 24 dokumentov</span>
+            </div>
+
+            <!-- Chat messages -->
+            <div style="padding:16px;height:240px;overflow-y:auto;background:#fafafa;">
+              <div class="chat-bubble">
+                <div class="avatar avatar-blue" style="width:28px;height:28px;font-size:14px;">🤖</div>
+                <div class="chat-msg bot">
+                  Pozdravljeni! Sem vaš AI asistent za skupino <strong>Nadzor kapitalskega trga</strong>. Kako vam lahko pomagam?
+                </div>
+              </div>
+              <div class="chat-bubble user">
+                <div class="chat-msg user-msg">Kdaj je rok za izpolnitev obveznosti iz sklepa ATVP-2025-145?</div>
+              </div>
+              <div class="chat-bubble">
+                <div class="avatar avatar-blue" style="width:28px;height:28px;font-size:14px;">🤖</div>
+                <div class="chat-msg bot">
+                  Rok za implementacijo obveznosti iz sklepa ATVP-2025-145 je <strong>30. april 2026</strong>. Sklep nalaga dodatno poročanje v skladu z Uredbo MAR, členi 16–19. <a href="#" class="source-ref">[vir]</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick actions -->
+            <div class="quick-chips" style="border-top:1px solid #f0f0f0;">
+              <div class="chip">Kje najdem poročilo KDD?</div>
+              <div class="chip">Kaj pravi člen 17 MAR?</div>
+              <div class="chip">Povzemi zadnjo sejo</div>
+            </div>
+
+            <!-- Input -->
+            <div style="padding:12px 16px;border-top:1px solid #e8e8e8;display:flex;gap:8px;">
+              <input class="form-input" style="flex:1;font-size:13px;" placeholder="Vprašajte karkoli...">
+              <button class="btn btn-primary btn-sm" style="padding:8px 14px;">➤</button>
+            </div>
+          </div>
+
+          <!-- FAB button (collapsed state) shown to the left -->
+          <div style="position:absolute;bottom:24px;left:24px;">
+            <div style="font-size:11px;color:#888;text-align:center;margin-bottom:8px;">Strnjeno stanje ↓</div>
+            <div class="fab" style="position:relative;">💬</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================
+         SCREEN 10: ADMINISTRATION PANEL
+    ==================================================== -->
+    <section class="wf-section" id="screen-10">
+      <div class="wf-section-header">
+        <div class="wf-section-num">10</div>
+        <div>
+          <div class="wf-section-title">Administracijska plošča</div>
+          <div class="wf-section-desc">Upravljanje uporabnikov, zakonodaje, integracij in revizijska sled</div>
+        </div>
+      </div>
+      <div class="wf-frame">
+        <div class="wf-browser-bar">
+          <div class="wf-dots"><div class="wf-dot red"></div><div class="wf-dot yellow"></div><div class="wf-dot green"></div></div>
+          <div class="wf-url-bar">https://ai.a-tvp.si/admin</div>
+        </div>
+        <div class="topnav"><div class="topnav-logo"><div class="topnav-logo-box">AT</div><span class="topnav-brand">ATVP <span>AI Sistem</span></span></div><div class="topnav-spacer"></div><span class="status-badge status-active" style="margin-right:8px;">Admin</span><div class="avatar avatar-orange">AK</div></div>
+
+        <div class="app-layout">
+          <!-- Sidebar -->
+          <div class="app-sidebar">
+            <div class="sidebar-section-label">Administracija</div>
+            <a class="sidebar-link active"><span class="sidebar-icon">👥</span> Uporabniki</a>
+            <a class="sidebar-link"><span class="sidebar-icon">🔗</span> Integracije</a>
+            <a class="sidebar-link"><span class="sidebar-icon">📜</span> Zakonodaja</a>
+            <a class="sidebar-link"><span class="sidebar-icon">📁</span> Statična dokumentacija</a>
+            <a class="sidebar-link"><span class="sidebar-icon">📋</span> Revizijska sled</a>
+          </div>
+
+          <!-- Main content area with tabs -->
+          <div class="app-main">
+            <div class="app-main-inner">
+
+              <!-- TAB: Uporabniki (active) -->
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+                <div>
+                  <h2 style="font-size:18px;font-weight:700;margin-bottom:4px;">Upravljanje uporabnikov</h2>
+                  <p style="font-size:12px;color:#888;">12 registriranih uporabnikov · Azure AD sinhronizacija aktivna</p>
+                </div>
+                <div style="display:flex;gap:8px;">
+                  <div class="search-bar"><span class="search-icon">🔍</span><input placeholder="Iskanje uporabnikov..." style="width:180px;border:none;outline:none;font-size:13px;background:transparent;"></div>
+                  <button class="btn btn-primary">＋ Dodaj uporabnika</button>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Uporabnik</th>
+                        <th>E-pošta</th>
+                        <th>Vloga</th>
+                        <th>Delovne skupine</th>
+                        <th>Zadnja prijava</th>
+                        <th>Status</th>
+                        <th style="width:100px;">Dejanja</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><div style="display:flex;align-items:center;gap:10px;"><div class="avatar avatar-blue" style="width:28px;height:28px;font-size:11px;">MK</div><span class="font-medium">dr. Maja Kovač</span></div></td>
+                        <td style="color:#888;">maja.kovac@a-tvp.si</td>
+                        <td><span class="status-badge status-active">Administrator</span></td>
+                        <td style="font-size:12px;">Nadzor kap. trga, Upravljanje skladov</td>
+                        <td style="color:#888;font-size:12px;">4. mar 2026, 08:15</td>
+                        <td><span class="status-badge status-done">Aktiven</span></td>
+                        <td>
+                          <div style="display:flex;gap:4px;">
+                            <button class="btn-icon" title="Uredi">✏️</button>
+                            <button class="btn-icon" title="Deaktiviraj">🚫</button>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><div style="display:flex;align-items:center;gap:10px;"><div class="avatar avatar-green" style="width:28px;height:28px;font-size:11px;">TN</div><span class="font-medium">mag. Tomaž Novak</span></div></td>
+                        <td style="color:#888;">tomaz.novak@a-tvp.si</td>
+                        <td><span class="status-badge" style="background:#e8f4fa;color:#0078a8;">Analitik</span></td>
+                        <td style="font-size:12px;">Nadzor kap. trga</td>
+                        <td style="color:#888;font-size:12px;">3. mar 2026, 16:42</td>
+                        <td><span class="status-badge status-done">Aktiven</span></td>
+                        <td>
+                          <div style="display:flex;gap:4px;">
+                            <button class="btn-icon" title="Uredi">✏️</button>
+                            <button class="btn-icon" title="Deaktiviraj">🚫</button>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><div style="display:flex;align-items:center;gap:10px;"><div class="avatar avatar-purple" style="width:28px;height:28px;font-size:11px;">AZ</div><span class="font-medium">Ana Zajc</span></div></td>
+                        <td style="color:#888;">ana.zajc@a-tvp.si</td>
+                        <td><span class="status-badge" style="background:#e8f4fa;color:#0078a8;">Analitik</span></td>
+                        <td style="font-size:12px;">Nadzor kap. trga, MiFID poročanje</td>
+                        <td style="color:#888;font-size:12px;">4. mar 2026, 09:30</td>
+                        <td><span class="status-badge status-done">Aktiven</span></td>
+                        <td>
+                          <div style="display:flex;gap:4px;">
+                            <button class="btn-icon" title="Uredi">✏️</button>
+                            <button class="btn-icon" title="Deaktiviraj">🚫</button>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><div style="display:flex;align-items:center;gap:10px;"><div class="avatar avatar-teal" style="width:28px;height:28px;font-size:11px;">PH</div><span class="font-medium">Peter Horvat</span></div></td>
+                        <td style="color:#888;">peter.horvat@a-tvp.si</td>
+                        <td><span class="status-badge" style="background:#fef4e8;color:#e67e22;">Bralec</span></td>
+                        <td style="font-size:12px;">Upravljanje skladov</td>
+                        <td style="color:#888;font-size:12px;">28. feb 2026, 11:20</td>
+                        <td><span class="status-badge" style="background:#fff3cd;color:#856404;">Neaktiven</span></td>
+                        <td>
+                          <div style="display:flex;gap:4px;">
+                            <button class="btn-icon" title="Uredi">✏️</button>
+                            <button class="btn-icon" title="Aktiviraj">✅</button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Zakonodaja section (shown below as preview) -->
+              <div style="margin-top:40px;border-top:2px dashed #e0e0e0;padding-top:20px;">
+                <div style="text-align:center;font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px;">▼ Zavihek: Zakonodaja ▼</div>
+
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                  <div>
+                    <h3 style="font-size:16px;font-weight:700;margin-bottom:4px;">Upravljanje zakonodaje</h3>
+                    <p style="font-size:12px;color:#888;">Verzioniranje zakonodajnih aktov z datumskim obsegom veljavnosti</p>
+                  </div>
+                  <div style="display:flex;gap:8px;align-items:center;">
+                    <label style="font-size:12px;color:#555;">Veljavnost:</label>
+                    <input type="date" class="form-input" style="width:140px;padding:6px 10px;" value="2024-01-01">
+                    <span style="color:#888;">—</span>
+                    <input type="date" class="form-input" style="width:140px;padding:6px 10px;" value="2026-12-31">
+                    <button class="btn btn-primary btn-sm">＋ Dodaj akt</button>
+                  </div>
+                </div>
+
+                <div class="card">
+                  <div class="table-wrap">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Zakonodajni akt</th>
+                          <th>Vrsta</th>
+                          <th>Veljavnost od</th>
+                          <th>Veljavnost do</th>
+                          <th>Verzija</th>
+                          <th>Členi</th>
+                          <th>Dejanja</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="font-medium">Uredba (EU) 596/2014 (MAR)</td>
+                          <td><span class="version-tag">EU uredba</span></td>
+                          <td style="font-size:12px;">3. 7. 2016</td>
+                          <td style="font-size:12px;color:#27ae60;">— (veljavna)</td>
+                          <td><span class="version-tag">v3.2</span></td>
+                          <td>96 členov</td>
+                          <td><div style="display:flex;gap:4px;"><button class="btn-icon">✏️</button><button class="btn-icon">📜</button><button class="btn-icon">🕐</button></div></td>
+                        </tr>
+                        <tr>
+                          <td class="font-medium">ZTFI-1</td>
+                          <td><span class="version-tag">SLO zakon</span></td>
+                          <td style="font-size:12px;">8. 11. 2019</td>
+                          <td style="font-size:12px;color:#27ae60;">— (veljavna)</td>
+                          <td><span class="version-tag">v2.1</span></td>
+                          <td>580 členov</td>
+                          <td><div style="display:flex;gap:4px;"><button class="btn-icon">✏️</button><button class="btn-icon">📜</button><button class="btn-icon">🕐</button></div></td>
+                        </tr>
+                        <tr>
+                          <td class="font-medium">ZBan-3</td>
+                          <td><span class="version-tag">SLO zakon</span></td>
+                          <td style="font-size:12px;">22. 11. 2021</td>
+                          <td style="font-size:12px;color:#27ae60;">— (veljavna)</td>
+                          <td><span class="version-tag">v1.4</span></td>
+                          <td>393 členov</td>
+                          <td><div style="display:flex;gap:4px;"><button class="btn-icon">✏️</button><button class="btn-icon">📜</button><button class="btn-icon">🕐</button></div></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Revizijska sled section -->
+              <div style="margin-top:40px;border-top:2px dashed #e0e0e0;padding-top:20px;">
+                <div style="text-align:center;font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px;">▼ Zavihek: Revizijska sled ▼</div>
+
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                  <div>
+                    <h3 style="font-size:16px;font-weight:700;margin-bottom:4px;">Revizijska sled</h3>
+                    <p style="font-size:12px;color:#888;">Popoln dnevnik vseh AI operacij in uporabniških dejanj</p>
+                  </div>
+                  <div style="display:flex;gap:8px;">
+                    <select class="form-select" style="width:160px;padding:6px 10px;">
+                      <option>Vsa dejanja</option>
+                      <option>AI generiranje</option>
+                      <option>Prijave</option>
+                      <option>Urejanje dokumentov</option>
+                    </select>
+                    <button class="btn btn-secondary btn-sm">📥 Izvozi CSV</button>
+                  </div>
+                </div>
+
+                <div class="card">
+                  <div class="table-wrap">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Uporabnik</th>
+                          <th>Dejanje</th>
+                          <th>Časovni žig</th>
+                          <th>AI Model</th>
+                          <th>Vhod / Izhod</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="audit-row">
+                          <td>dr. Maja Kovač</td>
+                          <td><span class="status-badge status-active">AI Povzetek</span></td>
+                          <td style="font-size:12px;font-family:monospace;">2026-03-04 08:32:14</td>
+                          <td><span class="version-tag">GPT-4o</span></td>
+                          <td style="font-size:12px;">3 dokumenti → Povzetek (2.400 besed)</td>
+                        </tr>
+                        <tr class="audit-row">
+                          <td>mag. Tomaž Novak</td>
+                          <td><span class="status-badge" style="background:#e8f4fa;color:#0078a8;">Ref. zakonodaje</span></td>
+                          <td style="font-size:12px;font-family:monospace;">2026-03-04 08:15:47</td>
+                          <td><span class="version-tag">GPT-4o</span></td>
+                          <td style="font-size:12px;">4 členi × 5 dokumentov → 9 zadetkov</td>
+                        </tr>
+                        <tr class="audit-row">
+                          <td>Ana Zajc</td>
+                          <td><span class="status-badge status-done">Prijava</span></td>
+                          <td style="font-size:12px;font-family:monospace;">2026-03-04 09:30:02</td>
+                          <td style="color:#ccc;">—</td>
+                          <td style="font-size:12px;color:#888;">Azure AD SSO</td>
+                        </tr>
+                        <tr class="audit-row">
+                          <td>dr. Maja Kovač</td>
+                          <td><span class="status-badge status-processing">Transkripcija</span></td>
+                          <td style="font-size:12px;font-family:monospace;">2026-03-04 07:55:33</td>
+                          <td><span class="version-tag">Whisper v3</span></td>
+                          <td style="font-size:12px;">Video 1:24:30 → Transkript (18.200 besed)</td>
+                        </tr>
+                        <tr class="audit-row">
+                          <td>mag. Tomaž Novak</td>
+                          <td><span class="status-badge" style="background:#fef4e8;color:#e67e22;">Agent pogovor</span></td>
+                          <td style="font-size:12px;font-family:monospace;">2026-03-03 16:42:18</td>
+                          <td><span class="version-tag">GPT-4o</span></td>
+                          <td style="font-size:12px;">MAR Compliance Agent · 3 sporočila</td>
+                        </tr>
+                        <tr class="audit-row">
+                          <td>dr. Maja Kovač</td>
+                          <td><span class="status-badge" style="background:#f0f0f0;color:#555;">Nalaganje dok.</span></td>
+                          <td style="font-size:12px;font-family:monospace;">2026-03-03 14:20:05</td>
+                          <td style="color:#ccc;">—</td>
+                          <td style="font-size:12px;">Letno_porocilo_2025_KDD.pdf (4,2 MB)</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="pagination" style="padding:16px;">
+                    <button class="page-btn">‹</button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <button class="page-btn">...</button>
+                    <button class="page-btn">24</button>
+                    <button class="page-btn">›</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <div style="text-align:center;padding:40px 0 60px;color:#aaa;font-size:12px;">
+      <p>ATVP AI Sistem — Wireframe dokument v1.0</p>
+      <p style="margin-top:4px;">Pripravil: EdgeTech Solutions · Marec 2026</p>
+    </div>
+
+  </main>
+</div>
+</body>
+</html>

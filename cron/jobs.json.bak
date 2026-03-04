@@ -42,7 +42,7 @@
       "name": "Daily Jira Task Summary (Topic 2241)",
       "enabled": true,
       "createdAtMs": 1770579310819,
-      "updatedAtMs": 1772213494871,
+      "updatedAtMs": 1772559099258,
       "schedule": {
         "kind": "cron",
         "expr": "30 18 * * 1-5",
@@ -61,10 +61,10 @@
         "to": "8403014547"
       },
       "state": {
-        "nextRunAtMs": 1772559000000,
-        "lastRunAtMs": 1772213400048,
+        "nextRunAtMs": 1772645400000,
+        "lastRunAtMs": 1772559000136,
         "lastStatus": "ok",
-        "lastDurationMs": 94823,
+        "lastDurationMs": 99122,
         "consecutiveErrors": 0
       }
     },
@@ -143,7 +143,7 @@
       "name": "Daily OpenClaw Directory Backup",
       "enabled": true,
       "createdAtMs": 1771023878360,
-      "updatedAtMs": 1772416834448,
+      "updatedAtMs": 1772503229557,
       "schedule": {
         "kind": "cron",
         "expr": "0 3 * * *",
@@ -163,12 +163,12 @@
         "bestEffort": true
       },
       "state": {
-        "nextRunAtMs": 1772503200000,
-        "lastRunAtMs": 1772416800080,
+        "nextRunAtMs": 1772589600000,
+        "lastRunAtMs": 1772503200039,
         "lastStatus": "ok",
-        "lastDurationMs": 34368,
+        "lastDurationMs": 29518,
         "consecutiveErrors": 0,
-        "runningAtMs": 1772503200032
+        "runningAtMs": 1772589600065
       }
     },
     {
@@ -177,7 +177,7 @@
       "name": "Email Triage Agent",
       "enabled": true,
       "createdAtMs": 1771190372608,
-      "updatedAtMs": 1772483067373,
+      "updatedAtMs": 1772565380798,
       "schedule": {
         "kind": "cron",
         "expr": "15 8,11,15,20 * * 1-5,0",
@@ -197,11 +197,11 @@
         "to": "8403014547"
       },
       "state": {
-        "lastRunAtMs": 1772460900075,
+        "lastRunAtMs": 1772565300075,
         "lastStatus": "ok",
-        "lastDurationMs": 225006,
+        "lastDurationMs": 80723,
         "consecutiveErrors": 0,
-        "nextRunAtMs": 1772522100000
+        "nextRunAtMs": 1772608500000
       }
     },
     {
@@ -210,7 +210,7 @@
       "name": "Nightly Personal Gmail Triage",
       "enabled": true,
       "createdAtMs": 1771618729376,
-      "updatedAtMs": 1772424143898,
+      "updatedAtMs": 1772535722502,
       "schedule": {
         "kind": "cron",
         "expr": "0 5 * * *",
@@ -222,7 +222,7 @@
         "kind": "agentTurn",
         "model": "anthropic/claude-opus-4-6",
         "thinking": "on",
-        "message": "## Nightly Personal Gmail Triage\n\n### Step 1 — Fetch Emails\n\nUse the `gog` skill to fetch all emails received in the last 27 hours from the personal Gmail inbox:\n\n```\ngog gmail search 'newer_than:27h' --max 200 --json\n```\n\nIf the result is empty, post a brief \"📬 Gmail Triage — {date}\\n\\nNo new emails.\" to Telegram topic 1299 and stop.\n\nFor each email, fetch its full content including headers, body, and attachment list:\n```\ngog gmail get <message-id> --json\n```\n\n### Step 1b — Deduplicate Against Memory\n\nBefore processing any email, check semantic memory to skip already-processed ones:\n- For each message ID, call `memory_search` with the query `gmail_triage:<message-id>`.\n- If a match is found, **skip that email** — it was handled in a previous run.\n- Only proceed to Step 2 for emails **not** found in memory.\n\nIf every fetched email is already in memory, post \"No new emails to process (all already handled).\" to Telegram topic 1299 and stop.\n\n### Step 2 — Classify Each Email\n\nClassify every email into exactly one of the following categories based on sender domain, subject, and content. Use the sender patterns as primary signal:\n\n| Category | Sender / Signal |\n|---|---|\n| **Personal / Work** | @stopar.si, @edgetech.si, @gmail.com (personal contacts), direct human correspondence |\n| **Updates & Notifications** | OpenRouter, Mistral, service status emails, app notifications, automated system alerts |\n| **LinkedIn** | @linkedin.com, any LinkedIn jobs/invitations/social |\n| **Promotions** | OpenRouter promotions, Altroke, Zsport, marketing campaigns, discount offers |\n| **Invoices** | Emails containing PDF/document attachments that are invoices, receipts, or billing statements; subject contains \"invoice\", \"receipt\", \"bill\", \"faktura\", or similar; from any billing sender |\n| **Trading 212** | @trading212.com, portfolio alerts, trading notifications |\n| **Qogita (Wholesale)** | @qogita.com, B2B product offers |\n| **Google Workspace** | Google admin alerts, storage warnings, Workspace notifications |\n| **Google (Other)** | Google security alerts, account notices, non-Workspace Google emails |\n| **Apple** | @apple.com, iCloud billing, Apple ID notices |\n| **Bitstamp** | @bitstamp.net, crypto/tax notifications |\n| **Wise** | @wise.com, finance updates |\n| **GitHub** | @github.com, @noreply.github.com, notifications |\n| **Revolut** | @revolut.com, finance updates |\n| **Forums** | Community threads, forum digests, mailing lists |\n| **Calendar / Zoom / Amazon** | Calendar invites, @zoom.us, @amazon.com |\n\nIf an email doesn't fit any category above, place it in **Personal / Work**.\n\n### Step 3 — Upload Invoice Attachments to Google Drive\n\nFor every email classified as **Invoices**:\n\n1. **Identify attachments** from the email JSON (look for `attachments` or `parts` with `filename` ending in `.pdf`, `.docx`, `.xlsx`, or similar document types).\n\n2. **Download each attachment** using the `gog` skill:\n   ```\n   gog gmail attachment <message-id> <attachment-id> --out /tmp/<filename>\n   ```\n\n3. **Determine the target subfolder** from the email's received date:\n   - Format: `yyyy-MM` (e.g. `2026-02` for February 2026).\n   - Parent Drive folder ID: `1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC`\n   - Check if the `yyyy-MM` subfolder already exists:\n     ```\n     gog drive ls --parent 1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC --json\n     ```\n   - If it does not exist, create it:\n     ```\n     gog drive mkdir \"<yyyy-MM>\" --parent 1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC\n     ```\n\n4. **Upload the attachment** into the subfolder:\n   ```\n   gog drive upload /tmp/<filename> --parent <subfolder-id>\n   ```\n\n5. **Record outcome** per attachment:\n   - `uploaded` — upload succeeded; note the Drive file ID and name.\n   - `upload_failed` — upload failed; note the error.\n   - `no_attachment` — email had no recognisable document attachment.\n\n6. Do **not** archive Invoice emails — leave them in the inbox so they remain visible.\n\n### Step 4 — Unsubscribe from Promotions\n\nFor every email classified as **Promotions**:\n\n1. Inspect the email body (already fetched in Step 1) for an unsubscribe link. Look for:\n   - A `List-Unsubscribe` header (preferred — check headers in the `gog gmail get` JSON output).\n   - A hyperlink in the body whose text contains \"unsubscribe\", \"opt out\", \"opt-out\", or similar (case-insensitive).\n2. If an unsubscribe URL is found, perform an HTTP GET request to that URL using the `fetch` tool (or `exec curl <url>` as fallback). Follow redirects.\n3. Record the outcome per email:\n   - `unsubscribed` — request succeeded (2xx or redirect to confirmation page).\n   - `unsubscribe_failed` — request failed or no URL found.\n4. After unsubscribing (or attempting), archive the email using the `gog` skill:\n   ```\n   gog gmail thread modify <thread-id> --remove INBOX\n   ```\n\n### Step 5 — Archive Automatically\n\nFor emails in these categories (excluding Promotions handled in Step 4 and Invoices handled in Step 3), archive them using the `gog` skill:\n```\ngog gmail thread modify <thread-id> --remove INBOX\n```\n\nCategories to auto-archive:\n- **Updates & Notifications**\n- **LinkedIn**\n- **GitHub** (low-priority notifications)\n- **Revolut**\n\nDo NOT archive: Personal / Work, Invoices, Trading 212, Qogita, Google Workspace, Google (Other), Apple, Bitstamp, Wise, Forums, Calendar / Zoom / Amazon.\n\n### Step 6 — Post Summary to Telegram\n\nUse the `message` tool to post the summary to topic `1299` (`#comm @personal`) in chat `8403014547`:\n\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"<your composed summary>\",\n  \"threadId\": \"1299\"\n}\n```\n\nFormat:\n```\n📬 Gmail Triage — {date} {time CET}\n\n📊 {total} emails | 🗂 {archived} archived | 🚫 {unsubscribed} unsubscribed | 🧾 {invoices_uploaded} invoices uploaded\n\n━━━━━━━━━━━━━━━━━━━━━\n👤 Personal / Work ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender 🔗 https://mail.google.com/mail/u/0/#inbox/{thread-id}\n\n[Repeat for each non-archived category with Gmail links]\n\n━━━━━━━━━━━━━━━━━━━━━\n🧾 Invoices ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender [uploaded: filename.pdf → Drive/yyyy-MM] 🔗 https://mail.google.com/mail/u/0/#inbox/{thread-id}\n\n━━━━━━━━━━━━━━━━━━━━━\n🚫 Promotions — Unsubscribed & Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender [unsubscribed ✓]\n• \"Subject\" — sender [unsubscribe failed]\n\n━━━━━━━━━━━━━━━━━━━━━\n🗂 Archived — Updates & Notifications ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• \"Subject\" — sender [archived]\n\n[Repeat for each archived category]\n```\n\nRules:\n- Only include categories that have at least 1 email.\n- Non-archived emails (including Invoices) MUST include a direct Gmail link.\n- Promotions show `[unsubscribed ✓]` or `[unsubscribe failed]` per item, no link.\n- Other archived categories show `[archived]`, no link.\n- Keep subject lines quoted and truncated to 60 chars if needed.\n- If a category has more than 10 emails, show the first 10 and append \"… and {N} more\".\n- Do NOT post to any other Telegram topic.\n\n### Step 7 — Memory\n\nAfter posting, store in semantic memory:\n- Run timestamp\n- Total emails processed and count per category\n- Each processed message ID as key `gmail_triage:<message-id>` (used for deduplication in future runs)\n- Unsubscribe outcomes for Promotions emails\n- Drive file IDs and filenames of uploaded invoices"
+        "message": "## Nightly Personal Gmail Triage\n\n### Step 1 — Fetch Emails\n\nUse the `gog` skill to fetch all emails received in the last 27 hours from the personal Gmail inbox:\n\n```\ngog gmail search 'newer_than:27h' --max 200 --account luka@stopar.si --json\n```\n\nIf the result is empty, post a brief \"📬 Gmail Triage — {date}\\n\\nNo new emails.\" to Telegram topic 1299 and stop.\n\nFor each email, fetch its full content including headers, body, and attachment list:\n```\ngog gmail get <message-id> --account luka@stopar.si --json\n```\n\n### Step 1b — Deduplicate Against Memory\n\nBefore processing any email, check semantic memory to skip already-processed ones:\n- For each message ID, call `memory_search` with the query `gmail_triage:<message-id>`.\n- If a match is found, **skip that email** — it was handled in a previous run.\n- Only proceed to Step 2 for emails **not** found in memory.\n\nIf every fetched email is already in memory, post \"No new emails to process (all already handled).\" to Telegram topic 1299 and stop.\n\n### Step 2 — Classify Each Email\n\nClassify every email into exactly one of the following categories:\n\n| Category | Sender / Signal |\n|---|---|\n| **Actionable** | Personal/work emails requiring a response or action from Luka |\n| **Personal / Work — Informational** | Personal/work emails that are informational only, no action needed |\n| **Updates & Notifications** | OpenRouter, Mistral, service status, app notifications, automated alerts |\n| **LinkedIn** | @linkedin.com, LinkedIn jobs/invitations/social |\n| **Promotions** | Marketing campaigns, discount offers, newsletters |\n| **Invoices** | Emails with PDF/doc attachments that are invoices/receipts/bills; subject contains \"invoice\", \"receipt\", \"bill\", \"faktura\", or similar |\n| **Trading 212** | @trading212.com, portfolio alerts, trading notifications |\n| **Qogita (Wholesale)** | @qogita.com, B2B product offers |\n| **Google Workspace** | Google admin alerts, storage warnings, Workspace notifications |\n| **Google (Other)** | Google security alerts, account notices, non-Workspace Google emails |\n| **Apple** | @apple.com, iCloud billing, Apple ID notices |\n| **Bitstamp** | @bitstamp.net, crypto/tax notifications |\n| **Wise** | @wise.com, finance updates |\n| **GitHub** | @github.com, @noreply.github.com, notifications |\n| **Revolut** | @revolut.com, finance updates |\n| **Forums** | Community threads, forum digests, mailing lists |\n| **Calendar / Zoom / Amazon** | Calendar invites, meeting invitations, @zoom.us, @amazon.com |\n\nFor **Personal / Work** emails specifically:\n- If the email requires Luka to do something, respond, make a decision, or take any action → classify as **Actionable**\n- If the email is purely informational (FYI, confirmation, update with no action needed) → classify as **Personal / Work — Informational**\n\n### Step 3 — Process Invoices\n\nFor every email classified as **Invoices**:\n\n1. **Identify attachments** (look for `attachments` or `parts` with `filename` ending in `.pdf`, `.docx`, `.xlsx`).\n\n2. **Download each attachment**:\n   ```\n   gog gmail attachment <message-id> <attachment-id> --out /tmp/<filename> --account luka@stopar.si\n   ```\n\n3. **Check if the invoice is for MineIT d.o.o.**:\n   - Inspect the invoice content (PDF text, email body, or subject) for \"MineIT\" or \"MineIT d.o.o.\"\n   - **If MineIT invoice**: Upload to Google Drive folder `1XjBZZeHvkxJedw6SBDLhFdCwXmOjfzv7` in subfolder `yyyy-MM` based on invoice date:\n     ```\n     gog drive ls --parent 1XjBZZeHvkxJedw6SBDLhFdCwXmOjfzv7 --account luka@stopar.si --json\n     # Create subfolder if missing:\n     gog drive mkdir \"<yyyy-MM>\" --parent 1XjBZZeHvkxJedw6SBDLhFdCwXmOjfzv7 --account luka@stopar.si\n     gog drive upload /tmp/<filename> --parent <subfolder-id> --account luka@stopar.si\n     ```\n   - **If NOT MineIT**: Upload to folder `1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC` in subfolder `yyyy-MM`:\n     ```\n     gog drive ls --parent 1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC --account luka@stopar.si --json\n     # Create subfolder if missing:\n     gog drive mkdir \"<yyyy-MM>\" --parent 1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC --account luka@stopar.si\n     gog drive upload /tmp/<filename> --parent <subfolder-id> --account luka@stopar.si\n     ```\n\n4. **After uploading, archive the email**:\n   ```\n   gog gmail thread modify <thread-id> --remove INBOX --account luka@stopar.si\n   ```\n\n5. Record outcome: `uploaded` (note Drive file ID and destination folder), `upload_failed`, or `no_attachment`.\n\n### Step 4 — Unsubscribe from Promotions\n\nFor every email classified as **Promotions**:\n1. Look for a `List-Unsubscribe` header or unsubscribe link in the body.\n2. If found, perform HTTP GET to the unsubscribe URL.\n3. Record outcome: `unsubscribed` or `unsubscribe_failed`.\n4. Archive the email:\n   ```\n   gog gmail thread modify <thread-id> --remove INBOX --account luka@stopar.si\n   ```\n\n### Step 5 — Process Calendar / Zoom Events\n\nFor every email classified as **Calendar / Zoom / Amazon**:\n1. Extract event details: title, date/time, location/link, organizer.\n2. Create a calendar event in Luka's primary Google calendar:\n   ```\n   gog calendar event create 'luka@stopar.si' --summary \"<title>\" --start \"<datetime>\" --end \"<datetime>\" --location \"<location>\" --account luka@stopar.si\n   ```\n3. Archive the email after creating the event:\n   ```\n   gog gmail thread modify <thread-id> --remove INBOX --account luka@stopar.si\n   ```\n4. Record outcome: `event_created` or `event_failed`.\n\n### Step 6 — Archive Automatically\n\nArchive the following categories:\n```\ngog gmail thread modify <thread-id> --remove INBOX --account luka@stopar.si\n```\n\nCategories to auto-archive:\n- **Updates & Notifications**\n- **LinkedIn**\n- **GitHub**\n- **Revolut**\n- **Trading 212**\n- **Qogita (Wholesale)**\n- **Personal / Work — Informational**\n\nDo NOT archive: **Actionable**, Google Workspace, Google (Other), Apple, Bitstamp, Wise, Forums.\n\n### Step 7 — Post Summary to Telegram\n\nUse the `message` tool to post to topic `1299` (`#comm @personal`) in chat `8403014547`:\n\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"<your composed summary>\",\n  \"threadId\": \"1299\"\n}\n```\n\n**IMPORTANT — Linking rule**: Every email in the summary MUST be linked. Use the email subject as the link text, linking to `https://mail.google.com/mail/u/0/#all/<thread-id>` (use `#all/` so archived emails are also reachable).\n\nFormat:\n```\n📬 Gmail Triage — {date} {time CET}\n\n📊 {total} emails | 🗂 {archived} archived | 🚫 {unsubscribed} unsubscribed | 🧾 {invoices_uploaded} invoices uploaded | 📅 {events_created} events created\n\n━━━━━━━━━━━━━━━━━━━━━\n⚠️ Actionable ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• [Subject](https://mail.google.com/mail/u/0/#inbox/<thread-id>) — sender\n  ℹ️ What action is needed (1 sentence)\n\n━━━━━━━━━━━━━━━━━━━━━\n👤 Personal / Work — Informational ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• [Subject](https://mail.google.com/mail/u/0/#all/<thread-id>) — sender [archived]\n  ℹ️ One-sentence summary\n\n━━━━━━━━━━━━━━━━━━━━━\n🧾 Invoices ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• [Subject](https://mail.google.com/mail/u/0/#all/<thread-id>) — sender [uploaded: filename.pdf → MineIT/yyyy-MM or Personal/yyyy-MM] [archived]\n\n━━━━━━━━━━━━━━━━━━━━━\n📅 Calendar Events — Created & Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• [Subject](https://mail.google.com/mail/u/0/#all/<thread-id>) — 🗓 {date/time} @ {location} [archived]\n\n━━━━━━━━━━━━━━━━━━━━━\n🚫 Promotions — Unsubscribed & Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• [Subject](https://mail.google.com/mail/u/0/#all/<thread-id>) — sender [unsubscribed ✓ / unsubscribe failed]\n\n━━━━━━━━━━━━━━━━━━━━━\n🗂 Archived — {Category} ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• [Subject](https://mail.google.com/mail/u/0/#all/<thread-id>) — sender [archived]\n\n[Repeat 🗂 Archived block for each archived category that has emails]\n\n[Non-archived, non-actionable categories that remain in inbox (Google Workspace, Apple, Wise, etc.)]\n━━━━━━━━━━━━━━━━━━━━━\n🔔 {Category} ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• [Subject](https://mail.google.com/mail/u/0/#inbox/<thread-id>) — sender\n```\n\nRules:\n- Only include categories with at least 1 email.\n- **Every email subject must be a clickable link** (use `#inbox/<thread-id>` for inbox emails, `#all/<thread-id>` for archived ones).\n- Actionable emails stay in inbox and show what action is needed.\n- Informational personal/work emails are archived with a 1-sentence summary.\n- Invoices show upload destination (MineIT or Personal folder) and are archived.\n- Calendar events show date/time/location and are archived.\n- Keep subject lines truncated to 60 chars if needed.\n- If a category has more than 10 emails, show first 10 and append \"… and {N} more\".\n- Do NOT post to any other Telegram topic.\n\n### Step 8 — Memory\n\nAfter posting, store in semantic memory:\n- Run timestamp\n- Total emails processed and count per category\n- Each processed message ID as key `gmail_triage:<message-id>`\n- Unsubscribe outcomes for Promotions\n- Drive file IDs and filenames of uploaded invoices\n- Calendar events created"
       },
       "delivery": {
         "mode": "announce",
@@ -230,11 +230,12 @@
         "to": "8403014547"
       },
       "state": {
-        "consecutiveErrors": 0,
-        "nextRunAtMs": 1772510400000,
-        "lastRunAtMs": 1772424000037,
-        "lastStatus": "ok",
-        "lastDurationMs": 143861
+        "consecutiveErrors": 1,
+        "nextRunAtMs": 1772596800000,
+        "lastRunAtMs": 1772510400059,
+        "lastStatus": "error",
+        "lastDurationMs": 319136,
+        "lastError": "cron announce delivery failed"
       }
     },
     {
@@ -308,7 +309,7 @@
       "name": "Darwin Knowledge Extraction",
       "enabled": true,
       "createdAtMs": 1772406115961,
-      "updatedAtMs": 1772499829498,
+      "updatedAtMs": 1772586059063,
       "schedule": {
         "kind": "cron",
         "expr": "0 2 * * *",
@@ -327,10 +328,10 @@
         "to": "telegram:-5247564907"
       },
       "state": {
-        "nextRunAtMs": 1772586000000,
-        "lastRunAtMs": 1772499600054,
+        "nextRunAtMs": 1772672400000,
+        "lastRunAtMs": 1772586000077,
         "lastStatus": "ok",
-        "lastDurationMs": 229444,
+        "lastDurationMs": 58986,
         "consecutiveErrors": 0
       }
     }

@@ -97,6 +97,24 @@ The **Nightly Personal Email Categorizer** cron job runs every night at 05:00 Eu
 ### **General Principles**
 - **Always verify data before writing to Confluence.** Fetch from source first, write once. Estimates are not acceptable for documented pages — one wrong publish requires a correction and wastes Luka's time.
 
+### **Confluence Mermaid Diagrams**
+- Plugin: **Mermaid Macro for Confluence** (by SoftwareTao, Forge-based)
+- Storage format uses `ac:adf-extension` (NOT `ac:structured-macro`)
+- Must replicate the full Forge macro envelope including app-id, environment-id, license block, extension-properties etc.
+- Template IDs from EdgeTech instance:
+  - App ID: `a58687c2-03ec-4bfe-b20a-cb78986824c7`
+  - Environment ID: `4757bce8-d44b-49b2-80fe-d5bb53917be2`
+  - Extension key: `a58687c2-03ec-4bfe-b20a-cb78986824c7/4757bce8-d44b-49b2-80fe-d5bb53917be2/static/Mermaid-Macro`
+  - Cloud ID: `07055bb7-c377-4ef8-856e-4f18d616ff4a`
+- Mermaid code goes in `guest-params > text` parameter, XML-escaped (`-->` becomes `--&gt;`)
+- **Syntax rules** (mermaid 9.3.0):
+  - Use `graph TD;` with semicolons after each line
+  - **No em-dashes** (`—`) — use regular dashes (`-`)
+  - **ASCII-safe labels** recommended (no `š`, `č`, `ž` in node labels — use `s`, `c`, `z`)
+  - Newlines are preserved in the XML parameter
+- Working build script: `/workspace/tmp/atvp/build_page2.py`
+- Fallback approach: render via mermaid.ink API as JPG and attach as image
+
 ### **Hugging Face Skill**
 - Built locally at `/workspace/skills/huggingface/` (not on ClawHub)
 - Three scripts (stdlib only, no pip deps):
