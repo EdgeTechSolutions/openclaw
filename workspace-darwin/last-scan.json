@@ -1,15 +1,20 @@
 {
-  "lastRunAt": "2026-03-04T01:00:00.000Z",
-  "lastRunSummary": {
-    "sessionsScanned": 0,
-    "factsAdded": 0,
-    "factsSkipped": 0
-  },
+  "lastRunAt": "2026-03-05T01:00:00.000Z",
   "sessionsScanned": {
-    "agent:main:telegram:group:-5247564907": "2026-03-03T01:00:00.000Z",
-    "agent:lstopar-agent:main:thread:2320": "2026-03-03T01:00:00.000Z",
-    "agent:lstopar-agent:main:thread:761": "2026-03-03T01:00:00.000Z",
-    "agent:lstopar-agent:main:thread:979": "2026-03-03T01:00:00.000Z",
-    "agent:lstopar-agent:main:thread:701": "2026-03-03T01:00:00.000Z"
+    "agent:main:telegram:group:-5247564907": "2026-03-05T01:00:00.000Z",
+    "agent:lstopar-agent:main:thread:615": "2026-03-05T01:00:00.000Z",
+    "agent:lstopar-agent:main:thread:2320": "2026-03-05T01:00:00.000Z",
+    "agent:lstopar-agent:main": "2026-03-05T01:00:00.000Z",
+    "agent:lstopar-agent:main:thread:701": "2026-03-05T01:00:00.000Z",
+    "agent:lstopar-agent:main:thread:1864": "2026-03-05T01:00:00.000Z",
+    "agent:lstopar-agent:main:thread:1107": "2026-03-05T01:00:00.000Z",
+    "agent:lstopar-agent:cron:68e53dae": "2026-03-05T01:00:00.000Z",
+    "agent:lstopar-agent:cron:ee222aac": "2026-03-05T01:00:00.000Z",
+    "agent:darwin:telegram:group:-5247564907": "2026-03-05T01:00:00.000Z"
+  },
+  "lastRunSummary": {
+    "sessionsScanned": 9,
+    "factsAdded": 20,
+    "factsSkipped": 5
   }
 }

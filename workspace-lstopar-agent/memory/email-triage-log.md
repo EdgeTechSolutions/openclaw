@@ -1,5 +1,34 @@
 # Email Triage Log
 
+## 2026-03-04 20:15
+
+| messageId | subject | sender | received | classification | action |
+|-----------|---------|--------|----------|---------------|--------|
+| ...Qt5KpAAA= | Je logistika strošek ali vaša konkurenčna prednost? | info@logisticnikongres.si | 2026-03-04T18:50:24Z | Newsletter | Archived |
+
+## 2026-03-04 11:15
+
+| messageId | subject | sender | received | classification | action |
+|-----------|---------|--------|----------|---------------|--------|
+| ...Qt5KoAAA= | Interreg ITA-SLO REMINDER: Consultazione per beneficiari | jts.itaslo@regione.fvg.it | 2026-03-04T08:40:49Z | Informational | Archived |
+| ...Qt5KnAAA= | Opomnik: Kolokviji IJS, DANES, 4. 3. 2026 | martin.klanjsek@ijs.si | 2026-03-04T08:33:11Z | Informational | Archived |
+| ...Qt5KmAAA= | Družini prijazno podjetje / Family-Friendly Enterprise | kadrovska@ijs.si | 2026-03-04T07:52:50Z | Informational | Archived |
+
+## 2026-03-04 08:15
+
+| messageId | subject | sender | received | classification | action |
+|-----------|---------|--------|----------|---------------|--------|
+| ...Qt5KlAAA= | Yard management - SLZ newsletter | info@slz.si | 2026-03-04T07:01:30Z | Newsletter | Archived, unsubscribe attempted |
+| ...Qt1ncAAA= | Unlock the potential of your Scaleway account | welcome@news.scaleway.com | 2026-03-04T06:45:26Z | Marketing | Archived, unsubscribed ✓ |
+| ...Qt1ndAAA= | Mermaid Macro for Confluence Cloud Standard trial | noreply@po.atlassian.net | 2026-03-03T23:21:10Z | Tool Notification | Archived |
+| ...Qt1neAAA= | Confluence Premium trial ending soon | info@e.atlassian.com | 2026-03-03T23:08:25Z | Marketing | Archived |
+| ...Qt1nfAAA= | GitHub PAT "OpenClaw token" expiring in 6 days | noreply@github.com | 2026-03-03T22:54:26Z | Tool Notification | Archived ⚠️ |
+| ...Qt1ngAAA= | Accepted: EdgeTech Initial Team Meeting | Luis Rei | 2026-03-03T21:33:15Z | Tool Notification | Archived (RSVP) |
+| ...Qt1nhAAA= | Declined: EdgeTech Initial Team Meeting | Luis Rei | 2026-03-03T21:31:58Z | Tool Notification | Archived (RSVP) |
+| ...Qt1niAAA= | Accepted: EdgeTech Initial Team Meeting | Luis Rei | 2026-03-03T21:31:50Z | Tool Notification | Archived (RSVP) |
+| ...Qt1njAAA= | Declined: EdgeTech Initial Team Meeting | Luis Rei | 2026-03-03T21:31:35Z | Tool Notification | Archived (RSVP) |
+| ...Qt1nkAAA= | Fw: Billing Update - Sales Taxes | iztok.rencelj@edgetech.si | 2026-03-03T21:07:19Z | Informational | Archived |
+
 ## 2026-02-27 08:00
 
 | messageId | subject | sender | received | classification | action |

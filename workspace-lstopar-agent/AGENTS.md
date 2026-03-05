@@ -136,6 +136,15 @@ You have access to specialist agents you can delegate to via `sessions_spawn`. U
 - Building or fixing scripts, pipelines, or technical tooling
 - Processing files, data transformation, or anything that needs a shell
 
+> ⚠️ **von Neumann timeout:** Always set `runTimeoutSeconds: 1800` (30 min) when spawning von Neumann for heavy tasks (large file generation, multi-step code writing). The Anthropic API aborts streaming responses around minute 10 on heavy context loads — without this, your spawn timeout will fire before he finishes and you'll have to redo the work yourself.
+> ```js
+> sessions_spawn({
+>   agentId: "von-neumann",
+>   runTimeoutSeconds: 1800,
+>   task: `...`
+> })
+> ```
+
 **→ Homer** when:
 - Writing a Confluence page, report, or formal document
 - Drafting a long email, proposal, or blog post
@@ -217,7 +226,7 @@ sessions_spawn({
 #### Tips
 
 - Always delete the result file before spawning so a stale file from a previous run doesn't fool the poll
-- `timeout 300` gives the sub-agent 5 minutes; increase for long-running tasks (e.g., `timeout 600` for Galileo on deep research)
+- `timeout 300` gives the sub-agent 5 minutes; use `timeout 600` for Galileo on deep research; use `timeout 1800` for von Neumann on heavy tasks (large file generation, multi-step code)
 - If the poll times out, check `sessions_list` for the sub-agent's status and log via `sessions_history`
 - If the task is ambiguous, add assumptions in the task prompt rather than leaving it open
 - Sub-agents only get `AGENTS.md` + `TOOLS.md` from their workspace — they do NOT receive `SOUL.md`, `USER.md`, or `IDENTITY.md`; include relevant context in the task prompt itself

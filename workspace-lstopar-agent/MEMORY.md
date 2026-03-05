@@ -62,6 +62,23 @@
 - Workflow: 1K draft → iterate → 4K final
 - Output lands in `/workspace/` — file tool can read it but message tool can't send local files (use inline MEDIA or tell user the path)
 
+### **Gantt Chart for Sales Support**
+- When Luka asks to prepare a Gantt chart in a sales/presales context, always create an **Excel file** (openpyxl) with:
+  - WBS table + visual Gantt bars (colored cells) on one sheet
+  - **Relative timeline**: T1, T2, T3... (weeks) — NO calendar dates
+  - **Effort in PM** (Person-Month) — always use "PM" abbreviation, even in Slovenian documents
+  - Color-coded phases (dark BG for phase rows, light BG for activities, colored Gantt bars)
+  - Professional formatting: frozen panes, borders, landscape print setup
+  - Spawn von Neumann with detailed task prompt for generation
+
+### **Document Creation Policy**
+- When creating documents, **upload to OneDrive** at: `OpenClaw-created` folder
+- OneDrive path: `/personal/luka_stopar_edgetech_si/Documents/OpenClaw-created`
+- SharePoint URL: `https://edgtch-my.sharepoint.com/my?id=%2Fpersonal%2Fluka%5Fstopar%5Fedgetech%5Fsi%2FDocuments%2FOpenClaw%2Dcreated`
+- Organize into appropriate subdirectories (e.g., `ATVP/`, `SIJ/`, etc.)
+- Always send Luka a link to the uploaded file
+- Do NOT use litterbox/catbox for file delivery
+
 ### **Trading 212 Balance Policy**
 - **Always fetch the latest balance** from the Trading 212 tool if the last check was **older than 5 minutes**.
 - Do **not** rely on cached or previously stored data for balance inquiries.
@@ -93,6 +110,18 @@ The **Nightly Personal Email Categorizer** cron job runs every night at 05:00 Eu
 | Other | No |
 
 3. Posts a grouped summary with links to each email to Telegram topic `1299` (`#comm @personal`).
+
+### **Lookup Order for Entity / Relationship Questions**
+
+When asked about entities or relationships (e.g. "where does X work?", "what is X?", "who makes Y?", "what tools does Z use?"):
+
+1. **Knowledge graph first** — `knowledge_graph(action=entity, entity=Name)` or `knowledge_graph(action=search)`
+2. **Memory search** — `memory_search` for context from past conversations
+3. **Web search** — only if KG + memory come up empty
+
+Never skip straight to web search for entities Luka might have discussed before.
+
+---
 
 ### **General Principles**
 - **Always verify data before writing to Confluence.** Fetch from source first, write once. Estimates are not acceptable for documented pages — one wrong publish requires a correction and wastes Luka's time.
