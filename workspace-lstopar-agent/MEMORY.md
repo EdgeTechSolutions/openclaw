@@ -50,9 +50,9 @@
 - Always send Luka a link to the uploaded file
 
 ### **Tool Preferences by Topic**
-- **Default email**: Use the **microsoft365 skill** (`node /workspace/skills/microsoft365/index.js --account default`) for email — this covers work emails, Microsoft 365 emails, and any unspecified email requests.
+- **Default email**: Use the **microsoft365 skill** (`node /workspace/skills/microsoft365/index.js --account edgetech`) for email — this covers work emails, Microsoft 365 emails, and any unspecified email requests.
 - **Personal email only**: Use the **gog skill** (Google Workspace CLI) — only when Luka explicitly asks for personal/Gmail emails.
-- **Microsoft 365 credentials**: Token stored at `/workspace/skills/microsoft365/tokens/ms365.tokens.default.json`. No env file at `~/.openclaw/credentials/ms365.env` — credentials are self-contained in the skill directory.
+- **Microsoft 365 credentials**: Token stored at `/workspace/skills/microsoft365/tokens/ms365.tokens.edgetech.json` (account name: `edgetech`, NOT `default`). Use `--account edgetech` when calling the skill. For direct Graph API calls, extract the access token from this file. No env file at `~/.openclaw/credentials/ms365.env` — credentials are self-contained in the skill directory.
 
 ---
 

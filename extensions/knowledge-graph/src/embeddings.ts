@@ -50,7 +50,7 @@ async function getGeminiEmbedding(
   config: EmbeddingConfig
 ): Promise<number[]> {
   const model = config.model || "text-embedding-004";
-  const url = `https://generativelanguage.googleapis.com/v1/models/${model}:embedContent?key=${config.apiKey}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:embedContent?key=${config.apiKey}`;
 
   const resp = await fetch(url, {
     method: "POST",

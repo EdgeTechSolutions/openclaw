@@ -183,3 +183,52 @@
 |-----------|---------|--------|----------|---------------|--------|
 | ...Qiu32AAA= | Thank you for attending! UITP Info Session | iryna.moroz@uitp.org | 2026-03-03T16:36:05Z | Informational | Archived (post-webinar thank you + recording link) |
 | ...QizbQAAA= | Follow-Up: Let Your Digital Innovation— Indexed in Scopus | tricia004@scijournal.net | 2026-03-03T15:02:22Z | Marketing | Archived (predatory journal spam, no unsubscribe link) |
+
+## 2026-03-05 08:15 Triage Run
+
+| messageId (suffix) | subject | sender | received | classification | action |
+|---|---|---|---|---|---|
+| ...Qt5KsAAA= | [GitHub] PAT expiring - Temp token for SSHD | noreply@github.com | 2026-03-04T23:18 | Tool Notification | archived |
+| ...Qt5KqAAA= | [GitHub] PAT added - Temp token for SSHD | noreply@github.com | 2026-03-04T21:19 | Tool Notification | archived |
+| ...Qt1ndAAA= | Your Mermaid for Confluence trial ends soon | noreply@po.atlassian.net | 2026-03-03T23:21 | Tool Notification | archived |
+| ...Qt1ngAAA= | Accepted: Luis Rei - EdgeTech AVPT | luis.rei@ijs.si | 2026-03-03T21:33 | Tool Notification | archived |
+| ...Qt1nhAAA= | Declined: Luis Rei - EdgeTech AVPT | luis.rei@ijs.si | 2026-03-03T21:31 | Tool Notification | archived |
+| ...Qt1niAAA= | Accepted: Luis Rei - interni sestanek | luis.rei@ijs.si | 2026-03-03T21:31 | Tool Notification | archived |
+| ...Qt1njAAA= | Declined: Luis Rei - interni sestanek | luis.rei@ijs.si | 2026-03-03T21:31 | Tool Notification | archived |
+| ...QixE0AAA= | interni sestanek AVPT (duplicate invite) | luka.stopar@edgetech.si | 2026-03-03T11:11 | Tool Notification | archived |
+| ...Qt1ncAAA= | Unlock the potential of your Scaleway account | welcome@news.scaleway.com | 2026-03-04T06:45 | Marketing | archived, unsubscribed |
+| ...Qt1neAAA= | Your free Confluence Premium trial ending soon | info@e.atlassian.com | 2026-03-03T23:08 | Marketing | archived, unsubscribed |
+| ...Qt1noAAA= | Je logistika strošek ali vaša konkurenčna prednost? | info@logisticnikongres.si | 2026-03-04T18:50 | Marketing | archived |
+| ...Qt1nlAAA= | Interreg ITA-SLO REMINDER: Posvetovanje 2028-2034 | jts.itaslo@regione.fvg.it | 2026-03-04T08:40 | Newsletter | archived |
+| ...Qt1nbAAA= | Yard management in vodenje projektov (SLZ) | info@slz.si | 2026-03-04T07:01 | Newsletter | archived |
+| ...Qt1nfAAA= | [GitHub] OpenClaw PAT expiring in 6 days | noreply@github.com | 2026-03-03T22:54 | Tool Notification | archived |
+| ...Qt1nmAAA= | Opomnik: Kolokviji IJS (past event) | martin.klanjsek@ijs.si | 2026-03-04T08:33 | Informational | archived |
+| ...Qt1nnAAA= | Družini prijazno podjetje (IJS HR survey) | kadrovska@ijs.si | 2026-03-04T07:52 | Informational | archived |
+| ...Qt1nkAAA= | Fw: Billing Update - Sales Taxes (OpenRouter) | iztok.rencelj@edgetech.si | 2026-03-03T21:07 | Informational | archived |
+| ...Qt5KrAAA= | Add payment details - Confluence Premium trial | noreply@po.atlassian.net | 2026-03-04T21:56 | Informational | archived |
+| ...QizrOAAA= | (no subject - empty draft) | - | 2026-03-03T15:29 | Informational | archived |
+
+## 2026-03-05 11:15 Triage Run
+
+| messageId (suffix) | subject | sender | received | classification | action |
+|---|---|---|---|---|---|
+| ...Rr1o4AAA= | Rapid Review Process- Chemical & Pharmaceutical Research | jchemistryresearch@gmail.com | 2026-03-05T08:39 | Marketing | archived (predatory journal spam, no unsub link) |
+| ...Rr0S4AAA= | [AI] LLM Dojo reminder — tomorrow Mar 6, 9:00 | jan.rupnik@gmail.com | 2026-03-05T07:18 | Informational | archived |
+
+## 2026-03-05 15:15 Triage Run
+
+| messageId (suffix) | subject | sender | received | classification | action |
+|---|---|---|---|---|---|
+| ...Rr0S_AAA= | Your free trial on Memgraph Cloud has ended | team@memgraph.com | 2026-03-05T14:03 | Marketing | archived |
+| ...Rr0S8AAA= | Something's coming to Southern Europe… | hello@news.scaleway.com | 2026-03-05T12:29 | Marketing | archived, unsubscribed |
+| ...Rr0S6AAA= | Vabilo za udeležbo na 13. Logističnem kongresu | andrea.kos@proevent.si | 2026-03-05T11:30 | Marketing | archived |
+| ...Rr0S5AAA= | RE: predlog pogodbe | Marija.Remskar@ijs.si | 2026-03-05T10:45 | Informational | archived (HR correcting contract — salary error, new contract coming) |
+| ...Rr0S7AAA= | Re: Rezervacija mize za 1 mesec | info@kodo.place | 2026-03-05T12:17 | Actionable | left as-is (needs manual response — desk S2 available, can't reserve in advance) |
+| ...Rr0S9AAA= | poslovni dogodek | iztok.rencelj@edgetech.si | 2026-03-05T13:06 | Actionable | left as-is (LUPA project event with HPE, Apr 21-24, needs review) |
+
+## 2026-03-05 20:15 Triage Run
+
+| messageId (suffix) | subject | sender | received | classification | action |
+|---|---|---|---|---|---|
+| ...Rr1o5AAA= | Industrial surface protection materials | saloymrichmonde@gmail.com | 2026-03-05T18:31 | Marketing | archived (spam, no unsub link) |
+| ...Rr0S-AAA= | Welcome to your Azure free account | azure-noreply@microsoft.com | 2026-03-05T15:42 | Informational | archived |

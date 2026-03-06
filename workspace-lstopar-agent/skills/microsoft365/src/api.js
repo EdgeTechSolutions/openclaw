@@ -56,7 +56,7 @@ async function callGraphAllPages(endpoint) {
 
 // === Email ===
 async function getEmails(top = 10, { includeAllFolders = true } = {}) {
-  const select = '$select=id,subject,from,receivedDateTime,isRead,bodyPreview,parentFolderId';
+  const select = '$select=id,subject,from,receivedDateTime,isRead,bodyPreview,parentFolderId,webLink';
 
   // /me/messages is mailbox-breed en ondersteunt server-side sortering/filtering.
   if (!includeAllFolders) {
@@ -76,7 +76,7 @@ async function getEmails(top = 10, { includeAllFolders = true } = {}) {
 
 async function searchEmails(query, { top = 25, includeAllFolders = true } = {}) {
   const safeQuery = String(query || '').replace(/'/g, "''");
-  const select = '$select=id,subject,from,receivedDateTime,isRead,bodyPreview,parentFolderId';
+  const select = '$select=id,subject,from,receivedDateTime,isRead,bodyPreview,parentFolderId,webLink';
   const searchParam = `$search="${safeQuery}"`;
 
   const endpoint = `/me/messages?${searchParam}&$top=${Math.max(top, 25)}&${select}`;

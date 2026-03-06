@@ -25,7 +25,7 @@ interface PluginConfig {
 const DEFAULT_CONFIG: PluginConfig = {
   embeddingProvider: "gemini",
   embeddingApiKey: "",
-  embeddingModel: "text-embedding-004",
+  embeddingModel: "gemini-embedding-001",
   embeddingDimensions: 768,
   minConfidence: 0.6,
   dbPath: "/workspace/knowledge-graph.db",
@@ -187,6 +187,11 @@ export default function register(api: any) {
           if (!params.subject || !params.relation || !params.object) {
             return json({ error: "subject, relation, and object are required" });
           }
+
+          // Make sure embeddings work before storing to the database.
+          let mentionText = `${params.subject} ${params.relation.replace(/_/g, " ")} ${params.object}`;
+          let embedding = pluginConfig.embeddingApiKey ? await getEmbedding(mentionText, embeddingConfig) : [];
+
           const subjectId = db.getOrCreateEntity(
             params.subject,
             params.subject_type || "unknown"
@@ -206,14 +211,8 @@ export default function register(api: any) {
           );
 
           if (pluginConfig.embeddingApiKey) {
-            try {
-              const mentionText = `${params.subject} ${params.relation.replace(/_/g, " ")} ${params.object}`;
-              const embedding = await getEmbedding(mentionText, embeddingConfig);
-              db.storeMention(subjectId, mentionText, embedding, "darwin", "");
-              db.storeMention(objectId, mentionText, embedding, "darwin", "");
-            } catch (embErr: any) {
-              console.warn(`[knowledge-graph] Mention embedding error: ${embErr.message}`);
-            }
+            db.storeMention(subjectId, mentionText, embedding, "darwin", "");
+            db.storeMention(objectId, mentionText, embedding, "darwin", "");
           }
 
           return json({
