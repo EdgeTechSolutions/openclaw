@@ -1,11 +1,64 @@
-FROM openclaw-sandbox:bookworm-slim
+FROM openclaw/sandbox:base
+
 USER root
-RUN apt-get update \
- && apt-get install -y --no-install-recommends ca-certificates curl gnupg git jq python3 \
- && mkdir -p /etc/apt/keyrings \
- && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
- && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_24.x nodistro main" > /etc/apt/sources.list.d/nodesource.list \
+
+# ========= Version Registry =========
+ENV NODE_MAJOR=20
+ENV GOG_VERSION=v0.5.0
+ENV GOG_REPO=habedi/gogg
+ENV UV_VERSION=0.5.0
+
+# ========= Base Tools =========
+RUN set -eux \
+ && apt-get update \
+ && apt-get install -y --no-install-recommends \
+    curl \
+    ca-certificates \
+    jq \
+    gnupg \
+    git \
+    dpkg \
+    xz-utils \
+    findutils \
+    unzip \
+ && rm -rf /var/lib/apt/lists/*
+
+# ============================
+# NodeSource Node.js (ARM safe)
+# ============================
+RUN curl -fsSL https://deb.nodesource.com/setup_${NODE_MAJOR}.x | bash - \
  && apt-get update \
  && apt-get install -y --no-install-recommends nodejs \
  && rm -rf /var/lib/apt/lists/*
+
+# ===============================
+# uv Tool
+# ===============================
+RUN curl -LsSf https://astral.sh/uv/${UV_VERSION}/install.sh | sh \
+ && mv /root/.local/bin/uv /usr/local/bin/uv
+
+# ===============================
+# gogg Tool (Correct ARM Asset Selection)
+# ===============================
+RUN set -eux \
+ && ARCH=$(dpkg --print-architecture) \
+ && GOG_ASSET=$(curl -s https://api.github.com/repos/habedi/gogg/releases/latest \
+    | jq -r --arg ARCH "linux-${ARCH}" \
+    '.assets[] | select(.name | contains($ARCH)) | .browser_download_url') \
+ \
+ && echo "Downloading gogg from $GOG_ASSET" \
+ && curl -L "$GOG_ASSET" -o /tmp/gogg.zip \
+ \
+ && unzip /tmp/gogg.zip -d /tmp/gogg_bin \
+ && find /tmp/gogg_bin -type f -name "gogg" -exec mv {} /usr/local/bin/gog \; \
+ && chmod +x /usr/local/bin/gog \
+ \
+ && rm -rf /tmp/*
+
+# ===============================
+# Final Cleanup
+# ===============================
+RUN apt-get purge -y --auto-remove gnupg \
+ && rm -rf /root/.local
+
 USER sandbox

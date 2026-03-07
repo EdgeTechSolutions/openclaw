@@ -1,5 +1,49 @@
 # Email Triage Log
 
+## 2026-03-06 20:15
+
+| messageId (suffix) | Subject | Sender | Received | Classification | Action |
+|---|---|---|---|---|---|
+| StZh-AAA= | Re: Zanimanje za najem pisarne | david@makerspace.si | 2026-03-06T18:41:20Z | Informational | Archived (no private office available, coworking offered as alternative) |
+
+## 2026-03-06 15:15
+
+| messageId (suffix) | Subject | Sender | Received | Classification | Action |
+|---|---|---|---|---|---|
+| SbMXRAAA= | Pravilnik o zaščiti prijaviteljev in e-izobraževanje | Polona.Stumberger@ijs.si | 2026-03-06T13:56:40Z | Informational | Archived (IJS whistleblower policy update + e-learning) |
+| SbMXQAAA= | Re: ANEKS K POGODBI - SRIP GoDigital - 2026 | gasper.cizelj@gzs.si | 2026-03-06T13:31:01Z | Actionable | Needs manual response (membership fee required, asks for feedback on annex) |
+| SbMXPAAA= | [Cminformator] IJS AD uporabniški račun | janez.srakar@ijs.si | 2026-03-06T10:29:02Z | Informational | Archived (IJS AD account created for Sharepoint/tabla.ijs.si) |
+| SbMXOAAA= | kosilo ob zaključku projekta | iztok.rencelj@edgetech.si | 2026-03-06T10:19:16Z | Actionable | Needs manual response (Iztok inviting to celebratory lunch at Računsko sodišče) |
+
+## 2026-03-06 11:15
+
+| messageId (suffix) | Subject | Sender | Received | Classification | Action |
+|---|---|---|---|---|---|
+| SbMXNAAA= | Fw: Predlog AI projektov za podporo odločanja | iztok.rencelj@edgetech.si | 2026-03-06T09:56:21Z | Actionable | Needs manual response (SIJ feedback, asks when to meet) |
+| SbMXMAAA= | predlog pogodbe | Marija.Remskar@ijs.si | 2026-03-06T09:53:50Z | Informational | Archived (new contract + Feb salary backpay) |
+| SbMXLAAA= | Re: Rezervacija mize za 1 mesec | info@kodo.place | 2026-03-06T08:43:49Z | Actionable | Needs manual response (fill Google form for contract) |
+| SbFYdAAA= | Re: Exploring biomedical records | healthsci@fopaj.org | 2026-03-06T07:21:50Z | Marketing | Archived (predatory journal spam) |
+
+## 2026-03-06 08:15
+
+| messageId (suffix) | Subject | Sender | Received | Classification | Action |
+|---|---|---|---|---|---|
+| SbFYcAAA= | South Florida Publishing – Manuscript Invitation | submissions@southfloridapublishing.com | 2026-03-06T06:55:14Z | Marketing | Archived |
+| Rr1o6AAA= | AgentNews#2 | agentmail | 2026-03-06T00:00:50Z | Newsletter | Archived |
+| RrzkFAAA= | Industrial surface protection | cold outreach | 2026-03-05T18:31:46Z | Marketing | Archived |
+| RrzkGAAA= | Welcome to Azure free account | azure-noreply@microsoft.com | 2026-03-05T15:42:32Z | Informational | Archived |
+| Rrzj-AAA= | Memgraph Cloud trial ended | team@memgraph.com | 2026-03-05T14:03:50Z | Informational | Archived |
+| RrzkEAAA= | poslovni dogodek | iztok.rencelj@edgetech.si | 2026-03-05T13:06:43Z | Informational | Archived (Luka already replied) |
+| RrzkAAAA= | Something's coming to Southern Europe | hello@news.scaleway.com | 2026-03-05T12:29:48Z | Marketing | Archived, unsubscribed ✓ |
+| RrzkDAAA= | Re: Rezervacija mize za 1 mesec | info@kodo.place | 2026-03-05T12:17:35Z | Actionable | Archived — needs manual response (Kodo offered 2 options for desk S2) |
+| RrzkBAAA= | Vabilo 13. Mednarodni logistični kongres | andrea.kos@proevent.si | 2026-03-05T11:30:20Z | Newsletter | Archived |
+| RrzkCAAA= | RE: predlog pogodbe | Marija.Remskar@ijs.si | 2026-03-05T10:45:45Z | Informational | Archived (new contract coming - salary correction) |
+| Rrzj9AAA= | Rapid Review Process – Chemical & Pharmaceutical Research | jchemistryresearch@gmail.com | 2026-03-05T08:39:17Z | Marketing | Archived |
+| Rrzj_AAA= | LLM Dojo reminder 2026-03-06 9:00 | jan.rupnik@gmail.com | 2026-03-05T07:18:44Z | Informational | Archived — ⚠️ TODAY at 9:00 JSI Orange Room + Zoom |
+| Rrzj4AAA= | GitHub PAT about to expire | noreply@github.com | 2026-03-04T23:18:51Z | Tool Notification | Archived |
+| Rrzj7AAA= | Confluence Premium trial ending Mar 7 | noreply@po.atlassian.net | 2026-03-04T21:56:47Z | Tool Notification | Archived |
+| Rrzj5AAA= | GitHub PAT added | noreply@github.com | 2026-03-04T21:19:32Z | Tool Notification | Archived |
+
 ## 2026-03-04 20:15
 
 | messageId | subject | sender | received | classification | action |
