@@ -151,3 +151,20 @@ Never skip straight to web search for entities Luka might have discussed before.
   - `leaderboard.py` — Open LLM Leaderboard v2; filters: `--max-params`, `--min-params`, `--no-moe`, `--no-merged`; default scan 500 rows, `--scan 2000` for full coverage
   - `model_info.py` — detailed metadata for a single model
 - `HF_TOKEN` env var supported for higher rate limits / gated models
+
+---
+
+### **Microsoft 365 Credential Storage**
+- **Config**: `skills/microsoft365/config.default.json`
+- **Tokens**: `skills/microsoft365/tokens/ms365.tokens.default.json` (account: `edgetech`)
+- Note: Not stored at `~/.openclaw/credentials/ms365.env` — self-contained in skill directory
+
+### **Confluence Skill**
+- Skill definition: `/workspace/skills/confluence/`
+- Credentials: `/workspace/.confluence-cli/config.json`
+- Confluence CLI installed via npm in `/workspace/.npm-global/`
+- Atlassian API token: generate at https://id.atlassian.com/manage-profile/security/api-tokens
+
+### **Jira Credentials**
+- Stored at `/workspace/.config/.jira/.credentials.yml`
+- Load token: `export JIRA_API_TOKEN=$(grep '^secret:' /workspace/.config/.jira/.credentials.yml | awk '{print $2}')`

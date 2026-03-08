@@ -1,34 +1,28 @@
 /**
  * Knowledge Graph Plugin for OpenClaw
  *
- * Stores facts as (subject, relation, object) triples in SQLite.
- * Fact extraction is handled externally by the Darwin agent (cron job).
+ * Stores facts as (subject, relation, object) triples via the Knowledge Graph
+ * REST API (Django / Memgraph). Fact extraction is handled externally by the
+ * Darwin agent (cron job).
  *
  * Features:
- * - SQLite-backed knowledge graph
- * - Vector embeddings for semantic search (Gemini or OpenAI)
+ * - Delegates all persistence to the remote API
+ * - Server-side vector embeddings (no local embedding key required)
  * - Agent tool for querying and managing the graph
  */
 
-import { createDB, type KnowledgeGraphDB } from "./db";
-import { getEmbedding, type EmbeddingConfig } from "./embeddings";
+import { KnowledgeGraphApiClient } from "./api-client";
 
 interface PluginConfig {
-  embeddingProvider: "gemini" | "openai";
-  embeddingApiKey: string;
-  embeddingModel: string;
-  embeddingDimensions: number;
+  apiBaseUrl: string;
+  apiKey?: string;
   minConfidence: number;
-  dbPath: string;
 }
 
 const DEFAULT_CONFIG: PluginConfig = {
-  embeddingProvider: "gemini",
-  embeddingApiKey: "",
-  embeddingModel: "gemini-embedding-001",
-  embeddingDimensions: 768,
+  apiBaseUrl: "http://localhost:8000",
+  apiKey: "",
   minConfidence: 0.6,
-  dbPath: "/workspace/knowledge-graph.db",
 };
 
 export default function register(api: any) {
@@ -37,22 +31,12 @@ export default function register(api: any) {
     ...(api.config?.plugins?.entries?.["knowledge-graph"]?.config || {}),
   };
 
-  if (!pluginConfig.embeddingApiKey) {
-    console.warn(
-      "[knowledge-graph] No embeddingApiKey configured. Vector search will be disabled."
-    );
-  }
+  const client = new KnowledgeGraphApiClient({
+    baseUrl: pluginConfig.apiBaseUrl,
+    apiKey: pluginConfig.apiKey || undefined,
+  });
 
-  const db: KnowledgeGraphDB = createDB(pluginConfig.dbPath);
-  db.init();
-  console.log("[knowledge-graph] Database initialized at", pluginConfig.dbPath);
-
-  const embeddingConfig: EmbeddingConfig = {
-    provider: pluginConfig.embeddingProvider,
-    apiKey: pluginConfig.embeddingApiKey,
-    model: pluginConfig.embeddingModel,
-    dimensions: pluginConfig.embeddingDimensions,
-  };
+  console.log("[knowledge-graph] Plugin ready — using API at", pluginConfig.apiBaseUrl);
 
   // ─── AGENT TOOL ───────────────────────────────────────────
 
@@ -76,7 +60,7 @@ export default function register(api: any) {
         },
         entity: {
           type: "string",
-          description: "Entity name to look up (for action=entity/similar)",
+          description: "Entity name to look up (for action=entity/similar/mentions)",
         },
         relation: {
           type: "string",
@@ -97,6 +81,10 @@ export default function register(api: any) {
         object_type: {
           type: "string",
           description: "Object entity type (for action=add)",
+        },
+        context: {
+          type: "string",
+          description: "Optional context sentence for the fact (for action=add)",
         },
         merge_from: {
           type: "string",
@@ -119,129 +107,82 @@ export default function register(api: any) {
         details: result,
       });
 
-      const limit = params.limit || 10;
+      const limit: number = params.limit || 10;
 
-      switch (params.action) {
-        case "search": {
-          if (!params.query) return json({ error: "query is required for search" });
-          if (!pluginConfig.embeddingApiKey) {
-            return json({ error: "Embedding API key not configured. Use action=entity or action=relation instead." });
+      try {
+        switch (params.action) {
+          case "search": {
+            if (!params.query) return json({ error: "query is required for search" });
+            const result = await client.search(params.query, limit);
+            return json(result);
           }
-          const queryEmb = await getEmbedding(params.query, embeddingConfig);
-          const results = db.searchByVector(queryEmb, limit);
-          return json({ results, count: results.length });
-        }
 
-        case "entity": {
-          if (!params.entity) return json({ error: "entity name is required" });
-          const facts = db.searchByEntity(params.entity, limit);
-          return json({ entity: params.entity, facts, count: facts.length });
-        }
-
-        case "relation": {
-          if (!params.relation) return json({ error: "relation type is required" });
-          const facts = db.searchByRelation(params.relation, limit);
-          return json({ relation: params.relation, facts, count: facts.length });
-        }
-
-        case "stats": {
-          const dbStats = db.getStats();
-          return json({
-            entities: dbStats.entities,
-            relations: dbStats.relations,
-            mentions: dbStats.mentions,
-          });
-        }
-
-        case "recent": {
-          const facts = db.getAllFacts(limit);
-          return json({ facts, count: facts.length });
-        }
-
-        case "similar": {
-          if (!params.entity) return json({ error: "entity name is required" });
-          if (!pluginConfig.embeddingApiKey) {
-            return json({ error: "Embedding API key not configured." });
+          case "entity": {
+            if (!params.entity) return json({ error: "entity name is required" });
+            const result = await client.entity(params.entity, limit);
+            return json(result);
           }
-          const entityEmb = await getEmbedding(params.entity, embeddingConfig);
-          const similar = db.findSimilarEntities(entityEmb, limit);
-          return json({ entity: params.entity, similar, count: similar.length });
-        }
 
-        case "merge": {
-          if (!params.merge_from || !params.merge_into) {
-            return json({ error: "merge_from and merge_into are required" });
+          case "relation": {
+            if (!params.relation) return json({ error: "relation type is required" });
+            const result = await client.relation(params.relation, limit);
+            return json(result);
           }
-          try {
-            db.deduplicateEntities(params.merge_into, params.merge_from);
+
+          case "stats": {
+            const result = await client.stats();
+            return json(result);
+          }
+
+          case "recent": {
+            const result = await client.recent(limit);
+            return json(result);
+          }
+
+          case "similar": {
+            if (!params.entity) return json({ error: "entity name is required" });
+            const result = await client.similar(params.entity, limit);
+            return json(result);
+          }
+
+          case "merge": {
+            if (!params.merge_from || !params.merge_into) {
+              return json({ error: "merge_from and merge_into are required" });
+            }
+            const result = await client.merge(params.merge_from, params.merge_into);
+            return json(result);
+          }
+
+          case "add": {
+            if (!params.subject || !params.relation || !params.object) {
+              return json({ error: "subject, relation, and object are required" });
+            }
+            const result = await client.add(
+              params.subject,
+              params.subject_type || "unknown",
+              params.relation,
+              params.object,
+              params.object_type || "unknown",
+              params.context,
+            );
+            return json(result);
+          }
+
+          case "mentions": {
+            if (!params.entity) return json({ error: "entity name is required" });
+            const result = await client.mentions(params.entity, limit);
+            return json(result);
+          }
+
+          default:
             return json({
-              success: true,
-              message: `Merged "${params.merge_from}" into "${params.merge_into}"`,
+              error: `Unknown action: ${params.action}. Use: search, entity, relation, stats, recent, similar, merge, add, mentions`,
             });
-          } catch (err: any) {
-            return json({ error: err.message });
-          }
         }
-
-        case "add": {
-          if (!params.subject || !params.relation || !params.object) {
-            return json({ error: "subject, relation, and object are required" });
-          }
-
-          // Make sure embeddings work before storing to the database.
-          let mentionText = `${params.subject} ${params.relation.replace(/_/g, " ")} ${params.object}`;
-          let embedding = pluginConfig.embeddingApiKey ? await getEmbedding(mentionText, embeddingConfig) : [];
-
-          const subjectId = db.getOrCreateEntity(
-            params.subject,
-            params.subject_type || "unknown"
-          );
-          const objectId = db.getOrCreateEntity(
-            params.object,
-            params.object_type || "unknown"
-          );
-          const relationId = db.storeRelation(
-            subjectId,
-            params.relation,
-            objectId,
-            1.0,
-            "darwin",
-            "",
-            params.context || ""
-          );
-
-          if (pluginConfig.embeddingApiKey) {
-            db.storeMention(subjectId, mentionText, embedding, "darwin", "");
-            db.storeMention(objectId, mentionText, embedding, "darwin", "");
-          }
-
-          return json({
-            success: true,
-            fact: `${params.subject} --[${params.relation}]--> ${params.object}`,
-            relationId,
-          });
-        }
-
-        case "mentions": {
-          if (!params.entity) return json({ error: "entity name is required" });
-          const entityId = db.getEntityId(params.entity);
-          if (entityId === null) {
-            return json({ error: `Entity "${params.entity}" not found in graph` });
-          }
-          const mentions = db.getMentions(entityId, limit);
-          return json({ entity: params.entity, entityId, mentions, count: mentions.length });
-        }
-
-        default:
-          return json({
-            error: `Unknown action: ${params.action}. Use: search, entity, relation, stats, recent, similar, merge, add, mentions`,
-          });
+      } catch (err: any) {
+        return json({ error: err.message });
       }
     },
-  });
-
-  api.on("gateway_stop", () => {
-    db.close();
   });
 
   console.log("[knowledge-graph] Plugin ready (Darwin-mode: extraction handled by scheduled agent)");

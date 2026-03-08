@@ -1,18 +1,10 @@
 {
   "entries": [
     {
-      "containerName": "openclaw-sbx-agent-darwin-e6086bfb",
-      "sessionKey": "agent:darwin",
-      "createdAtMs": 1772413245713,
-      "lastUsedAtMs": 1772758969686,
-      "image": "openclaw-sandbox:lstopar",
-      "configHash": "969573462c3483b6303d58f636c6bad89a7b34e78fba768cb07d8303d20eb8c9"
-    },
-    {
       "containerName": "openclaw-sbx-agent-lstopar-agent-888f1ee3",
       "sessionKey": "agent:lstopar-agent",
       "createdAtMs": 1772578334002,
-      "lastUsedAtMs": 1772842956861,
+      "lastUsedAtMs": 1772927019993,
       "image": "openclaw-sandbox:lstopar",
       "configHash": "e9bd141c5cb5aec80e116b0b43a21509f6fdd3233761e28a6513c17adaccd0bc"
     }

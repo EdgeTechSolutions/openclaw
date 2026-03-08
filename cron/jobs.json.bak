@@ -41,14 +41,14 @@
       "name": "Daily Jira Task Summary",
       "enabled": true,
       "createdAtMs": 1770579310819,
-      "updatedAtMs": 1772830850351,
+      "updatedAtMs": 1772918400276,
       "schedule": {
         "kind": "cron",
         "expr": "30 18 * * 1-5",
         "tz": "Europe/Ljubljana"
       },
       "sessionTarget": "isolated",
-      "wakeMode": "next-heartbeat",
+      "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
         "message": "Create a summary of Jira tasks with the following details:\n\n1. **New tasks assigned to me in the last 48 hours**\n2. **Tasks assigned to me that are overdue**\n3. **Tasks assigned to other people that are overdue**\n4. **Tasks that were completed in the last 48 hours**\n5. **New tasks created in the last 48 hours (regardless of assignee)**\n\nUse the Jira API to fetch the data. Credentials are stored in `/home/lstopar/.openclaw/.env`.\n\n### Linking\n\n**Every task, epic, and story key mentioned in the summary MUST be a clickable link.**\n\nFormat: `[KEY-123](https://edgetech-atlassian.atlassian.net/browse/KEY-123)`\n\nFor example:\n- Instead of `PROJ-42`, write `[PROJ-42](https://edgetech-atlassian.atlassian.net/browse/PROJ-42)`\n- This applies to ALL issue keys — tasks, stories, epics, subtasks, bugs, etc.\n- If a task belongs to an epic, show the epic as a linked key too, e.g.: `Epic: [PROJ-10](https://edgetech-atlassian.atlassian.net/browse/PROJ-10)`\n\nAfter completing the task, respond with:\n- A **success/failure indicator** (e.g., `✅ Success` or `❌ Failed`).\n- A **1-5 bullet-point summary** of what was accomplished. For example:\n  - Found **3 new tasks** assigned to you.\n  - **2 tasks** are overdue.\n  - **5 tasks** were completed in the last 48 hours.\n\n**Important**: Use the `message` tool to post the result to Telegram topic `987` (`#ops @edgetech`) in chat `8403014547`. Example:\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"Your result here\",\n  \"threadId\": \"987\"\n}\n```\n\nFormat the response for Telegram.",
@@ -73,14 +73,14 @@
       "name": "Weekly LLM Research Scan",
       "enabled": true,
       "createdAtMs": 1770623566456,
-      "updatedAtMs": 1772727000099,
+      "updatedAtMs": 1772918400435,
       "schedule": {
         "kind": "cron",
         "expr": "0 17 * * 4",
         "tz": "Europe/Ljubljana"
       },
       "sessionTarget": "isolated",
-      "wakeMode": "next-heartbeat",
+      "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
         "message": "Scan arXiv (cs.CL and cs.LG), Hugging Face trending papers, and other relevant sources for the most impactful papers about LLM models and foundational models published in the last 7 days. Focus on: new architectures, new training approaches, new techniques, efficiency improvements, and alignment advances.\n\n## Step 1 — Research\nCollect candidate papers. For each, note: title, authors, publication date, arXiv/HF link, key contribution, and relevance score (1–10).\n\n## Step 2 — Update Confluence\nRead the current Confluence page at https://edgetech-atlassian.atlassian.net/wiki/spaces/Engineerin/pages/13893636/Research+llms.\n\nMerge the new papers with existing content following these rules:\n- **Structure by topic**: Group papers under clear topic headings (e.g., Architecture Innovations, Training Techniques, Efficiency & Quantization, Alignment & Safety, Multimodal Models, Reasoning & Planning).\n- **Rank by relevance within each topic**: Most impactful papers at the top. Assign a relevance score (⭐ 1–5) to each paper based on novelty, practical impact, and citation/community traction.\n- **Retain the best existing content**: Keep previously listed papers that are still highly relevant. Remove or demote papers that are outdated, superseded, or low-impact compared to new entries.\n- **Each paper entry must include**: Title (linked to paper), authors, date, ⭐ relevance score, key contribution (2–3 sentences), and why it matters.\n- **Quality over quantity**: Only include papers that materially advance understanding of LLMs. Skip incremental or low-impact work.\n\n## Step 3 — Report\nAfter updating Confluence, respond with:\n- ✅ Success or ❌ Failed\n- 1–5 bullet points summarising: topics covered, number of new papers added, papers removed/demoted, and key highlights\n- Link to the updated page: https://edgetech-atlassian.atlassian.net/wiki/spaces/Engineerin/pages/13893636/Research+llms\n\n## Step 4 — Notify\nUse the `message` tool to post the summary to Telegram topic `945` (`#tech #research`) in chat `8403014547`:\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"Your summary here\",\n  \"threadId\": \"945\"\n}\n```\n\nThe Telegram message MUST end with:\n📄 [View on Confluence](https://edgetech-atlassian.atlassian.net/wiki/spaces/Engineerin/pages/13893636/Research+llms)\n\nFormat the Telegram message clearly with emoji and bullet points. Do NOT post to any other Telegram topic.",
@@ -108,14 +108,14 @@
       "name": "Weekly Context Engineering Research Update",
       "enabled": true,
       "createdAtMs": 1770732557177,
-      "updatedAtMs": 1772741254079,
+      "updatedAtMs": 1772918400586,
       "schedule": {
         "kind": "cron",
         "expr": "0 19 * * 4",
         "tz": "Europe/Ljubljana"
       },
       "sessionTarget": "isolated",
-      "wakeMode": "next-heartbeat",
+      "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
         "message": "Research scientific papers from arXiv and Hugging Face trending papers to find the latest approaches and frameworks for context engineering for AI agents. Focus on:\n- **High-impact papers** that introduce novel techniques or demonstrate significant improvements\n- **Foundational papers** that provide comprehensive understanding of context engineering principles\n- **Practical frameworks** with clear implementation guidance and real-world applications\n- Papers that address key challenges: context length, memory management, retrieval, compression, attention mechanisms\n\nWrite a technical summary prioritizing:\n1. **Impact**: Papers with novel approaches, strong results, or wide adoption\n2. **Clarity**: Papers that explain *how* and *why* techniques work, not just *what* they achieve\n3. **Actionability**: Frameworks with concrete implementation patterns and best practices\n\nUpdate the Confluence page at https://edgetech-atlassian.atlassian.net/wiki/spaces/Engineerin/pages/3735553/Research with:\n- Each approach organized by category (e.g., Memory Management, Context Compression, Retrieval-Augmented)\n- For each paper: title, authors, key innovation, practical takeaways, and reference link\n- Clear explanations of *how* each technique works and *when* to use it\n- Code examples or implementation notes where available\n\n**Quality over quantity**: Include only papers that materially advance understanding of agentic context engineering. Skip incremental improvements or papers without clear practical value.\n\nAfter completing the task, respond with:\n- A **success/failure indicator** (e.g., `✅ Success` or `❌ Failed`).\n- A **1-5 bullet-point summary** of what was accomplished:\n  - Number of high-impact papers added (with brief justification for selection)\n  - Key techniques or frameworks discovered\n  - Practical insights gained\n- A **direct link** to the updated Confluence page: https://edgetech-atlassian.atlassian.net/wiki/spaces/Engineerin/pages/3735553/Research\n\n**Important**: Use the `message` tool to post the result to Telegram topic `945` (`#tech #research`) in chat `8403014547`. Example:\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"Your result here\",\n  \"threadId\": \"945\"\n}\n```\n\nThe Telegram message MUST always end with a link to the Confluence page:\n📄 [View on Confluence](https://edgetech-atlassian.atlassian.net/wiki/spaces/Engineerin/pages/3735553/Research)\n\nFormat the response for Telegram.",
@@ -141,7 +141,7 @@
       "name": "Daily OpenClaw Directory Backup",
       "enabled": true,
       "createdAtMs": 1771023878360,
-      "updatedAtMs": 1772762435690,
+      "updatedAtMs": 1772848835076,
       "schedule": {
         "kind": "cron",
         "expr": "0 3 * * *",
@@ -161,11 +161,14 @@
         "bestEffort": true
       },
       "state": {
-        "nextRunAtMs": 1772848800000,
-        "lastRunAtMs": 1772762400086,
+        "nextRunAtMs": 1772935200000,
+        "lastRunAtMs": 1772848800053,
         "lastStatus": "ok",
-        "lastDurationMs": 35604,
-        "consecutiveErrors": 0
+        "lastDurationMs": 35023,
+        "consecutiveErrors": 0,
+        "lastRunStatus": "ok",
+        "lastDelivered": true,
+        "lastDeliveryStatus": "delivered"
       }
     },
     {
@@ -207,19 +210,19 @@
       "name": "Nightly Personal Gmail Triage",
       "enabled": true,
       "createdAtMs": 1771618729376,
-      "updatedAtMs": 1772769677543,
+      "updatedAtMs": 1772918688565,
       "schedule": {
         "kind": "cron",
         "expr": "0 5 * * *",
         "tz": "Europe/Ljubljana"
       },
       "sessionTarget": "isolated",
-      "wakeMode": "next-heartbeat",
+      "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
-        "model": "anthropic/claude-opus-4-6",
-        "thinking": "on",
-        "message": "## Nightly Personal Gmail Triage\n\n### Step 1 — Fetch Emails\n\nUse the `gog` skill to fetch all emails received in the last 27 hours that are **currently in the inbox**:\n\n```\ngog gmail search 'newer_than:27h in:inbox' --max 200 --account luka@stopar.si --json\n```\n\nThis ensures only emails that are currently in the inbox are processed — emails already archived before this run are excluded entirely.\n\nIf the result is empty, post a brief \"📬 Gmail Triage — {date}\\n\\nNo new emails in inbox.\" to Telegram topic 1299 and stop.\n\nFor each email, fetch its full content including headers, body, and attachment list:\n```\ngog gmail get <message-id> --account luka@stopar.si --json\n```\n\n### Step 1b — Deduplicate Against Memory\n\nBefore processing any email, check semantic memory to skip already-processed ones:\n- For each message ID, call `memory_search` with the query `gmail_triage:<message-id>`.\n- If a match is found, **skip that email** — it was handled in a previous run.\n- Only proceed to Step 2 for emails **not** found in memory.\n\nIf every fetched email is already in memory, post \"No new emails to process (all already handled).\" to Telegram topic 1299 and stop.\n\n### Step 2 — Classify Each Email\n\nClassify every email into exactly one of the following categories:\n\n| Category | Sender / Signal |\n|---|---|\n| **Actionable** | Personal/work emails requiring a response or action from Luka |\n| **Personal / Work — Informational** | Personal/work emails that are informational only, no action needed |\n| **Updates & Notifications** | OpenRouter, Mistral, service status, app notifications, automated alerts |\n| **LinkedIn** | @linkedin.com, LinkedIn jobs/invitations/social |\n| **Promotions** | Marketing campaigns, discount offers, newsletters |\n| **Invoices** | Emails with PDF/doc attachments that are invoices/receipts/bills; subject contains \"invoice\", \"receipt\", \"bill\", \"faktura\", or similar |\n| **Trading 212** | @trading212.com, portfolio alerts, trading notifications |\n| **Qogita (Wholesale)** | @qogita.com, B2B product offers |\n| **Google Workspace** | Google admin alerts, storage warnings, Workspace notifications |\n| **Google (Other)** | Google security alerts, account notices, non-Workspace Google emails |\n| **Apple** | @apple.com, iCloud billing, Apple ID notices |\n| **Bitstamp** | @bitstamp.net, crypto/tax notifications |\n| **Wise** | @wise.com, finance updates |\n| **GitHub** | @github.com, @noreply.github.com, notifications |\n| **Revolut** | @revolut.com, finance updates |\n| **Forums** | Community threads, forum digests, mailing lists |\n| **Calendar / Zoom / Amazon** | Calendar invites, meeting invitations, @zoom.us, @amazon.com |\n\nFor **Personal / Work** emails specifically:\n- If the email requires Luka to do something, respond, make a decision, or take any action → classify as **Actionable**\n- If the email is purely informational (FYI, confirmation, update with no action needed) → classify as **Personal / Work — Informational**\n\n### Step 3 — Process Invoices\n\nFor every email classified as **Invoices**:\n\n1. **Identify attachments** (look for `attachments` or `parts` with `filename` ending in `.pdf`, `.docx`, `.xlsx`).\n\n2. **Download each attachment**:\n   ```\n   gog gmail attachment <message-id> <attachment-id> --out /tmp/<filename> --account luka@stopar.si\n   ```\n\n3. **Check if the invoice is for MineIT d.o.o.**:\n   - Inspect the invoice content (PDF text, email body, or subject) for \"MineIT\" or \"MineIT d.o.o.\"\n   - **If MineIT invoice**: Upload to Google Drive folder `1XjBZZeHvkxJedw6SBDLhFdCwXmOjfzv7` in subfolder `yyyy-MM` based on invoice date:\n     ```\n     gog drive ls --parent 1XjBZZeHvkxJedw6SBDLhFdCwXmOjfzv7 --account luka@stopar.si --json\n     # Create subfolder if missing:\n     gog drive mkdir \"<yyyy-MM>\" --parent 1XjBZZeHvkxJedw6SBDLhFdCwXmOjfzv7 --account luka@stopar.si\n     gog drive upload /tmp/<filename> --parent <subfolder-id> --account luka@stopar.si\n     ```\n   - **If NOT MineIT**: Upload to folder `1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC` in subfolder `yyyy-MM`:\n     ```\n     gog drive ls --parent 1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC --account luka@stopar.si --json\n     # Create subfolder if missing:\n     gog drive mkdir \"<yyyy-MM>\" --parent 1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC --account luka@stopar.si\n     gog drive upload /tmp/<filename> --parent <subfolder-id> --account luka@stopar.si\n     ```\n\n4. **After uploading, archive the email**:\n   ```\n   gog gmail thread modify <thread-id> --remove INBOX --account luka@stopar.si\n   ```\n\n5. Record outcome: `uploaded`, `upload_failed`, or `no_attachment`.\n\n### Step 4 — Unsubscribe from Promotions\n\nFor every email classified as **Promotions**:\n1. Look for a `List-Unsubscribe` header or unsubscribe link in the body.\n2. If found, perform HTTP GET to the unsubscribe URL.\n3. Record outcome: `unsubscribed` or `unsubscribe_failed`.\n4. Archive the email:\n   ```\n   gog gmail thread modify <thread-id> --remove INBOX --account luka@stopar.si\n   ```\n\n### Step 5 — Process Calendar / Zoom Events\n\nFor every email classified as **Calendar / Zoom / Amazon**:\n1. Extract event details: title, date/time, location/link, organizer.\n2. Create a calendar event in Luka's primary Google calendar:\n   ```\n   gog calendar event create 'luka@stopar.si' --summary \"<title>\" --start \"<datetime>\" --end \"<datetime>\" --location \"<location>\" --account luka@stopar.si\n   ```\n3. Archive the email after creating the event:\n   ```\n   gog gmail thread modify <thread-id> --remove INBOX --account luka@stopar.si\n   ```\n4. Record outcome: `event_created` or `event_failed`.\n\n### Step 6 — Archive Automatically\n\nArchive the following categories:\n```\ngog gmail thread modify <thread-id> --remove INBOX --account luka@stopar.si\n```\n\nCategories to auto-archive:\n- **Updates & Notifications**\n- **LinkedIn**\n- **GitHub**\n- **Revolut**\n- **Trading 212**\n- **Qogita (Wholesale)**\n- **Personal / Work — Informational**\n\nDo NOT archive: **Actionable**, Google Workspace, Google (Other), Apple, Bitstamp, Wise, Forums.\n\n### Step 7 — Post Summary to Telegram\n\nUse the `message` tool to post to topic `1299` (`#comm @personal`) in chat `8403014547`:\n\n```json\n{\n  \"action\": \"send\",\n  \"to\": \"8403014547\",\n  \"message\": \"<your composed summary>\",\n  \"threadId\": \"1299\"\n}\n```\n\n**Show ALL emails processed in this run** (all were in the inbox when triage started). Use `#inbox/<thread-id>` for emails still in inbox, `#all/<thread-id>` for emails archived during this run.\n\nFormat:\n```\n📬 Gmail Triage — {date} {time CET}\n\n📊 {total} emails | 🗂 {archived} archived | 🚫 {unsubscribed} unsubscribed | 🧾 {invoices_uploaded} invoices uploaded | 📅 {events_created} events created\n\n━━━━━━━━━━━━━━━━━━━━━\n⚠️ Actionable ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• [Subject](https://mail.google.com/mail/u/0/#inbox/<thread-id>) — sender\n  ℹ️ What action is needed (1 sentence)\n\n━━━━━━━━━━━━━━━━━━━━━\n🧾 Invoices — Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• [Subject](https://mail.google.com/mail/u/0/#all/<thread-id>) — sender [uploaded: filename.pdf → MineIT/yyyy-MM or Personal/yyyy-MM]\n\n━━━━━━━━━━━━━━━━━━━━━\n📅 Calendar Events — Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• [Subject](https://mail.google.com/mail/u/0/#all/<thread-id>) — 🗓 {date/time} @ {location}\n\n━━━━━━━━━━━━━━━━━━━━━\n🚫 Promotions — Archived ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• [Subject](https://mail.google.com/mail/u/0/#all/<thread-id>) — sender [unsubscribed ✓ / unsubscribe failed]\n\n━━━━━━━━━━━━━━━━━━━━━\n🗂 Archived — {Category} ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• [Subject](https://mail.google.com/mail/u/0/#all/<thread-id>) — sender\n\n[Repeat 🗂 block for each auto-archived category: Updates & Notifications, LinkedIn, GitHub, Revolut, Trading 212, Qogita, Personal/Work Informational]\n\n━━━━━━━━━━━━━━━━━━━━━\n🔔 {Category} ({count})\n━━━━━━━━━━━━━━━━━━━━━\n• [Subject](https://mail.google.com/mail/u/0/#inbox/<thread-id>) — sender\n\n[Repeat 🔔 block for non-archived inbox categories: Google Workspace, Google (Other), Apple, Bitstamp, Wise, Forums]\n```\n\nIf nothing was processed, post:\n```\n📬 Gmail Triage — {date} {time CET}\n\n✅ Inbox clear.\n```\n\nRules:\n- **Only show emails that were in the inbox when triage started** (guaranteed by `in:inbox` search in Step 1).\n- Use `#inbox/<thread-id>` for emails still in inbox after processing.\n- Use `#all/<thread-id>` for emails archived during this run.\n- Only include categories with at least 1 email.\n- Keep subject lines truncated to 60 chars if needed.\n- If a category has more than 10 emails, show first 10 and append \"… and {N} more\".\n- Do NOT post to any other Telegram topic.\n\n### Step 8 — Memory\n\nAfter posting, store in semantic memory:\n- Run timestamp\n- Total emails processed and count per category\n- Each processed message ID as key `gmail_triage:<message-id>`\n- Unsubscribe outcomes for Promotions\n- Drive file IDs and filenames of uploaded invoices\n- Calendar events created"
+        "model": "anthropic/claude-sonnet-4-6",
+        "thinking": "off",
+        "message": "Run the Gmail triage Lobster workflow:\n\n```\nlobster run /workspace/lobster/gmail-triage.lobster\n```\n\nUse the `lobster` tool with `action=run` and `pipeline` set to the file path above. If a step fails, report the step ID and error clearly. Do not retry automatically — report the failure to Telegram topic 1299 in chat 8403014547.\n\nFor the `archive-auto` step: if individual `gog gmail thread modify` calls fail for specific threads, skip those threads and continue. Report any failures in the Telegram summary.\n\nFor **Invoices**: after the workflow completes, for each email classified as Invoices, manually:\n1. `gog gmail get <id> --account luka@stopar.si --json` to get attachments\n2. Download and upload to Google Drive (MineIT folder: `1XjBZZeHvkxJedw6SBDLhFdCwXmOjfzv7`, other invoices: `1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC`), subfolder `yyyy-MM`\n3. Archive the thread\n\nFor **Promotions**: attempt HTTP GET on List-Unsubscribe URL if present, then archive.\n\nFor **Calendar/Zoom**: extract event details and create Google Calendar event via `gog calendar event create`, then archive.\n\nFor **Actionable**: do NOT archive — leave in inbox and highlight in summary.\n\nAfter workflow, store processed message IDs in memory with key `gmail_triage:<message-id>`."
       },
       "delivery": {
         "mode": "announce",
@@ -228,10 +231,13 @@
       },
       "state": {
         "consecutiveErrors": 0,
-        "nextRunAtMs": 1772856000000,
-        "lastRunAtMs": 1772769600030,
+        "nextRunAtMs": 1772942400000,
+        "lastRunAtMs": 1772856000057,
         "lastStatus": "ok",
-        "lastDurationMs": 77513
+        "lastDurationMs": 101811,
+        "lastRunStatus": "ok",
+        "lastDelivered": true,
+        "lastDeliveryStatus": "delivered"
       }
     },
     {
@@ -241,7 +247,7 @@
       "name": "Weekly OpenClaw System Review",
       "enabled": true,
       "createdAtMs": 1772224921535,
-      "updatedAtMs": 1772244255310,
+      "updatedAtMs": 1772848982737,
       "schedule": {
         "kind": "cron",
         "expr": "0 3 * * 6",
@@ -261,11 +267,14 @@
         "to": "8403014547"
       },
       "state": {
-        "nextRunAtMs": 1772848800000,
-        "lastRunAtMs": 1772244043118,
+        "nextRunAtMs": 1773453600000,
+        "lastRunAtMs": 1772848835076,
         "lastStatus": "ok",
-        "lastDurationMs": 212192,
-        "consecutiveErrors": 0
+        "lastDurationMs": 147661,
+        "consecutiveErrors": 0,
+        "lastRunStatus": "ok",
+        "lastDelivered": true,
+        "lastDeliveryStatus": "delivered"
       }
     },
     {
@@ -309,7 +318,7 @@
       "name": "Darwin Knowledge Extraction",
       "enabled": true,
       "createdAtMs": 1772406115961,
-      "updatedAtMs": 1772845486727,
+      "updatedAtMs": 1772931708017,
       "schedule": {
         "kind": "cron",
         "expr": "0 2 * * *",
@@ -320,7 +329,8 @@
       "payload": {
         "kind": "agentTurn",
         "message": "You are Darwin, the knowledge graph curator. Run your nightly fact extraction now.\n\n## Step 1 — Load last run state\n\nRead `/workspace/last-scan.json`. It contains `lastRunAt` (ISO timestamp or null). If null, this is your first run — scan everything from the last 7 days.\n\n## Step 2 — Discover active sessions\n\nCall `sessions_list(activeMinutes=1440)` to get all sessions active in the last 24h.\n\n## Step 3 — Scan each session incrementally\n\nFor each session:\n1. Call `sessions_history(sessionKey=\"...\", limit=200)` to get recent messages\n2. **Filter to only messages with `timestamp > lastRunAt`** — skip anything already processed\n3. If no new messages, skip this session entirely\n\n## Step 4 — Extract facts from new messages\n\nRead through the new messages and identify FACTUAL statements. Only extract facts about things that **already exist or have already happened**.\n\nSKIP:\n- Plans, proposals, designs (\"we should\", \"let's build\", \"what if\", \"I want to\")\n- Greetings, small talk, filler\n- Questions without confirmed answers\n- Future intentions\n\nEXTRACT:\n- People, their roles, relationships\n- Technologies/tools confirmed to be in use\n- Decisions that were made\n- Configurations confirmed to be in place\n\n## Step 5 — Deduplicate before every insert\n\nFor each candidate fact:\n1. `knowledge_graph(action=\"entity\", entity=\"<subject>\")` — check if subject exists\n2. If subject exists, check if the exact `relation + object` is already stored in the results\n3. If YES → skip (fact already known)\n4. If NO → `knowledge_graph(action=\"add\", subject=\"...\", relation=\"...\", object=\"...\", subject_type=\"...\", object_type=\"...\")`\n\n## Step 6 — Save state\n\nWrite back `/workspace/last-scan.json`:\n```json\n{\n  \"lastRunAt\": \"<current ISO timestamp>\",\n  \"lastRunSummary\": { \"sessionsScanned\": N, \"factsAdded\": N, \"factsSkipped\": N }\n}\n```\n\nAlso write a brief log to `/workspace/memory/<YYYY-MM-DD>.md`.\n\n## Step 7 — Report\n\nSummarise: sessions scanned, facts added, facts skipped (duplicates). Keep it brief — 3-5 lines.",
-        "model": "anthropic/claude-sonnet-4-6"
+        "model": "anthropic/claude-sonnet-4-6",
+        "thinking": "off"
       },
       "delivery": {
         "mode": "announce",
@@ -328,14 +338,52 @@
         "to": "telegram:-5247564907"
       },
       "state": {
-        "nextRunAtMs": 1772931600000,
-        "lastRunAtMs": 1772845200086,
+        "nextRunAtMs": 1773018000000,
+        "lastRunAtMs": 1772931600060,
         "lastStatus": "ok",
-        "lastDurationMs": 286641,
+        "lastDurationMs": 107957,
         "consecutiveErrors": 0,
         "lastRunStatus": "ok",
         "lastDelivered": true,
         "lastDeliveryStatus": "delivered"
+      }
+    },
+    {
+      "id": "8a920194-34e2-407a-910d-f75a0f960e00",
+      "agentId": "main",
+      "sessionKey": "agent:main:telegram:group:-5247564907",
+      "name": "Disk Monitor",
+      "enabled": true,
+      "createdAtMs": 1772918740796,
+      "updatedAtMs": 1772924413903,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 */6 * * *",
+        "tz": "Europe/Ljubljana",
+        "staggerMs": 300000
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "model": "anthropic/claude-sonnet-4-6",
+        "message": "Check disk usage on the Pi. Run:\n```\ndf -h\n```\n\nFor each mounted filesystem, check the Use% column. If ANY filesystem is at **93% or above**, send a Telegram alert to chat `8403014547` using the `message` tool:\n\n```\n⚠️ Disk Alert — {hostname} {timestamp}\n\n{filesystem}: {used}/{total} ({percent}% used, {avail} free)\n\nTop space consumers:\n{du output}\n```\n\nInclude top 5 largest directories under that mount point (run `du -sh <mountpoint>/* 2>/dev/null | sort -rh | head -5`).\n\nIf NO filesystem is above 93%, reply with HEARTBEAT_OK and do not send any message.\n\nDo not post to any Telegram topic — send directly to chat `8403014547`."
+      },
+      "delivery": {
+        "mode": "announce",
+        "channel": "telegram",
+        "to": "8403014547",
+        "bestEffort": true
+      },
+      "state": {
+        "nextRunAtMs": 1772946006284,
+        "lastRunAtMs": 1772924406350,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 7553,
+        "lastDelivered": false,
+        "lastDeliveryStatus": "not-delivered",
+        "consecutiveErrors": 0
       }
     }
   ]

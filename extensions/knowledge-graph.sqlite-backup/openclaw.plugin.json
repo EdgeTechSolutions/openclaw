@@ -1,0 +1,49 @@
+{
+  "id": "knowledge-graph",
+  "name": "Knowledge Graph",
+  "version": "0.2.0",
+  "description": "Stores facts as (subject, relation, object) triples in a vector-searchable SQLite knowledge graph. Fact extraction is handled by the Darwin agent.",
+  "entry": "src/index.ts",
+  "configSchema": {
+    "type": "object",
+    "properties": {
+      "embeddingProvider": {
+        "type": "string",
+        "enum": ["gemini", "openai"],
+        "default": "gemini"
+      },
+      "embeddingApiKey": {
+        "type": "string"
+      },
+      "embeddingModel": {
+        "type": "string",
+        "default": "text-embedding-004"
+      },
+      "embeddingDimensions": {
+        "type": "number",
+        "default": 768
+      },
+      "minConfidence": {
+        "type": "number",
+        "default": 0.6
+      },
+      "dbPath": {
+        "type": "string",
+        "default": "/workspace/knowledge-graph.db"
+      }
+    },
+    "additionalProperties": false
+  },
+  "uiHints": {
+    "embeddingApiKey": {
+      "label": "Embedding API Key",
+      "sensitive": true
+    },
+    "embeddingProvider": {
+      "label": "Embedding Provider"
+    },
+    "dbPath": {
+      "label": "Database Path"
+    }
+  }
+}
