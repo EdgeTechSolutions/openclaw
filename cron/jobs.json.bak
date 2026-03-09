@@ -141,7 +141,7 @@
       "name": "Daily OpenClaw Directory Backup",
       "enabled": true,
       "createdAtMs": 1771023878360,
-      "updatedAtMs": 1772848835076,
+      "updatedAtMs": 1772935237514,
       "schedule": {
         "kind": "cron",
         "expr": "0 3 * * *",
@@ -161,10 +161,10 @@
         "bestEffort": true
       },
       "state": {
-        "nextRunAtMs": 1772935200000,
-        "lastRunAtMs": 1772848800053,
+        "nextRunAtMs": 1773021600000,
+        "lastRunAtMs": 1772935200062,
         "lastStatus": "ok",
-        "lastDurationMs": 35023,
+        "lastDurationMs": 37452,
         "consecutiveErrors": 0,
         "lastRunStatus": "ok",
         "lastDelivered": true,
@@ -177,7 +177,7 @@
       "name": "Email Triage Agent",
       "enabled": true,
       "createdAtMs": 1771190372608,
-      "updatedAtMs": 1772831285367,
+      "updatedAtMs": 1772997362256,
       "schedule": {
         "kind": "cron",
         "expr": "15 8,20 * * 1-5,0",
@@ -197,11 +197,14 @@
         "to": "8403014547"
       },
       "state": {
-        "lastRunAtMs": 1772824500051,
+        "lastRunAtMs": 1772997300026,
         "lastStatus": "ok",
-        "lastDurationMs": 55612,
+        "lastDurationMs": 62230,
         "consecutiveErrors": 0,
-        "nextRunAtMs": 1772954100000
+        "nextRunAtMs": 1773040500000,
+        "lastRunStatus": "ok",
+        "lastDelivered": false,
+        "lastDeliveryStatus": "not-delivered"
       }
     },
     {
@@ -210,7 +213,7 @@
       "name": "Nightly Personal Gmail Triage",
       "enabled": true,
       "createdAtMs": 1771618729376,
-      "updatedAtMs": 1772918688565,
+      "updatedAtMs": 1772942633599,
       "schedule": {
         "kind": "cron",
         "expr": "0 5 * * *",
@@ -231,10 +234,10 @@
       },
       "state": {
         "consecutiveErrors": 0,
-        "nextRunAtMs": 1772942400000,
-        "lastRunAtMs": 1772856000057,
+        "nextRunAtMs": 1773028800000,
+        "lastRunAtMs": 1772942400085,
         "lastStatus": "ok",
-        "lastDurationMs": 101811,
+        "lastDurationMs": 233514,
         "lastRunStatus": "ok",
         "lastDelivered": true,
         "lastDeliveryStatus": "delivered"
@@ -318,7 +321,7 @@
       "name": "Darwin Knowledge Extraction",
       "enabled": true,
       "createdAtMs": 1772406115961,
-      "updatedAtMs": 1772931708017,
+      "updatedAtMs": 1773018130206,
       "schedule": {
         "kind": "cron",
         "expr": "0 2 * * *",
@@ -338,10 +341,10 @@
         "to": "telegram:-5247564907"
       },
       "state": {
-        "nextRunAtMs": 1773018000000,
-        "lastRunAtMs": 1772931600060,
+        "nextRunAtMs": 1773104400000,
+        "lastRunAtMs": 1773018000048,
         "lastStatus": "ok",
-        "lastDurationMs": 107957,
+        "lastDurationMs": 130158,
         "consecutiveErrors": 0,
         "lastRunStatus": "ok",
         "lastDelivered": true,
@@ -355,7 +358,7 @@
       "name": "Disk Monitor",
       "enabled": true,
       "createdAtMs": 1772918740796,
-      "updatedAtMs": 1772924413903,
+      "updatedAtMs": 1773010815054,
       "schedule": {
         "kind": "cron",
         "expr": "0 */6 * * *",
@@ -376,11 +379,11 @@
         "bestEffort": true
       },
       "state": {
-        "nextRunAtMs": 1772946006284,
-        "lastRunAtMs": 1772924406350,
+        "nextRunAtMs": 1773032406284,
+        "lastRunAtMs": 1773010806315,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 7553,
+        "lastDurationMs": 8739,
         "lastDelivered": false,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0

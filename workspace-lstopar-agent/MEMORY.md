@@ -37,11 +37,7 @@
 - Credentials stored at `/workspace/.config/.jira/.credentials.yml` (login + secret)
 - Load token each session: `export JIRA_API_TOKEN=$(grep '^secret:' /workspace/.config/.jira/.credentials.yml | awk '{print $2}')`
 - No env var config needed in `openclaw.json`
-
-### **Lobster (Workflow Engine)**
-- Source zip persists at `/workspace/tmp/lobster-main.zip`
-- Needs rebuild after container restarts (extract, npm install, tsc)
-- Not yet enabled as OpenClaw tool (`tools.alsoAllow: ["lobster"]`)
+- **Base URL**: `https://edgetech-atlassian.atlassian.net` (NOT `edgetechsolutions.atlassian.net`)
 
 ### **Document Creation Policy**
 - When creating documents, **upload to OneDrive** at: `OpenClaw-created` folder

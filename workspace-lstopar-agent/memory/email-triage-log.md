@@ -270,9 +270,26 @@
 | ...Rr0S7AAA= | Re: Rezervacija mize za 1 mesec | info@kodo.place | 2026-03-05T12:17 | Actionable | left as-is (needs manual response — desk S2 available, can't reserve in advance) |
 | ...Rr0S9AAA= | poslovni dogodek | iztok.rencelj@edgetech.si | 2026-03-05T13:06 | Actionable | left as-is (LUPA project event with HPE, Apr 21-24, needs review) |
 
+## 2026-03-08 08:15 Triage Run
+
+| messageId (suffix) | subject | sender | received | classification | action |
+|---|---|---|---|---|---|
+| ...g5pJAAA= | How are we doing? | welcome@news.scaleway.com | 2026-03-08T06:45:28Z | Marketing | Archived, unsubscribed ✓ (HTTP 200) |
+| ...g5pKAAA= | Add payment details to keep your subscription | noreply@po.atlassian.net | 2026-03-08T03:52:03Z | Tool Notification | Archived (Confluence Premium payment reminder) |
+| ...g5pLAAA= | Get quick tips to make the most of your Azure free trial | azure@infoemails.microsoft.com | 2026-03-07T22:25:55Z | Marketing | Archived (no unsub link) |
+| ...g5pHAAA= | IJS AD uporabniški račun / IJS AD account | admeister@ijs.si | 2026-03-07T22:17:11Z | Informational | Archived (new IJS AD credentials) |
+| ...g5pIAAA= | Re: Predlog AI projektov za podporo odločanja | miro.budimir@edgetech.si | 2026-03-07T06:22:33Z | Informational | Archived (Miro says Tuesday is better) |
+| ...tawVAAA= | Re: Predlog AI projektov za podporo odločanja | mitja.jermol@edgetech.si | 2026-03-06T20:44:02Z | Informational | Archived (Mitja: both OK, Tue prefers 12:30) |
+
 ## 2026-03-05 20:15 Triage Run
 
 | messageId (suffix) | subject | sender | received | classification | action |
 |---|---|---|---|---|---|
 | ...Rr1o5AAA= | Industrial surface protection materials | saloymrichmonde@gmail.com | 2026-03-05T18:31 | Marketing | archived (spam, no unsub link) |
 | ...Rr0S-AAA= | Welcome to your Azure free account | azure-noreply@microsoft.com | 2026-03-05T15:42 | Informational | archived |
+
+## 2026-03-08 20:15 Triage Run
+
+| messageId (suffix) | subject | sender | received | classification | action |
+|---|---|---|---|---|---|
+| ...tawTAAA= | Re: Zanimanje za najem pisarne | david@makerspace.si | 2026-03-06T18:41:20Z | Actionable | left as-is (David says no private office available, offers coworking instead — needs Luka's decision) |
