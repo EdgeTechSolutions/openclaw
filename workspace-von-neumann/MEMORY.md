@@ -18,4 +18,9 @@
 
 ---
 
+### **Tool Permissions**
+- **Browser tool**: Always ask for permission before using the browser tool.
+
+---
+
 *This file starts empty. Build it up as you work.*

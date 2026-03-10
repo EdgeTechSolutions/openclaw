@@ -293,3 +293,43 @@
 | messageId (suffix) | subject | sender | received | classification | action |
 |---|---|---|---|---|---|
 | ...tawTAAA= | Re: Zanimanje za najem pisarne | david@makerspace.si | 2026-03-06T18:41:20Z | Actionable | left as-is (David says no private office available, offers coworking instead — needs Luka's decision) |
+
+## 2026-03-09 08:15 Triage Run
+
+| messageId (suffix) | subject | sender | received | classification | action |
+|---|---|---|---|---|---|
+| ...g8dIAAA= | Iztok Renčelj left a comment in "Company and Team V3" | iztok.rencelj@edgetech.si | 2026-03-08T23:45:19Z | Tool Notification | Archived (Iztok comments: Olympiada no longer relevant) |
+| ...g8dHAAA= | Iztok Renčelj left a comment in "Company and Team V3" | iztok.rencelj@edgetech.si | 2026-03-08T23:17:41Z | Tool Notification | Archived (Iztok comments: multiple feedback points on Company & Team pptx) |
+
+## 2026-03-09 14:17 Triage Run
+
+| messageId (suffix) | subject | sender | received | classification | action |
+|---|---|---|---|---|---|
+| 19cc354106cad42d | [book] Marčevski novičnik destinacije Kranjska Gora | book@kranjska-gora.net | 2026-03-06T14:26 | Forums | Archived |
+| 19cc33757b88f767 | SUS DVIGALA d.o.o./rač.št.:1192 | tadej.jezek@emonaplus.si | 2026-03-06T13:55 | Invoices | PDF uploaded to Drive (other invoices/2026-03/SUS_DVIGALA_1192.pdf), archived |
+| 19cbee368555b2b9 | Approaching pooled storage limit | workspace-noreply@google.com | 2026-03-05T17:45 | GoogleWorkspace | Archived |
+| 19cbe0303870c46e | Parkirišče - obrez | tadej.jezek@emonaplus.si | 2026-03-05T13:39 | Actionable | Left in inbox (starred) — Topniška property management issue |
+| 19cb49e4c979b171 | Klub AI in dvodneva konferenca AiSec 2026, 19. in 20. maj | melita.jurca@palsit.com | 2026-03-03T17:53 | Actionable | Left in inbox — AiSec 2026 conference invite, needs decision |
+| 19cb3d77d2588833 | Google Payments: Payment method updated for MineIT | payments-noreply@google.com | 2026-03-03T14:16 | Google | Already in inbox — skip (kept from prior run) |
+| 19cb3684bd7c32c2 | Security alert for luka.stopar111@gmail.com | no-reply@accounts.google.com | 2026-03-03T12:14 | Actionable | Left in inbox — security alert needs review |
+| 19caf74e967a1f98 | Your Scaleway invoice #3118898 for February 2026 | no-reply@scaleway.net | 2026-03-02T17:49 | Invoices | PDF uploaded to Drive (MineIT/2026-03/scaleway-invoice-2026-02.pdf), archived |
+| 19caf06275e3068e | [book] POSREDUJEMO: Javni razpis za okoljske znake | book@kranjska-gora.net | 2026-03-02T15:48 | Informational | Archived |
+| 19caeef72ca8d7ec | Fwd: Booking.com nagrada za oceno nastanitve 2026 | gabi@stopar.si | 2026-03-02T15:23 | Actionable | Left in inbox — Booking.com award from Gabi, needs response |
+| 19caea7ab4ae1235 | [PostAR] Prejeli ste ePismo '316-12-01135-2026-2' | noreply@postar.eu | 2026-03-02T14:05 | Informational | Intentionally kept from prior run — skipped |
+| 19cadcb97fd61942 | What's new + trending in beauty this month | newsletter@m.qogita.com | 2026-03-02T10:05 | Promotions | Unsubscribed ✓ (HTTP 200), archived |
+| 19caabfc952e7443 | Google Cloud Platform & APIs: Your invoice is available | payments-noreply@google.com | 2026-03-01T19:53 | Invoices | PDF uploaded to Drive (MineIT/2026-03/GCP_invoice_5515533882.pdf), archived |
+| 19c9e886726ed2c2 | Item shared with you: "Rojstni list_Andrej.pdf" | drive-shares-dm-noreply@google.com | 2026-02-27T10:57 | GoogleWorkspace | Archived |
+| 19c2e4c2d066017f | BlueGrid energy trading | gregor.sajovic@bluegrid.com | 2026-02-05T15:54 | Actionable | Left in inbox — energy trading proposal, needs review |
+| 19c248c9cdb8a86e | Naročilo limita zdaj tudi v mobilni banki | info@delavska-hranilnica.si | 2026-02-03T18:28 | Updates | Archived |
+| 19c09423a4c79370 | Fwd: Seznam - čipi | sandi.mrvar86@gmail.com | 2026-01-29T11:50 | Actionable | Left in inbox — building chip fobs count (295), needs follow-up |
+
+## 2026-03-09 20:15 Triage Run
+
+| messageId (suffix) | subject | sender | received | classification | action |
+|---|---|---|---|---|---|
+| ...g8dOAAA= | Re: Feedback za anonimizator | novak.erik@gmail.com | 2026-03-09T16:21:41Z | Informational | Archived (Erik confirms he'll work on PII feedback this week, report by Friday) |
+| ...g8dLAAA= | Re: Rezervacija mize za 1 mesec | info@kodo.place | 2026-03-09T10:00:31Z | Informational | Archived (Kodo sent contract for signing; Luka already replied asking to change dates to 16.3-16.4) |
+| ...g8dJAAA= | hiter sestanek | iztok.rencelj@edgetech.si | 2026-03-09T07:35:46Z | Invitation | Archived (ad-hoc Teams meeting, already past: 08:30-09:00 CET today) |
+| ...g8dKAAA= | mitja.jermol@ijs.si želi dostop do »Company and Team V3« | no-reply@sharepointonline.com | 2026-03-09T08:48:50Z | Actionable | Left as-is (Mitja requests SharePoint access to Company and Team V3 pptx — needs approve/reject) |
+| ...g5pNAAA= | Iztok Renčelj left a comment in "Company and Team V3" | iztok.rencelj@edgetech.si | 2026-03-08T23:45:19Z | Tool Notification | Already in archive (duplicate of previously processed g8dIAAA=) |
+| ...g5pOAAA= | Iztok Renčelj left a comment in "Company and Team V3" | iztok.rencelj@edgetech.si | 2026-03-08T23:17:41Z | Tool Notification | Already in archive (duplicate of previously processed g8dHAAA=) |

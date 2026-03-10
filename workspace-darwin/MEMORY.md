@@ -29,3 +29,8 @@ Darwin came online in March 2026. The knowledge graph plugin was refactored to r
 - Deduplicate: check entity before insert
 - Only store facts about existing things
 - Source tag: `"darwin"` on all inserted facts
+
+---
+
+### **Tool Permissions**
+- **Browser tool**: Always ask for permission before using the browser tool.

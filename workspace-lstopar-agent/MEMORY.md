@@ -1,3 +1,8 @@
+### **Tool Permissions**
+- **Browser tool**: Always ask for permission before using the browser tool.
+
+---
+
 ### **Telegram Topics and IDs**
 
 | **Topic Name**         | **Topic ID** | **Purpose**                                      | **Associated Cron Jobs**                          | **Allowed User ID** |

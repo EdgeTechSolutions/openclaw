@@ -41,7 +41,7 @@
       "name": "Daily Jira Task Summary",
       "enabled": true,
       "createdAtMs": 1770579310819,
-      "updatedAtMs": 1772918400276,
+      "updatedAtMs": 1773077549824,
       "schedule": {
         "kind": "cron",
         "expr": "30 18 * * 1-5",
@@ -60,11 +60,14 @@
         "to": "8403014547"
       },
       "state": {
-        "nextRunAtMs": 1773077400000,
-        "lastRunAtMs": 1772818200141,
+        "nextRunAtMs": 1773163800000,
+        "lastRunAtMs": 1773077400073,
         "lastStatus": "ok",
-        "lastDurationMs": 160978,
-        "consecutiveErrors": 0
+        "lastDurationMs": 149751,
+        "consecutiveErrors": 0,
+        "lastRunStatus": "ok",
+        "lastDelivered": true,
+        "lastDeliveryStatus": "delivered"
       }
     },
     {
@@ -141,7 +144,7 @@
       "name": "Daily OpenClaw Directory Backup",
       "enabled": true,
       "createdAtMs": 1771023878360,
-      "updatedAtMs": 1772935237514,
+      "updatedAtMs": 1773021622419,
       "schedule": {
         "kind": "cron",
         "expr": "0 3 * * *",
@@ -161,10 +164,10 @@
         "bestEffort": true
       },
       "state": {
-        "nextRunAtMs": 1773021600000,
-        "lastRunAtMs": 1772935200062,
+        "nextRunAtMs": 1773108000000,
+        "lastRunAtMs": 1773021600023,
         "lastStatus": "ok",
-        "lastDurationMs": 37452,
+        "lastDurationMs": 22396,
         "consecutiveErrors": 0,
         "lastRunStatus": "ok",
         "lastDelivered": true,
@@ -177,7 +180,7 @@
       "name": "Email Triage Agent",
       "enabled": true,
       "createdAtMs": 1771190372608,
-      "updatedAtMs": 1772997362256,
+      "updatedAtMs": 1773083872144,
       "schedule": {
         "kind": "cron",
         "expr": "15 8,20 * * 1-5,0",
@@ -197,11 +200,11 @@
         "to": "8403014547"
       },
       "state": {
-        "lastRunAtMs": 1772997300026,
+        "lastRunAtMs": 1773083700072,
         "lastStatus": "ok",
-        "lastDurationMs": 62230,
+        "lastDurationMs": 172072,
         "consecutiveErrors": 0,
-        "nextRunAtMs": 1773040500000,
+        "nextRunAtMs": 1773126900000,
         "lastRunStatus": "ok",
         "lastDelivered": false,
         "lastDeliveryStatus": "not-delivered"
@@ -213,7 +216,7 @@
       "name": "Nightly Personal Gmail Triage",
       "enabled": true,
       "createdAtMs": 1771618729376,
-      "updatedAtMs": 1772942633599,
+      "updatedAtMs": 1773062615948,
       "schedule": {
         "kind": "cron",
         "expr": "0 5 * * *",
@@ -225,7 +228,7 @@
         "kind": "agentTurn",
         "model": "anthropic/claude-sonnet-4-6",
         "thinking": "off",
-        "message": "Run the Gmail triage Lobster workflow:\n\n```\nlobster run /workspace/lobster/gmail-triage.lobster\n```\n\nUse the `lobster` tool with `action=run` and `pipeline` set to the file path above. If a step fails, report the step ID and error clearly. Do not retry automatically — report the failure to Telegram topic 1299 in chat 8403014547.\n\nFor the `archive-auto` step: if individual `gog gmail thread modify` calls fail for specific threads, skip those threads and continue. Report any failures in the Telegram summary.\n\nFor **Invoices**: after the workflow completes, for each email classified as Invoices, manually:\n1. `gog gmail get <id> --account luka@stopar.si --json` to get attachments\n2. Download and upload to Google Drive (MineIT folder: `1XjBZZeHvkxJedw6SBDLhFdCwXmOjfzv7`, other invoices: `1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC`), subfolder `yyyy-MM`\n3. Archive the thread\n\nFor **Promotions**: attempt HTTP GET on List-Unsubscribe URL if present, then archive.\n\nFor **Calendar/Zoom**: extract event details and create Google Calendar event via `gog calendar event create`, then archive.\n\nFor **Actionable**: do NOT archive — leave in inbox and highlight in summary.\n\nAfter workflow, store processed message IDs in memory with key `gmail_triage:<message-id>`."
+        "message": "### Gmail Triage Agent\n\n#### Tooling\n- **gogcli** (Google Workspace CLI): `/workspace/.npm-global/bin/gogcli`\n- Account: `luka@stopar.si`\n\n#### Step 1 — Fetch emails\n```bash\n/workspace/.npm-global/bin/gogcli gmail search 'newer_than:27h in:inbox' --max 200 --account luka@stopar.si --json\n```\nOutputs JSON with a `threads` array. If empty, post \"📬 Gmail Triage — inbox clear.\" to Telegram topic 1299 and stop.\n\n#### Step 2 — Skip already-processed\nCheck semantic memory for each `thread.id` under key `gmail_triage:<id>`. Skip threads already stored.\n\n#### Step 3 — Classify each email\nUse the `llm-task` tool to classify all unprocessed emails in a single call. Return a JSON array:\n```json\n[{\"id\": \"...\", \"threadId\": \"...\", \"subject\": \"...\", \"sender\": \"...\", \"category\": \"...\"}]\n```\nCategories (pick exactly one): `Actionable` | `Informational` | `Updates` | `LinkedIn` | `Promotions` | `Invoices` | `Trading212` | `Qogita` | `GoogleWorkspace` | `Google` | `Apple` | `Bitstamp` | `Wise` | `GitHub` | `Revolut` | `Forums` | `Calendar`\n\n#### Step 4 — Actions per category\n\n**Auto-archive** (run for each): `Updates`, `LinkedIn`, `GitHub`, `Revolut`, `Informational`, `Promotions`, `GoogleWorkspace`, `Google`, `Apple`, `Bitstamp`, `Wise`, `Forums`\n```bash\n/workspace/.npm-global/bin/gogcli gmail thread modify <threadId> --remove INBOX --account luka@stopar.si --json\n```\nIf a thread fails to archive, skip it and note the error in the summary.\n\n**Promotions** — also attempt HTTP GET on `List-Unsubscribe` header URL before archiving.\n\n**Invoices** — download PDF attachment, upload to Google Drive:\n- MineIT invoices → folder `1XjBZZeHvkxJedw6SBDLhFdCwXmOjfzv7`, subfolder `yyyy-MM`\n- Other invoices → folder `1GPfmza6HbnWlfO4TyQw16XXNWHZxK2HC`, subfolder `yyyy-MM`\n\n**Calendar/Zoom** — extract event details and create Google Calendar event via gogcli, then archive.\n\n**Actionable** — do NOT archive. Draft a reply if you have enough context (search memory + Confluence first). Leave in inbox.\n\n**Trading212** / **Qogita** — keep in inbox, do not archive.\n\n#### Step 5 — Memory\nFor each processed thread, store in memory under key `gmail_triage:<threadId>`:\n- subject, sender, category, action taken, timestamp\n\n#### Step 6 — Telegram summary\nPost to topic `1299` in chat `8403014547`:\n```json\n{\"action\": \"send\", \"to\": \"8403014547\", \"threadId\": \"1299\", \"message\": \"<summary>\"}\n```\n\nFormat — group by category, include Gmail links:\n```\n📬 Gmail Triage — {date} {time}\n📊 {total} processed | 🗂 {archived} archived | ✉️ {drafts} drafts\n\n━━━━━━━━━━━━━━━━━━━━━\n✉️ Actionable ({n})\n━━━━━━━━━━━━━━━━━━━━━\n• [Subject](https://mail.google.com/mail/u/0/#inbox/{threadId}) — 1-2 sentence summary\n\n[other categories...]\n```\n- Archived categories: use `#all/{threadId}` link\n- Inbox categories: use `#inbox/{threadId}` link\n- Only show categories with ≥1 email\n- Max 10 per category, then \"… and N more\"\n```"
       },
       "delivery": {
         "mode": "announce",
@@ -234,10 +237,10 @@
       },
       "state": {
         "consecutiveErrors": 0,
-        "nextRunAtMs": 1773028800000,
-        "lastRunAtMs": 1772942400085,
+        "nextRunAtMs": 1773115200000,
+        "lastRunAtMs": 1773062278320,
         "lastStatus": "ok",
-        "lastDurationMs": 233514,
+        "lastDurationMs": 337628,
         "lastRunStatus": "ok",
         "lastDelivered": true,
         "lastDeliveryStatus": "delivered"
@@ -321,7 +324,7 @@
       "name": "Darwin Knowledge Extraction",
       "enabled": true,
       "createdAtMs": 1772406115961,
-      "updatedAtMs": 1773018130206,
+      "updatedAtMs": 1773104552782,
       "schedule": {
         "kind": "cron",
         "expr": "0 2 * * *",
@@ -331,7 +334,7 @@
       "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
-        "message": "You are Darwin, the knowledge graph curator. Run your nightly fact extraction now.\n\n## Step 1 — Load last run state\n\nRead `/workspace/last-scan.json`. It contains `lastRunAt` (ISO timestamp or null). If null, this is your first run — scan everything from the last 7 days.\n\n## Step 2 — Discover active sessions\n\nCall `sessions_list(activeMinutes=1440)` to get all sessions active in the last 24h.\n\n## Step 3 — Scan each session incrementally\n\nFor each session:\n1. Call `sessions_history(sessionKey=\"...\", limit=200)` to get recent messages\n2. **Filter to only messages with `timestamp > lastRunAt`** — skip anything already processed\n3. If no new messages, skip this session entirely\n\n## Step 4 — Extract facts from new messages\n\nRead through the new messages and identify FACTUAL statements. Only extract facts about things that **already exist or have already happened**.\n\nSKIP:\n- Plans, proposals, designs (\"we should\", \"let's build\", \"what if\", \"I want to\")\n- Greetings, small talk, filler\n- Questions without confirmed answers\n- Future intentions\n\nEXTRACT:\n- People, their roles, relationships\n- Technologies/tools confirmed to be in use\n- Decisions that were made\n- Configurations confirmed to be in place\n\n## Step 5 — Deduplicate before every insert\n\nFor each candidate fact:\n1. `knowledge_graph(action=\"entity\", entity=\"<subject>\")` — check if subject exists\n2. If subject exists, check if the exact `relation + object` is already stored in the results\n3. If YES → skip (fact already known)\n4. If NO → `knowledge_graph(action=\"add\", subject=\"...\", relation=\"...\", object=\"...\", subject_type=\"...\", object_type=\"...\")`\n\n## Step 6 — Save state\n\nWrite back `/workspace/last-scan.json`:\n```json\n{\n  \"lastRunAt\": \"<current ISO timestamp>\",\n  \"lastRunSummary\": { \"sessionsScanned\": N, \"factsAdded\": N, \"factsSkipped\": N }\n}\n```\n\nAlso write a brief log to `/workspace/memory/<YYYY-MM-DD>.md`.\n\n## Step 7 — Report\n\nSummarise: sessions scanned, facts added, facts skipped (duplicates). Keep it brief — 3-5 lines.",
+        "message": "You are Darwin, the knowledge graph curator. Run your nightly fact extraction and curation now.\n\n---\n\n## Phase 1 — Load last run state\n\nRead `/workspace/last-scan.json`. It contains `lastRunAt` (ISO timestamp or null). If null, this is your first run — scan everything from the last 7 days.\n\n---\n\n## Phase 2 — Discover active sessions\n\nCall `sessions_list(activeMinutes=1440)` to get all sessions active in the last 24h.\n\n---\n\n## Phase 3 — Extract new facts from session history\n\nFor each session:\n1. Call `sessions_history(sessionKey=\"...\", limit=200)` to get recent messages\n2. **Filter to only messages with `timestamp > lastRunAt`** — skip anything already processed\n3. If no new messages, skip this session entirely\n4. Read through new messages and extract FACTUAL statements about things that already exist or have happened\n\nSKIP: plans/proposals (\"we should\", \"let's build\"), greetings, questions without confirmed answers, future intentions.\n\nEXTRACT: people + roles/relationships, technologies confirmed in use, decisions made, configurations confirmed in place.\n\n**Deduplicate before every insert:**\n1. `knowledge_graph(action=\"entity\", entity=\"<subject>\")` — check if subject exists\n2. If the exact `relation + object` is already stored → skip\n3. Otherwise → `knowledge_graph(action=\"add\", ...)`\n\n---\n\n## Phase 4 — Verify existing facts (Strategy #1: session cross-reference)\n\nSample up to 30 facts from the knowledge graph using `knowledge_graph(action=\"recent\", limit=30)`.\n\nFor each fact, check: does the session history actually support this? Use `memory_search` to find corroborating evidence.\n\nSpecifically:\n- For each fact, run `memory_search(query=\"<subject> <relation> <object>\", maxResults=3)`\n- If the search returns **no supporting evidence at all** (score < 0.5 on all results), flag the fact as unverified\n- If a memory result **directly contradicts** the fact (e.g. fact says A works_at X, but memory says A works_at Y), mark it for removal\n\nFor facts marked for removal: log them and remove them from the KG (use `knowledge_graph(action=\"add\")` is not suitable for deletion — note unverifiable facts in the run log for manual review instead, as the KG tool may not support deletion directly).\n\nCollect a list of unverified/contradicted facts to include in the report.\n\n---\n\n## Phase 5 — Contradiction detection (Strategy #2)\n\nFor each entity found during extraction (plus a sample of up to 20 existing entities from `knowledge_graph(action=\"recent\")`), check for internal contradictions:\n\n1. Fetch all facts for the entity: `knowledge_graph(action=\"entity\", entity=\"<name>\")`\n2. Look for conflicting relation pairs — same relation type, different objects — e.g.:\n   - Two different `works_at` values\n   - Two different `located_at` values\n   - Two different `has_role` values where only one can be true\n3. For each contradiction found:\n   - Use `memory_search` to determine which version is more recently supported\n   - Flag the older/less-supported version\n   - Log the contradiction for the report\n\nNote: if the KG tool does not support deletion, log contradictions clearly so they can be resolved manually or on next iteration.\n\n---\n\n## Phase 6 — Save state\n\nWrite back `/workspace/last-scan.json`:\n```json\n{\n  \"lastRunAt\": \"<current ISO timestamp>\",\n  \"lastRunSummary\": {\n    \"sessionsScanned\": N,\n    \"factsAdded\": N,\n    \"factsSkipped\": N,\n    \"factsUnverified\": N,\n    \"contradictionsFound\": N\n  }\n}\n```\n\nAlso write a brief log to `/workspace/memory/<YYYY-MM-DD>.md` including any flagged facts.\n\n---\n\n## Phase 7 — Report\n\nSummarise in 5–8 lines:\n- Sessions scanned, facts added, facts skipped (duplicates)\n- Facts flagged as unverified (list them briefly)\n- Contradictions detected (list entity + conflicting values)\n- Any facts removed or marked for manual review",
         "model": "anthropic/claude-sonnet-4-6",
         "thinking": "off"
       },
@@ -341,10 +344,10 @@
         "to": "telegram:-5247564907"
       },
       "state": {
-        "nextRunAtMs": 1773104400000,
-        "lastRunAtMs": 1773018000048,
+        "nextRunAtMs": 1773190800000,
+        "lastRunAtMs": 1773104400066,
         "lastStatus": "ok",
-        "lastDurationMs": 130158,
+        "lastDurationMs": 152716,
         "consecutiveErrors": 0,
         "lastRunStatus": "ok",
         "lastDelivered": true,
@@ -358,7 +361,7 @@
       "name": "Disk Monitor",
       "enabled": true,
       "createdAtMs": 1772918740796,
-      "updatedAtMs": 1773010815054,
+      "updatedAtMs": 1773097216071,
       "schedule": {
         "kind": "cron",
         "expr": "0 */6 * * *",
@@ -379,11 +382,11 @@
         "bestEffort": true
       },
       "state": {
-        "nextRunAtMs": 1773032406284,
-        "lastRunAtMs": 1773010806315,
+        "nextRunAtMs": 1773118806284,
+        "lastRunAtMs": 1773097206369,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 8739,
+        "lastDurationMs": 9702,
         "lastDelivered": false,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0
