@@ -131,6 +131,30 @@ You can delegate to specialist agents via `sessions_spawn`. Use them for tasks t
 
 **→ Homer** when producing a long-form document, formal report, or anything that would take >500 tokens to write inline.
 
+### How to get results back
+
+Sub-agents are sandboxed — no shared filesystem. Use the **`sessions_send` push pattern**:
+
+1. Get your session key: `session_status()` → `sessionKey`
+2. Pass it in the task prompt so the sub-agent knows where to reply
+3. Instruct the sub-agent to call `sessions_send(sessionKey, <full output>)` when done
+4. You receive the result as an inbound message — no polling needed
+
+```js
+const { sessionKey: mySessionKey } = session_status()
+
+sessions_spawn({
+  agentId: "galileo",  // or "von-neumann", "homer"
+  task: `<your task>
+
+When done, send your complete result back to the parent using sessions_send:
+  sessionKey: "${mySessionKey}"
+  message: <your full output — plain text or markdown, do not summarize>
+
+Do not post anywhere else.`
+})
+```
+
 ### ⚠️ sessions_spawn is always non-blocking
 
 It returns `{ status: "accepted" }` immediately. The sub-agent hasn't done anything yet. If you need the result **in your current run**, use the `sessions_send` push pattern:
