@@ -323,6 +323,14 @@
 | 19c248c9cdb8a86e | Naročilo limita zdaj tudi v mobilni banki | info@delavska-hranilnica.si | 2026-02-03T18:28 | Updates | Archived |
 | 19c09423a4c79370 | Fwd: Seznam - čipi | sandi.mrvar86@gmail.com | 2026-01-29T11:50 | Actionable | Left in inbox — building chip fobs count (295), needs follow-up |
 
+## 2026-03-10 08:15 Triage Run
+
+| messageId (suffix) | subject | sender | received | classification | action |
+|---|---|---|---|---|---|
+| ...U1q-6AAA= | [GitHub] Your personal access token (classic) is about to expire | noreply@github.com | 2026-03-09T22:29:14Z | Tool Notification | Archived (OpenClaw PAT expiring in ~8h — needs regeneration) |
+| ...U1q-5AAA= | Re: Feedback za anonimizator | ilijatavchioski@gmail.com | 2026-03-09T22:18:41Z | Informational | Archived (Ilija confirms he started working on it) |
+| ...Uzfh7AAA= | How's it going with AgentMail, Luka? | adi@agentmail.to | 2026-03-09T21:03:46Z | Marketing | Archived (product engagement email, no unsub link) |
+
 ## 2026-03-09 20:15 Triage Run
 
 | messageId (suffix) | subject | sender | received | classification | action |
@@ -333,3 +341,24 @@
 | ...g8dKAAA= | mitja.jermol@ijs.si želi dostop do »Company and Team V3« | no-reply@sharepointonline.com | 2026-03-09T08:48:50Z | Actionable | Left as-is (Mitja requests SharePoint access to Company and Team V3 pptx — needs approve/reject) |
 | ...g5pNAAA= | Iztok Renčelj left a comment in "Company and Team V3" | iztok.rencelj@edgetech.si | 2026-03-08T23:45:19Z | Tool Notification | Already in archive (duplicate of previously processed g8dIAAA=) |
 | ...g5pOAAA= | Iztok Renčelj left a comment in "Company and Team V3" | iztok.rencelj@edgetech.si | 2026-03-08T23:17:41Z | Tool Notification | Already in archive (duplicate of previously processed g8dHAAA=) |
+
+## 2026-03-10 20:15 Triage Run
+
+| messageId (suffix) | subject | sender | received | classification | action |
+|---|---|---|---|---|---|
+| ...VZuLjAAA= | Accepted: SIJ | maja.skrjanc@edgetech.si | 2026-03-10T18:58:17Z | Tool Notification | Archived (meeting acceptance from Maja) |
+| ...U11ZeAAA= | FDogodki IJS / JSI events / 10. 3. 2026 | Polona.Strnad@ijs.si | 2026-03-10T15:07:31Z | Newsletter | Archived (JSI weekly events newsletter) |
+| ...U1rAIAAA= | PANTHEON konferenca | events@proevent.si | 2026-03-10T14:56:46Z | Marketing | Archived, unsubscribed ✓ (HTTP 200) |
+| ...U1rAHAAA= | Scaleway in Italy: deploy in Milan | hello@news.scaleway.com | 2026-03-10T14:43:13Z | Marketing | Archived, unsubscribed ✓ (HTTP 200) |
+| ...U1rAGAAA= | Update: New response to your poll Edgetech bi-weekly meetings | mailer@doodle.com | 2026-03-10T14:20:03Z | Tool Notification | Archived (Mitja responded to Doodle poll) |
+| ...U11ZdAAA= | Success! Your invite for Edgetech bi-weekly meetings | mailer@doodle.com | 2026-03-10T13:57:25Z | Tool Notification | Archived (Doodle invite created confirmation) |
+| ...U1rAEAAA= | Vabilo na žalno sejo prof. dr. Borisa Frleca | Polona.Strnad@ijs.si | 2026-03-10T12:09:13Z | Informational | Archived (memorial session Thu 12.3. at 13:00, Velika predavalnica IJS) |
+| ...U1rADAAA= | Objavljen program po urah – Logistični kongres | info@logisticnikongres.si | 2026-03-10T11:35:23Z | Marketing | Archived (no unsub link found in body) |
+| ...U1q--AAA= | [AI] AI@JSI seminar series 16.3. & 18.3. | nina.omejc@ijs.si | 2026-03-10T09:42:38Z | Informational | Archived (Erik Derner Mon 16.3 13:00, Dubravko Ćulibrk Wed 18.3 13:00) |
+| ...U1q-_AAA= | Re: [AI] E3 Wednesday meetings | polona.skraba@ijs.si | 2026-03-10T09:24:39Z | Informational | Archived (Kaja Dobrovoljc presenting LLM4DH & AI4DH this Wed 11.3.) |
+| ...U1q-8AAA= | Re: Rezervacija mize za 1 mesec | info@kodo.place | 2026-03-10T07:45:58Z | Informational | Archived (Kodo sent updated invoice & contract starting 16.3.) |
+| ...U1q-7AAA= | Vabilo k pregledu poslanstva, vizije in vrednot IJS | Lidija.Zupancic@ijs.si | 2026-03-10T07:26:14Z | Informational | Archived (IJS mission/vision/values review invitation) |
+| ...U16E2AAA= | nadaljevanje AVTP | iztok.rencelj@edgetech.si | 2026-03-10T09:51:03Z | Invitation | Already in calendar (Teams meeting from Iztok) — skipped |
+| ...U16E3AAA= | SIJ | iztok.rencelj@edgetech.si | 2026-03-10T09:50:09Z | Invitation | Already in calendar (Teams meeting from Iztok) — skipped |
+| ...U11ZbAAA= | Fwd: Pošiljamo vam eRačun 82.2026 | jasna.franko@ijs.si | 2026-03-10T08:10:22Z | Informational | Already in Sent folder (Jasna asked about SLZ membership, then rejected invoice — resolved) |
+| ...U11ZcAAA= | Re: Pošiljamo vam eRačun 82.2026 | jasna.franko@ijs.si | 2026-03-10T10:57:01Z | Informational | Already in Sent folder (Jasna rejected SLZ invoice on Luka's behalf) |
