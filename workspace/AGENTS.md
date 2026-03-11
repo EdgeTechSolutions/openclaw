@@ -133,53 +133,33 @@ You can delegate to specialist agents via `sessions_spawn`. Use them for tasks t
 
 ### ⚠️ sessions_spawn is always non-blocking
 
-It returns `{ status: "accepted" }` immediately. The sub-agent hasn't done anything yet. If you need the result **in your current run**, use the `sessions_history` pattern:
+It returns `{ status: "accepted" }` immediately. The sub-agent hasn't done anything yet. If you need the result **in your current run**, use the `sessions_send` push pattern:
 
 > **Why not shared files?** Sub-agents run in sandboxed environments and cannot bind directories outside their own workspace. All data exchange must go through session messaging.
 
-**Step 1 — Spawn and instruct the agent to output its result as its final message:**
+**Step 1 — Get your own session key, then spawn the sub-agent passing it in the task:**
 ```js
-const { sessionKey } = sessions_spawn({
+const { sessionKey: mySessionKey } = session_status()
+
+sessions_spawn({
   agentId: "galileo",  // or "von-neumann", "homer"
   task: `<your task>
 
-When done, output your complete result as your final message — plain text or markdown.
-Do not summarize; include the full content.`
+When done, send your complete result back to the parent session using sessions_send:
+  sessionKey: "${mySessionKey}"
+  message: <your full output — plain text or markdown, do not summarize>
+
+Do not post anywhere else.`
 })
 ```
 
-**Step 2 — Poll until the session completes (check every 5s, max 5 minutes):**
-```js
-// Use sessions_list to check status, or poll sessions_history for a non-empty last message
-timeout 300 bash -c '
-  while true; do
-    status=$(openclaw sessions list --json | jq -r --arg k "$SESSION_KEY" '"'"'.[] | select(.sessionKey==$k) | .status'"'"')
-    [ "$status" = "idle" ] && break
-    sleep 5
-  done
-'
-```
-
-Or simply use `process(action=poll, timeout=300000)` if the spawn was backgrounded in an exec.
-
-**Step 3 — Read the result:**
-```js
-const history = sessions_history({ sessionKey, limit: 5 })
-// The last assistant message contains the output
-```
-
-**Step 4 — (Optional) Kill the session to free resources:**
-```js
-// Use sessions_send or subagents(action=kill) if supported
-```
+**Step 2 — The sub-agent pushes the result to you via `sessions_send`.** You'll receive it as an inbound message in your session automatically.
 
 ### Tips
 
-- Always include "output your full result as your final message" in the task prompt — sub-agents default to announcing completion, not dumping content
-- For large outputs (files, code, data), instruct the sub-agent to base64-encode binary content inline
-- `sessions_history` with `limit: 1` or `limit: 5` is usually enough to grab the result
+- For binary or large outputs, instruct the sub-agent to base64-encode content and send it as a message
 - Sub-agents only receive `AGENTS.md` + `TOOLS.md` — include any relevant context (user name, output format, links) directly in the task prompt
-- If the poll times out, debug with `sessions_list` and `sessions_history`
+- If nothing arrives, debug with `sessions_list` and `sessions_history`
 
 ---
 
