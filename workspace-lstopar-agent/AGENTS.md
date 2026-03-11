@@ -163,53 +163,31 @@ You have access to specialist agents you can delegate to via `sessions_spawn`. U
 
 #### ⚠️ sessions_spawn is ALWAYS non-blocking
 
-`sessions_spawn` returns `{ status: "accepted" }` immediately — the sub-agent hasn't done anything yet. If you need the result **in your current run** (to continue your analysis, post to Telegram, etc.), you must use the **shared file pattern** below. Do NOT assume the result will arrive back in your context automatically.
+`sessions_spawn` returns `{ status: "accepted" }` immediately — the sub-agent hasn't done anything yet. If you need the result **in your current run** (to continue your analysis, post to Telegram, etc.), you must use the **`sessions_send` push pattern** below. Do NOT assume the result will arrive back in your context automatically.
 
-The announce fires after the sub-agent finishes, but it arrives as a separate Telegram message in a future session — it does NOT inject back into your running context.
+> **Why not shared files?** Sub-agents run in sandboxed environments and cannot bind directories outside their own workspace. All data exchange must go through session messaging.
 
-#### Pattern: spawn + poll (use this when you need the result)
+#### Pattern: spawn + sessions_send push (use this when you need the result)
 
-**Step 1 — Clean up any stale result file first:**
-```bash
-rm -f /workspace/shared/<agent>-result.md
-```
-
-**Step 2 — Spawn the sub-agent and instruct it to write output to the shared file:**
+**Step 1 — Get your own session key, then spawn with it in the task:**
 ```js
+const { sessionKey: mySessionKey } = session_status()
+
 sessions_spawn({
   agentId: "galileo",   // or "von-neumann", "homer", "keynes"
   task: `<your task description>
 
-When finished, write your complete output to: /workspace/shared/galileo-result.md
-Do NOT post anywhere else. Just write the file.`
+When finished, send your complete result back to the parent using sessions_send:
+  sessionKey: "${mySessionKey}"
+  message: <your full output — plain text or markdown, do not summarize>
+
+Do NOT post anywhere else.`
 })
 ```
 
-**Step 3 — Poll until the file appears (3-second interval, max ~5 minutes):**
-```bash
-timeout 300 bash -c 'until [ -f /workspace/shared/galileo-result.md ]; do sleep 3; done'
-```
+**Step 2 — The sub-agent pushes the result to you via `sessions_send`.** You'll receive it as an inbound message in your session automatically — no polling needed.
 
-**Step 4 — Read the result:**
-```bash
-cat /workspace/shared/galileo-result.md
-```
-
-**Step 5 — Clean up:**
-```bash
-rm /workspace/shared/galileo-result.md
-```
-
-#### Output file naming convention
-
-| Agent | Output file |
-|---|---|
-| `galileo` | `/workspace/shared/galileo-result.md` |
-| `von-neumann` | `/workspace/shared/von-neumann-result.md` |
-| `homer` | `/workspace/shared/homer-result.md` |
-| `keynes` | `/workspace/shared/keynes-result.md` |
-
-For multiple concurrent spawns, add a suffix: `galileo-result-research1.md`, `galileo-result-research2.md`
+For multiple concurrent spawns, include a label in the task so you can identify which result is which (e.g., `"[galileo-research1] here is your result: ..."`).
 
 #### Fire-and-forget (only when you do NOT need the result inline)
 
@@ -220,14 +198,14 @@ sessions_spawn({
   agentId: "keynes",
   task: "Fetch portfolio data and post a summary to Telegram topic 701."
 })
-// Don't poll — Keynes handles delivery itself
+// No need to wait — Keynes handles delivery itself
 ```
 
 #### Tips
 
-- Always delete the result file before spawning so a stale file from a previous run doesn't fool the poll
-- `timeout 300` gives the sub-agent 5 minutes; use `timeout 600` for Galileo on deep research; use `timeout 1800` for von Neumann on heavy tasks (large file generation, multi-step code)
-- If the poll times out, check `sessions_list` for the sub-agent's status and log via `sessions_history`
+- Always include "send your full result via sessions_send" in the task prompt — sub-agents default to announcing completion, not returning content
+- For binary or large outputs, instruct the sub-agent to base64-encode content and send it as a message
+- If nothing arrives, debug with `sessions_list` and `sessions_history`
 - If the task is ambiguous, add assumptions in the task prompt rather than leaving it open
 - Sub-agents only get `AGENTS.md` + `TOOLS.md` from their workspace — they do NOT receive `SOUL.md`, `USER.md`, or `IDENTITY.md`; include relevant context in the task prompt itself
 
