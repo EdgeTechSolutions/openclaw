@@ -133,54 +133,51 @@ You can delegate to specialist agents via `sessions_spawn`. Use them for tasks t
 
 ### ⚠️ sessions_spawn is always non-blocking
 
-It returns `{ status: "accepted" }` immediately. The sub-agent hasn't done anything yet. If you need the result **in your current run**, use the shared file pattern:
+It returns `{ status: "accepted" }` immediately. The sub-agent hasn't done anything yet. If you need the result **in your current run**, use the `sessions_history` pattern:
 
-**Step 1 — Clear stale output:**
-```bash
-rm -f /home/lstopar/.openclaw/workspace-shared/<agent>-result.md
-```
+> **Why not shared files?** Sub-agents run in sandboxed environments and cannot bind directories outside their own workspace. All data exchange must go through session messaging.
 
-**Step 2 — Spawn and instruct the agent to write its output:**
+**Step 1 — Spawn and instruct the agent to output its result as its final message:**
 ```js
-sessions_spawn({
+const { sessionKey } = sessions_spawn({
   agentId: "galileo",  // or "von-neumann", "homer"
   task: `<your task>
 
-When done, write your complete output to:
-/home/lstopar/.openclaw/workspace-shared/galileo-result.md
-Do not post anywhere else.`
+When done, output your complete result as your final message — plain text or markdown.
+Do not summarize; include the full content.`
 })
 ```
 
-**Step 3 — Poll until the file appears (3-second interval, max 5 minutes):**
-```bash
-timeout 300 bash -c 'until [ -f /home/lstopar/.openclaw/workspace-shared/galileo-result.md ]; do sleep 3; done'
+**Step 2 — Poll until the session completes (check every 5s, max 5 minutes):**
+```js
+// Use sessions_list to check status, or poll sessions_history for a non-empty last message
+timeout 300 bash -c '
+  while true; do
+    status=$(openclaw sessions list --json | jq -r --arg k "$SESSION_KEY" '"'"'.[] | select(.sessionKey==$k) | .status'"'"')
+    [ "$status" = "idle" ] && break
+    sleep 5
+  done
+'
 ```
 
-**Step 4 — Read and use the result:**
-```bash
-cat /home/lstopar/.openclaw/workspace-shared/galileo-result.md
+Or simply use `process(action=poll, timeout=300000)` if the spawn was backgrounded in an exec.
+
+**Step 3 — Read the result:**
+```js
+const history = sessions_history({ sessionKey, limit: 5 })
+// The last assistant message contains the output
 ```
 
-**Step 5 — Clean up:**
-```bash
-rm /home/lstopar/.openclaw/workspace-shared/galileo-result.md
+**Step 4 — (Optional) Kill the session to free resources:**
+```js
+// Use sessions_send or subagents(action=kill) if supported
 ```
-
-### Output file paths (main agent — no Docker, uses host paths)
-
-| Agent | Output file |
-|---|---|
-| `galileo` | `/home/lstopar/.openclaw/workspace-shared/galileo-result.md` |
-| `von-neumann` | `/home/lstopar/.openclaw/workspace-shared/von-neumann-result.md` |
-| `homer` | `/home/lstopar/.openclaw/workspace-shared/homer-result.md` |
-
-> **Note:** The main agent runs without Docker sandbox (`mode: off`), so use full host paths. Sub-agents run in Docker and see the same directory at `/workspace/shared/` — instruct them to write to `/workspace/shared/<agent>-result.md`.
 
 ### Tips
 
-- Always delete the result file first — a stale file from a previous run will fool the poll
-- `timeout 300` = 5 minutes; use `timeout 600` for Galileo doing deep research
+- Always include "output your full result as your final message" in the task prompt — sub-agents default to announcing completion, not dumping content
+- For large outputs (files, code, data), instruct the sub-agent to base64-encode binary content inline
+- `sessions_history` with `limit: 1` or `limit: 5` is usually enough to grab the result
 - Sub-agents only receive `AGENTS.md` + `TOOLS.md` — include any relevant context (user name, output format, links) directly in the task prompt
 - If the poll times out, debug with `sessions_list` and `sessions_history`
 
