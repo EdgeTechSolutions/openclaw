@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document Anonymizer — Wireframe</title>
+<style>
+  /* ── Design tokens ── */
+  :root {
+    --bg:        #0B1120;
+    --surface:   #141E2F;
+    --surface-e: #1C2B42;
+    --accent:    #00B4D8;
+    --success:   #22C55E;
+    --warning:   #F59E0B;
+    --danger:    #EF4444;
+    --text-p:    #F0F4F8;
+    --text-s:    #94A3B8;
+    --border:    #1E3A5F;
+    --purple:    #A855F7;
+    --pink:      #EC4899;
+    --orange:    #F97316;
+    --radius:    10px;
+    --radius-sm: 6px;
+  }
+
+  /* ── Reset & base ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: var(--bg); color: var(--text-p); font-family: system-ui, -apple-system, sans-serif; font-size: 14px; line-height: 1.5; }
+
+  /* ── Top tab bar ── */
+  .tab-bar {
+    display: flex;
+    gap: 4px;
+    padding: 8px 16px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+  }
+  .tab-bar-label { font-size: 11px; color: var(--text-s); margin-right: 8px; text-transform: uppercase; letter-spacing: .08em; }
+  .tab-btn {
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-s);
+    cursor: pointer;
+    font-size: 13px;
+    transition: background .15s, color .15s, border-color .15s;
+  }
+  .tab-btn:hover { background: var(--surface-e); color: var(--text-p); }
+  .tab-btn.active { background: var(--accent); border-color: var(--accent); color: #0B1120; font-weight: 600; }
+
+  /* ── Screens ── */
+  .screen { display: none; height: calc(100vh - 41px); }
+  .screen.active { display: flex; flex-direction: column; }
+
+  /* ════════════════════════════════════
+     SCREEN 1 & 3 — DASHBOARD
+  ════════════════════════════════════ */
+  .dash-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 28px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .logo-wrap { display: flex; align-items: center; gap: 10px; }
+  .logo-circle {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; color: #0B1120; font-weight: 700;
+  }
+  .app-title { font-size: 16px; font-weight: 600; color: var(--text-p); }
+  .version-badge { font-size: 12px; color: var(--text-s); background: var(--surface-e); border: 1px solid var(--border); border-radius: 12px; padding: 2px 10px; }
+
+  .dash-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .dash-col {
+    padding: 24px;
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .dash-col:last-child { border-right: none; }
+
+  .col-heading {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  /* Upload zone */
+  .drop-zone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 40px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .2s, background .2s;
+    background: rgba(30,58,95,.12);
+  }
+  .drop-zone:hover { border-color: var(--accent); background: rgba(0,180,216,.06); }
+  .drop-icon { font-size: 36px; color: var(--accent); line-height: 1; }
+  .drop-label { font-size: 14px; color: var(--text-p); font-weight: 500; }
+  .drop-ext { font-size: 12px; color: var(--text-s); }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 18px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: opacity .15s, transform .1s;
+  }
+  .btn:hover { opacity: .88; }
+  .btn:active { transform: scale(.97); }
+  .btn-accent  { background: var(--accent);   color: #0B1120; }
+  .btn-success { background: var(--success);  color: #0B1120; }
+  .btn-ghost   { background: var(--surface-e); color: var(--accent); border: 1px solid var(--border); }
+  .btn-full    { width: 100%; justify-content: center; }
+
+  /* Queue section labels */
+  .section-label { font-size: 12px; color: var(--text-s); font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
+
+  /* Document row card */
+  .doc-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    background: var(--surface);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,.3);
+  }
+  .doc-row .doc-name { font-size: 13px; font-weight: 600; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .doc-row .doc-time { font-size: 11px; color: var(--text-s); white-space: nowrap; }
+
+  /* Pulse dot */
+  .pulse-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--warning);
+    flex-shrink: 0;
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(245,158,11,.6); }
+    50%       { opacity: .7; box-shadow: 0 0 0 5px rgba(245,158,11,0); }
+  }
+
+  /* Pills / badges */
+  .pill {
+    display: inline-flex; align-items: center;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .pill-type  { background: var(--surface-e); color: var(--text-s); border: 1px solid var(--border); }
+  .pill-running { background: rgba(245,158,11,.18); color: var(--warning); }
+  .pill-enqueued { background: var(--surface-e); color: var(--text-s); }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 4px 0; }
+
+  /* History rows */
+  .history-row {
+    padding: 14px;
+    background: var(--surface);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,.3);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .history-row .h-top { display: flex; align-items: center; justify-content: space-between; }
+  .history-row .h-name { font-size: 13px; font-weight: 700; }
+  .history-row .h-meta { font-size: 11px; color: var(--text-s); }
+  .history-row .h-actions { display: flex; gap: 8px; }
+
+  .search-input {
+    width: 100%;
+    padding: 9px 14px;
+    background: var(--surface-e);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-p);
+    font-size: 13px;
+    outline: none;
+    transition: border-color .2s;
+  }
+  .search-input:focus { border-color: var(--accent); }
+  .search-input::placeholder { color: var(--text-s); }
+
+  /* Progress bar */
+  .upload-progress-wrap { display: flex; flex-direction: column; gap: 8px; }
+  .upload-progress-file { font-size: 13px; font-weight: 600; color: var(--text-p); }
+  .upload-progress-meta { font-size: 12px; color: var(--text-s); }
+  .progress-bar-track {
+    height: 6px;
+    background: var(--surface-e);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 3px;
+    transition: width .3s;
+  }
+
+  /* ════════════════════════════════════
+     SCREEN 2 — COMPARISON VIEW
+  ════════════════════════════════════ */
+  #screen-compare { flex-direction: column; }
+
+  .compare-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 24px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .compare-header .ch-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-p);
+  }
+
+  .compare-body {
+    display: grid;
+    grid-template-columns: 35% 35% 30%;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .doc-pane {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .doc-pane:last-child { border-right: none; }
+
+  .pane-header {
+    padding: 10px 20px;
+    background: var(--surface-e);
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .pane-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px 20px;
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: var(--text-p);
+    background: var(--surface);
+  }
+
+  /* Entity highlight marks */
+  .ent {
+    border-radius: 3px;
+    padding: 1px 3px;
+    font-weight: 600;
+    cursor: pointer;
+    position: relative;
+    transition: filter .15s;
+  }
+  .ent:hover { filter: brightness(1.2); }
+  .ent-person   { background: rgba(245,158,11,.28); color: #fbbf24; }
+  .ent-org      { background: rgba(14,165,233,.28); color: #38bdf8; }
+  .ent-location { background: rgba(168,85,247,.28); color: #c084fc; }
+  .ent-email    { background: rgba(236,72,153,.28); color: #f472b6; }
+  .ent-phone    { background: rgba(249,115,22,.28); color: #fb923c; }
+  .ent-date     { background: rgba(34,197,94,.28);  color: #4ade80; }
+
+  .ent-anon {
+    background: rgba(0,180,216,.22);
+    color: var(--accent);
+    border-radius: 3px;
+    padding: 1px 4px;
+    font-weight: 600;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 12.5px;
+    cursor: pointer;
+    transition: background .15s;
+  }
+  .ent-anon:hover { background: rgba(0,180,216,.38); }
+
+  /* Tooltip */
+  .tooltip-wrap { position: relative; display: inline; }
+  .tooltip-wrap .tooltip {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #0B1120;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 4px 10px;
+    font-size: 11px;
+    white-space: nowrap;
+    color: var(--accent);
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    pointer-events: none;
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(0,0,0,.6);
+  }
+  .tooltip-wrap:hover .tooltip { display: block; }
+  .tooltip-wrap .tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%; left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: var(--border);
+  }
+
+  /* Entity sidebar */
+  .entity-sidebar {
+    background: var(--surface-e);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .sidebar-header {
+    padding: 14px 18px 10px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .sidebar-count { font-size: 18px; font-weight: 700; color: var(--accent); }
+  .sidebar-count-label { font-size: 12px; color: var(--text-s); }
+
+  .filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .chip {
+    padding: 4px 12px;
+    border-radius: 14px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--surface-e);
+    color: var(--text-s);
+    transition: background .15s, color .15s, border-color .15s;
+  }
+  .chip:hover { border-color: var(--accent); color: var(--text-p); }
+  .chip.active { background: var(--accent); border-color: var(--accent); color: #0B1120; font-weight: 700; }
+
+  .entity-list {
+    flex: 1;
+    overflow-y: auto;
+  }
+  .entity-list-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-left: 3px solid transparent;
+    cursor: pointer;
+    transition: background .15s, border-color .15s;
+  }
+  .entity-list-item:nth-child(even) { background: var(--surface); }
+  .entity-list-item:nth-child(odd)  { background: var(--surface-e); }
+  .entity-list-item:hover { background: rgba(0,180,216,.08); border-left-color: var(--border); }
+  .entity-list-item.selected { border-left-color: var(--accent); background: rgba(0,180,216,.1); }
+
+  .ent-orig { font-size: 13px; color: var(--text-p); flex: 1; font-weight: 500; }
+  .ent-arrow { color: var(--text-s); font-size: 12px; }
+  .ent-repl  { font-size: 12px; color: var(--text-s); font-family: 'SF Mono', 'Fira Code', monospace; }
+  .ent-type-pill {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    flex-shrink: 0;
+  }
+  .ept-person   { background: rgba(245,158,11,.2);  color: #fbbf24; }
+  .ept-org      { background: rgba(14,165,233,.2);  color: #38bdf8; }
+  .ept-location { background: rgba(168,85,247,.2);  color: #c084fc; }
+  .ept-date     { background: rgba(34,197,94,.2);   color: #4ade80; }
+  .ept-phone    { background: rgba(249,115,22,.2);  color: #fb923c; }
+  .ept-email    { background: rgba(236,72,153,.2);  color: #f472b6; }
+
+  /* scrollbar styling */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #2a4a6e; }
+
+  /* small helpers */
+  .flex-gap { display: flex; gap: 8px; align-items: center; }
+  .mt-auto { margin-top: auto; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     TOP TAB BAR
+═══════════════════════════════════════ -->
+<div class="tab-bar">
+  <span class="tab-bar-label">Screen:</span>
+  <button class="tab-btn active" onclick="showScreen('dash')">① Dashboard</button>
+  <button class="tab-btn" onclick="showScreen('compare')">② Comparison View</button>
+  <button class="tab-btn" onclick="showScreen('upload')">③ Upload in Progress</button>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SCREEN 1 — DASHBOARD
+═══════════════════════════════════════ -->
+<div class="screen active" id="screen-dash">
+
+  <!-- Header -->
+  <header class="dash-header">
+    <div class="logo-wrap">
+      <div class="logo-circle">A</div>
+      <span class="app-title">Document Anonymizer</span>
+    </div>
+    <span class="version-badge">v1.0</span>
+  </header>
+
+  <!-- Three columns -->
+  <div class="dash-body">
+
+    <!-- ── UPLOAD ── -->
+    <div class="dash-col">
+      <div class="col-heading">Upload</div>
+
+      <div class="drop-zone" onclick="showScreen('upload')">
+        <div class="drop-icon">↑</div>
+        <div class="drop-label">Drop files here or click to browse</div>
+        <div class="drop-ext">.pdf &nbsp; .txt &nbsp; .md &nbsp; .doc &nbsp; .docx</div>
+      </div>
+
+      <button class="btn btn-accent btn-full" onclick="showScreen('upload')">Browse Files</button>
+    </div>
+
+    <!-- ── QUEUE ── -->
+    <div class="dash-col">
+      <div class="col-heading">Queue</div>
+
+      <div class="section-label">Processing</div>
+
+      <!-- Running row -->
+      <div class="doc-row">
+        <div class="pulse-dot"></div>
+        <span class="doc-name">report_q1.pdf</span>
+        <span class="pill pill-type">PDF</span>
+        <span class="pill pill-running">RUNNING</span>
+        <span class="doc-time">09:14</span>
+      </div>
+
+      <hr class="divider">
+
+      <div class="section-label">Queued (2)</div>
+
+      <!-- Queued rows -->
+      <div class="doc-row">
+        <span class="doc-name">contract.docx</span>
+        <span class="pill pill-type">DOCX</span>
+        <span class="pill pill-enqueued">ENQUEUED</span>
+        <span class="doc-time">09:12</span>
+      </div>
+
+      <div class="doc-row">
+        <span class="doc-name">notes.txt</span>
+        <span class="pill pill-type">TXT</span>
+        <span class="pill pill-enqueued">ENQUEUED</span>
+        <span class="doc-time">09:10</span>
+      </div>
+    </div>
+
+    <!-- ── HISTORY ── -->
+    <div class="dash-col">
+      <div class="col-heading">History</div>
+
+      <input class="search-input" type="text" placeholder="🔍  Search by name or date...">
+
+      <!-- History row 1 -->
+      <div class="history-row">
+        <div class="h-top">
+          <span class="h-name">invoice_2025.pdf</span>
+        </div>
+        <div class="h-meta">Mar 9 2026 &nbsp;·&nbsp; 14 entities anonymized</div>
+        <div class="h-actions">
+          <button class="btn btn-success" style="font-size:12px; padding:5px 13px;">↓ Download</button>
+          <button class="btn btn-accent" style="font-size:12px; padding:5px 13px;" onclick="showScreen('compare')">⇄ Compare</button>
+        </div>
+      </div>
+
+      <!-- History row 2 -->
+      <div class="history-row">
+        <div class="h-top">
+          <span class="h-name">nda_draft.docx</span>
+        </div>
+        <div class="h-meta">Mar 8 2026 &nbsp;·&nbsp; 7 entities anonymized</div>
+        <div class="h-actions">
+          <button class="btn btn-success" style="font-size:12px; padding:5px 13px;">↓ Download</button>
+          <button class="btn btn-accent" style="font-size:12px; padding:5px 13px;" onclick="showScreen('compare')">⇄ Compare</button>
+        </div>
+      </div>
+
+      <!-- History row 3 -->
+      <div class="history-row">
+        <div class="h-top">
+          <span class="h-name">meeting_notes.txt</span>
+        </div>
+        <div class="h-meta">Mar 7 2026 &nbsp;·&nbsp; 22 entities anonymized</div>
+        <div class="h-actions">
+          <button class="btn btn-success" style="font-size:12px; padding:5px 13px;">↓ Download</button>
+          <button class="btn btn-accent" style="font-size:12px; padding:5px 13px;" onclick="showScreen('compare')">⇄ Compare</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SCREEN 2 — COMPARISON VIEW
+═══════════════════════════════════════ -->
+<div class="screen" id="screen-compare" style="position:relative;">
+
+  <!-- Header -->
+  <header class="compare-header" style="position:relative;">
+    <button class="btn btn-ghost" onclick="showScreen('dash')">← Back</button>
+    <span class="ch-center">contract.docx</span>
+    <button class="btn btn-success">↓ Download</button>
+  </header>
+
+  <!-- Three-pane body -->
+  <div class="compare-body" style="flex:1; overflow:hidden;">
+
+    <!-- LEFT — Original -->
+    <div class="doc-pane">
+      <div class="pane-header">Original Document</div>
+      <div class="pane-content" id="pane-original">
+
+        <p>SERVICE AGREEMENT</p>
+        <p style="color:var(--text-s); font-size:12px; margin-bottom:16px;">Last updated: 
+          <span class="tooltip-wrap">
+            <span class="ent ent-date" id="orig-date1">15.3.2026</span>
+            <span class="tooltip">→ DATE_001</span>
+          </span>
+        </p>
+
+        <p>This Service Agreement ("Agreement") is entered into as of 
+          <span class="tooltip-wrap">
+            <span class="ent ent-date" id="orig-date2">15.3.2026</span>
+            <span class="tooltip">→ DATE_001</span>
+          </span> 
+          by and between 
+          <span class="tooltip-wrap">
+            <span class="ent ent-org" id="orig-org1">Acme Corp</span>
+            <span class="tooltip">→ ORG_001</span>
+          </span>, 
+          a company registered under the laws of Slovenia, and 
+          <span class="tooltip-wrap">
+            <span class="ent ent-person" id="orig-person1">John Doe</span>
+            <span class="tooltip">→ PERSON_001</span>
+          </span> 
+          (hereinafter referred to as "Contractor").
+        </p>
+
+        <p style="margin-top:14px;"><strong>1. Scope of Services</strong></p>
+        <p>The Contractor agrees to provide software consulting services to 
+          <span class="tooltip-wrap">
+            <span class="ent ent-org" id="orig-org2">Acme Corp</span>
+            <span class="tooltip">→ ORG_001</span>
+          </span> 
+          at their principal office located in 
+          <span class="tooltip-wrap">
+            <span class="ent ent-location" id="orig-loc1">Ljubljana</span>
+            <span class="tooltip">→ LOCATION_001</span>
+          </span>. 
+          Services shall be rendered remotely unless otherwise agreed upon in writing.
+        </p>
+
+        <p style="margin-top:14px;"><strong>2. Contact Information</strong></p>
+        <p>Primary contact for the Contractor:
+          <br>Name: <span class="tooltip-wrap"><span class="ent ent-person" id="orig-person2">John Doe</span><span class="tooltip">→ PERSON_001</span></span>
+          <br>Email: <span class="tooltip-wrap"><span class="ent ent-email" id="orig-email1">john.doe@acme.com</span><span class="tooltip">→ EMAIL_001</span></span>
+          <br>Phone: <span class="tooltip-wrap"><span class="ent ent-phone" id="orig-phone1">+386 1 234 567</span><span class="tooltip">→ PHONE_001</span></span>
+        </p>
+
+        <p style="margin-top:14px;"><strong>3. Compensation</strong></p>
+        <p>
+          <span class="tooltip-wrap">
+            <span class="ent ent-org" id="orig-org3">Acme Corp</span>
+            <span class="tooltip">→ ORG_001</span>
+          </span> 
+          agrees to compensate 
+          <span class="tooltip-wrap">
+            <span class="ent ent-person" id="orig-person3">John Doe</span>
+            <span class="tooltip">→ PERSON_001</span>
+          </span> 
+          at a rate of €85/hour. Invoices shall be submitted monthly to 
+          <span class="tooltip-wrap">
+            <span class="ent ent-email" id="orig-email2">john.doe@acme.com</span>
+            <span class="tooltip">→ EMAIL_001</span>
+          </span>.
+        </p>
+
+        <p style="margin-top:14px;"><strong>4. Governing Law</strong></p>
+        <p>This Agreement shall be governed by the laws of the Republic of Slovenia. Any disputes shall be resolved in the courts of 
+          <span class="tooltip-wrap">
+            <span class="ent ent-location" id="orig-loc2">Ljubljana</span>
+            <span class="tooltip">→ LOCATION_001</span>
+          </span>.
+        </p>
+
+        <p style="margin-top:14px;"><strong>5. Effective Date</strong></p>
+        <p>This contract is effective as of 
+          <span class="tooltip-wrap">
+            <span class="ent ent-date" id="orig-date3">15.3.2026</span>
+            <span class="tooltip">→ DATE_001</span>
+          </span>. 
+          Both parties have executed this Agreement as of the date first written above.
+        </p>
+
+        <p style="margin-top:24px; color:var(--text-s); font-size:12px;">
+          Signed: _________________________ &nbsp; 
+          <span class="tooltip-wrap">
+            <span class="ent ent-person" id="orig-person4">John Doe</span>
+            <span class="tooltip">→ PERSON_001</span>
+          </span>
+          <br>
+          On behalf of: 
+          <span class="tooltip-wrap">
+            <span class="ent ent-org" id="orig-org4">Acme Corp</span>
+            <span class="tooltip">→ ORG_001</span>
+          </span> 
+          &nbsp; — &nbsp; 
+          <span class="tooltip-wrap">
+            <span class="ent ent-location" id="orig-loc3">Ljubljana</span>
+            <span class="tooltip">→ LOCATION_001</span>
+          </span>,
+          <span class="tooltip-wrap">
+            <span class="ent ent-date" id="orig-date4">15.3.2026</span>
+            <span class="tooltip">→ DATE_001</span>
+          </span>
+        </p>
+
+      </div>
+    </div>
+
+    <!-- MIDDLE — Anonymized -->
+    <div class="doc-pane">
+      <div class="pane-header">Anonymized Document</div>
+      <div class="pane-content" id="pane-anon">
+
+        <p>SERVICE AGREEMENT</p>
+        <p style="color:var(--text-s); font-size:12px; margin-bottom:16px;">Last updated: 
+          <span class="ent-anon" id="anon-date1">DATE_001</span>
+        </p>
+
+        <p>This Service Agreement ("Agreement") is entered into as of 
+          <span class="ent-anon" id="anon-date2">DATE_001</span>
+          by and between 
+          <span class="ent-anon" id="anon-org1">ORG_001</span>, 
+          a company registered under the laws of Slovenia, and 
+          <span class="ent-anon" id="anon-person1">PERSON_001</span>
+          (hereinafter referred to as "Contractor").
+        </p>
+
+        <p style="margin-top:14px;"><strong>1. Scope of Services</strong></p>
+        <p>The Contractor agrees to provide software consulting services to 
+          <span class="ent-anon" id="anon-org2">ORG_001</span>
+          at their principal office located in 
+          <span class="ent-anon" id="anon-loc1">LOCATION_001</span>. 
+          Services shall be rendered remotely unless otherwise agreed upon in writing.
+        </p>
+
+        <p style="margin-top:14px;"><strong>2. Contact Information</strong></p>
+        <p>Primary contact for the Contractor:
+          <br>Name: <span class="ent-anon" id="anon-person2">PERSON_001</span>
+          <br>Email: <span class="ent-anon" id="anon-email1">EMAIL_001</span>
+          <br>Phone: <span class="ent-anon" id="anon-phone1">PHONE_001</span>
+        </p>
+
+        <p style="margin-top:14px;"><strong>3. Compensation</strong></p>
+        <p>
+          <span class="ent-anon" id="anon-org3">ORG_001</span>
+          agrees to compensate 
+          <span class="ent-anon" id="anon-person3">PERSON_001</span>
+          at a rate of €85/hour. Invoices shall be submitted monthly to 
+          <span class="ent-anon" id="anon-email2">EMAIL_001</span>.
+        </p>
+
+        <p style="margin-top:14px;"><strong>4. Governing Law</strong></p>
+        <p>This Agreement shall be governed by the laws of the Republic of Slovenia. Any disputes shall be resolved in the courts of 
+          <span class="ent-anon" id="anon-loc2">LOCATION_001</span>.
+        </p>
+
+        <p style="margin-top:14px;"><strong>5. Effective Date</strong></p>
+        <p>This contract is effective as of 
+          <span class="ent-anon" id="anon-date3">DATE_001</span>. 
+          Both parties have executed this Agreement as of the date first written above.
+        </p>
+
+        <p style="margin-top:24px; color:var(--text-s); font-size:12px;">
+          Signed: _________________________ &nbsp; 
+          <span class="ent-anon" id="anon-person4">PERSON_001</span>
+          <br>
+          On behalf of: 
+          <span class="ent-anon" id="anon-org4">ORG_001</span>
+          &nbsp; — &nbsp; 
+          <span class="ent-anon" id="anon-loc3">LOCATION_001</span>,
+          <span class="ent-anon" id="anon-date4">DATE_001</span>
+        </p>
+
+      </div>
+    </div>
+
+    <!-- RIGHT — Entity Sidebar -->
+    <div class="doc-pane entity-sidebar">
+      <div class="pane-header" style="color: var(--accent); background: var(--surface-e);">Entity Summary</div>
+      <div class="sidebar-header">
+        <div class="sidebar-count">17</div>
+        <div class="sidebar-count-label">entities anonymized</div>
+      </div>
+
+      <div class="filter-chips">
+        <span class="chip active" onclick="toggleChip(this)">All</span>
+        <span class="chip" onclick="toggleChip(this)">Person</span>
+        <span class="chip" onclick="toggleChip(this)">Org</span>
+        <span class="chip" onclick="toggleChip(this)">Location</span>
+        <span class="chip" onclick="toggleChip(this)">Date</span>
+        <span class="chip" onclick="toggleChip(this)">Phone</span>
+        <span class="chip" onclick="toggleChip(this)">Email</span>
+      </div>
+
+      <div class="entity-list">
+
+        <div class="entity-list-item selected" onclick="selectEntity(this,'orig-person1','anon-person1')">
+          <span class="ent-orig">John Doe</span>
+          <span class="ent-arrow">→</span>
+          <span class="ent-repl">PERSON_001</span>
+          <span class="ent-type-pill ept-person">Person</span>
+        </div>
+
+        <div class="entity-list-item" onclick="selectEntity(this,'orig-org1','anon-org1')">
+          <span class="ent-orig">Acme Corp</span>
+          <span class="ent-arrow">→</span>
+          <span class="ent-repl">ORG_001</span>
+          <span class="ent-type-pill ept-org">Org</span>
+        </div>
+
+        <div class="entity-list-item" onclick="selectEntity(this,'orig-loc1','anon-loc1')">
+          <span class="ent-orig">Ljubljana</span>
+          <span class="ent-arrow">→</span>
+          <span class="ent-repl">LOCATION_001</span>
+          <span class="ent-type-pill ept-location">Location</span>
+        </div>
+
+        <div class="entity-list-item" onclick="selectEntity(this,'orig-email1','anon-email1')">
+          <span class="ent-orig">john.doe@acme.com</span>
+          <span class="ent-arrow">→</span>
+          <span class="ent-repl">EMAIL_001</span>
+          <span class="ent-type-pill ept-email">Email</span>
+        </div>
+
+        <div class="entity-list-item" onclick="selectEntity(this,'orig-phone1','anon-phone1')">
+          <span class="ent-orig">+386 1 234 567</span>
+          <span class="ent-arrow">→</span>
+          <span class="ent-repl">PHONE_001</span>
+          <span class="ent-type-pill ept-phone">Phone</span>
+        </div>
+
+        <div class="entity-list-item" onclick="selectEntity(this,'orig-date1','anon-date1')">
+          <span class="ent-orig">15.3.2026</span>
+          <span class="ent-arrow">→</span>
+          <span class="ent-repl">DATE_001</span>
+          <span class="ent-type-pill ept-date">Date</span>
+        </div>
+
+        <div class="entity-list-item" onclick="selectEntity(this,'orig-org2','anon-org2')">
+          <span class="ent-orig">Acme Corp <span style="color:var(--text-s);font-size:11px;">(×2)</span></span>
+          <span class="ent-arrow">→</span>
+          <span class="ent-repl">ORG_001</span>
+          <span class="ent-type-pill ept-org">Org</span>
+        </div>
+
+        <div class="entity-list-item" onclick="selectEntity(this,'orig-date2','anon-date2')">
+          <span class="ent-orig">15.3.2026 <span style="color:var(--text-s);font-size:11px;">(×3)</span></span>
+          <span class="ent-arrow">→</span>
+          <span class="ent-repl">DATE_001</span>
+          <span class="ent-type-pill ept-date">Date</span>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SCREEN 3 — UPLOAD IN PROGRESS
+═══════════════════════════════════════ -->
+<div class="screen" id="screen-upload">
+
+  <!-- Header (same as dashboard) -->
+  <header class="dash-header">
+    <div class="logo-wrap">
+      <div class="logo-circle">A</div>
+      <span class="app-title">Document Anonymizer</span>
+    </div>
+    <span class="version-badge">v1.0</span>
+  </header>
+
+  <div class="dash-body">
+
+    <!-- ── UPLOAD ── -->
+    <div class="dash-col">
+      <div class="col-heading">Upload</div>
+
+      <!-- Upload progress card -->
+      <div class="doc-row" style="flex-direction:column; align-items:flex-start; gap:10px; padding:16px;">
+        <div class="upload-progress-wrap" style="width:100%;">
+          <div class="flex-gap" style="justify-content:space-between;">
+            <span class="upload-progress-file">quarterly_report_Q1_2026.pdf</span>
+            <span style="font-size:12px; color:var(--accent); font-weight:600;">60%</span>
+          </div>
+          <div class="upload-progress-meta">Uploading… 3.2 MB / 5.4 MB</div>
+          <div class="progress-bar-track" style="margin-top:8px;">
+            <div class="progress-bar-fill" style="width:60%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="drop-zone" style="opacity:.5; pointer-events:none;">
+        <div class="drop-icon">↑</div>
+        <div class="drop-label">Drop files here or click to browse</div>
+        <div class="drop-ext">.pdf &nbsp; .txt &nbsp; .md &nbsp; .doc &nbsp; .docx</div>
+      </div>
+
+      <button class="btn btn-accent btn-full" style="opacity:.5; pointer-events:none;">Browse Files</button>
+    </div>
+
+    <!-- ── QUEUE ── -->
+    <div class="dash-col">
+      <div class="col-heading">Queue</div>
+
+      <div class="section-label">Processing</div>
+
+      <div class="doc-row">
+        <div class="pulse-dot"></div>
+        <span class="doc-name">report_q1.pdf</span>
+        <span class="pill pill-type">PDF</span>
+        <span class="pill pill-running">RUNNING</span>
+        <span class="doc-time">09:14</span>
+      </div>
+
+      <hr class="divider">
+
+      <div class="section-label">Queued (3)</div>
+
+      <div class="doc-row">
+        <span class="doc-name">quarterly_report_Q1_2026.pdf</span>
+        <span class="pill pill-type">PDF</span>
+        <span class="pill" style="background:rgba(0,180,216,.18); color:var(--accent);">UPLOADING</span>
+        <span class="doc-time">09:16</span>
+      </div>
+
+      <div class="doc-row">
+        <span class="doc-name">contract.docx</span>
+        <span class="pill pill-type">DOCX</span>
+        <span class="pill pill-enqueued">ENQUEUED</span>
+        <span class="doc-time">09:12</span>
+      </div>
+
+      <div class="doc-row">
+        <span class="doc-name">notes.txt</span>
+        <span class="pill pill-type">TXT</span>
+        <span class="pill pill-enqueued">ENQUEUED</span>
+        <span class="doc-time">09:10</span>
+      </div>
+    </div>
+
+    <!-- ── HISTORY ── -->
+    <div class="dash-col">
+      <div class="col-heading">History</div>
+
+      <input class="search-input" type="text" placeholder="🔍  Search by name or date...">
+
+      <div class="history-row">
+        <div class="h-top">
+          <span class="h-name">invoice_2025.pdf</span>
+        </div>
+        <div class="h-meta">Mar 9 2026 &nbsp;·&nbsp; 14 entities anonymized</div>
+        <div class="h-actions">
+          <button class="btn btn-success" style="font-size:12px; padding:5px 13px;">↓ Download</button>
+          <button class="btn btn-accent" style="font-size:12px; padding:5px 13px;" onclick="showScreen('compare')">⇄ Compare</button>
+        </div>
+      </div>
+
+      <div class="history-row">
+        <div class="h-top">
+          <span class="h-name">nda_draft.docx</span>
+        </div>
+        <div class="h-meta">Mar 8 2026 &nbsp;·&nbsp; 7 entities anonymized</div>
+        <div class="h-actions">
+          <button class="btn btn-success" style="font-size:12px; padding:5px 13px;">↓ Download</button>
+          <button class="btn btn-accent" style="font-size:12px; padding:5px 13px;" onclick="showScreen('compare')">⇄ Compare</button>
+        </div>
+      </div>
+
+      <div class="history-row">
+        <div class="h-top">
+          <span class="h-name">meeting_notes.txt</span>
+        </div>
+        <div class="h-meta">Mar 7 2026 &nbsp;·&nbsp; 22 entities anonymized</div>
+        <div class="h-actions">
+          <button class="btn btn-success" style="font-size:12px; padding:5px 13px;">↓ Download</button>
+          <button class="btn btn-accent" style="font-size:12px; padding:5px 13px;" onclick="showScreen('compare')">⇄ Compare</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════ -->
+<script>
+  /* ── 1. Tab / screen navigation ── */
+  function showScreen(id) {
+    const screens = { dash: 'screen-dash', compare: 'screen-compare', upload: 'screen-upload' };
+    const labels  = { dash: '① Dashboard', compare: '② Comparison View', upload: '③ Upload in Progress' };
+
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(screens[id]).classList.add('active');
+
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      b.classList.toggle('active', b.textContent.trim() === labels[id]);
+    });
+  }
+
+  /* ── 2. Scroll sync (original ↔ anonymized) ── */
+  const origPane = document.getElementById('pane-original');
+  const anonPane = document.getElementById('pane-anon');
+
+  let syncingOrig = false, syncingAnon = false;
+
+  origPane.addEventListener('scroll', () => {
+    if (syncingOrig) return;
+    syncingAnon = true;
+    anonPane.scrollTop = origPane.scrollTop;
+    setTimeout(() => syncingAnon = false, 50);
+  });
+
+  anonPane.addEventListener('scroll', () => {
+    if (syncingAnon) return;
+    syncingOrig = true;
+    origPane.scrollTop = anonPane.scrollTop;
+    setTimeout(() => syncingOrig = false, 50);
+  });
+
+  /* ── 3. Entity row click → scroll + select ── */
+  function selectEntity(rowEl, origId, anonId) {
+    // deselect all
+    document.querySelectorAll('.entity-list-item').forEach(r => r.classList.remove('selected'));
+    rowEl.classList.add('selected');
+
+    // scroll both panes to target element
+    const origEl = document.getElementById(origId);
+    const anonEl = document.getElementById(anonId);
+
+    if (origEl) {
+      origEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      // briefly highlight
+      origEl.style.outline = '2px solid var(--accent)';
+      setTimeout(() => origEl.style.outline = '', 1200);
+    }
+    if (anonEl) {
+      anonEl.style.outline = '2px solid var(--accent)';
+      setTimeout(() => anonEl.style.outline = '', 1200);
+    }
+  }
+
+  /* ── 4. Filter chip toggle ── */
+  function toggleChip(chip) {
+    // If clicking the already-active chip that is "All", do nothing
+    const chips = chip.closest('.filter-chips').querySelectorAll('.chip');
+    chips.forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+  }
+</script>
+
+</body>
+</html>

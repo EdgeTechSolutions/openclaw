@@ -57,6 +57,21 @@
 
 ---
 
+### **Wireframe Generation**
+- Always generate wireframes as a **self-contained interactive HTML file** with navigation between screens
+- No external dependencies — all CSS and JS inline
+- Dark theme matching the design system
+- Multiple screens navigable via top tab bar or sidebar
+- Reference style: ATVP/ODIN wireframes (`/workspace/tmp/atvp/`)
+- **File transfer from von Neumann:** `sessions_send` has a message size limit — base64 of large files gets truncated.
+- **Standard pattern for von Neumann file generation:**
+  1. Von Neumann creates files locally, organized under `/workspace/projects/<project-name>/` so he can find and edit them later
+  2. Von Neumann uploads to **Litterbox** (`curl -s -F "reqtype=fileupload" -F "time=24h" -F "fileToUpload=@/path/to/file" https://litterbox.catbox.moe/resources/internals/api.php`) — returns a URL
+  3. Von Neumann sends the URL back via `sessions_send`
+  4. I forward the Litterbox link to Luka — no file content in messages, no OneDrive upload needed
+
+---
+
 ### **Image/Video Generation**
 - **Always use Nano Banana Pro skill** (`/workspace/skills/nano-banana-pro/`) for generating images and video materials
 - Script: `uv run /workspace/skills/nano-banana-pro/scripts/generate_image.py`

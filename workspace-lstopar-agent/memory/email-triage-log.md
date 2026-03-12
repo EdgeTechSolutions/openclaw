@@ -362,3 +362,35 @@
 | ...U16E3AAA= | SIJ | iztok.rencelj@edgetech.si | 2026-03-10T09:50:09Z | Invitation | Already in calendar (Teams meeting from Iztok) — skipped |
 | ...U11ZbAAA= | Fwd: Pošiljamo vam eRačun 82.2026 | jasna.franko@ijs.si | 2026-03-10T08:10:22Z | Informational | Already in Sent folder (Jasna asked about SLZ membership, then rejected invoice — resolved) |
 | ...U11ZcAAA= | Re: Pošiljamo vam eRačun 82.2026 | jasna.franko@ijs.si | 2026-03-10T10:57:01Z | Informational | Already in Sent folder (Jasna rejected SLZ invoice on Luka's behalf) |
+
+## 2026-03-11 08:15 Triage Run
+
+| messageId (suffix) | subject | sender | received | classification | action |
+|---|---|---|---|---|---|
+| ...VcFPXAAA= | Update: New response to your poll SUPERVIEW Meeting in Ljubljana | mailer@doodle.com | 2026-03-11T07:11:45Z | Tool Notification | Archived (Ludovica responded to SUPERVIEW poll) |
+| ...VcFPWAAA= | Update: New response to your poll SUPERVIEW Meeting in Ljubljana | mailer@doodle.com | 2026-03-11T06:39:24Z | Tool Notification | Archived (Janez Furlan responded to SUPERVIEW poll) |
+| ...VcFPVAAA= | Update: New response to your poll Edgetech bi-weekly meetings | mailer@doodle.com | 2026-03-11T05:42:16Z | Tool Notification | Archived (Joao responded to bi-weekly poll) |
+| ...VcFPUAAA= | Re: Update predlogov za SIJ | iztok.rencelj@edgetech.si | 2026-03-11T04:54:24Z | Informational | Archived (Iztok reviewed SIJ proposals, no comments; asks Mitja for feedback by 10:00) |
+| ...VcFPTAAA= | We raised $6M to give every agent an inbox | adi@newsletter.agentmail.to | 2026-03-11T00:37:25Z | Newsletter | Archived, unsubscribed ✓ (HTTP 200) |
+| ...VcFPSAAA= | [GitHub] Your personal access token (classic) is about to expire | noreply@github.com | 2026-03-10T23:02:20Z | Tool Notification | Archived (SSHD temp PAT expiring — second notice) |
+| ...VcLggAAA= | You're now on Confluence Free plan | noreply@po.atlassian.net | 2026-03-10T22:12:29Z | Tool Notification | Archived (Confluence downgraded from Premium to Free) |
+| ...VcLgcAAA= | Success! Your invite for SUPERVIEW Meeting in Ljubljana | mailer@doodle.com | 2026-03-10T21:39:18Z | Tool Notification | Archived (Doodle poll created confirmation) |
+| ...VcFPNAAA= | Update predlogov za SIJ | maja.skrjanc@edgetech.si | 2026-03-10T21:33:18Z | Informational | Archived (Maja & Luka updated MVP proposals, asks for review) |
+| ...VcFPMAAA= | Fw: Načrtovanje vsebine za poslovni zajtrk | iztok.rencelj@edgetech.si | 2026-03-10T21:12:42Z | Actionable | Left as-is (fill in business partners in seznam vabljenih.xlsx by Thursday for HPE event Apr 23) |
+| ...VcLgnAAA= | SIJ delovni inetrni | maja.skrjanc@edgetech.si | 2026-03-10T20:31:01Z | Invitation | Archived (past Teams meeting 10 Mar 21:30-22:00) |
+| ...VcLgfAAA= | Re: SIJ | maja.skrjanc@edgetech.si | 2026-03-10T20:30:20Z | Informational | Archived (Maja asking "Ni linka?" about SIJ meeting — resolved with updated invite) |
+
+## 2026-03-11 20:15 Triage Run
+
+| messageId | subject | sender | received | classification | action |
+|---|---|---|---|---|---|
+| ...VcLgrAAA= | Send your Confluence admins some love 💙 | info@e.atlassian.com | 2026-03-11T19:11:32Z | Marketing | Archived |
+| ...VcFPiAAA= | Fw: Uporaba UI pri razvoju programske opreme | iztok.rencelj@edgetech.si | 2026-03-11T18:51:22Z | Actionable | Needs manual response |
+| ...VcLgsAAA= | Drowning in Jira issues? Rovo Dev ships the small stuff | info@e.atlassian.com | 2026-03-11T17:19:04Z | Marketing | Archived |
+| ...VcLgtAAA= | Re: Načrtovanje vsebine za poslovni zajtrk | miro.budimir@edgetech.si | 2026-03-11T16:47:58Z | Informational | Archived |
+| ...VcFPfAAA= | Skupno sodelovanje | miro.budimir@edgetech.si | 2026-03-11T13:53:15Z | Actionable | Needs manual response |
+| ...VcLgyAAA= | Brave Conversations Event – May 6, Ljubljana | tome.eftimov@ijs.si | 2026-03-11T13:29:41Z | Invitation | Archived (JSI event, May 6) |
+| ...VcLguAAA= | RE: Update predlogov za SIJ | mitja.jermol@edgetech.si | 2026-03-11T11:20:45Z | Informational | Archived |
+| ...VcLgvAAA= | Update: Doodle SUPERVIEW (Silvia Venier) | mailer@doodle.com | 2026-03-11T10:27:44Z | Tool Notification | Archived |
+| ...VcLgwAAA= | EdgeTech (meeting request from ATVP) | gregor.nastran@atvp.si | 2026-03-11T09:13:21Z | Invitation | Archived (ATVP meeting, Mar 19 13:00-14:00) |
+| ...VcLgxAAA= | Update: Doodle bi-weekly (Luis Rei) | mailer@doodle.com | 2026-03-11T09:00:42Z | Tool Notification | Archived |

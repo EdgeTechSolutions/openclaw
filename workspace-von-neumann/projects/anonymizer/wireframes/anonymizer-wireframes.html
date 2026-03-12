@@ -1,0 +1,1909 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1200, initial-scale=1.0">
+<title>Anonimizator dokumentov — Wireframes</title>
+<style>
+/* ===== CSS VARIABLES — LIGHT THEME ===== */
+:root {
+  --bg:        #F8FAFC;
+  --surface:   #FFFFFF;
+  --surface-e: #F1F5F9;
+  --accent:    #0284C7;
+  --success:   #16A34A;
+  --warning:   #D97706;
+  --danger:    #DC2626;
+  --text-p:    #0F172A;
+  --text-s:    #64748B;
+  --border:    #E2E8F0;
+  --purple:    #7C3AED;
+  --pink:      #DB2777;
+  --orange:    #EA580C;
+}
+
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text-p);
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  min-width: 1024px;
+  overflow-x: hidden;
+}
+
+/* ===== SCROLLBARS ===== */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--surface-e); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-s); }
+
+/* ===== TAB BAR ===== */
+#tab-bar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 4px;
+  height: 44px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.08);
+}
+
+#tab-bar .tab-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-s);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  margin-right: 8px;
+  white-space: nowrap;
+}
+
+.tab-btn {
+  padding: 5px 12px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-s);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  background: var(--surface-e);
+  color: var(--text-p);
+}
+
+.tab-btn.active {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+.tab-separator {
+  width: 1px;
+  height: 20px;
+  background: var(--border);
+  margin: 0 6px;
+}
+
+/* ===== SCREEN WRAPPER ===== */
+.screen {
+  display: none;
+  height: calc(100vh - 44px);
+  overflow: hidden;
+}
+
+.screen.active { display: flex; flex-direction: column; }
+
+/* ===== APP HEADER ===== */
+.app-header {
+  display: flex;
+  align-items: center;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  gap: 12px;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,.06);
+}
+
+.logo-circle {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--purple) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.app-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-p);
+  letter-spacing: -.01em;
+}
+
+.version-badge {
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: var(--surface-e);
+  color: var(--text-s);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .03em;
+  border: 1px solid var(--border);
+}
+
+/* ===== LANG SWITCHER ===== */
+.lang-switcher {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: var(--surface-e);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 3px;
+}
+
+.lang-btn {
+  padding: 3px 10px;
+  border-radius: 4px;
+  border: none;
+  background: transparent;
+  color: var(--text-s);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .15s;
+  letter-spacing: .04em;
+}
+
+.lang-btn.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ===== DASHBOARD LAYOUT ===== */
+.dashboard-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex: 1;
+  border-right: 1px solid var(--border);
+}
+
+.col:last-child { border-right: none; }
+
+.col-header {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+
+.col-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-s);
+}
+
+.col-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  background: var(--bg);
+}
+
+/* ===== UPLOAD ZONE ===== */
+.drop-zone {
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  padding: 32px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .2s;
+  background: var(--surface);
+  box-shadow: 0 1px 3px rgba(0,0,0,.06);
+}
+
+.drop-zone:hover {
+  border-color: var(--accent);
+  background: rgba(2,132,199,.04);
+}
+
+.drop-zone.disabled {
+  opacity: .5;
+  pointer-events: none;
+}
+
+.drop-zone.dragover {
+  border-color: var(--accent);
+  background: rgba(2,132,199,.06);
+}
+
+.drop-zone.error {
+  border-color: var(--danger);
+  background: rgba(220,38,38,.04);
+}
+
+.upload-icon {
+  font-size: 30px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.upload-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-p);
+  margin-bottom: 6px;
+}
+
+.upload-formats {
+  font-size: 11px;
+  color: var(--text-s);
+  margin-bottom: 16px;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all .15s;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.btn-primary:hover { background: #0369a1; }
+
+.btn-success {
+  background: var(--success);
+  color: #fff;
+  border-color: var(--success);
+}
+
+.btn-success:hover { background: #15803d; }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-s);
+  border-color: var(--border);
+}
+
+.btn-ghost:hover {
+  background: var(--surface-e);
+  color: var(--text-p);
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: #fff;
+  border-color: var(--danger);
+}
+
+/* ===== QUEUE ITEMS ===== */
+.queue-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.06);
+  transition: box-shadow .15s;
+}
+
+.queue-item:hover { box-shadow: 0 2px 8px rgba(0,0,0,.1); }
+
+.file-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.queue-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.queue-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-p);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+}
+
+.queue-meta {
+  font-size: 11px;
+  color: var(--text-s);
+}
+
+/* ===== BADGES ===== */
+.badge {
+  padding: 3px 9px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.badge-queued {
+  background: var(--surface-e);
+  color: var(--text-s);
+  border: 1px solid var(--border);
+}
+
+.badge-running {
+  background: rgba(217,119,6,.12);
+  color: var(--warning);
+  border: 1px solid rgba(217,119,6,.25);
+}
+
+.badge-finished {
+  background: rgba(22,163,74,.12);
+  color: var(--success);
+  border: 1px solid rgba(22,163,74,.25);
+}
+
+.badge-failed {
+  background: rgba(220,38,38,.12);
+  color: var(--danger);
+  border: 1px solid rgba(220,38,38,.25);
+}
+
+/* ===== PROGRESS BAR ===== */
+.progress-bar {
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width .3s;
+}
+
+.progress-fill.indeterminate {
+  width: 40%;
+  animation: progress-slide 1.4s ease-in-out infinite;
+}
+
+@keyframes progress-slide {
+  0%   { transform: translateX(-200%); }
+  100% { transform: translateX(350%); }
+}
+
+/* ===== HISTORY TABLE ===== */
+.history-search {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--text-p);
+  font-size: 13px;
+  margin-bottom: 12px;
+  outline: none;
+  transition: border-color .15s;
+  box-shadow: 0 1px 2px rgba(0,0,0,.04);
+}
+
+.history-search::placeholder { color: var(--text-s); }
+.history-search:focus { border-color: var(--accent); }
+
+.history-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.06);
+  transition: box-shadow .15s;
+}
+
+.history-item:hover { box-shadow: 0 2px 8px rgba(0,0,0,.1); }
+
+.history-info { flex: 1; min-width: 0; }
+
+.history-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-p);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.history-meta {
+  font-size: 11px;
+  color: var(--text-s);
+  margin-top: 2px;
+}
+
+.history-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* ===== EMPTY STATE ===== */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+  color: var(--text-s);
+}
+
+.empty-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+  opacity: .5;
+}
+
+.empty-text {
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* ===== UPLOAD PROGRESS ===== */
+.upload-progress-bar {
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 12px 0 8px;
+}
+
+.upload-progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 3px;
+  width: 65%;
+  animation: pulse-width 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-width {
+  0%   { opacity: .75; }
+  100% { opacity: 1; }
+}
+
+/* ===== ENTITY HIGHLIGHTS ===== */
+.hl {
+  display: inline;
+  border-radius: 3px;
+  padding: 1px 2px;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+  cursor: pointer;
+  position: relative;
+  font-weight: 500;
+  transition: opacity .15s;
+}
+
+.hl:hover { opacity: .85; }
+
+.hl.person   { background: rgba(245,158,11,.2);  color: #92400E; border-bottom-color: #F59E0B; }
+.hl.org      { background: rgba(2,132,199,.15);  color: #075985; border-bottom-color: #0284C7; }
+.hl.location { background: rgba(124,58,237,.15); color: #5B21B6; border-bottom-color: #7C3AED; }
+.hl.date     { background: rgba(22,163,74,.15);  color: #166534; border-bottom-color: #16A34A; }
+.hl.phone    { background: rgba(234,88,12,.15);  color: #9A3412; border-bottom-color: #EA580C; }
+.hl.email    { background: rgba(219,39,119,.15); color: #9D174D; border-bottom-color: #DB2777; }
+.hl.anon     { background: rgba(2,132,199,.12);  color: #0284C7; font-family: monospace; border-bottom-color: transparent; }
+
+.hl.flash {
+  animation: flash-hl .6s ease-out;
+}
+
+@keyframes flash-hl {
+  0%   { background: rgba(2,132,199,.5); }
+  100% { background: inherit; }
+}
+
+/* ===== TOOLTIP ===== */
+.tooltip {
+  position: fixed;
+  background: var(--text-p);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  pointer-events: none;
+  z-index: 9999;
+  white-space: nowrap;
+  letter-spacing: .04em;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25);
+  display: none;
+}
+
+/* ===== COMPARISON VIEW ===== */
+.compare-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.doc-pane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-right: 1px solid var(--border);
+}
+
+.doc-pane:last-child { border-right: none; }
+
+.pane-header {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pane-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--text-s);
+}
+
+.pane-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+  background: var(--bg);
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text-p);
+}
+
+/* ===== ENTITY SIDEBAR ===== */
+.entity-sidebar {
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+
+.sidebar-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--text-s);
+  margin-bottom: 10px;
+}
+
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.chip {
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--surface-e);
+  color: var(--text-s);
+  transition: all .15s;
+  letter-spacing: .03em;
+}
+
+.chip.active {
+  color: #fff;
+  border-color: transparent;
+}
+
+.chip[data-type="all"].active         { background: var(--text-p); }
+.chip[data-type="PERSON"].active      { background: #D97706; }
+.chip[data-type="ORG"].active         { background: var(--accent); }
+.chip[data-type="LOCATION"].active    { background: var(--purple); }
+.chip[data-type="DATE"].active        { background: var(--success); }
+.chip[data-type="PHONE"].active       { background: var(--orange); }
+.chip[data-type="EMAIL"].active       { background: var(--pink); }
+
+.entity-count {
+  font-size: 11px;
+  color: var(--text-s);
+  margin-top: 10px;
+  padding-bottom: 4px;
+}
+
+.entity-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 12px;
+}
+
+.entity-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background .12s;
+  margin-bottom: 2px;
+}
+
+.entity-row:hover { background: var(--surface-e); }
+.entity-row.selected { background: rgba(2,132,199,.1); }
+
+.entity-type-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.entity-row-text {
+  flex: 1;
+  font-size: 12px;
+  color: var(--text-p);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.entity-row-type {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  color: var(--text-s);
+  flex-shrink: 0;
+}
+
+/* ===== PULSE ANIMATION ===== */
+@keyframes pulse-badge {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: .5; }
+}
+
+.pulse { animation: pulse-badge 1.2s ease-in-out infinite; }
+
+/* ===== ERROR STATE ===== */
+.error-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: rgba(220,38,38,.08);
+  border: 1px solid rgba(220,38,38,.2);
+  color: var(--danger);
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+/* ===== BACK BUTTON ===== */
+.compare-header {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  gap: 12px;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,.06);
+}
+
+.compare-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-p);
+}
+
+/* ===== MISC ===== */
+.spacer { flex: 1; }
+
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 10px 0;
+}
+
+.text-success { color: var(--success); }
+.text-danger  { color: var(--danger); }
+.text-warning { color: var(--warning); }
+.text-accent  { color: var(--accent); }
+
+.fw-bold { font-weight: 700; }
+.fs-xs   { font-size: 11px; }
+.mt-2    { margin-top: 8px; }
+
+.retry-btn {
+  padding: 3px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(220,38,38,.3);
+  background: rgba(220,38,38,.08);
+  color: var(--danger);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .15s;
+}
+
+.retry-btn:hover { background: rgba(220,38,38,.15); }
+
+</style>
+</head>
+<body>
+
+<!-- ===== TAB BAR ===== -->
+<div id="tab-bar">
+  <span class="tab-label">Screens:</span>
+  <button class="tab-btn active" onclick="showScreen(1)">1 · Empty</button>
+  <button class="tab-btn" onclick="showScreen(2)">2 · Active</button>
+  <button class="tab-btn" onclick="showScreen(3)">3 · Uploading</button>
+  <button class="tab-btn" onclick="showScreen(4)">4 · Upload Error</button>
+  <button class="tab-btn" onclick="showScreen(5)">5 · Failed Doc</button>
+  <div class="tab-separator"></div>
+  <button class="tab-btn" onclick="showScreen(6)">6 · Compare</button>
+  <button class="tab-btn" onclick="showScreen(7)">7 · Entity Filter</button>
+</div>
+
+<!-- ===== TOOLTIP ===== -->
+<div id="tooltip" class="tooltip"></div>
+
+<!-- ======================================================
+     SCREEN 1 — Dashboard Empty State
+     ====================================================== -->
+<div class="screen active" id="screen-1">
+
+  <!-- Header -->
+  <div class="app-header">
+    <div class="logo-circle">🔒</div>
+    <span class="app-title" data-i18n="appTitle">Anonimizator dokumentov</span>
+    <span class="version-badge">v0.1</span>
+    <div class="spacer"></div>
+    <div class="lang-switcher">
+      <button class="lang-btn active" id="lang-sl-1" onclick="setLanguage('sl',1)">SL</button>
+      <button class="lang-btn" id="lang-en-1" onclick="setLanguage('en',1)">EN</button>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="dashboard-body">
+
+    <!-- Col 1: Upload -->
+    <div class="col" style="max-width:340px; min-width:280px;">
+      <div class="col-header">
+        <div class="col-title" data-i18n="upload">Nalaganje</div>
+      </div>
+      <div class="col-body">
+        <div class="drop-zone">
+          <span class="upload-icon">📂</span>
+          <div class="upload-text" data-i18n="uploadDrop">Povlecite datoteke sem ali kliknite za izbiro</div>
+          <div class="upload-formats" data-i18n="uploadFormats">Podprte oblike: .pdf, .txt, .md, .doc, .docx</div>
+          <button class="btn btn-primary">
+            <span>⬆</span>
+            <span data-i18n="uploadBrowse">Izberi datoteke</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Col 2: Queue -->
+    <div class="col" style="max-width:320px; min-width:240px;">
+      <div class="col-header">
+        <div class="col-title" data-i18n="queue">Čakalna vrsta</div>
+      </div>
+      <div class="col-body">
+        <div class="empty-state">
+          <div class="empty-icon">📭</div>
+          <div class="empty-text" data-i18n="queueEmpty">Ni dokumentov v čakanju</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Col 3: History -->
+    <div class="col">
+      <div class="col-header">
+        <div class="col-title" data-i18n="history">Zgodovina</div>
+      </div>
+      <div class="col-body">
+        <input type="text" class="history-search" data-i18n-placeholder="historySearch" placeholder="Iskanje po imenu ali datumu…">
+        <div class="empty-state">
+          <div class="empty-icon">📋</div>
+          <div class="empty-text" data-i18n="historyEmpty">Še ni anonimiziranih dokumentov</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ======================================================
+     SCREEN 2 — Dashboard Active
+     ====================================================== -->
+<div class="screen" id="screen-2">
+
+  <div class="app-header">
+    <div class="logo-circle">🔒</div>
+    <span class="app-title" data-i18n="appTitle">Anonimizator dokumentov</span>
+    <span class="version-badge">v0.1</span>
+    <div class="spacer"></div>
+    <div class="lang-switcher">
+      <button class="lang-btn active" id="lang-sl-2" onclick="setLanguage('sl',2)">SL</button>
+      <button class="lang-btn" id="lang-en-2" onclick="setLanguage('en',2)">EN</button>
+    </div>
+  </div>
+
+  <div class="dashboard-body">
+
+    <!-- Upload col -->
+    <div class="col" style="max-width:340px; min-width:280px;">
+      <div class="col-header">
+        <div class="col-title" data-i18n="upload">Nalaganje</div>
+      </div>
+      <div class="col-body">
+        <div class="drop-zone">
+          <span class="upload-icon">📂</span>
+          <div class="upload-text" data-i18n="uploadDrop">Povlecite datoteke sem ali kliknite za izbiro</div>
+          <div class="upload-formats" data-i18n="uploadFormats">Podprte oblike: .pdf, .txt, .md, .doc, .docx</div>
+          <button class="btn btn-primary">
+            <span>⬆</span>
+            <span data-i18n="uploadBrowse">Izberi datoteke</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Queue col -->
+    <div class="col" style="max-width:320px; min-width:240px;">
+      <div class="col-header">
+        <div class="col-title" data-i18n="queue">Čakalna vrsta</div>
+      </div>
+      <div class="col-body">
+
+        <!-- Running item -->
+        <div class="queue-item">
+          <div class="file-icon">📄</div>
+          <div class="queue-info">
+            <div class="queue-name">pogodba_nov_2024.pdf</div>
+            <div class="queue-meta" data-i18n="processing">V obdelavi</div>
+            <div class="progress-bar">
+              <div class="progress-fill indeterminate"></div>
+            </div>
+          </div>
+          <span class="badge badge-running pulse" data-i18n="running">V OBDELAVI</span>
+        </div>
+
+        <!-- Queued items -->
+        <div class="queue-item">
+          <div class="file-icon">📝</div>
+          <div class="queue-info">
+            <div class="queue-name">zapisnik_sestanka.docx</div>
+            <div class="queue-meta" data-i18n="queued">V čakanju</div>
+          </div>
+          <span class="badge badge-queued" data-i18n="enqueued">V ČAKANJU</span>
+        </div>
+
+        <div class="queue-item">
+          <div class="file-icon">📃</div>
+          <div class="queue-info">
+            <div class="queue-name">letno_porocilo.txt</div>
+            <div class="queue-meta" data-i18n="queued">V čakanju</div>
+          </div>
+          <span class="badge badge-queued" data-i18n="enqueued">V ČAKANJU</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- History col -->
+    <div class="col">
+      <div class="col-header">
+        <div class="col-title" data-i18n="history">Zgodovina</div>
+      </div>
+      <div class="col-body">
+        <input type="text" class="history-search" id="history-search-2" oninput="filterHistory(this, 2)" data-i18n-placeholder="historySearch" placeholder="Iskanje po imenu ali datumu…">
+
+        <div class="history-item" data-history-name="racun_jan_2024.pdf">
+          <div class="file-icon">📄</div>
+          <div class="history-info">
+            <div class="history-name">racun_jan_2024.pdf</div>
+            <div class="history-meta">8. jan 2024 · <span class="text-success fw-bold">24</span> <span data-i18n="entitiesAnon">entitet anonimizirano</span></div>
+          </div>
+          <div class="history-actions">
+            <button class="btn btn-success" style="font-size:11px;padding:5px 11px;" onclick="showScreen(6)" data-i18n="compare">Primerjaj</button>
+            <button class="btn btn-ghost" style="font-size:11px;padding:5px 11px;" data-i18n="download">Prenesi</button>
+          </div>
+        </div>
+
+        <div class="history-item" data-history-name="pogodba_sept_2023.docx">
+          <div class="file-icon">📝</div>
+          <div class="history-info">
+            <div class="history-name">pogodba_sept_2023.docx</div>
+            <div class="history-meta">15. sep 2023 · <span class="text-success fw-bold">37</span> <span data-i18n="entitiesAnon">entitet anonimizirano</span></div>
+          </div>
+          <div class="history-actions">
+            <button class="btn btn-success" style="font-size:11px;padding:5px 11px;" onclick="showScreen(6)" data-i18n="compare">Primerjaj</button>
+            <button class="btn btn-ghost" style="font-size:11px;padding:5px 11px;" data-i18n="download">Prenesi</button>
+          </div>
+        </div>
+
+        <div class="history-item" data-history-name="porocilo_Q3.txt">
+          <div class="file-icon">📃</div>
+          <div class="history-info">
+            <div class="history-name">porocilo_Q3.txt</div>
+            <div class="history-meta">2. okt 2023 · <span class="text-success fw-bold">12</span> <span data-i18n="entitiesAnon">entitet anonimizirano</span></div>
+          </div>
+          <div class="history-actions">
+            <button class="btn btn-success" style="font-size:11px;padding:5px 11px;" onclick="showScreen(6)" data-i18n="compare">Primerjaj</button>
+            <button class="btn btn-ghost" style="font-size:11px;padding:5px 11px;" data-i18n="download">Prenesi</button>
+          </div>
+        </div>
+
+        <div class="history-item" data-history-name="kadrovska_evidenca.pdf">
+          <div class="file-icon">📄</div>
+          <div class="history-info">
+            <div class="history-name">kadrovska_evidenca.pdf</div>
+            <div class="history-meta">20. avg 2023 · <span class="text-success fw-bold">58</span> <span data-i18n="entitiesAnon">entitet anonimizirano</span></div>
+          </div>
+          <div class="history-actions">
+            <button class="btn btn-success" style="font-size:11px;padding:5px 11px;" onclick="showScreen(6)" data-i18n="compare">Primerjaj</button>
+            <button class="btn btn-ghost" style="font-size:11px;padding:5px 11px;" data-i18n="download">Prenesi</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ======================================================
+     SCREEN 3 — Upload In Progress
+     ====================================================== -->
+<div class="screen" id="screen-3">
+
+  <div class="app-header">
+    <div class="logo-circle">🔒</div>
+    <span class="app-title" data-i18n="appTitle">Anonimizator dokumentov</span>
+    <span class="version-badge">v0.1</span>
+    <div class="spacer"></div>
+    <div class="lang-switcher">
+      <button class="lang-btn active" id="lang-sl-3" onclick="setLanguage('sl',3)">SL</button>
+      <button class="lang-btn" id="lang-en-3" onclick="setLanguage('en',3)">EN</button>
+    </div>
+  </div>
+
+  <div class="dashboard-body">
+
+    <!-- Upload col -->
+    <div class="col" style="max-width:340px; min-width:280px;">
+      <div class="col-header">
+        <div class="col-title" data-i18n="upload">Nalaganje</div>
+      </div>
+      <div class="col-body">
+        <div class="drop-zone disabled">
+          <span class="upload-icon">⬆️</span>
+          <div class="upload-text" data-i18n="uploading">Nalaganje…</div>
+          <div class="upload-progress-bar" style="margin:12px 0 0;">
+            <div class="upload-progress-fill"></div>
+          </div>
+          <div class="upload-formats" style="margin-top:8px;">65%</div>
+          <div style="font-size:11px; color:var(--text-s); margin-top:4px;">nova_pogodba.pdf · 1.4 MB</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Queue col -->
+    <div class="col" style="max-width:320px; min-width:240px;">
+      <div class="col-header">
+        <div class="col-title" data-i18n="queue">Čakalna vrsta</div>
+      </div>
+      <div class="col-body">
+        <div class="queue-item">
+          <div class="file-icon">📄</div>
+          <div class="queue-info">
+            <div class="queue-name">pogodba_nov_2024.pdf</div>
+            <div class="queue-meta" data-i18n="processing">V obdelavi</div>
+            <div class="progress-bar">
+              <div class="progress-fill indeterminate"></div>
+            </div>
+          </div>
+          <span class="badge badge-running pulse" data-i18n="running">V OBDELAVI</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- History col -->
+    <div class="col">
+      <div class="col-header">
+        <div class="col-title" data-i18n="history">Zgodovina</div>
+      </div>
+      <div class="col-body">
+        <input type="text" class="history-search" data-i18n-placeholder="historySearch" placeholder="Iskanje po imenu ali datumu…">
+        <div class="history-item">
+          <div class="file-icon">📄</div>
+          <div class="history-info">
+            <div class="history-name">racun_jan_2024.pdf</div>
+            <div class="history-meta">8. jan 2024 · <span class="text-success fw-bold">24</span> <span data-i18n="entitiesAnon">entitet anonimizirano</span></div>
+          </div>
+          <div class="history-actions">
+            <button class="btn btn-success" style="font-size:11px;padding:5px 11px;" onclick="showScreen(6)" data-i18n="compare">Primerjaj</button>
+            <button class="btn btn-ghost" style="font-size:11px;padding:5px 11px;" data-i18n="download">Prenesi</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ======================================================
+     SCREEN 4 — Upload Error
+     ====================================================== -->
+<div class="screen" id="screen-4">
+
+  <div class="app-header">
+    <div class="logo-circle">🔒</div>
+    <span class="app-title" data-i18n="appTitle">Anonimizator dokumentov</span>
+    <span class="version-badge">v0.1</span>
+    <div class="spacer"></div>
+    <div class="lang-switcher">
+      <button class="lang-btn active" id="lang-sl-4" onclick="setLanguage('sl',4)">SL</button>
+      <button class="lang-btn" id="lang-en-4" onclick="setLanguage('en',4)">EN</button>
+    </div>
+  </div>
+
+  <div class="dashboard-body">
+
+    <!-- Upload col -->
+    <div class="col" style="max-width:340px; min-width:280px;">
+      <div class="col-header">
+        <div class="col-title" data-i18n="upload">Nalaganje</div>
+      </div>
+      <div class="col-body">
+        <div class="drop-zone error">
+          <span class="upload-icon">⚠️</span>
+          <div class="upload-text" style="color:var(--danger);" data-i18n="uploadUnsupported">Nepodprta oblika. Podprte: PDF, TXT, MD, DOC, DOCX</div>
+          <div class="upload-formats" data-i18n="uploadFormats">Podprte oblike: .pdf, .txt, .md, .doc, .docx</div>
+          <button class="btn btn-primary">
+            <span>⬆</span>
+            <span data-i18n="uploadBrowse">Izberi datoteke</span>
+          </button>
+        </div>
+        <div class="error-banner" style="margin-top:12px;">
+          <span>⛔</span>
+          <span>slika.jpg — <span data-i18n="uploadUnsupported">Nepodprta oblika</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Queue col -->
+    <div class="col" style="max-width:320px; min-width:240px;">
+      <div class="col-header">
+        <div class="col-title" data-i18n="queue">Čakalna vrsta</div>
+      </div>
+      <div class="col-body">
+        <div class="empty-state">
+          <div class="empty-icon">📭</div>
+          <div class="empty-text" data-i18n="queueEmpty">Ni dokumentov v čakanju</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- History col -->
+    <div class="col">
+      <div class="col-header">
+        <div class="col-title" data-i18n="history">Zgodovina</div>
+      </div>
+      <div class="col-body">
+        <input type="text" class="history-search" data-i18n-placeholder="historySearch" placeholder="Iskanje po imenu ali datumu…">
+        <div class="history-item">
+          <div class="file-icon">📄</div>
+          <div class="history-info">
+            <div class="history-name">racun_jan_2024.pdf</div>
+            <div class="history-meta">8. jan 2024 · <span class="text-success fw-bold">24</span> <span data-i18n="entitiesAnon">entitet anonimizirano</span></div>
+          </div>
+          <div class="history-actions">
+            <button class="btn btn-success" style="font-size:11px;padding:5px 11px;" onclick="showScreen(6)" data-i18n="compare">Primerjaj</button>
+            <button class="btn btn-ghost" style="font-size:11px;padding:5px 11px;" data-i18n="download">Prenesi</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ======================================================
+     SCREEN 5 — Failed Document
+     ====================================================== -->
+<div class="screen" id="screen-5">
+
+  <div class="app-header">
+    <div class="logo-circle">🔒</div>
+    <span class="app-title" data-i18n="appTitle">Anonimizator dokumentov</span>
+    <span class="version-badge">v0.1</span>
+    <div class="spacer"></div>
+    <div class="lang-switcher">
+      <button class="lang.btn active" id="lang-sl-5" onclick="setLanguage('sl',5)">SL</button>
+      <button class="lang-btn" id="lang-en-5" onclick="setLanguage('en',5)">EN</button>
+    </div>
+  </div>
+
+  <div class="dashboard-body">
+
+    <!-- Upload col -->
+    <div class="col" style="max-width:340px; min-width:280px;">
+      <div class="col-header">
+        <div class="col-title" data-i18n="upload">Nalaganje</div>
+      </div>
+      <div class="col-body">
+        <div class="drop-zone">
+          <span class="upload-icon">📂</span>
+          <div class="upload-text" data-i18n="uploadDrop">Povlecite datoteke sem ali kliknite za izbiro</div>
+          <div class="upload-formats" data-i18n="uploadFormats">Podprte oblike: .pdf, .txt, .md, .doc, .docx</div>
+          <button class="btn btn-primary">
+            <span>⬆</span>
+            <span data-i18n="uploadBrowse">Izberi datoteke</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Queue col -->
+    <div class="col" style="max-width:320px; min-width:240px;">
+      <div class="col-header">
+        <div class="col-title" data-i18n="queue">Čakalna vrsta</div>
+      </div>
+      <div class="col-body">
+
+        <!-- Failed item -->
+        <div class="queue-item" id="failed-item">
+          <div class="file-icon">❌</div>
+          <div class="queue-info">
+            <div class="queue-name">okvarjen_dokument.pdf</div>
+            <div class="queue-meta" style="color:var(--danger);">Napaka pri obdelavi</div>
+          </div>
+          <span class="badge badge-failed" id="failed-badge" data-i18n="failed">NAPAKA</span>
+        </div>
+
+        <!-- Retry button -->
+        <div style="display:flex; justify-content:flex-end; margin-top:4px; margin-bottom:12px;">
+          <button class="retry-btn" id="retry-btn-5" onclick="toggleRetry()" data-i18n="retry">Ponovi</button>
+        </div>
+
+        <!-- Running item -->
+        <div class="queue-item">
+          <div class="file-icon">📄</div>
+          <div class="queue-info">
+            <div class="queue-name">pogodba_nov_2024.pdf</div>
+            <div class="queue-meta" data-i18n="processing">V obdelavi</div>
+            <div class="progress-bar">
+              <div class="progress-fill indeterminate"></div>
+            </div>
+          </div>
+          <span class="badge badge-running pulse" data-i18n="running">V OBDELAVI</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- History col -->
+    <div class="col">
+      <div class="col-header">
+        <div class="col-title" data-i18n="history">Zgodovina</div>
+      </div>
+      <div class="col-body">
+        <input type="text" class="history-search" data-i18n-placeholder="historySearch" placeholder="Iskanje po imenu ali datumu…">
+        <div class="history-item">
+          <div class="file-icon">📄</div>
+          <div class="history-info">
+            <div class="history-name">racun_jan_2024.pdf</div>
+            <div class="history-meta">8. jan 2024 · <span class="text-success fw-bold">24</span> <span data-i18n="entitiesAnon">entitet anonimizirano</span></div>
+          </div>
+          <div class="history-actions">
+            <button class="btn btn-success" style="font-size:11px;padding:5px 11px;" onclick="showScreen(6)" data-i18n="compare">Primerjaj</button>
+            <button class="btn btn-ghost" style="font-size:11px;padding:5px 11px;" data-i18n="download">Prenesi</button>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="file-icon">📝</div>
+          <div class="history-info">
+            <div class="history-name">pogodba_sept_2023.docx</div>
+            <div class="history-meta">15. sep 2023 · <span class="text-success fw-bold">37</span> <span data-i18n="entitiesAnon">entitet anonimizirano</span></div>
+          </div>
+          <div class="history-actions">
+            <button class="btn btn-success" style="font-size:11px;padding:5px 11px;" onclick="showScreen(6)" data-i18n="compare">Primerjaj</button>
+            <button class="btn btn-ghost" style="font-size:11px;padding:5px 11px;" data-i18n="download">Prenesi</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ======================================================
+     SCREEN 6 — Comparison View
+     ====================================================== -->
+<div class="screen" id="screen-6">
+
+  <!-- Compare header -->
+  <div class="compare-header">
+    <button class="btn btn-ghost" style="padding:5px 12px; font-size:13px;" onclick="showScreen(2)">
+      ← <span data-i18n="back">Nazaj</span>
+    </button>
+    <span class="compare-title">racun_jan_2024.pdf</span>
+    <div class="spacer"></div>
+    <button class="btn btn-success" style="font-size:12px;">
+      ⬇ <span data-i18n="download">Prenesi</span>
+    </button>
+    <div class="lang-switcher" style="margin-left:12px;">
+      <button class="lang-btn active" id="lang-sl-6" onclick="setLanguage('sl',6)">SL</button>
+      <button class="lang-btn" id="lang-en-6" onclick="setLanguage('en',6)">EN</button>
+    </div>
+  </div>
+
+  <!-- Compare body -->
+  <div class="compare-layout">
+
+    <!-- Original pane -->
+    <div class="doc-pane">
+      <div class="pane-header">
+        <span class="pane-title" data-i18n="original">Izvirni dokument</span>
+      </div>
+      <div class="pane-body" id="orig-pane">
+        <p>
+          Dne <span class="hl date" data-entity-id="e1" title="DATE">15. januarja 2024</span> je
+          <span class="hl person" data-entity-id="e2" title="PERSON">Janez Novak</span>, zaposlen pri
+          podjetju <span class="hl org" data-entity-id="e3" title="ORG">Tehnologije d.o.o.</span>,
+          s sedežem v <span class="hl location" data-entity-id="e4" title="LOCATION">Ljubljani</span>,
+          podpisal pogodbo o delu. Kontaktna številka:
+          <span class="hl phone" data-entity-id="e5" title="PHONE">+386 41 123 456</span>.
+          Elektronska pošta: <span class="hl email" data-entity-id="e6" title="EMAIL">janez.novak@email.si</span>.
+        </p>
+        <br>
+        <p>
+          Pogodbena stranka <span class="hl person" data-entity-id="e7" title="PERSON">Ana Kovač</span>
+          iz <span class="hl location" data-entity-id="e8" title="LOCATION">Maribora</span> je dne
+          <span class="hl date" data-entity-id="e9" title="DATE">20. januarja 2024</span> potrdila
+          prejem dokumentacije od podjetja
+          <span class="hl org" data-entity-id="e10" title="ORG">Gradnje in storitve d.d.</span>.
+          Rok za plačilo je <span class="hl date" data-entity-id="e11" title="DATE">1. februar 2024</span>.
+        </p>
+        <br>
+        <p>
+          Vrednost posla znaša 45.000 EUR. Plačilo bo izvedeno na račun podjetja
+          <span class="hl org" data-entity-id="e12" title="ORG">Tehnologije d.o.o.</span>
+          pri banki v <span class="hl location" data-entity-id="e13" title="LOCATION">Kopru</span>.
+          Odgovorna oseba je <span class="hl person" data-entity-id="e14" title="PERSON">Marko Zupančič</span>,
+          dosegljiv na <span class="hl email" data-entity-id="e15" title="EMAIL">m.zupancic@techn.si</span>
+          ali <span class="hl phone" data-entity-id="e16" title="PHONE">+386 31 987 654</span>.
+        </p>
+        <br>
+        <p>
+          Pogodba je veljavna od <span class="hl date" data-entity-id="e17" title="DATE">1. februarja 2024</span>
+          do <span class="hl date" data-entity-id="e18" title="DATE">31. decembra 2025</span>.
+          V primeru spora je pristojen sodnik pri
+          <span class="hl org" data-entity-id="e19" title="ORG">Okrožnem sodišču v Ljubljani</span>.
+        </p>
+      </div>
+    </div>
+
+    <!-- Anonymized pane -->
+    <div class="doc-pane">
+      <div class="pane-header">
+        <span class="pane-title" data-i18n="anonymized">Anonimizirani dokument</span>
+      </div>
+      <div class="pane-body" id="anon-pane">
+        <p>
+          Dne <span class="hl anon" data-entity-id="e1">[DATUM_001]</span> je
+          <span class="hl anon" data-entity-id="e2">[OSEBA_001]</span>, zaposlen pri
+          podjetju <span class="hl anon" data-entity-id="e3">[ORG_001]</span>,
+          s sedežem v <span class="hl anon" data-entity-id="e4">[LOKACIJA_001]</span>,
+          podpisal pogodbo o delu. Kontaktna številka:
+          <span class="hl anon" data-entity-id="e5">[TEL_001]</span>.
+          Elektronska pošta: <span class="hl anon" data-entity-id="e6">[EMAIL_001]</span>.
+        </p>
+        <br>
+        <p>
+          Pogodbena stranka <span class="hl anon" data-entity-id="e7">[OSEBA_002]</span>
+          iz <span class="hl anon" data-entity-id="e8">[LOKACIJA_002]</span> je dne
+          <span class="hl anon" data-entity-id="e9">[DATUM_002]</span> potrdila
+          prejem dokumentacije od podjetja
+          <span class="hl anon" data-entity-id="e10">[ORG_002]</span>.
+          Rok za plačilo je <span class="hl anon" data-entity-id="e11">[DATUM_003]</span>.
+        </p>
+        <br>
+        <p>
+          Vrednost posla znaša 45.000 EUR. Plačilo bo izvedeno na račun podjetja
+          <span class="hl anon" data-entity-id="e12">[ORG_001]</span>
+          pri banki v <span class="hl anon" data-entity-id="e13">[LOKACIJA_003]</span>.
+          Odgovorna oseba je <span class="hl anon" data-entity-id="e14">[OSEBA_003]</span>,
+          dosegljiv na <span class="hl anon" data-entity-id="e15">[EMAIL_002]</span>
+          ali <span class="hl anon" data-entity-id="e16">[TEL_002]</span>.
+        </p>
+        <br>
+        <p>
+          Pogodba je veljavna od <span class="hl anon" data-entity-id="e17">[DATUM_004]</span>
+          do <span class="hl anon" data-entity-id="e18">[DATUM_005]</span>.
+          V primeru spora je pristojen sodnik pri
+          <span class="hl anon" data-entity-id="e19">[ORG_003]</span>.
+        </p>
+      </div>
+    </div>
+
+    <!-- Entity sidebar -->
+    <div class="entity-sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-title" data-i18n="entitySummary">Povzetek entitet</div>
+        <div class="filter-chips" id="filter-chips-6">
+          <span class="chip active" data-type="all" onclick="filterEntities('all',6)" data-i18n="all">Vse</span>
+          <span class="chip" data-type="PERSON" onclick="filterEntities('PERSON',6)" data-i18n="person">OSEBA</span>
+          <span class="chip" data-type="ORG" onclick="filterEntities('ORG',6)" data-i18n="org">ORGANIZACIJA</span>
+          <span class="chip" data-type="LOCATION" onclick="filterEntities('LOCATION',6)" data-i18n="location">LOKACIJA</span>
+          <span class="chip" data-type="DATE" onclick="filterEntities('DATE',6)" data-i18n="date">DATUM</span>
+          <span class="chip" data-type="PHONE" onclick="filterEntities('PHONE',6)" data-i18n="phone">TELEFON</span>
+          <span class="chip" data-type="EMAIL" onclick="filterEntities('EMAIL',6)" data-i18n="email">E-POŠTA</span>
+        </div>
+        <div class="entity-count" id="entity-count-6" data-i18n-showingof="showingOf" data-n="19" data-total="19">Prikazanih 19 od 19 entitet</div>
+      </div>
+      <div class="entity-list" id="entity-list-6">
+        <!-- Entities populated by JS -->
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ======================================================
+     SCREEN 7 — Comparison View with Entity Filter Active
+     ====================================================== -->
+<div class="screen" id="screen-7">
+
+  <!-- Compare header -->
+  <div class="compare-header">
+    <button class="btn btn-ghost" style="padding:5px 12px; font-size:13px;" onclick="showScreen(2)">
+      ← <span data-i18n="back">Nazaj</span>
+    </button>
+    <span class="compare-title">racun_jan_2024.pdf</span>
+    <div class="spacer"></div>
+    <button class="btn btn-success" style="font-size:12px;">
+      ⬇ <span data-i18n="download">Prenesi</span>
+    </button>
+    <div class="lang-switcher" style="margin-left:12px;">
+      <button class="lang-btn active" id="lang-sl-7" onclick="setLanguage('sl',7)">SL</button>
+      <button class="lang-btn" id="lang-en-7" onclick="setLanguage('en',7)">EN</button>
+    </div>
+  </div>
+
+  <!-- Compare body -->
+  <div class="compare-layout">
+
+    <!-- Original pane (same content, PERSON filtered) -->
+    <div class="doc-pane">
+      <div class="pane-header">
+        <span class="pane-title" data-i18n="original">Izvirni dokument</span>
+      </div>
+      <div class="pane-body" id="orig-pane-7" style="opacity:.6; pointer-events:none;">
+        <p>
+          Dne <span class="hl date" style="opacity:.3;">15. januarja 2024</span> je
+          <span class="hl person" data-entity-id="f2" title="PERSON">Janez Novak</span>, zaposlen pri
+          podjetju <span class="hl org" style="opacity:.3;">Tehnologije d.o.o.</span>,
+          s sedežem v <span class="hl location" style="opacity:.3;">Ljubljani</span>,
+          podpisal pogodbo o delu. Kontaktna številka:
+          <span class="hl phone" style="opacity:.3;">+386 41 123 456</span>.
+          Elektronska pošta: <span class="hl email" style="opacity:.3;">janez.novak@email.si</span>.
+        </p>
+        <br>
+        <p>
+          Pogodbena stranka <span class="hl person" data-entity-id="f7" title="PERSON">Ana Kovač</span>
+          iz <span class="hl location" style="opacity:.3;">Maribora</span> je dne
+          <span class="hl date" style="opacity:.3;">20. januarja 2024</span> potrdila
+          prejem dokumentacije od podjetja
+          <span class="hl org" style="opacity:.3;">Gradnje in storitve d.d.</span>.
+          Rok za plačilo je <span class="hl date" style="opacity:.3;">1. februar 2024</span>.
+        </p>
+        <br>
+        <p>
+          Vrednost posla znaša 45.000 EUR. Plačilo bo izvedeno na račun podjetja
+          <span class="hl org" style="opacity:.3;">Tehnologije d.o.o.</span>
+          pri banki v <span class="hl location" style="opacity:.3;">Kopru</span>.
+          Odgovorna oseba je <span class="hl person" data-entity-id="f14" title="PERSON">Marko Zupančič</span>,
+          dosegljiv na <span class="hl email" style="opacity:.3;">m.zupancic@techn.si</span>
+          ali <span class="hl phone" style="opacity:.3;">+386 31 987 654</span>.
+        </p>
+        <br>
+        <p>
+          Pogodba je veljavna od <span class="hl date" style="opacity:.3;">1. februarja 2024</span>
+          do <span class="hl date" style="opacity:.3;">31. decembra 2025</span>.
+          V primeru spora je pristojen sodnik pri
+          <span class="hl org" style="opacity:.3;">Okrožnem sodišču v Ljubljani</span>.
+        </p>
+      </div>
+    </div>
+
+    <!-- Anonymized pane -->
+    <div class="doc-pane">
+      <div class="pane-header">
+        <span class="pane-title" data-i18n="anonymized">Anonimizirani dokument</span>
+      </div>
+      <div class="pane-body" id="anon-pane-7" style="opacity:.6; pointer-events:none;">
+        <p>
+          Dne <span class="hl anon" style="opacity:.3;">[DATUM_001]</span> je
+          <span class="hl anon" data-entity-id="f2">[OSEBA_001]</span>, zaposlen pri
+          podjetju <span class="hl anon" style="opacity:.3;">[ORG_001]</span>,
+          s sedežem v <span class="hl anon" style="opacity:.3;">[LOKACIJA_001]</span>,
+          podpisal pogodbo o delu. Kontaktna številka:
+          <span class="hl anon" style="opacity:.3;">[TEL_001]</span>.
+          Elektronska pošta: <span class="hl anon" style="opacity:.3;">[EMAIL_001]</span>.
+        </p>
+        <br>
+        <p>
+          Pogodbena stranka <span class="hl anon" data-entity-id="f7">[OSEBA_002]</span>
+          iz <span class="hl anon" style="opacity:.3;">[LOKACIJA_002]</span> je dne
+          <span class="hl anon" style="opacity:.3;">[DATUM_002]</span> potrdila
+          prejem dokumentacije od podjetja
+          <span class="hl anon" style="opacity:.3;">[ORG_002]</span>.
+          Rok za plačilo je <span class="hl anon" style="opacity:.3;">[DATUM_003]</span>.
+        </p>
+        <br>
+        <p>
+          Vrednost posla znaša 45.000 EUR. Plačilo bo izvedeno na račun podjetja
+          <span class="hl anon" style="opacity:.3;">[ORG_001]</span>
+          pri banki v <span class="hl anon" style="opacity:.3;">[LOKACIJA_003]</span>.
+          Odgovorna oseba je <span class="hl anon" data-entity-id="f14">[OSEBA_003]</span>,
+          dosegljiv na <span class="hl anon" style="opacity:.3;">[EMAIL_002]</span>
+          ali <span class="hl anon" style="opacity:.3;">[TEL_002]</span>.
+        </p>
+        <br>
+        <p>
+          Pogodba je veljavna od <span class="hl anon" style="opacity:.3;">[DATUM_004]</span>
+          do <span class="hl anon" style="opacity:.3;">[DATUM_005]</span>.
+          V primeru spora je pristojen sodnik pri
+          <span class="hl anon" style="opacity:.3;">[ORG_003]</span>.
+        </p>
+      </div>
+    </div>
+
+    <!-- Entity sidebar with PERSON filter active -->
+    <div class="entity-sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-title" data-i18n="entitySummary">Povzetek entitet</div>
+        <div class="filter-chips" id="filter-chips-7">
+          <span class="chip" data-type="all" onclick="filterEntities('all',7)" data-i18n="all">Vse</span>
+          <span class="chip active" data-type="PERSON" onclick="filterEntities('PERSON',7)" data-i18n="person">OSEBA</span>
+          <span class="chip" data-type="ORG" onclick="filterEntities('ORG',7)" data-i18n="org">ORGANIZACIJA</span>
+          <span class="chip" data-type="LOCATION" onclick="filterEntities('LOCATION',7)" data-i18n="location">LOKACIJA</span>
+          <span class="chip" data-type="DATE" onclick="filterEntities('DATE',7)" data-i18n="date">DATUM</span>
+          <span class="chip" data-type="PHONE" onclick="filterEntities('PHONE',7)" data-i18n="phone">TELEFON</span>
+          <span class="chip" data-type="EMAIL" onclick="filterEntities('EMAIL',7)" data-i18n="email">E-POŠTA</span>
+        </div>
+        <div class="entity-count" id="entity-count-7">Prikazanih 3 od 19 entitet</div>
+      </div>
+      <div class="entity-list" id="entity-list-7">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+
+// ===== I18N =====
+const i18n = {
+  sl: {
+    appTitle: "Anonimizator dokumentov",
+    upload: "Nalaganje",
+    uploadDrop: "Povlecite datoteke sem ali kliknite za izbiro",
+    uploadBrowse: "Izberi datoteke",
+    uploadFormats: "Podprte oblike: .pdf, .txt, .md, .doc, .docx",
+    uploadUnsupported: "Nepodprta oblika. Podprte: PDF, TXT, MD, DOC, DOCX",
+    queue: "Čakalna vrsta",
+    processing: "V obdelavi",
+    queued: "V čakanju",
+    queueEmpty: "Ni dokumentov v čakanju",
+    enqueued: "V ČAKANJU",
+    running: "V OBDELAVI",
+    finished: "ZAKLJUČENO",
+    failed: "NAPAKA",
+    history: "Zgodovina",
+    historySearch: "Iskanje po imenu ali datumu…",
+    historyEmpty: "Še ni anonimiziranih dokumentov",
+    entitiesAnon: "entitet anonimizirano",
+    download: "Prenesi",
+    compare: "Primerjaj",
+    back: "Nazaj",
+    original: "Izvirni dokument",
+    anonymized: "Anonimizirani dokument",
+    entitySummary: "Povzetek entitet",
+    person: "OSEBA",
+    org: "ORGANIZACIJA",
+    location: "LOKACIJA",
+    date: "DATUM",
+    phone: "TELEFON",
+    email: "E-POŠTA",
+    idNumber: "ID / ŠTEVILKA",
+    other: "DRUGO",
+    all: "Vse",
+    retry: "Ponovi",
+    uploading: "Nalaganje…",
+    showingOf: "Prikazanih {n} od {total} entitet"
+  },
+  en: {
+    appTitle: "Document Anonymizer",
+    upload: "Upload",
+    uploadDrop: "Drop files here or click to browse",
+    uploadBrowse: "Browse Files",
+    uploadFormats: "Supported formats: .pdf, .txt, .md, .doc, .docx",
+    uploadUnsupported: "Unsupported format. Supported: PDF, TXT, MD, DOC, DOCX",
+    queue: "Queue",
+    processing: "Processing",
+    queued: "Queued",
+    queueEmpty: "No documents queued",
+    enqueued: "ENQUEUED",
+    running: "RUNNING",
+    finished: "FINISHED",
+    failed: "FAILED",
+    history: "History",
+    historySearch: "Search by name or date…",
+    historyEmpty: "No anonymized documents yet",
+    entitiesAnon: "entities anonymized",
+    download: "Download",
+    compare: "Compare",
+    back: "Back",
+    original: "Original Document",
+    anonymized: "Anonymized Document",
+    entitySummary: "Entity Summary",
+    person: "PERSON",
+    org: "ORG",
+    location: "LOCATION",
+    date: "DATE",
+    phone: "PHONE",
+    email: "EMAIL",
+    idNumber: "ID / NUMBER",
+    other: "OTHER",
+    all: "All",
+    retry: "Retry",
+    uploading: "Uploading…",
+    showingOf: "Showing {n} of {total} entities"
+  }
+};
+
+let currentLang = 'sl';
+
+function setLanguage(lang, screenNum) {
+  currentLang = lang;
+
+  // Update all data-i18n elements
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (i18n[lang][key] !== undefined) {
+      el.textContent = i18n[lang][key];
+    }
+  });
+
+  // Update placeholders
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (i18n[lang][key] !== undefined) {
+      el.placeholder = i18n[lang][key];
+    }
+  });
+
+  // Update showingOf counters
+  document.querySelectorAll('[data-i18n-showingof]').forEach(el => {
+    const n = el.getAttribute('data-n') || '0';
+    const total = el.getAttribute('data-total') || '0';
+    const tpl = i18n[lang]['showingOf'];
+    el.textContent = tpl.replace('{n}', n).replace('{total}', total);
+  });
+
+  // Update all lang buttons (sync across all screens)
+  for (let i = 1; i <= 7; i++) {
+    const slBtn = document.getElementById('lang-sl-' + i);
+    const enBtn = document.getElementById('lang-en-' + i);
+    if (slBtn) slBtn.classList.toggle('active', lang === 'sl');
+    if (enBtn) enBtn.classList.toggle('active', lang === 'en');
+  }
+
+  // Update entity-count-6 if visible
+  updateEntityCount(6, currentFilter6, entities.length);
+  updateEntityCount(7, 'PERSON', entities.length);
+
+  // Re-render entity lists with new labels
+  renderEntityList(6, currentFilter6);
+  renderEntityList(7, 'PERSON');
+}
+
+// ===== SCREEN NAVIGATION =====
+let currentScreen = 1;
+
+function showScreen(n) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach((b, i) => {
+    b.classList.toggle('active', i + 1 === n);
+  });
+  const s = document.getElementById('screen-' + n);
+  if (s) s.classList.add('active');
+  currentScreen = n;
+}
+
+// ===== KEYBOARD =====
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && (currentScreen === 6 || currentScreen === 7)) {
+    showScreen(2);
+  }
+});
+
+// ===== RETRY BUTTON =====
+let failedState = false;
+function toggleRetry() {
+  failedState = !failedState;
+  const badge = document.getElementById('failed-badge');
+  const btn = document.getElementById('retry-btn-5');
+  if (!badge || !btn) return;
+  if (failedState) {
+    badge.className = 'badge badge-queued';
+    badge.setAttribute('data-i18n', 'enqueued');
+    badge.textContent = i18n[currentLang]['enqueued'];
+    btn.setAttribute('data-i18n', 'retry');
+    btn.textContent = i18n[currentLang]['retry'];
+    document.getElementById('failed-item').querySelector('.queue-meta').style.color = '';
+    document.getElementById('failed-item').querySelector('.file-icon').textContent = '📄';
+    document.getElementById('failed-item').querySelector('.queue-meta').textContent = i18n[currentLang]['queued'];
+  } else {
+    badge.className = 'badge badge-failed';
+    badge.setAttribute('data-i18n', 'failed');
+    badge.textContent = i18n[currentLang]['failed'];
+    document.getElementById('failed-item').querySelector('.queue-meta').style.color = 'var(--danger)';
+    document.getElementById('failed-item').querySelector('.file-icon').textContent = '❌';
+    document.getElementById('failed-item').querySelector('.queue-meta').textContent = 'Napaka pri obdelavi';
+  }
+}
+
+// ===== HISTORY SEARCH =====
+function filterHistory(input, screenNum) {
+  const q = input.value.toLowerCase();
+  const screen = document.getElementById('screen-' + screenNum);
+  if (!screen) return;
+  screen.querySelectorAll('.history-item[data-history-name]').forEach(item => {
+    const name = item.getAttribute('data-history-name').toLowerCase();
+    item.style.display = name.includes(q) ? '' : 'none';
+  });
+}
+
+// ===== ENTITY DATA =====
+const entities = [
+  { id: 'e1',  type: 'DATE',     label: '15. januarja 2024',         anon: '[DATUM_001]' },
+  { id: 'e2',  type: 'PERSON',   label: 'Janez Novak',               anon: '[OSEBA_001]' },
+  { id: 'e3',  type: 'ORG',      label: 'Tehnologije d.o.o.',        anon: '[ORG_001]' },
+  { id: 'e4',  type: 'LOCATION', label: 'Ljubljana',                  anon: '[LOKACIJA_001]' },
+  { id: 'e5',  type: 'PHONE',    label: '+386 41 123 456',            anon: '[TEL_001]' },
+  { id: 'e6',  type: 'EMAIL',    label: 'janez.novak@email.si',       anon: '[EMAIL_001]' },
+  { id: 'e7',  type: 'PERSON',   label: 'Ana Kovač',                  anon: '[OSEBA_002]' },
+  { id: 'e8',  type: 'LOCATION', label: 'Maribor',                    anon: '[LOKACIJA_002]' },
+  { id: 'e9',  type: 'DATE',     label: '20. januarja 2024',          anon: '[DATUM_002]' },
+  { id: 'e10', type: 'ORG',      label: 'Gradnje in storitve d.d.',   anon: '[ORG_002]' },
+  { id: 'e11', type: 'DATE',     label: '1. februar 2024',            anon: '[DATUM_003]' },
+  { id: 'e12', type: 'ORG',      label: 'Tehnologije d.o.o.',        anon: '[ORG_001]' },
+  { id: 'e13', type: 'LOCATION', label: 'Koper',                      anon: '[LOKACIJA_003]' },
+  { id: 'e14', type: 'PERSON',   label: 'Marko Zupančič',             anon: '[OSEBA_003]' },
+  { id: 'e15', type: 'EMAIL',    label: 'm.zupancic@techn.si',        anon: '[EMAIL_002]' },
+  { id: 'e16', type: 'PHONE',    label: '+386 31 987 654',            anon: '[TEL_002]' },
+  { id: 'e17', type: 'DATE',     label: '1. februarja 2024',          anon: '[DATUM_004]' },
+  { id: 'e18', type: 'DATE',     label: '31. decembra 2025',          anon: '[DATUM_005]' },
+  { id: 'e19', type: 'ORG',      label: 'Okrožno sodišče v Ljubljani',anon: '[ORG_003]' },
+];
+
+const typeColors = {
+  PERSON:   '#D97706',
+  ORG:      '#0284C7',
+  LOCATION: '#7C3AED',
+  DATE:     '#16A34A',
+  PHONE:    '#EA580C',
+  EMAIL:    '#DB2777',
+};
+
+const typeI18nKey = {
+  PERSON:   'person',
+  ORG:      'org',
+  LOCATION: 'location',
+  DATE:     'date',
+  PHONE:    'phone',
+  EMAIL:    'email',
+};
+
+let currentFilter6 = 'all';
+let selectedEntityId = null;
+
+function getTypeLabel(type) {
+  return i18n[currentLang][typeI18nKey[type]] || type;
+}
+
+function renderEntityList(screenNum, filter) {
+  const list = document.getElementById('entity-list-' + screenNum);
+  if (!list) return;
+
+  const filtered = filter === 'all' ? entities : entities.filter(e => e.type === filter);
+  list.innerHTML = '';
+
+  filtered.forEach(ent => {
+    const row = document.createElement('div');
+    row.className = 'entity-row' + (selectedEntityId === ent.id ? ' selected' : '');
+    row.setAttribute('data-id', ent.id);
+    row.innerHTML = `
+      <div class="entity-type-dot" style="background:${typeColors[ent.type] || '#999'}"></div>
+      <div class="entity-row-text">${ent.label}</div>
+      <div class="entity-row-type">${getTypeLabel(ent.type)}</div>
+    `;
+    row.onclick = () => selectEntity(ent.id, screenNum);
+    list.appendChild(row);
+  });
+
+  updateEntityCount(screenNum, filter, entities.length);
+}
+
+function updateEntityCount(screenNum, filter, total) {
+  const el = document.getElementById('entity-count-' + screenNum);
+  if (!el) return;
+  const filtered = filter === 'all' ? total : entities.filter(e => e.type === filter).length;
+  const tpl = i18n[currentLang]['showingOf'];
+  el.textContent = tpl.replace('{n}', filtered).replace('{total}', total);
+}
+
+function filterEntities(type, screenNum) {
+  if (screenNum === 6) currentFilter6 = type;
+
+  // Update chip active state
+  const chips = document.getElementById('filter-chips-' + screenNum);
+  if (chips) {
+    chips.querySelectorAll('.chip').forEach(c => {
+      c.classList.toggle('active', c.getAttribute('data-type') === type);
+    });
+  }
+
+  renderEntityList(screenNum, type);
+}
+
+function selectEntity(id, screenNum) {
+  selectedEntityId = id;
+
+  // Update row highlights
+  const list = document.getElementById('entity-list-' + screenNum);
+  if (list) {
+    list.querySelectorAll('.entity-row').forEach(r => {
+      r.classList.toggle('selected', r.getAttribute('data-id') === id);
+    });
+  }
+
+  // Flash entity highlights in both panes
+  ['orig-pane', 'anon-pane'].forEach(paneId => {
+    const pane = document.getElementById(paneId);
+    if (!pane) return;
+    pane.querySelectorAll('[data-entity-id="' + id + '"]').forEach(el => {
+      el.classList.remove('flash');
+      void el.offsetWidth;
+      el.classList.add('flash');
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  });
+}
+
+// ===== SCROLL SYNC =====
+function syncScroll(sourceId, targetId) {
+  const source = document.getElementById(sourceId);
+  const target = document.getElementById(targetId);
+  if (!source || !target) return;
+  source.addEventListener('scroll', () => {
+    target.scrollTop = source.scrollTop;
+  });
+}
+
+// ===== TOOLTIP =====
+const tooltipEl = document.getElementById('tooltip');
+
+document.addEventListener('mouseover', e => {
+  const hl = e.target.closest('.hl');
+  if (!hl || hl.classList.contains('anon')) return;
+  const title = hl.getAttribute('title');
+  if (!title) return;
+  const label = getTypeLabel(title);
+  tooltipEl.textContent = label;
+  tooltipEl.style.display = 'block';
+});
+
+document.addEventListener('mouseout', e => {
+  if (!e.target.closest('.hl')) return;
+  tooltipEl.style.display = 'none';
+});
+
+document.addEventListener('mousemove', e => {
+  tooltipEl.style.left = (e.clientX + 12) + 'px';
+  tooltipEl.style.top  = (e.clientY - 28) + 'px';
+});
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', () => {
+  // Render entity lists
+  renderEntityList(6, 'all');
+  renderEntityList(7, 'PERSON');
+
+  // Scroll sync for screen 6
+  syncScroll('orig-pane', 'anon-pane');
+  syncScroll('anon-pane', 'orig-pane');
+
+  // Apply Slovenian by default
+  setLanguage('sl', 1);
+});
+
+</script>
+</body>
+</html>

@@ -41,7 +41,7 @@
       "name": "Daily Jira Task Summary",
       "enabled": true,
       "createdAtMs": 1770579310819,
-      "updatedAtMs": 1773163894642,
+      "updatedAtMs": 1773250355477,
       "schedule": {
         "kind": "cron",
         "expr": "30 18 * * 1-5",
@@ -60,10 +60,10 @@
         "to": "8403014547"
       },
       "state": {
-        "nextRunAtMs": 1773250200000,
-        "lastRunAtMs": 1773163800088,
+        "nextRunAtMs": 1773336600000,
+        "lastRunAtMs": 1773250200063,
         "lastStatus": "ok",
-        "lastDurationMs": 94554,
+        "lastDurationMs": 155414,
         "consecutiveErrors": 0,
         "lastRunStatus": "ok",
         "lastDelivered": true,
@@ -144,7 +144,7 @@
       "name": "Daily OpenClaw Directory Backup",
       "enabled": true,
       "createdAtMs": 1771023878360,
-      "updatedAtMs": 1773108021736,
+      "updatedAtMs": 1773194422212,
       "schedule": {
         "kind": "cron",
         "expr": "0 3 * * *",
@@ -164,10 +164,10 @@
         "bestEffort": true
       },
       "state": {
-        "nextRunAtMs": 1773194400000,
-        "lastRunAtMs": 1773108000071,
+        "nextRunAtMs": 1773280800000,
+        "lastRunAtMs": 1773194400082,
         "lastStatus": "ok",
-        "lastDurationMs": 21665,
+        "lastDurationMs": 22130,
         "consecutiveErrors": 0,
         "lastRunStatus": "ok",
         "lastDelivered": true,
@@ -180,7 +180,7 @@
       "name": "Email Triage Agent",
       "enabled": true,
       "createdAtMs": 1771190372608,
-      "updatedAtMs": 1773170291766,
+      "updatedAtMs": 1773256839591,
       "schedule": {
         "kind": "cron",
         "expr": "15 8,20 * * 1-5,0",
@@ -200,11 +200,11 @@
         "to": "8403014547"
       },
       "state": {
-        "lastRunAtMs": 1773170100077,
+        "lastRunAtMs": 1773256500077,
         "lastStatus": "ok",
-        "lastDurationMs": 191689,
+        "lastDurationMs": 339514,
         "consecutiveErrors": 0,
-        "nextRunAtMs": 1773213300000,
+        "nextRunAtMs": 1773299700000,
         "lastRunStatus": "ok",
         "lastDelivered": false,
         "lastDeliveryStatus": "not-delivered"
@@ -216,7 +216,7 @@
       "name": "Nightly Personal Gmail Triage",
       "enabled": true,
       "createdAtMs": 1771618729376,
-      "updatedAtMs": 1773115452354,
+      "updatedAtMs": 1773201751560,
       "schedule": {
         "kind": "cron",
         "expr": "0 5 * * *",
@@ -237,10 +237,10 @@
       },
       "state": {
         "consecutiveErrors": 0,
-        "nextRunAtMs": 1773201600000,
-        "lastRunAtMs": 1773115200070,
+        "nextRunAtMs": 1773288000000,
+        "lastRunAtMs": 1773201600052,
         "lastStatus": "ok",
-        "lastDurationMs": 252284,
+        "lastDurationMs": 151508,
         "lastRunStatus": "ok",
         "lastDelivered": true,
         "lastDeliveryStatus": "delivered"
@@ -290,7 +290,7 @@
       "name": "Mid-Week Portfolio Check",
       "enabled": true,
       "createdAtMs": 1772225055345,
-      "updatedAtMs": 1772643718775,
+      "updatedAtMs": 1773248448773,
       "schedule": {
         "kind": "cron",
         "expr": "0 18 * * 3",
@@ -310,11 +310,14 @@
         "to": "8403014547"
       },
       "state": {
-        "nextRunAtMs": 1773248400000,
-        "lastRunAtMs": 1772643600087,
+        "nextRunAtMs": 1773853200000,
+        "lastRunAtMs": 1773248400081,
         "lastStatus": "ok",
-        "lastDurationMs": 118688,
-        "consecutiveErrors": 0
+        "lastDurationMs": 48692,
+        "consecutiveErrors": 0,
+        "lastRunStatus": "ok",
+        "lastDelivered": true,
+        "lastDeliveryStatus": "delivered"
       }
     },
     {
@@ -324,7 +327,7 @@
       "name": "Darwin Knowledge Extraction",
       "enabled": true,
       "createdAtMs": 1772406115961,
-      "updatedAtMs": 1773191005025,
+      "updatedAtMs": 1773277352874,
       "schedule": {
         "kind": "cron",
         "expr": "0 2 * * *",
@@ -344,10 +347,10 @@
         "to": "telegram:-5247564907"
       },
       "state": {
-        "nextRunAtMs": 1773277200000,
-        "lastRunAtMs": 1773190800067,
+        "nextRunAtMs": 1773363600000,
+        "lastRunAtMs": 1773277200025,
         "lastStatus": "ok",
-        "lastDurationMs": 204958,
+        "lastDurationMs": 152849,
         "consecutiveErrors": 0,
         "lastRunStatus": "ok",
         "lastDelivered": true,
@@ -361,7 +364,7 @@
       "name": "Disk Monitor",
       "enabled": true,
       "createdAtMs": 1772918740796,
-      "updatedAtMs": 1773183618045,
+      "updatedAtMs": 1773270021037,
       "schedule": {
         "kind": "cron",
         "expr": "0 */6 * * *",
@@ -382,11 +385,11 @@
         "bestEffort": true
       },
       "state": {
-        "nextRunAtMs": 1773205206284,
-        "lastRunAtMs": 1773183606313,
+        "nextRunAtMs": 1773291606284,
+        "lastRunAtMs": 1773270006348,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 11732,
+        "lastDurationMs": 14689,
         "lastDelivered": false,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0
