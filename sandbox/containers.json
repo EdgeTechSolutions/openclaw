@@ -1,20 +1,20 @@
 {
   "entries": [
     {
+      "containerName": "openclaw-sbx-agent-homer-81662369",
+      "sessionKey": "agent:homer",
+      "createdAtMs": 1773331441881,
+      "lastUsedAtMs": 1773331441881,
+      "image": "openclaw/sandbox:edgetech",
+      "configHash": "83baa080591f698a1d27369628129520eb08aab10da80153efce14403e85badb"
+    },
+    {
       "containerName": "openclaw-sbx-agent-lstopar-agent-888f1ee3",
       "sessionKey": "agent:lstopar-agent",
       "createdAtMs": 1773223155328,
-      "lastUsedAtMs": 1773268707705,
+      "lastUsedAtMs": 1773356513633,
       "image": "openclaw/sandbox:edgetech",
       "configHash": "e9bd141c5cb5aec80e116b0b43a21509f6fdd3233761e28a6513c17adaccd0bc"
-    },
-    {
-      "containerName": "openclaw-sbx-agent-von-neumann-039e0146",
-      "sessionKey": "agent:von-neumann",
-      "createdAtMs": 1773261903292,
-      "lastUsedAtMs": 1773268851123,
-      "image": "openclaw/sandbox:edgetech",
-      "configHash": "419c3f9180af35e66a844bb74834d01738759d519acddb67bc60fc79452bfdcc"
     }
   ]
 }

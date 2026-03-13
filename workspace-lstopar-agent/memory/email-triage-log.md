@@ -1,5 +1,46 @@
 # Email Triage Log
 
+## 2026-03-12 20:15
+
+| messageId (suffix) | Subject | Sender | Received | Classification | Action |
+|---|---|---|---|---|---|
+| VcFPzAAA= | Doodle: SUPERVIEW poll (Diego Martini) | mailer@doodle.com | 2026-03-12T17:16:06Z | Tool Notification | Archived |
+| VcLgvAAA= | Doodle: SUPERVIEW poll (Silvia Venier) | mailer@doodle.com | 2026-03-11T10:27:44Z | Tool Notification | Archived |
+| VcLgqAAA= | Doodle: SUPERVIEW poll (Samo) | mailer@doodle.com | 2026-03-11T07:39:29Z | Tool Notification | Archived |
+| VcLgpAAA= | Doodle: SUPERVIEW poll (Matevz) | mailer@doodle.com | 2026-03-11T07:36:57Z | Tool Notification | Archived |
+| VcLghAAA= | Doodle: SUPERVIEW poll (Ludovica) | mailer@doodle.com | 2026-03-11T07:11:45Z | Tool Notification | Archived |
+| VcLgiAAA= | Doodle: SUPERVIEW poll (Janez Furlan) | mailer@doodle.com | 2026-03-11T06:39:24Z | Tool Notification | Archived |
+| VcLgjAAA= | Doodle: bi-weekly (Joao) | mailer@doodle.com | 2026-03-11T05:42:16Z | Tool Notification | Archived |
+| VcLgxAAA= | Doodle: bi-weekly (Luis Rei) | mailer@doodle.com | 2026-03-11T09:00:42Z | Tool Notification | Archived |
+| VcLg3AAA= | MS Teams guest - SIJ Steel | no-reply@teams.mail.microsoft | 2026-03-12T05:48:09Z | Tool Notification | Archived |
+| VcZz7AAA= | South Florida Publishing - Call for Papers | editor1.sfjd@southfloridapublishing.com | 2026-03-12T10:35:22Z | Marketing | Archived, unsubscribed ✓ |
+| VcLgrAAA= | Confluence admins love 💙 | info@e.atlassian.com | 2026-03-11T19:11:32Z | Marketing | Archived, unsubscribed ✓ |
+| VcLgsAAA= | Drowning in Jira issues? Rovo Dev | info@e.atlassian.com | 2026-03-11T17:19:22Z | Marketing | Archived, unsubscribed ✓ |
+| VcLgoAAA= | AgentMail raised $6M | adi@newsletter.agentmail.to | 2026-03-11T00:37:25Z | Newsletter | Archived, unsubscribed ✓ |
+| VcFP1AAA= | Interni klic: vodenje investicijskih projektov | leon.cizelj@ijs.si | 2026-03-12T12:10:45Z | Informational | Archived |
+| VcFP0AAA= | Interni klic: skrbnik stranke ARIS | leon.cizelj@ijs.si | 2026-03-12T12:08:30Z | Informational | Archived |
+| VcFPvAAA= | Re: Rezervacija mize za 1 mesec (podpisana) | iztok.rencelj@edgetech.si | 2026-03-12T09:53:00Z | Informational | Archived |
+| VcLg4AAA= | Re: Rezervacija mize za 1 mesec (podpisana) | iztok.rencelj@edgetech.si | 2026-03-12T02:47:00Z | Informational | Archived |
+| VcLg5AAA= | (no subject) | iztok.rencelj@edgetech.si | 2026-03-12T02:17:00Z | Informational | Archived |
+| VcLg6AAA= | razpisna dokumentacija | iztok.rencelj@edgetech.si | 2026-03-11T22:30:00Z | Informational | Archived |
+| VcLg2AAA= | RE: Priprava kakovostnih predpisov (urejeno) | matej.mrakic@sij-s.si | 2026-03-12T05:13:00Z | Informational | Archived |
+| VcLhAAAA= | Re: Nominacija SIJ za nagrado CIO leta | mitja.jermol@edgetech.si | 2026-03-12T07:20:00Z | Informational | Archived |
+| VcLguAAA= | RE: Update predlogov za SIJ | mitja.jermol@edgetech.si | 2026-03-11T14:00:00Z | Informational | Archived |
+| VcLglAAA= | Re: Update predlogov za SIJ | iztok.rencelj@edgetech.si | 2026-03-11T12:30:00Z | Informational | Archived |
+| VcLgtAAA= | Re: Načrtovanje vsebine za poslovni zajtrk | miro.budimir@sij.si | 2026-03-11T13:00:00Z | Informational | Archived |
+| VcLg1AAA= | Skupno sodelovanje (initial) | miro.budimir@sij.si | 2026-03-12T04:30:00Z | Informational | Archived |
+| VcLg9AAA= | [AI] Okrogla miza: Izzivi in priložnosti UI | nina.omejc@ijs.si | 2026-03-11T21:00:00Z | Informational | Archived |
+| VcLgzAAA= | Fw: Uporaba UI pri razvoju programske opreme | iztok.rencelj@edgetech.si | 2026-03-11T10:00:00Z | Informational | Archived |
+| VcFPyAAA= | Re: Feedback za anonimizator | erik.novak@ijs.si | 2026-03-12T11:30:00Z | Informational | Archived (Luka already replied) |
+| VcLg_AAA= | RE: Skupno sodelovanje (meeting proposal) | miha.koren@span.eu | 2026-03-11T20:30:00Z | Informational | Archived (Luka already replied) |
+| VcFPmAAA= | Re: Moj nov email + Parsing | blaz.kazic@ijs.si | 2026-03-12T08:30:00Z | Informational | Archived (Luka already replied) |
+| VcazMAAA= | Invitation: BG - trading platforma | gregor.sajovic@bluegrid.com | 2026-03-12T12:21:00Z | Invitation | Archived (Sun Mar 15 9-11am, Tržaška 118 + Google Meet) |
+| VcLg7AAA= | Statusni meeting - Portfelj projektov | marko.golob@sij-s.si | 2026-03-11T20:13:40Z | Invitation | Archived (biweekly Thu 13:00, MS Teams) |
+| VcLgwAAA= | EdgeTech meeting | gregor.nastran@atvp.si | 2026-03-11T09:13:21Z | Invitation | Archived (Wed Mar 19 13:00-14:00, ATVP) |
+| VcLgyAAA= | [AI] Brave Conversations Event May 6 | tome.eftimov@ijs.si | 2026-03-11T10:30:00Z | Informational | Archived |
+| VcLg8AAA= | FW: Priprava kakovostnih predpisov | luka.stopar@solvesall.com | - | Skipped | Own email (forwarded from solvesall) |
+| VcLg-AAA= | Tome: Brave Conversations invitation | tome.eftimov@ijs.si | 2026-03-11T09:30:00Z | Informational | Archived |
+
 ## 2026-03-06 20:15
 
 | messageId (suffix) | Subject | Sender | Received | Classification | Action |
@@ -379,6 +420,20 @@
 | ...VcFPMAAA= | Fw: Načrtovanje vsebine za poslovni zajtrk | iztok.rencelj@edgetech.si | 2026-03-10T21:12:42Z | Actionable | Left as-is (fill in business partners in seznam vabljenih.xlsx by Thursday for HPE event Apr 23) |
 | ...VcLgnAAA= | SIJ delovni inetrni | maja.skrjanc@edgetech.si | 2026-03-10T20:31:01Z | Invitation | Archived (past Teams meeting 10 Mar 21:30-22:00) |
 | ...VcLgfAAA= | Re: SIJ | maja.skrjanc@edgetech.si | 2026-03-10T20:30:20Z | Informational | Archived (Maja asking "Ni linka?" about SIJ meeting — resolved with updated invite) |
+
+## 2026-03-12 08:15 Triage Run
+
+| messageId (suffix) | subject | sender | received | classification | action |
+|---|---|---|---|---|---|
+| ...VcFPsAAA= | RE: Priprava kakovostnih predpisov in možnosti izboljšav z UI | matej.mrakic@sij-s.si | 2026-03-12T06:16:36Z | Informational | Archived (Matej confirms access granted — "urejeno") |
+| ...VcFPrAAA= | V aplikacijo Microsoft Teams ste bili dodani kot gost | no-reply@teams.mail.microsoft | 2026-03-12T05:48:09Z | Tool Notification | Archived (added as guest to "Processes in production of Steel" team) |
+| ...VcFPqAAA= | Re: Rezervacija mize za 1 mesec | iztok.rencelj@edgetech.si | 2026-03-12T03:47:20Z | Informational | Archived (Iztok sends signed Kodo office contract) |
+| ...VcFPpAAA= | (no subject) | iztok.rencelj@edgetech.si | 2026-03-12T03:17:20Z | Informational | Archived (empty body with attachment from Iztok) |
+| ...VcFPoAAA= | razpisna dokumentacija | iztok.rencelj@edgetech.si | 2026-03-12T03:06:30Z | Informational | Archived (Iztok sends tender documentation) |
+| ...VcFPnAAA= | Nominacija SIJ za nagrado CIO leta | mitja.jermol@edgetech.si | 2026-03-12T00:28:00Z | Actionable | Left as-is (Mitja asks for feedback on CIO award nomination text by Thursday) |
+| ...VcFPmAAA= | Re: Moj nov email + Parsing bo kmalu aktualen | blaz.kazic@gmail.com | 2026-03-11T21:48:33Z | Actionable | Left as-is (Blaz asks if there's news about the parsing project) |
+| ...VcFPlAAA= | Statusni meeting - Portfelj projektov | marko.golob@sij-s.si | 2026-03-11T20:13:40Z | Invitation | Archived (recurring biweekly Thu 13:00-13:30 Teams, already running since Jan 15) |
+| ...VcFPkAAA= | FW: Priprava kakovostnih predpisov | luka.stopar@solvesall.com | 2026-03-11T20:01:15Z | Skip | Luka's own forwarded email |
 
 ## 2026-03-11 20:15 Triage Run
 
