@@ -449,3 +449,31 @@
 | ...VcLgvAAA= | Update: Doodle SUPERVIEW (Silvia Venier) | mailer@doodle.com | 2026-03-11T10:27:44Z | Tool Notification | Archived |
 | ...VcLgwAAA= | EdgeTech (meeting request from ATVP) | gregor.nastran@atvp.si | 2026-03-11T09:13:21Z | Invitation | Archived (ATVP meeting, Mar 19 13:00-14:00) |
 | ...VcLgxAAA= | Update: Doodle bi-weekly (Luis Rei) | mailer@doodle.com | 2026-03-11T09:00:42Z | Tool Notification | Archived |
+
+## 2026-03-13 08:15 run
+| messageId (suffix) | subject | sender | received | classification | action |
+|---|---|---|---|---|---|
+| VcLhKAAA= | Maja Skrjanc želi dostop do »seznam vabljenih« | no-reply@sharepointonline.com | 2026-03-12T21:15:33Z | Tool Notification | Archived |
+| VcLhEAAA= | interni klic: vodenje investicijskih projektov | Leon.Cizelj@ijs.si | 2026-03-12T17:27:56Z | Informational | Archived |
+| VcLhFAAA= | interni klic: skrbnik/skrbnica stranke (ARIS) | Leon.Cizelj@ijs.si | 2026-03-12T17:27:14Z | Informational | Archived |
+| VcLhCAAA= | Update: SUPERVIEW (Diego Martini) | mailer@doodle.com | 2026-03-12T17:16:06Z | Tool Notification | Archived |
+| VcLhIAAA= | Re: Feedback za anonimizator | novak.erik@gmail.com | 2026-03-12T14:25:49Z | Informational | Archived (already replied) |
+| VcLhHAAA= | Invitation: BG - trading platforma | gregor.sajovic@bluegrid.com | 2026-03-12T12:21:00Z | Invitation | Archived (already accepted) |
+| VcLg9AAA= | [AI] Okrogla miza: Kode, ki poganjajo boljši svet | nina.omejc@ijs.si | 2026-03-12T12:20:54Z | Informational | Archived |
+| VcLhGAAA= | Re: Rezervacija mize za 1 mesec | iztok.rencelj@edgetech.si | 2026-03-12T10:53:46Z | Informational | Archived |
+| VcLhDAAA= | South Florida Publishing - Call for Papers | editor1.sfjd@southfloridapublishing.com | 2026-03-12T10:35:22Z | Marketing | Archived + Unsubscribed |
+| VcLg_AAA= | RE: Skupno sodelovanje | Miha.Koren@span.eu | 2026-03-12T10:06:21Z | Informational | Archived (already replied) |
+| VcLhAAAA= | Re: Nominacija SIJ za nagrado CIO leta | mitja.jermol@edgetech.si | 2026-03-12T08:20:01Z | Informational | Archived |
+
+## 2026-03-13 20:15 Triage Run
+
+| messageId (suffix) | subject | sender | received | classification | action |
+|---|---|---|---|---|---|
+| W97UnAAA= | Fwd: (empty) | ilijatavchioski@gmail.com | 2026-03-13T11:29:59Z | Informational | Archived (empty forwarded message from Ilija, no content) |
+| W97UmAAA= | Update: SUPERVIEW (Andrea M. Valcher) | mailer@doodle.com | 2026-03-13T11:29:07Z | Tool Notification | Archived |
+| W97UlAAA= | [AI] IRCAI Research Seminar 02 | anja.polajnar@ijs.si | 2026-03-13T09:49:35Z | Informational | Archived (seminar reminder, already past at 13:00 today) |
+| W97UkAAA= | Elektronski obračunski list - PLAČA FEBRUAR 2026 | eplace@ijs.si | 2026-03-13T08:27:53Z | Informational | Archived (IJS payslip for Feb 2026) |
+| W97UjAAA= | Your Upcoming Visit Details | identity@ui.com | 2026-03-13T07:38:16Z | Informational | Archived (UniFi access PIN 5815 for Kodo visit Mar 16 – Apr 16) |
+| W97UiAAA= | Update: SUPERVIEW (Mattia Paccagnella) | mailer@doodle.com | 2026-03-13T07:30:25Z | Tool Notification | Archived |
+| W97UhAAA= | Luka Stopar, you have work due in Jira | jira@edgetech-atlassian.atlassian.net | 2026-03-13T07:26:34Z | Tool Notification | Archived (SALES-8 Prepare description for Racunsko Sodisce due today) |
+| W97UgAAA= | Re: Rezervacija mize za 1 mesec | info@kodo.place | 2026-03-13T07:15:45Z | Informational | Archived (Kodo sends signed contract, access info; Luka already replied with arrival time) |

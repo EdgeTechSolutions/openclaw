@@ -1,9 +1,9 @@
 {
-  "lastRunAt": "2026-03-13T01:00:00.000Z",
+  "lastRunAt": "2026-03-14T01:00:00.000Z",
   "lastRunSummary": {
-    "sessionsScanned": 9,
-    "factsAdded": 9,
-    "factsSkipped": 0,
+    "sessionsScanned": 10,
+    "factsAdded": 7,
+    "factsSkipped": 12,
     "factsUnverified": 0,
     "contradictionsFound": 0
   }
